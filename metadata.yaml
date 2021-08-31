@@ -1,11 +1,11 @@
 ---
 Category: "pipeline"
-Description: "a template nf pipeline for styling and standardization"
-Maintainers: "Boutros Lab Infrastructure BoutrosLabInfrastructure@mednet.ucla.edu"
-Contributors: ["Ben Carlin", "Gina Kim"]
-Languages: ["Nextflow", "Docker"]
+Description: "Nextflow pipeline to call gSNP and sSNV"
+Maintainers: "Chenghao Zhu ChenghaoZhu@mednet.ucla.edu"
+Contributors: ["Chenghao Zhu"]
+Languages: ["Nextflow"]
 Dependencies: ["Java", "Nextflow", "Docker"]
-References: "https://confluence.mednet.ucla.edu/display/BOUTROSLAB/Guide+to+Nextflow"
-Tools: ["tool_a:v1.1.0", "tool_b:v1.1.0"]
+References: ""
+Tools: []
 Engineering_Owner: []
 Scientific_Owner: []
