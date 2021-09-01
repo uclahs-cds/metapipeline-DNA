@@ -16,3 +16,5 @@ pip-delete-this-directory.txt
 *$py.class
 
 .vscode
+
+test
