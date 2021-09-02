@@ -13,7 +13,7 @@ process extract_read_groups {
     script:
     read_group_csv = 'read_groups.csv'
     """
-    python ${projectDir}/convert_BAM2FASTQ/extract_read_groups.py \
+    python ${moduleDir}/extract_read_groups.py \
         --input-bam ${bam_file} \
         --output-csv ${read_group_csv}
     """

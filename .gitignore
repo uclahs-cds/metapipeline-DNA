@@ -17,4 +17,5 @@ pip-delete-this-directory.txt
 
 .vscode
 
-test
+test/output
+test/work

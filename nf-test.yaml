@@ -1,0 +1,18 @@
+---
+global:
+  temp_dir: ./test/work
+  nf_config: test/global.config
+  remove_temp: true
+  clean_logs: true
+
+cases:
+  - name: test-bam2fastq
+    message: Test convert-BAM2FASTQ
+    nf_script: test/test-bam2fastq/test.nf
+    nf_config: test/test-bam2fastq/test.config
+    asserts:
+      - received: test/output/bam2fastq/S2.T-n2/create_fastqs_SAMtools/collated_S2_v1.1.5.seq1.Seq1_R1.fq.gz
+        expected: /hot/users/czhu/pipeline-germline-somatic/A-mini-S2-n2/output/bam2fastq/S2.T-n2/create_fastqs_SAMtools/collated_S2_v1.1.5.seq1.Seq1_R1.fq.gz
+    
+      - received: test/output/bam2fastq/S2.T-n2/create_fastqs_SAMtools/collated_S2_v1.1.5.seq1.Seq1_R2.fq.gz
+        expected: /hot/users/czhu/pipeline-germline-somatic/A-mini-S2-n2/output/bam2fastq/S2.T-n2/create_fastqs_SAMtools/collated_S2_v1.1.5.seq1.Seq1_R2.fq.gz
