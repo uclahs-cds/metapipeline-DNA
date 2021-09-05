@@ -8,7 +8,7 @@ import subprocess as sp
 import shutil
 import errno
 import os
-from typing import List
+from typing import List, Callable
 import yaml
 
 
@@ -63,10 +63,13 @@ def calculate_checksum(path:Path) -> str:
     return sum_val
 
 class NFTestAssert():
-    def __init__(self, received:str, expected:str):
+    def __init__(self, received:str, expected:str, method:str='md5',
+            script:str=None):
         """"""
         self.received = received
         self.expected = expected
+        self.method = method
+        self.script = script
 
     def assertExpected(self):
         """ """
@@ -80,14 +83,28 @@ class NFTestAssert():
             raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT),
                 self.expected)
 
-        received_hash = calculate_checksum(self.received)
-        expected_hash = calculate_checksum(self.expected)
+        assert_method = self.get_assert_method()
         try:
-            assert received_hash == expected_hash
+            assert assert_method(self.received, self.expected)
         except AssertionError as e:
             print('Assertion failed\n', flush=True)
             print(f'Received: {self.received}\n', flush=True)
             print(f'Expected: {self.expected}\n', flush=True)
+
+    def get_assert_method(self) -> Callable:
+        """ """
+        if self.script is not None:
+            def func(received, expected):
+                cmd = f"{self.script} {received} {expected}"
+                return sp.run(cmd, shell=True, check=False)
+            return func
+        if self.method == 'md5':
+            def func(received, expected):
+                received_value = calculate_checksum(received)
+                expected_value = calculate_checksum(expected)
+                return received_value == expected_value
+            return func
+        raise ValueError(f'assert method {self.method} unknown.')
 
 class NFTestCase():
     def __init__(self, name:str=None, message:str=None, nf_script:str=None,
