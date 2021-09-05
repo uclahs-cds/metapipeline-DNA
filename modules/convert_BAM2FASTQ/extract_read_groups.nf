@@ -2,19 +2,31 @@
 process extract_read_groups {
     container "quay.io/biocontainers/pysam:0.16.0.1--py38hf7546f9_3"
 
-    containerOptions "-v ${projectDir}:${projectDir}"
+    containerOptions "-v ${moduleDir}:${moduleDir}"
 
     input:
-        path bam_file
+        tuple(
+            val(patient),
+            val(sample),
+            val(state),
+            val(site),
+            file(bam)
+        )
 
     output:
-        path read_group_csv
+        tuple(
+            val(patient),
+            val(sample),
+            val(state),
+            val(site),
+            file(read_group_csv)
+        )
 
     script:
     read_group_csv = 'read_groups.csv'
     """
     python ${moduleDir}/extract_read_groups.py \
-        --input-bam ${bam_file} \
+        --input-bam ${bam} \
         --output-csv ${read_group_csv}
     """
 }

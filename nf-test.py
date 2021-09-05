@@ -6,6 +6,7 @@ import hashlib
 from pathlib import Path
 import subprocess as sp
 import shutil
+import errno
 import os
 from typing import List
 import yaml
@@ -44,7 +45,7 @@ def remove_nextflow_logs() -> None:
     files = glob.glob('./.nextflow*')
     for file in files:
         if Path(file).is_dir():
-            shutil.rmtree(file)
+            shutil.rmtree(file, ignore_errors=True)
         else:
             os.remove(file)
 
@@ -69,14 +70,30 @@ class NFTestAssert():
 
     def assertExpected(self):
         """ """
+        if not Path(self.received).exists():
+            print(f'Received file not found: {self.received}')
+            raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT),
+                self.received)
+
+        if not Path(self.expected).exists():
+            print(f'Expected file not found: {self.received}')
+            raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT),
+                self.expected)
+
         received_hash = calculate_checksum(self.received)
         expected_hash = calculate_checksum(self.expected)
-        assert received_hash == expected_hash
+        try:
+            assert received_hash == expected_hash
+        except AssertionError as e:
+            print('Assertion failed\n', flush=True)
+            print(f'Received: {self.received}\n', flush=True)
+            print(f'Expected: {self.expected}\n', flush=True)
 
 class NFTestCase():
     def __init__(self, name:str=None, message:str=None, nf_script:str=None,
             nf_configs:List[str]=None, asserts:List[NFTestAssert]=None,
-            temp_dir:str=None, remove_temp:bool=None, clean_logs:bool=True):
+            temp_dir:str=None, remove_temp:bool=None, clean_logs:bool=True,
+            skip:bool=False, verbose:bool=False):
         """"""
         self.name = name
         self.message = message
@@ -86,17 +103,39 @@ class NFTestCase():
         self.temp_dir = temp_dir
         self.remove_temp = remove_temp
         self.clean_logs = clean_logs
+        self.skip = skip
+        self.verbose = verbose
 
+    def test_wrapper(func):
+        def wrapper(self):
+            self.print_prolog()
+            func(self)
+            if self.remove_temp:
+                shutil.rmtree(self.temp_dir, ignore_errors=True)
+            if self.clean_logs:
+                remove_nextflow_logs()
+        return wrapper
+
+    @test_wrapper
     def test(self):
-        self.submit()
+        if self.skip:
+            print(' [ skipped ]\n', flush=True)
+            return
+        res = self.submit()
+        if res.returncode != 0:
+            print(' [ failed ]\n', flush=True)
+            return
         for ass in self.asserts:
-            ass.assertExpected()
-        if self.remove_temp:
-            shutil.rmtree(self.temp_dir)
-        if self.clean_logs:
-            remove_nextflow_logs()
+            try:
+                ass.assertExpected()
+            except Exception as e:
+                print(e.args, flush=True)
+                print(' [ failed ]\n', flush=True)
+                raise e
+                return
+        print(' [ succeed ]\n', flush=True)
 
-    def submit(self):
+    def submit(self) -> sp.CompletedProcess:
         config_arg = ''
         for nf_config in self.nf_configs:
             config_arg += f'-c {nf_config} '
@@ -107,7 +146,8 @@ class NFTestCase():
             {config_arg}
         """
         print(' '.join(cmd.split()), flush=True)
-        sp.run(cmd, shell=True, check=True)
+        return sp.run(cmd, shell=True, check=False, capture_output=(not self.verbose))
+
 
     def combine_global(self, _global:NFTestGlobal) -> None:
         """ """
@@ -126,9 +166,13 @@ class NFTestCase():
         if not self.clean_logs:
             self.clean_logs = _global.clean_logs
 
+    def print_prolog(self):
+        """ Print prolog message """
+        prolog = f'{self.name}: {self.message}'
+        print(prolog, flush=True)
 
 class NFTestGlobal():
-    def __init__(self, temp_dir:str, nf_config:str, remove_temp:bool,
+    def __init__(self, temp_dir:str, nf_config:str, remove_temp:bool=True,
             clean_logs:bool=True):
         """ """
         self.temp_dir = temp_dir
@@ -162,8 +206,19 @@ class NFTestRunner():
 
     def main(self):
         """ """
+        self.print_prolog()
         for case in self.cases:
             case.test()
+
+    @staticmethod
+    def print_prolog():
+        """ Print prolog """
+        prolog = ''
+        terminal_width = os.get_terminal_size().columns
+        header = ' NF-TEST STARTS '
+        x = int((terminal_width - 17)/2)
+        prolog = '=' * x + header + '=' * (terminal_width - 17 - x) + '\n'
+        print(prolog, flush=True)
 
 
 def main():

@@ -2,17 +2,35 @@
 global:
   temp_dir: ./test/work
   nf_config: test/global.config
-  remove_temp: true
+  remove_temp: false
   clean_logs: true
 
 cases:
   - name: test-bam2fastq
     message: Test convert-BAM2FASTQ
+    skip: false
     nf_script: test/test-bam2fastq/test.nf
     nf_config: test/test-bam2fastq/test.config
+    verbose: true
     asserts:
-      - received: test/output/bam2fastq/S2.T-n2/create_fastqs_SAMtools/collated_S2_v1.1.5.seq1.Seq1_R1.fq.gz
-        expected: /hot/users/czhu/pipeline-germline-somatic/A-mini-S2-n2/output/bam2fastq/S2.T-n2/create_fastqs_SAMtools/collated_S2_v1.1.5.seq1.Seq1_R1.fq.gz
-    
-      - received: test/output/bam2fastq/S2.T-n2/create_fastqs_SAMtools/collated_S2_v1.1.5.seq1.Seq1_R2.fq.gz
-        expected: /hot/users/czhu/pipeline-germline-somatic/A-mini-S2-n2/output/bam2fastq/S2.T-n2/create_fastqs_SAMtools/collated_S2_v1.1.5.seq1.Seq1_R2.fq.gz
+      - received: test/output/A-mini-S2-n1/bam2fastq/S2.T-n1.chr21/create_fastqs_SAMtools/collated_S2_v1.1.5.seq1.Seq1_R1.fq.gz
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-bam2fastq/A-mini-S2-n1/bam2fastq/S2.T-n1.chr21/create_fastqs_SAMtools/collated_S2_v1.1.5.seq1.Seq1_R1.fq.gz
+      
+      - received: test/output/A-mini-S2-n1/bam2fastq/S2.T-n1.chr21/create_fastqs_SAMtools/collated_S2_v1.1.5.seq1.Seq1_R2.fq.gz
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-bam2fastq/A-mini-S2-n1/bam2fastq/S2.T-n1.chr21/create_fastqs_SAMtools/collated_S2_v1.1.5.seq1.Seq1_R2.fq.gz
+      
+      - received: test/output/A-mini-S2-n1/intermediates/convert_BAM2FASTQ/create_input_csv_for_align_DNA/align_DNA_input.csv
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-bam2fastq/A-mini-S2-n1/intermediates/convert_BAM2FASTQ/create_input_csv_for_align_DNA/align_DNA_input.csv
+
+  - name: test-align-DNA
+    message: Test align-DNA
+    nf_script: test/test-align-DNA/test.nf
+    nf_config: test/test-align-DNA/test.config
+    verbose: true
+    skip: true
+    asserts:
+      - received: test/output/A-mini-S2-n1/align_DNA/BWA-MEM2-2.2.1/A-mini-S2-n1.bam
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-align-DNA/A-mini-S2-n1/align_DNA/BWA-MEM2-2.2.1/A-mini-S2-n1.bam
+      
+      - received: test/output/HG002.N-n1/align_DNA/BWA-MEM2-2.2.1/HG002.N-n1.bam
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-align-DNA/HG002.N-n1/align_DNA/BWA-MEM2-2.2.1/HG002.N-n1.bam

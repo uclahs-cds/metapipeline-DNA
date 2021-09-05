@@ -1,0 +1,2 @@
+index,read_group_identifier,sequencing_center,library_identifier,platform_technology,platform_unit,sample,lane,read1_fastq,read2_fastq
+0,HG002.N.seq1.Seq1,BS,bamsurgeon,ILLUMINA,NA,HG002.N,0,/hot/users/czhu/pipeline-germline-somatic/test-output/test-bam2fastq/HG002.N-n1/bam2fastq/HG002.N-n1.chr21/create_fastqs_SAMtools/collated_HG002.N.seq1.Seq1_R1.fq.gz,/hot/users/czhu/pipeline-germline-somatic/test-output/test-bam2fastq/HG002.N-n1/bam2fastq/HG002.N-n1.chr21/create_fastqs_SAMtools/collated_HG002.N.seq1.Seq1_R2.fq.gz

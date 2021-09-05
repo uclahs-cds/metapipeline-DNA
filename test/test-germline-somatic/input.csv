@@ -1,0 +1,3 @@
+patient,state,path
+S2.T-n1,normal,/hot/users/czhu/pipeline-germline-somatic/downsampled_data/bam/S2.T-n1.chr21.bam
+S2.T-n1,tumor,/hot/users/czhu/pipeline-germline-somatic/downsampled_data/bam/HG002.N-n1.chr21.bam
