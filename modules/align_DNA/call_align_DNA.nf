@@ -7,7 +7,7 @@ include { generate_args } from "${moduleDir}/../common"
 process call_align_DNA {
     cpus params.align_DNA.subworkflow_cpus
 
-    publishDir "${params.output_dir}/${sample}/",
+    publishDir "${params.output_dir}/${patient}/${sample}/",
         mode: 'copy',
         pattern: 'align_DNA'
 

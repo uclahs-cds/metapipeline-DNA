@@ -17,7 +17,7 @@ def get_sample_name(input_csv) {
     Process to call the convert-BAM2FASTQ pipeline.
 */
 process call_convert_BAM2FASTQ {
-    publishDir "${params.output_dir}/${sample}/",
+    publishDir "${params.output_dir}/${patient}/${sample}/",
         mode: 'copy',
         pattern: 'bam2fastq'
 

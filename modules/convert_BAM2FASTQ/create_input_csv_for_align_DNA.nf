@@ -6,7 +6,7 @@ process create_input_csv_for_align_DNA {
 
     containerOptions "-v ${moduleDir}:${moduleDir}"
 
-    publishDir "${params.output_dir}/${sample}/intermediates/${task.process.replace(':', '/')}",
+    publishDir "${params.output_dir}/${patient}/${sample}/bam2fastq/intermediates/${task.process.replace(':', '/')}",
         mode: 'copy',
         enabled: params.save_intermediate_files,
         pattern: 'align_DNA_input.csv'
