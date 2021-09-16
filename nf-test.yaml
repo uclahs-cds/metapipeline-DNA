@@ -43,7 +43,30 @@ cases:
     nf_script: test/test-call-gSNP/test.nf
     nf_config: test/test-call-gSNP/test.config
     verbose: true
-    skip: false
+    skip: true
     asserts:
       - received: test/output/A-mini-S2/S2_v1.1.5/call_gSNP/A-mini-S2/SAMtools-1.10_Picard-2.23.3/recalibrated_reheadered_bam_and_bai/HG002.N_realigned_recalibrated_reheadered.bam
         expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-call-gSNP/A-mini-S2/S2_v1.1.5/call_gSNP/A-mini-S2/SAMtools-1.10_Picard-2.23.3/recalibrated_reheadered_bam_and_bai/HG002.N_realigned_recalibrated_reheadered.bam
+    
+  - name: test-call-sSNV
+    message: Test call-sSNV with one tumor normal pair
+    nf_script: test/test-call-sSNV/test.nf
+    nf_config: test/test-call-sSNV/test.config
+    verbose:  true
+    skip: false
+    asserts:
+      - received: test/output/A-mini-S2/S2_v1.1.5/call_sSNV/somaticsniper_A-mini-S2_hc.vcf.gz
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-call-sSNV/A-mini-S2/S2_v1.1.5/call_sSNV/somaticsniper_A-mini-S2_hc.vcf.gz
+        script: test/test-call-sSNV/assert_vcf.sh
+      
+      - received: test/output/A-mini-S2/S2_v1.1.5/call_sSNV/strelka2_A-mini-S2_somatic_snvs_pass.vcf.gz
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-call-sSNV/A-mini-S2/S2_v1.1.5/call_sSNV/strelka2_A-mini-S2_somatic_snvs_pass.vcf.gz
+        script: test/test-call-sSNV/assert_vcf.sh
+      
+      - received: test/output/A-mini-S2/S2_v1.1.5/call_sSNV/strelka2_A-mini-S2_somatic_indels_pass.vcf.gz
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-call-sSNV/A-mini-S2/S2_v1.1.5/call_sSNV/strelka2_A-mini-S2_somatic_indels_pass.vcf.gz
+        script: test/test-call-sSNV/assert_vcf.sh
+      
+      - received: test/output/A-mini-S2/S2_v1.1.5/call_sSNV/mutect2_A-mini-S2_filtered_pass.vcf.gz
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-call-sSNV/A-mini-S2/S2_v1.1.5/call_sSNV/mutect2_A-mini-S2_filtered_pass.vcf.gz
+        script: test/test-call-sSNV/assert_vcf.sh
