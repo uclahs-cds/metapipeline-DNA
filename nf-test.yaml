@@ -8,7 +8,7 @@ global:
 cases:
   - name: test-bam2fastq
     message: Test convert-BAM2FASTQ
-    skip: false
+    skip: true
     nf_script: test/test-bam2fastq/test.nf
     nf_config: test/test-bam2fastq/test.config
     verbose: true
@@ -30,10 +30,20 @@ cases:
     nf_script: test/test-align-DNA/test.nf
     nf_config: test/test-align-DNA/test.config
     verbose: true
-    skip: false
+    skip: true
     asserts:
       - received: test/output/A-mini-S2/A-mini-S2-n1/align_DNA/BWA-MEM2-2.2.1/A-mini-S2-n1.bam
         expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-align-DNA/A-mini-S2-n1/align_DNA/BWA-MEM2-2.2.1/A-mini-S2-n1.bam
       
       - received: test/output/A-mini-S2/HG002.N-n1/align_DNA/BWA-MEM2-2.2.1/HG002.N-n1.bam
         expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-align-DNA/HG002.N-n1/align_DNA/BWA-MEM2-2.2.1/HG002.N-n1.bam
+  
+  - name: test-call-gSNP
+    message: Test call-gSNP with one tumor normal pair
+    nf_script: test/test-call-gSNP/test.nf
+    nf_config: test/test-call-gSNP/test.config
+    verbose: true
+    skip: false
+    asserts:
+      - received: test/output/A-mini-S2/S2_v1.1.5/call_gSNP/A-mini-S2/SAMtools-1.10_Picard-2.23.3/recalibrated_reheadered_bam_and_bai/HG002.N_realigned_recalibrated_reheadered.bam
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-call-gSNP/A-mini-S2/S2_v1.1.5/call_gSNP/A-mini-S2/SAMtools-1.10_Picard-2.23.3/recalibrated_reheadered_bam_and_bai/HG002.N_realigned_recalibrated_reheadered.bam

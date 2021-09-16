@@ -1,16 +1,16 @@
 /*
-    Main entrypoint for the convert-BAM2FASTQ workflow module
-
-    This module is implemented in a ways that each process takes a tuple as input includes the
-    patient, sample, state, site, and also output these values in a tuple. The reason is that we
-    need to know the state and site information in call-gSNP and call-sSNV. Nextflow's channel isn't
-    too smart, as samples may mix with the wrong labels otherwise.
-    
-    params:
-        params.input_csv (String): The path to the input csv file.
-
-    output:
-        A tuple of five, patient, sample, state, site, and the input_csv file for align-DNA 
+* Main entrypoint for the convert-BAM2FASTQ workflow module
+*
+* This module is implemented in a ways that each process takes a tuple as input includes the
+* patient, sample, state, site, and also output these values in a tuple. The reason is that we
+* need to know the state and site information in call-gSNP and call-sSNV. Nextflow's channel isn't
+* too smart, as samples may mix with the wrong labels otherwise.
+*    
+* params:
+*   params.input_csv (String): The path to the input csv file.
+*
+* output:
+*   A tuple of five elements, patient, sample, state, site, and the input_csv file for align-DNA 
 */
 
 include { call_convert_BAM2FASTQ } from './call_convert_BAM2FASTQ'

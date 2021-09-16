@@ -1,0 +1,3 @@
+patient,sample,state,site,bam_header_sm,bam
+A-mini-S2,A-mini-S2-n1,tumor,primary,S2_v1.1.5,/hot/users/czhu/pipeline-germline-somatic/test-output/test-align-DNA/A-mini-S2-n1/align_DNA/BWA-MEM2-2.2.1/A-mini-S2-n1.bam
+A-mini-S2,HG002.N-n1,normal,blood,HG002.N,/hot/users/czhu/pipeline-germline-somatic/test-output/test-align-DNA/HG002.N-n1/align_DNA/BWA-MEM2-2.2.1/HG002.N-n1.bam
