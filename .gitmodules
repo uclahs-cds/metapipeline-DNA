@@ -10,3 +10,6 @@
 [submodule "external/pipeline-call-sSNV"]
 	path = external/pipeline-call-sSNV
 	url = git@github.com:uclahs-cds/pipeline-call-sSNV.git
+[submodule "external/pipeline-call-mtSNV"]
+	path = external/pipeline-call-mtSNV
+	url = git@github.com:uclahs-cds/pipeline-call-mtSNV.git

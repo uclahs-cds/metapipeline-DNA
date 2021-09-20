@@ -13,17 +13,17 @@ cases:
     nf_config: test/test-bam2fastq/test.config
     verbose: true
     asserts:
-      - received: test/output/A-mini-S2/A-mini-S2-n1/bam2fastq/S2.T-n1.chr21/create_fastqs_SAMtools/collated_S2_v1.1.5.seq1.Seq1_R1.fq.gz
-        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-bam2fastq/A-mini-S2-n1/bam2fastq/S2.T-n1.chr21/create_fastqs_SAMtools/collated_S2_v1.1.5.seq1.Seq1_R1.fq.gz
+      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/bam2fastq/create_fastqs_SAMtools/collated_HKCKT.1-D8BFC4F_R1.fq.gz
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-bam2fastq/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/bam2fastq/create_fastqs_SAMtools/collated_HKCKT.1-D8BFC4F_R1.fq.gz
         method: md5
       
-      - received: test/output/A-mini-S2/A-mini-S2-n1/bam2fastq/S2.T-n1.chr21/create_fastqs_SAMtools/collated_S2_v1.1.5.seq1.Seq1_R2.fq.gz
-        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-bam2fastq/A-mini-S2-n1/bam2fastq/S2.T-n1.chr21/create_fastqs_SAMtools/collated_S2_v1.1.5.seq1.Seq1_R2.fq.gz
+      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/bam2fastq/create_fastqs_SAMtools/collated_HKCKT.1-D8BFC4F_R2.fq.gz
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-bam2fastq/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/bam2fastq/create_fastqs_SAMtools/collated_HKCKT.1-D8BFC4F_R1.fq.gz
         method: md5
       
-      - received: test/output/A-mini-S2/A-mini-S2-n1/bam2fastq/intermediates/convert_BAM2FASTQ/create_input_csv_for_align_DNA/align_DNA_input.csv
-        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-bam2fastq/A-mini-S2-n1/intermediates/convert_BAM2FASTQ/create_input_csv_for_align_DNA/align_DNA_input.csv
-        script: test/best-bam2fastq/assert_input_csv.py
+      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/intermediates/bam2fastq/convert_BAM2FASTQ/create_input_csv_for_align_DNA/align_DNA_input.csv
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-bam2fastq/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/intermediates/bam2fastq/convert_BAM2FASTQ/create_input_csv_for_align_DNA/align_DNA_input.csv
+        script: test/test-bam2fastq/assert_input_csv.py
 
   - name: test-align-DNA
     message: Test align-DNA
@@ -32,11 +32,11 @@ cases:
     verbose: true
     skip: true
     asserts:
-      - received: test/output/A-mini-S2/A-mini-S2-n1/align_DNA/BWA-MEM2-2.2.1/A-mini-S2-n1.bam
-        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-align-DNA/A-mini-S2-n1/align_DNA/BWA-MEM2-2.2.1/A-mini-S2-n1.bam
+      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/align_DNA/BWA-MEM2-2.2.1/GZLUCPTA000001-N001-B01-F.bam
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-align-DNA/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/align_DNA/BWA-MEM2-2.2.1/GZLUCPTA000001-N001-B01-F.bam
       
-      - received: test/output/A-mini-S2/HG002.N-n1/align_DNA/BWA-MEM2-2.2.1/HG002.N-n1.bam
-        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-align-DNA/HG002.N-n1/align_DNA/BWA-MEM2-2.2.1/HG002.N-n1.bam
+      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/align_DNA/BWA-MEM2-2.2.1/GZLUCPTA000001-T001-P01-F.bam
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-align-DNA/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/align_DNA/BWA-MEM2-2.2.1/GZLUCPTA000001-T001-P01-F.bam
   
   - name: test-call-gSNP
     message: Test call-gSNP with one tumor normal pair
@@ -45,28 +45,68 @@ cases:
     verbose: true
     skip: true
     asserts:
-      - received: test/output/A-mini-S2/S2_v1.1.5/call_gSNP/A-mini-S2/SAMtools-1.10_Picard-2.23.3/recalibrated_reheadered_bam_and_bai/HG002.N_realigned_recalibrated_reheadered.bam
-        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-call-gSNP/A-mini-S2/S2_v1.1.5/call_gSNP/A-mini-S2/SAMtools-1.10_Picard-2.23.3/recalibrated_reheadered_bam_and_bai/HG002.N_realigned_recalibrated_reheadered.bam
+      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_gSNP/SAMtools-1.10_Picard-2.23.3/recalibrated_reheadered_bam_and_bai/CPT0040210002_realigned_recalibrated_reheadered.bam
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-call-gSNP/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/call_gSNP/SAMtools-1.10_Picard-2.23.3/recalibrated_reheadered_bam_and_bai/CPT0040210002_realigned_recalibrated_reheadered.bam
+      
+      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_gSNP/Picard-2.23.3/merged_raw_gvcf/CPT0040210002_merged_raw_variants.g.vcf.gz
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-call-gSNP/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/call_gSNP/Picard-2.23.3/merged_raw_gvcf/CPT0040210002_merged_raw_variants.g.vcf.gz
+        script: test/test-call-gSNP/assert_vcf.sh
+        
+      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_gSNP/Picard-2.23.3/merged_raw_gvcf/CPT0053040010_merged_raw_variants.g.vcf.gz
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-call-gSNP/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/call_gSNP/Picard-2.23.3/merged_raw_gvcf/CPT0053040010_merged_raw_variants.g.vcf.gz
+        script: test/test-call-gSNP/assert_vcf.sh
     
   - name: test-call-sSNV
     message: Test call-sSNV with one tumor normal pair
     nf_script: test/test-call-sSNV/test.nf
     nf_config: test/test-call-sSNV/test.config
     verbose:  true
-    skip: false
+    skip: true
     asserts:
-      - received: test/output/A-mini-S2/S2_v1.1.5/call_sSNV/somaticsniper_A-mini-S2_hc.vcf.gz
-        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-call-sSNV/A-mini-S2/S2_v1.1.5/call_sSNV/somaticsniper_A-mini-S2_hc.vcf.gz
-        script: test/test-call-sSNV/assert_vcf.sh
+      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_sSNV/somaticsniper_GZLUCPTA000001_hc.vcf.gz
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-call-sSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_sSNV/somaticsniper_GZLUCPTA000001_hc.vcf.gz
+        script: test/test-call-gSNP/assert_vcf.sh
       
-      - received: test/output/A-mini-S2/S2_v1.1.5/call_sSNV/strelka2_A-mini-S2_somatic_snvs_pass.vcf.gz
-        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-call-sSNV/A-mini-S2/S2_v1.1.5/call_sSNV/strelka2_A-mini-S2_somatic_snvs_pass.vcf.gz
-        script: test/test-call-sSNV/assert_vcf.sh
+      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_sSNV/strelka2_GZLUCPTA000001_somatic_snvs_pass.vcf.gz
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-call-sSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_sSNV/strelka2_GZLUCPTA000001_somatic_snvs_pass.vcf.gz
+        script: test/test-call-gSNP/assert_vcf.sh
       
-      - received: test/output/A-mini-S2/S2_v1.1.5/call_sSNV/strelka2_A-mini-S2_somatic_indels_pass.vcf.gz
-        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-call-sSNV/A-mini-S2/S2_v1.1.5/call_sSNV/strelka2_A-mini-S2_somatic_indels_pass.vcf.gz
-        script: test/test-call-sSNV/assert_vcf.sh
+      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_sSNV/strelka2_GZLUCPTA000001_somatic_indels_pass.vcf.gz
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-call-sSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_sSNV/strelka2_GZLUCPTA000001_somatic_indels_pass.vcf.gz
+        script: test/test-call-gSNP/assert_vcf.sh
       
-      - received: test/output/A-mini-S2/S2_v1.1.5/call_sSNV/mutect2_A-mini-S2_filtered_pass.vcf.gz
-        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-call-sSNV/A-mini-S2/S2_v1.1.5/call_sSNV/mutect2_A-mini-S2_filtered_pass.vcf.gz
-        script: test/test-call-sSNV/assert_vcf.sh
+      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_sSNV/mutect2_GZLUCPTA000001_filtered_pass.vcf.gz
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-call-sSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_sSNV/mutect2_GZLUCPTA000001_filtered_pass.vcf.gz
+        script: test/test-call-gSNP/assert_vcf.sh
+  
+  - name: test-call-mtSNV
+    message: Test call-mtSNV pipeline with one tumor normal pair
+    nf_script: test/test-call-mtSNV/test.nf
+    nf_config: test/test-call-mtSNV/test.config
+    verbose: true
+    skip: true
+    asserts:
+      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_mtSNV/call_heteroplasmy/GZLUCPTA000001-T001-P01-F_vs_GZLUCPTA000001-N001-B01-F.tsv
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-call-mtSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_mtSNV/call_heteroplasmy/GZLUCPTA000001-T001-P01-F_vs_GZLUCPTA000001-N001-B01-F.tsv
+
+      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_mtSNV/convert_mitoCaller2vcf_mitoCaller/GZLUCPTA000001-T001-P01-F/GZLUCPTA000001-T001-P01-F.vcf
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-call-mtSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_mtSNV/convert_mitoCaller2vcf_mitoCaller/GZLUCPTA000001-T001-P01-F/GZLUCPTA000001-T001-P01-F.vcf
+        script: test/test-call-gSNP/assert_vcf.sh
+      
+      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_mtSNV/convert_mitoCaller2vcf_mitoCaller/GZLUCPTA000001-T001-P01-F/GZLUCPTA000001-T001-P01-F_homoplasmy.vcf
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-call-mtSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_mtSNV/convert_mitoCaller2vcf_mitoCaller/GZLUCPTA000001-T001-P01-F/GZLUCPTA000001-T001-P01-F_homoplasmy.vcf
+        script: test/test-call-gSNP/assert_vcf.sh
+    
+  - name: test-germline-somatic
+    message: Test calling all pipelines with one tumor normal pair
+    nf_script: modules/germline_somatic.nf
+    nf_config: test/test-germline-somatic/test.config
+    verbose: true
+    skip: true
+  
+  - name: test-germline-somatic-batch
+    message: Test running the main.nf that runs the germline-somatic pipeline in batch.
+    nf_script: main.nf
+    nf_config: test/test-germline-somatic-batch/test.config
+    verbose: true
+    skip: false

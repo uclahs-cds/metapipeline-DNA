@@ -53,17 +53,17 @@ process call_sSNV {
         'scatter_count',
         'intervals',
         'bam_somaticsniper_cpus',
-        'bam_somaticsniper_memory_gb',
+        'bam_somaticsniper_memory_GB',
         'samtools_pileup_cpus',
-        'samtools_pileup_memory_gb',
+        'samtools_pileup_memory_GB',
         'samtools_varfilter_cpus',
-        'samtools_varfilter_memory_gb',
+        'samtools_varfilter_memory_GB',
         'manta_cpus',
         'strelka2_somatic_cpus',
         'm2_cpus',
-        'm2_memory_gb',
+        'm2_memory_GB',
         'm2_non_canonical_cpus',
-        'm2_non_canonical_memory_gb'
+        'm2_non_canonical_memory_GB'
     ]
     args = generate_args(params.call_sSNV, arg_list)
     """

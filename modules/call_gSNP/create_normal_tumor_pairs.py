@@ -41,19 +41,26 @@ def main():
         raise ValueError('Multiple normal sample found')
     normal = normals[0]
     with open(args.OUTPUT, 'w') as handle:
-        fieldnames = ['patient', 'tumor_sample', 'normal_sample', 'tumor_site',
-            'normal_site', 'tumor_bam', 'normal_bam']
+        fieldnames = [
+            'patient',
+            'tumor_sample', 'normal_sample',
+            'tumor_site',   'normal_site',
+            'tumor_bam_sm', 'normal_bam_sm',
+            'tumor_bam',    'normal_bam'
+        ]
         writer = csv.DictWriter(handle, fieldnames)
         writer.writeheader()
         for tumor in tumors:
             pair = {
                 fieldnames[0]: tumor['patient'],
-                fieldnames[1]: tumor['bam_header_sm'],
-                fieldnames[2]: normal['bam_header_sm'],
+                fieldnames[1]: tumor['sample'],
+                fieldnames[2]: normal['sample'],
                 fieldnames[3]: tumor['site'],
                 fieldnames[4]: normal['site'],
-                fieldnames[5]: tumor['bam'],
-                fieldnames[6]: normal['bam']
+                fieldnames[5]: tumor['bam_header_sm'],
+                fieldnames[6]: normal['bam_header_sm'],
+                fieldnames[7]: tumor['bam'],
+                fieldnames[8]: normal['bam']
             }
             writer.writerow(pair)
 

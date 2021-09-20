@@ -35,8 +35,11 @@ workflow call_gSNP {
         create_normal_tumor_pairs(ich)
         paired_info = create_normal_tumor_pairs.out.splitCsv(header:true)
             .map { [
-                it.patient, it.tumor_sample, it.normal_sample, it.tumor_site, it.normal_site,
-                it.tumor_bam, it.normal_bam
+                it.patient,
+                it.tumor_sample, it.normal_sample,
+                it.tumor_site,   it.normal_site,
+                it.tumor_bam_sm, it.normal_bam_sm,
+                it.tumor_bam,    it.normal_bam
             ] }
         create_input_csv_call_gSNP(paired_info)
         call_call_gSNP(create_input_csv_call_gSNP.out)

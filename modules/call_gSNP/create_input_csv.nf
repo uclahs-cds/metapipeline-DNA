@@ -23,11 +23,10 @@ process create_normal_tumor_pairs {
 
     containerOptions "-v ${moduleDir}:${moduleDir}"
 
-    publishDir "${params.output_dir}/${params.patient}/call_gSNP/intermediate/${task.process.replace(':', '/')}",
-        enabled: params.save_intermediate_fisles,
+    publishDir "${params.output_dir}/${params.patient}/intermediate/call_gSNP/${task.process.replace(':', '/')}",
+        enabled: params.save_intermediate_files,
         pattern: 'paried_input_csv.txt',
-        mode: 'copy',
-        saveAs: { "it.${task.index}" }
+        mode: 'copy'
     
     input:
         val records
@@ -45,7 +44,7 @@ process create_normal_tumor_pairs {
     lines = lines.join('\n')
     """
     echo "patient,sample,state,site,bam_header_sm,bam" > ${ich_file}
-    echo "${lines}" >> ${ich_file}
+    echo '${lines}' >> ${ich_file}
     python ${moduleDir}/create_normal_tumor_pairs.py ${ich_file} ${output_file}
     """
 }
@@ -70,7 +69,7 @@ process create_normal_tumor_pairs {
 *     normal_site of input, and the input CSV file created for the call-gSNP pipeline.
 */
 process create_input_csv_call_gSNP {
-    publishDir "${params.output_dir}/${params.patient}/call_gSNP/intermediate/${task.process.replace(':', '/')}",
+    publishDir "${params.output_dir}/${patient}/${tumor_sample}/intermediate/call_gSNP/${task.process.replace(':', '/')}/${task.index}",
         enabled: params.save_intermediate_files,
         pattern: 'call_gSNP_input.csv',
         mode: 'copy'
@@ -78,27 +77,24 @@ process create_input_csv_call_gSNP {
     input:
         tuple(
             val(patient),
-            val(tumor_sample),
-            val(normal_sample),
-            val(tumor_site),
-            val(normal_site),
-            val(tumor_bam),
-            val(normal_bam)
+            val(tumor_sample), val(normal_sample),
+            val(tumor_site),   val(normal_site),
+            val(tumor_bam_sm), val(normal_bam_sm),
+            val(tumor_bam),    val(normal_bam)
         )
     
     output:
         tuple(
             val(patient),
-            val(tumor_sample),
-            val(normal_sample),
-            val(tumor_site),
-            val(normal_site),
-            file(input_csv),
+            val(tumor_sample), val(normal_sample),
+            val(tumor_site),   val(normal_site),
+            val(tumor_bam_sm), val(normal_bam_sm),
+            file(input_csv)
         )
     script:
     input_csv = 'call_gSNP_input.csv'
     """
     echo 'Mode,projectID,sampleID,normalID,normalBAM,tumourID,tumourBAM' > ${input_csv}
-    echo "PG,${params.project_id},${patient},${normal_sample},${normal_bam},${tumor_sample},${tumor_bam}" >> ${input_csv}
+    echo "PG,${params.project_id},${patient},${normal_bam_sm},${normal_bam},${tumor_bam_sm},${tumor_bam}" >> ${input_csv}
     """
 }
