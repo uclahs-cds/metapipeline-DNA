@@ -124,7 +124,7 @@ process call_germline_somatic {
         --project_id ${params.project_id} \
         --save_intermediate_files ${params.save_intermediate_files} \
         --output_dir ./ \
-        -c ${file(params.germline_somatic_config)}
+        -c ${file(params.germline_somatic_config)} \
         -c ${projectDir}/modules/methods.config
     """
 }
