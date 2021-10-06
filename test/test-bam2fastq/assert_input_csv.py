@@ -23,9 +23,9 @@ def parse_args():
 def main():
     """ Main entrypoint """
     args = parse_args()
-    with open(args.RECEIVED, 'rt') as x, open(args.EXPECTED, 'rt') as y:
-        received = csv.DictReader(x)
-        expected = csv.DictReader(y)
+    with open(args.RECEIVED, 'rt') as lhs, open(args.EXPECTED, 'rt') as rhs:
+        received = csv.DictReader(lhs)
+        expected = csv.DictReader(rhs)
         for rec, exp in zip(received, expected):
             assert rec['read_group_identifier'] == exp['read_group_identifier']
             assert rec['sequencing_center'] == exp['sequencing_center']

@@ -1,8 +1,8 @@
 """ Extract read groups from a BAM header and returns a CSV """
 import argparse
-import pysam
 from pathlib import Path
 import sys
+import pysam
 
 
 BAM_HAS_NO_RG_ERROR = 'BAM file has no RG'
@@ -72,8 +72,8 @@ def main():
     args = parse_args()
     try:
         create_read_groups(args.input_bam, args.output_csv)
-    except ValueError as e:
-        if e.args[0] == BAM_HAS_NO_RG_ERROR:
+    except ValueError as error:
+        if error.args[0] == BAM_HAS_NO_RG_ERROR:
             print(BAM_HAS_NO_RG_ERROR, file=sys.stderr)
             sys.exit(1)
 

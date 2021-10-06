@@ -32,7 +32,7 @@ process create_input_csv_for_align_DNA {
     script:
     csv_file = 'align_DNA_input.csv'
     """
-    python ${moduleDir}/create_input_csv_for_align_DNA.py \
+    python ${moduleDir}/create_input_csv_for_align_dna.py \
         -r ${read_group_csv} \
         -q ${fastqs} \
         -o ${csv_file}
