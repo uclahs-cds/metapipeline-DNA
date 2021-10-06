@@ -13,12 +13,12 @@ cases:
     nf_config: test/test-bam2fastq/test.config
     verbose: true
     asserts:
-      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/bam2fastq/create_fastqs_SAMtools/collated_HKCKT.1-D8BFC4F_R1.fq.gz
-        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-bam2fastq/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/bam2fastq/create_fastqs_SAMtools/collated_HKCKT.1-D8BFC4F_R1.fq.gz
+      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/bam2fastq/create_fastqs_SAMtools/collated_HKCKT.1-112B1701_R1.fq.gz
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-bam2fastq/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/bam2fastq/create_fastqs_SAMtools/collated_HKCKT.1-112B1701_R1.fq.gz
         method: md5
       
-      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/bam2fastq/create_fastqs_SAMtools/collated_HKCKT.1-D8BFC4F_R2.fq.gz
-        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-bam2fastq/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/bam2fastq/create_fastqs_SAMtools/collated_HKCKT.1-D8BFC4F_R1.fq.gz
+      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/bam2fastq/create_fastqs_SAMtools/collated_HKCKT.1-112B1701_R2.fq.gz
+        expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-bam2fastq/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/bam2fastq/create_fastqs_SAMtools/collated_HKCKT.1-112B1701_R2.fq.gz
         method: md5
       
       - received: test/output/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/intermediates/bam2fastq/convert_BAM2FASTQ/create_input_csv_for_align_DNA/align_DNA_input.csv
@@ -30,7 +30,7 @@ cases:
     nf_script: test/test-align-DNA/test.nf
     nf_config: test/test-align-DNA/test.config
     verbose: true
-    skip: true
+    skip: false
     asserts:
       - received: test/output/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/align_DNA/BWA-MEM2-2.2.1/GZLUCPTA000001-N001-B01-F.bam
         expected: /hot/users/czhu/pipeline-germline-somatic/test-output/test-align-DNA/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/align_DNA/BWA-MEM2-2.2.1/GZLUCPTA000001-N001-B01-F.bam
@@ -109,4 +109,4 @@ cases:
     nf_script: main.nf
     nf_config: test/test-germline-somatic-batch/test.config
     verbose: true
-    skip: false
+    skip: true
