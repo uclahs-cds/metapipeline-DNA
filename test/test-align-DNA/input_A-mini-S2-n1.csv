@@ -1,2 +1,0 @@
-index,read_group_identifier,sequencing_center,library_identifier,platform_technology,platform_unit,sample,lane,read1_fastq,read2_fastq
-0,S2_v1.1.5.seq1.Seq1,BS,bamsurgeon,ILLUMINA,NA,S2_v1.1.5,0,/hot/users/czhu/pipeline-germline-somatic/test-output/test-bam2fastq/A-mini-S2-n1/bam2fastq/S2.T.chr21M/create_fastqs_SAMtools/collated_S2_v1.1.5.seq1.Seq1-4422DDAC_R1.fq.gz,/hot/users/czhu/pipeline-germline-somatic/test-output/test-bam2fastq/A-mini-S2-n1/bam2fastq/S2.T.chr21M/create_fastqs_SAMtools/collated_S2_v1.1.5.seq1.Seq1-4422DDAC_R2.fq.gz
