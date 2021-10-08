@@ -1,107 +1,82 @@
-# Pipeline Name
+# germline-somatic
 
-- [Pipeline Name](#pipeline-name)
+- [germline-somatic](#germline-somatic)
   - [Overview](#overview)
   - [How To Run](#how-to-run)
   - [Flow Diagram](#flow-diagram)
   - [Pipeline Steps](#pipeline-steps)
-    - [1. Step/Proccess 1](#1-stepproccess-1)
-    - [2. Step/Proccess 2](#2-stepproccess-2)
-    - [3. Step/Proccess n](#3-stepproccess-n)
+    - [1. convert-BAM2FASTQ](#1-convert-bam2fastq)
+    - [2. align-DNA](#2-align-dna)
+    - [3. call-gSNP](#3-call-gsnp)
+    - [4. call-sSNV](#4-call-ssnv)
+    - [5. call-mtSNV](#5-call-mtsnv)
   - [Inputs](#inputs)
-  - [Outputs](#outputs)
-  - [Testing and Validation](#testing-and-validation)
-    - [Test Data Set](#test-data-set)
-    - [Validation <version number\>](#validation-version-number)
-    - [Validation Tool](#validation-tool)
-  - [References](#references)
+    - [Input CSV](#input-csv)
 
 ## Overview
 
-A 3-4 sentence summary of the pipeline, including the pipeline's purpose, the type of expected scientific inputs/outputs of the pipeline (e.g: FASTQs and BAMs), and a list of tools/steps in the pipeline.
+This meta pipeline takes aligned WGS data (BAM), convert them back to FASTQ, re-align to the reference genome, and calls for germline SNPs, somatic SNVs and mitochondrial SNVs. The input of this meta pipeline is a CSV file with a list of patients and their tumor normal paired BAM samples. Each patient must have **exact one** normal sample, while multiple tumor samples are allowed. If a patient has multiple tumor samples, each tumor is paired with the normal an it will call gSNP, sSNV and mtSNV separately.
+
+The pipeline has a leading process running on the submitter node (can be a F2 node) that submits processes of all pipelines (align-DNA, call-gSNP etc.) on all samples of the patient to the same worker node (usually a F72 node). All processes for the same patient run on the sample node to avoid network traffic.
+
+![design](img/design.drawio.svg?raw=true)
 
 ---
 
 ## How To Run
 
-1. Update the params section of the .config file
+1. Creating a leading [`batch.config`](config/template_batch.config) and a patient specific [`germline-somatic.config`](config/template_germline_somatic.config) file, using the template given in the links. The former `batch.config` takes the patient sample list, while the latter one defines the parameters, reference files, and resources configurations for each run.
 
-2. Update the input csv
+2. Create an [input.csv](inputs/template-inputs.csv) fille with path to the BAM files of each patient with both normal and tumor. For example patient, there must be exactly one sample that the `state` column is `normal`, while the other samples are `tumor`. It is then able to create each tumor with the only normal sample within this patient.
 
 3. See the submission script, [here](https://github.com/uclahs-cds/tool-submit-nf), to submit your pipeline
+
+> :warning: A low memory node (*e.g* F2) is sufficient for the leading job. Submitting the leading job to a F72 node is wasty!
 
 ---
 
 ## Flow Diagram
 
-A directed acyclic graph of your pipeline.
-
-![alt text](pipeline-name-DAG.png?raw=true)
+![alt text](img/diagram.drawio.svg?raw=true)
 
 ---
 
 ## Pipeline Steps
 
-### 1. Step/Proccess 1
+### 1. convert-BAM2FASTQ
 
-> A 2-3 sentence description of each step/proccess in your pipeline that includes the purpose of the step/process, the tool(s) being used and their version, and the expected scientific inputs/outputs (e.g: FASTQs and BAMs) of the pipeline.
+Aligned BAM file for each sample is first converted back to FASTQ using [pipeline-convert-BAM2FASTQ](https://github.com/uclahs-cds/pipeline-convert-BAM2FASTQ/).
 
-### 2. Step/Proccess 2
+### 2. align-DNA
 
-> A 2-3 sentence description of each step/proccess in your pipeline that includes the purpose of the step/process, the tool(s) being used and their version, and the expected scientific inputs/outputs (e.g: FASTQs and BAMs) of the pipeline.
+The FASTQ file for each sample is then realigned to the genome using [pipeline-align-DNA](https://github.com/uclahs-cds/pipeline-align-DNA).
 
-### 3. Step/Proccess n
+### 3. call-gSNP
 
-> A 2-3 sentence description of each step/proccess in your pipeline that includes the purpose of the step/process, the tool(s) being used and their version, and the expected scientific inputs/outputs (e.g: FASTQs and BAMs) of the pipeline.
+Germline SNP is then called from the re-aligned BAM files using [pipeline-call-gSNP](https://github.com/uclahs-cds/pipeline-call-gSNP). The call-gSNP also performs BAM calibration. Tumor and normal samples from the sam patient are paired in this step.
+
+### 4. call-sSNV
+
+The calibrated BAM from step 3 is then used to call for somatic SNVs using [pipeline-call-sSNV](https://github.com/uclahs-cds/pipeline-call-sSNV).
+
+### 5. call-mtSNV
+
+The same calibrated BAM from step 3 is also used to call for mitochondrial SNVs usint [pipeline-call-mtSNV](https://github.com/uclahs-cds/pipeline-call-mtSNV)
 
 ---
 
 ## Inputs
 
- Input and Input Parameter/Flag | Required | Description |
-| ------------ | ------------ | ------------------------ |
-| input/ouput 1 | yes/no | 1 - 2 sentence description of the input/output. |
-| input/ouput 2 | yes/no | 1 - 2 sentence description of the input/output. |
-| input/ouput n | yes/no | 1 - 2 sentence description of the input/output. |
+### Input CSV
 
----
+The input CSV file must contain 5 fields as listed below.
 
-## Outputs
+| Parameter/Flag | Description                                |
+| -------------- | ------------------------------------------ |
+| patient        | Patient ID                                 |
+| sample         | Sample ID                                  |
+| state          | Must be either "tumor" or "normal"         |
+| site           | The site of sample (*e.g.* primary, blood) |
+| bam            | Absolute path to the BAM file.             |
 
- Output and Output Parameter/Flag | Required | Description |
-| ------------ | ------------ | ------------------------ |
-| input/ouput 1 | yes/no | 1 - 2 sentence description of the input/output. |
-| input/ouput 2 | yes/no | 1 - 2 sentence description of the input/output. |
-| input/ouput n | yes/no | 1 - 2 sentence description of the input/output. |
-
----
-
-## Testing and Validation
-
-### Test Data Set
-
-A 2-3 sentence description of the test data set(s) used to validate and test this pipeline. If possible, include references and links for how to access and use the test dataset
-
-### Validation <version number\>
-
- Input/Output | Description | Result  
- | ------------ | ------------------------ | ------------------------ |
-| metric 1 | 1 - 2 sentence description of the metric | quantifiable result |
-| metric 2 | 1 - 2 sentence description of the metric | quantifiable result |
-| metric n | 1 - 2 sentence description of the metric | quantifiable result |
-
-- [Reference/External Link/Path 1 to any files/plots or other validation results](<link>)
-- [Reference/External Link/Path 2 to any files/plots or other validation results](<link>)
-- [Reference/External Link/Path n to any files/plots or other validation results](<link>)
-
-### Validation Tool
-
-Included is a template for validating your input files. For more information on the tool check out: https://github.com/uclahs-cds/tool-validate-nf
-
----
-
-## References
-
-1. [Reference 1](<links-to-papers/external-code/documentation/metadata/other-repos/or-anything-else>)
-2. [Reference 2](<links-to-papers/external-code/documentation/metadata/other-repos/or-anything-else>)
-3. [Reference n](<links-to-papers/external-code/documentation/metadata/other-repos/or-anything-else>)
+See this [template](input/template-inputs.csv),
