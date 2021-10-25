@@ -3,12 +3,12 @@ global:
   temp_dir: ./test/work
   nf_config: test/global.config
   remove_temp: false
-  clean_logs: true
+  clean_logs: false
 
 cases:
   - name: test-bam2fastq
     message: Test convert-BAM2FASTQ
-    skip: true
+    skip: false
     nf_script: test/test-bam2fastq/test.nf
     nf_config: test/test-bam2fastq/test.config
     verbose: true
@@ -109,4 +109,4 @@ cases:
     nf_script: main.nf
     nf_config: test/test-germline-somatic-batch/test.config
     verbose: true
-    skip: false
+    skip: true
