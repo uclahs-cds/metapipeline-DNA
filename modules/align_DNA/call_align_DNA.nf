@@ -50,6 +50,7 @@ process call_align_DNA {
     output_dir = 'align_DNA'
     bam = "${output_dir}/BWA-MEM2-2.2.1/${sample}.bam"
     arg_list = [
+        'enable_spark',
         'reference_fasta_bwa',
         'reference_fasta_hisat2',
         'hisat2_index_prefix',
@@ -59,6 +60,8 @@ process call_align_DNA {
         'run_SortSam_Picard_memory_GB',
         'run_MarkDuplicate_Picard_cpus',
         'run_MarkDuplicate_Picard_memory_GB'
+        // 'run_MarkDuplicatesSpark_GATK_cpus',
+        // 'run_MarkDuplicatesSpark_GATK_memory_GB'        
         // 'run_BuildBamIndex_Picard_cpus',
         // 'run_BuildBamIndex_Picard_memory_GB'
     ]
