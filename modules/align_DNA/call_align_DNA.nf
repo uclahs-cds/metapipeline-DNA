@@ -58,9 +58,9 @@ process call_align_DNA {
         'run_SortSam_Picard_cpus',
         'run_SortSam_Picard_memory_GB',
         'run_MarkDuplicate_Picard_cpus',
-        'run_MarkDuplicate_Picard_memory_GB',
-        'run_BuildBamIndex_Picard_cpus',
-        'run_BuildBamIndex_Picard_memory_GB'
+        'run_MarkDuplicate_Picard_memory_GB'
+        // 'run_BuildBamIndex_Picard_cpus',
+        // 'run_BuildBamIndex_Picard_memory_GB'
     ]
     args = generate_args(params.align_DNA, arg_list)
     aligner = params.align_DNA.aligner.join(',')
