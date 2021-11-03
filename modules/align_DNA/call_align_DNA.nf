@@ -59,9 +59,7 @@ process call_align_DNA {
         'run_SortSam_Picard_cpus',
         'run_SortSam_Picard_memory_GB',
         'run_MarkDuplicate_Picard_cpus',
-        'run_MarkDuplicate_Picard_memory_GB',
-        'spark_temp_dir',
-        'temp'
+        'run_MarkDuplicate_Picard_memory_GB'
         // 'run_MarkDuplicatesSpark_GATK_cpus',
         // 'run_MarkDuplicatesSpark_GATK_memory_GB'        
         // 'run_BuildBamIndex_Picard_cpus',
