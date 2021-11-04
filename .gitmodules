@@ -13,6 +13,6 @@
 [submodule "external/pipeline-call-mtSNV"]
 	path = external/pipeline-call-mtSNV
 	url = git@github.com:uclahs-cds/pipeline-call-mtSNV.git
-[submodule "external/--force"]
+[submodule "external/pipeline-call-gSNP-DSL1"]
 	path = external/pipeline-call-gSNP-DSL1
 	url = git@github.com:uclahs-cds/pipeline-call-gSNP-DSL1.git
