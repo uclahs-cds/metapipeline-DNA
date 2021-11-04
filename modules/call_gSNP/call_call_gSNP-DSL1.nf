@@ -73,7 +73,7 @@ process call_call_gSNP {
         --output_dir ${output_dir} \
         --temp_dir ${params.temp_dir} \
         ${args} \
-        -c ${moduleDir}/default.config
+        -c ${moduleDir}/default-DSL1.config
 
     cd ${output_dir}
     latest=\$(ls -1 | head -n 1)

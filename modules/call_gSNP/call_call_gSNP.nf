@@ -53,22 +53,20 @@ process call_call_gSNP {
         'is_NT_paired',
         'input_all_chromosomes_group_small_contigs',
         'input_all_chromosomes_each_per_line',
-        'reference_prefix',
         'bundle_mills_and_1000g_gold_standard_indels_vcf_gz',
         'bundle_known_indels_vcf_gz',
         'bundle_v0_dbsnp138_vcf_gz',
         'bundle_hapmap_3p3_vcf_gz',
         'bundle_omni_1000g_2p5_vcf_gz',
         'bundle_phase1_1000g_snps_high_conf_vcf_gz',
-        'bundle_contest_hapmap_3p3_vcf_gz',
-        'max_number_of_parallel_jobs'
+        'bundle_contest_hapmap_3p3_vcf_gz'
     ]
     args = generate_args(params.call_gSNP, arg_list)
     """
     set -euo pipefail
 
     nextflow run \
-        ${moduleDir}/../../external/pipeline-call-gSNP-DSL1/call-gSNP.nf \
+        ${moduleDir}/../../external/pipeline-call-gSNP/pipeline/call-gSNP.nf \
         --input_csv ${input_csv.toRealPath()} \
         --output_dir ${output_dir} \
         --temp_dir ${params.temp_dir} \
