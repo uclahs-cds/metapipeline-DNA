@@ -94,7 +94,7 @@ process create_input_csv_call_gSNP {
     script:
     input_csv = 'call_gSNP_input.csv'
     """
-    echo 'projectID,sampleID,normalID,normalBAM,tumourID,tumourBAM' > ${input_csv}
+    echo 'project_id,sample_id,normal_id,normal_BAM,tumour_id,tumour_BAM' > ${input_csv}
     echo "${params.project_id},${patient},${normal_bam_sm},${normal_bam},${tumor_bam_sm},${tumor_bam}" >> ${input_csv}
     """
 }

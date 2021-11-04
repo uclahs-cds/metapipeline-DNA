@@ -1,8 +1,8 @@
 /*
     Main entry point for calling call-gSNP pipeline
 */
-include { create_normal_tumor_pairs; create_input_csv_call_gSNP } from "${moduleDir}/create_input_csv-DSL1"
-include { call_call_gSNP } from "${moduleDir}/call_call_gSNP-DSL1"
+include { create_normal_tumor_pairs; create_input_csv_call_gSNP } from "${moduleDir}/create_input_csv"
+include { call_call_gSNP } from "${moduleDir}/call_call_gSNP"
 
 /*
 * Main workflow for calling the call-gSNP pipeline
