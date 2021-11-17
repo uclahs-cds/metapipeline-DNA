@@ -41,7 +41,7 @@ def parse_args() -> argparse.Namespace:
         default=None
     )
     parser.add_argument(
-        '--id-as-pu',
+        '--id-for-pu',
         action='store_true',
         help='Use the ID value for PU tag'
     )
@@ -87,7 +87,7 @@ def create_read_groups(bam:Path, output:Path, sequencing_center:str,
                     row.append(sequencing_center)
                 elif field == 'platform_unit' and platform_unit or id_for_pu:
                     if id_for_pu:
-                        row.append(read_group['read_group_identifier'])
+                        row.append(read_group['ID'])
                     else:
                         row.append(platform_unit)
                 else:
