@@ -9,7 +9,7 @@
     input:
         par: Can be either a config object or a groovy map.
         arg_list: A list of values.
-    
+
     output:
         A string of command line args.
 */

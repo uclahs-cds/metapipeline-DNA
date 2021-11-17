@@ -16,19 +16,34 @@ def parse_args() -> argparse.Namespace:
         '-i', '--input-bam',
         type=Path,
         help='Path to the input BAM file',
-        metavar='',
+        metavar='<file>',
         required=True
     )
     parser.add_argument(
         '-o', '--output-csv',
         type=Path,
         help='Path to the output CSV file.',
-        metavar='',
+        metavar='<file>',
         required=True
+    )
+    parser.add_argument(
+        '--sequencing-center',
+        type=str,
+        help='CN tag to override the value from BAMs.',
+        metavar='<value>',
+        default=None
+    )
+    parser.add_argument(
+        '--platform-unit',
+        type=str,
+        help='PU tag to override the value from BAMs.',
+        metavar='<value>',
+        default=None
     )
     return parser.parse_args()
 
-def create_read_groups(bam:Path, output:Path) -> None:
+def create_read_groups(bam:Path, output:Path, sequencing_center:str,
+        platform_unit:str) -> None:
     """ Create a read group CSV file from a BAM """
     bam_file = pysam.AlignmentFile(bam, mode='r')
     header = bam_file.header
@@ -63,8 +78,12 @@ def create_read_groups(bam:Path, output:Path) -> None:
             for field in fields:
                 if field in ['index', 'lane']:
                     row.append(str(i))
-                    continue
-                row.append(read_group[fields_map[field]])
+                elif field == 'sequencing_center' and sequencing_center:
+                    row.append(sequencing_center)
+                elif field == 'platform_unit' and platform_unit:
+                    row.append(platform_unit)
+                else:
+                    row.append(read_group[fields_map[field]])
             handle.write(','.join(row) + '\n')
 
 def main():
