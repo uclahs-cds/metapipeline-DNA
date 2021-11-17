@@ -90,7 +90,12 @@ def main():
     """ Main entry point """
     args = parse_args()
     try:
-        create_read_groups(args.input_bam, args.output_csv)
+        create_read_groups(
+            bam=args.input_bam,
+            output=args.output_csv,
+            sequencing_center=args.sequencing_center,
+            platform_unit=args.platform_unit
+        )
     except ValueError as error:
         if error.args[0] == BAM_HAS_NO_RG_ERROR:
             print(BAM_HAS_NO_RG_ERROR, file=sys.stderr)
