@@ -46,8 +46,8 @@ process call_call_gSNP {
 
     script:
     output_dir = 'call_gSNP'
-    normal_bam = "${output_dir}/SAMtools-1.10_Picard-2.23.3/recalibrated_reheadered_bam_and_bai/${normal_bam_sm}_realigned_recalibrated_reheadered.bam"
-    tumor_bam = "${output_dir}/SAMtools-1.10_Picard-2.23.3/recalibrated_reheadered_bam_and_bai/${tumor_bam_sm}_realigned_recalibrated_reheadered.bam"
+    normal_bam = "${output_dir}/output/${normal_bam_sm}_realigned_recalibrated_merged.bam"
+    tumor_bam = "${output_dir}/output/${tumor_bam_sm}_realigned_recalibrated_merged.bam"
     arg_list = [
         'java_temp_dir',
         'is_NT_paired',
@@ -73,10 +73,9 @@ process call_call_gSNP {
         ${args} \
         -c ${moduleDir}/default.config
 
-    cd ${output_dir}
-    latest=\$(ls -1 | head -n 1)
-    mv \${latest}/${patient}/* ./
-    mv \${latest}/logs ./
-    rm -rf \${latest}
+    pwd > path.txt
+    ls > directories.txt
+    mv ${output_dir}/output/${patient}* ./
+    tree > tree.txt
     """
 }

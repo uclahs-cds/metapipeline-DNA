@@ -1,3 +1,3 @@
 patient,sample,state,site,bam_header_sm,bam
-A-mini-n1,A-mini-n1,tumor,primary,S2_v1.1.5,/hot/data/TEST/TEST0000000/TWGSAMIN000001/TWGSAMIN000001-T002-S02-F/DNA/WGS/aligned/GRCh38/BWA-MEM2-2.1/BAM/BWA-MEM2-2.1_TEST0000000_TWGSAMIN000001-T002-S02-F.bam
-test_c,A-mini-n1_c,normal,primary,S2_v1.1.5,/hot/data/TEST/TEST0000000/TWGSAMIN000001/TWGSAMIN000001-T002-S02-F/DNA/WGS/aligned/GRCh38/BWA-MEM2-2.1/BAM/BWA-MEM2-2.1_TEST0000000_TWGSAMIN000001-T002-S02-F-copy.bam
+TCEB1_RCC_S00,9422,normal,primary,S00-9422N_079_114,/hot/users/yashpatel/pipeline-call-gSNP/work/inputs/TCEB1_RCC_S00-9422N_079_114_0.1.bam
+TCEB1_RCC_S00,9422,tumor,primary,S00-9422T_027_166,/hot/users/yashpatel/pipeline-call-gSNP/work/inputs/TCEB1_RCC_S00-9422T_027_166_0.1.bam

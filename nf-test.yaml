@@ -44,17 +44,17 @@ cases:
     nf_config: test/test-call-gSNP/test.config
     verbose: true
     skip: false
-    asserts:
-      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_gSNP/SAMtools-1.10_Picard-2.23.3/recalibrated_reheadered_bam_and_bai/CPT0040210002_realigned_recalibrated_reheadered.bam
-        expected: /hot/pipeline/development/slurm/germline-somatic/1.0.0/test-output/test-call-gSNP/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_gSNP/SAMtools-1.10_Picard-2.23.3/recalibrated_reheadered_bam_and_bai/CPT0040210002_realigned_recalibrated_reheadered.bam
+    # asserts:
+    #   - received: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_gSNP/SAMtools-1.10_Picard-2.23.3/recalibrated_reheadered_bam_and_bai/CPT0040210002_realigned_recalibrated_reheadered.bam
+    #     expected: /hot/pipeline/development/slurm/germline-somatic/1.0.0/test-output/test-call-gSNP/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_gSNP/SAMtools-1.10_Picard-2.23.3/recalibrated_reheadered_bam_and_bai/CPT0040210002_realigned_recalibrated_reheadered.bam
 
-      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_gSNP/Picard-2.23.3/merged_raw_gvcf/CPT0040210002_merged_raw_variants.g.vcf.gz
-        expected: /hot/pipeline/development/slurm/germline-somatic/1.0.0/test-output/test-call-gSNP/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_gSNP/Picard-2.23.3/merged_raw_gvcf/CPT0040210002_merged_raw_variants.g.vcf.gz
-        script: test/test-call-gSNP/assert_vcf.sh
+    #   - received: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_gSNP/Picard-2.23.3/merged_raw_gvcf/CPT0040210002_merged_raw_variants.g.vcf.gz
+    #     expected: /hot/pipeline/development/slurm/germline-somatic/1.0.0/test-output/test-call-gSNP/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_gSNP/Picard-2.23.3/merged_raw_gvcf/CPT0040210002_merged_raw_variants.g.vcf.gz
+    #     script: test/test-call-gSNP/assert_vcf.sh
 
-      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_gSNP/Picard-2.23.3/merged_raw_gvcf/CPT0053040010_merged_raw_variants.g.vcf.gz
-        expected: /hot/pipeline/development/slurm/germline-somatic/1.0.0/test-output/test-call-gSNP/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_gSNP/Picard-2.23.3/merged_raw_gvcf/CPT0053040010_merged_raw_variants.g.vcf.gz
-        script: test/test-call-gSNP/assert_vcf.sh
+    #   - received: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_gSNP/Picard-2.23.3/merged_raw_gvcf/CPT0053040010_merged_raw_variants.g.vcf.gz
+    #     expected: /hot/pipeline/development/slurm/germline-somatic/1.0.0/test-output/test-call-gSNP/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_gSNP/Picard-2.23.3/merged_raw_gvcf/CPT0053040010_merged_raw_variants.g.vcf.gz
+    #     script: test/test-call-gSNP/assert_vcf.sh
 
   - name: test-call-sSNV
     message: Test call-sSNV with one tumor normal pair
