@@ -1,3 +1,3 @@
 patient,sample,state,site,bam_header_sm,bam
-TCEB1_RCC_S00,9422,normal,primary,S00-9422N_079_114,/hot/users/yashpatel/pipeline-call-gSNP/work/inputs/TCEB1_RCC_S00-9422N_079_114_0.1.bam
-TCEB1_RCC_S00,9422,tumor,primary,S00-9422T_027_166,/hot/users/yashpatel/pipeline-call-gSNP/work/inputs/TCEB1_RCC_S00-9422T_027_166_0.1.bam
+TCEB1_RCC_S00,9422,normal,primary,S00-9422N_079_114,/hot/users/agonzalez/data/test_data/TCEB1/TCEB1_RCC_S00-9422N_079_114_merged_05prcnt.bam
+TCEB1_RCC_S00,9422,tumor,primary,S00-9422T_027_166,/hot/users/agonzalez/data/test_data/TCEB1/TCEB1_RCC_S00-9422T_027_166_merged_05prcnt.bam
