@@ -49,7 +49,7 @@ def create_read_groups(bam:Path, output:Path) -> None:
 
     fields_map = {
         'read_group_identifier': 'ID',
-        'sequencing_center': 'CN',
+        'sequencing_center': 'LB',
         'library_identifier': 'LB',
         'platform_technology': 'PL',
         'platform_unit': 'PU',

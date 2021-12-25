@@ -1,3 +1,3 @@
 patient,sample,state,site,bam_header_sm,bam
-TCEB1_RCC_S00,9422,normal,primary,S00-9422N_079_114,/hot/users/agonzalez/data/test_data/TCEB1/TCEB1_RCC_S00-9422N_079_114_merged_05prcnt.bam
-TCEB1_RCC_S00,9422,tumor,primary,S00-9422T_027_166,/hot/users/agonzalez/data/test_data/TCEB1/TCEB1_RCC_S00-9422T_027_166_merged_05prcnt.bam
+TCEB1_RCC_S00,9422,normal,primary,S00-9422N_079_114,/hot/users/agonzalez/008_pipeline-concatenation-DNA-pipelines/output/test-align-DNA/20211218-194248/TCEB1/TCEB1_RCC_S00-9422N_079_114/align_DNA/BWA-MEM2-2.2.1/TCEB1_RCC_S00-9422N_079_114.bam
+TCEB1_RCC_S00,9422,tumor,primary,S00-9422T_027_166,/hot/users/agonzalez/008_pipeline-concatenation-DNA-pipelines/output/test-align-DNA/20211218-194248/TCEB1/TCEB1_RCC_S00-9422T_027_166/align_DNA/BWA-MEM2-2.2.1/TCEB1_RCC_S00-9422T_027_166.bam

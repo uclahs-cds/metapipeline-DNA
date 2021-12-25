@@ -1,6 +1,6 @@
 ---
 global:
-  temp_dir: ./test/work
+  temp_dir: /hot/users/agonzalez/008_pipeline-concatenation-DNA-pipelines/output/test-germline-somatic-batch
   nf_config: test/global.config
   remove_temp: false
   clean_logs: false
@@ -12,18 +12,18 @@ cases:
     nf_script: test/test-bam2fastq/test.nf
     nf_config: test/test-bam2fastq/test.config
     verbose: true
-    asserts:
-      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/bam2fastq/create_fastqs_SAMtools/collated_HKCKT.1-112B1701_R1.fq.gz
-        expected: /hot/pipeline/development/slurm/germline-somatic/1.0.0/test-output/test-bam2fastq/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/bam2fastq/create_fastqs_SAMtools/collated_HKCKT.1-112B1701_R1.fq.gz
-        method: md5
+    # asserts:
+    #   - received: test/output/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/bam2fastq/create_fastqs_SAMtools/collated_HKCKT.1-112B1701_R1.fq.gz
+    #     expected: /hot/pipeline/development/slurm/germline-somatic/1.0.0/test-output/test-bam2fastq/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/bam2fastq/create_fastqs_SAMtools/collated_HKCKT.1-112B1701_R1.fq.gz
+    #     method: md5
 
-      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/bam2fastq/create_fastqs_SAMtools/collated_HKCKT.1-112B1701_R2.fq.gz
-        expected: /hot/pipeline/development/slurm/germline-somatic/1.0.0/test-output/test-bam2fastq/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/bam2fastq/create_fastqs_SAMtools/collated_HKCKT.1-112B1701_R2.fq.gz
-        method: md5
+    #   - received: test/output/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/bam2fastq/create_fastqs_SAMtools/collated_HKCKT.1-112B1701_R2.fq.gz
+    #     expected: /hot/pipeline/development/slurm/germline-somatic/1.0.0/test-output/test-bam2fastq/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/bam2fastq/create_fastqs_SAMtools/collated_HKCKT.1-112B1701_R2.fq.gz
+    #     method: md5
 
-      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/intermediates/bam2fastq/convert_BAM2FASTQ/create_input_csv_for_align_DNA/align_DNA_input.csv
-        expected: /hot/pipeline/development/slurm/germline-somatic/1.0.0/test-output/test-bam2fastq/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/intermediates/bam2fastq/convert_BAM2FASTQ/create_input_csv_for_align_DNA/align_DNA_input.csv
-        script: test/test-bam2fastq/assert_input_csv.py
+    #   - received: test/output/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/intermediates/bam2fastq/convert_BAM2FASTQ/create_input_csv_for_align_DNA/align_DNA_input.csv
+    #     expected: /hot/pipeline/development/slurm/germline-somatic/1.0.0/test-output/test-bam2fastq/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/intermediates/bam2fastq/convert_BAM2FASTQ/create_input_csv_for_align_DNA/align_DNA_input.csv
+    #     script: test/test-bam2fastq/assert_input_csv.py
 
   - name: test-align-DNA
     message: Test align-DNA
@@ -31,12 +31,12 @@ cases:
     nf_config: test/test-align-DNA/test.config
     verbose: true
     skip: true
-    asserts:
-      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/align_DNA/BWA-MEM2-2.2.1/GZLUCPTA000001-N001-B01-F.bam
-        expected: /hot/pipeline/development/slurm/germline-somatic/1.0.0/test-output/test-align-DNA/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/align_DNA/BWA-MEM2-2.2.1/GZLUCPTA000001-N001-B01-F.bam
+    # asserts:
+    #   - received: test/output/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/align_DNA/BWA-MEM2-2.2.1/GZLUCPTA000001-N001-B01-F.bam
+    #     expected: /hot/pipeline/development/slurm/germline-somatic/1.0.0/test-output/test-align-DNA/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/align_DNA/BWA-MEM2-2.2.1/GZLUCPTA000001-N001-B01-F.bam
 
-      - received: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/align_DNA/BWA-MEM2-2.2.1/GZLUCPTA000001-T001-P01-F.bam
-        expected: /hot/pipeline/development/slurm/germline-somatic/1.0.0/test-output/test-align-DNA/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/align_DNA/BWA-MEM2-2.2.1/GZLUCPTA000001-T001-P01-F.bam
+    #   - received: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/align_DNA/BWA-MEM2-2.2.1/GZLUCPTA000001-T001-P01-F.bam
+    #     expected: /hot/pipeline/development/slurm/germline-somatic/1.0.0/test-output/test-align-DNA/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/align_DNA/BWA-MEM2-2.2.1/GZLUCPTA000001-T001-P01-F.bam
 
   - name: test-call-gSNP
     message: Test call-gSNP with one tumor normal pair
