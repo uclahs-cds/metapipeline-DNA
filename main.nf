@@ -73,7 +73,6 @@ process create_input_csv_germline_somatic {
             val(patient),
             file(input_csv)
         )
-        file output_dir
 
     script:
     input_csv = 'germline_somatci_input.csv'
@@ -114,6 +113,7 @@ process call_germline_somatic {
         )
     output:
         file patient
+        path '.command.*'
 
     script:
     """

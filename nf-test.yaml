@@ -102,11 +102,11 @@ cases:
     nf_script: modules/germline_somatic.nf
     nf_config: test/test-germline-somatic/test.config
     verbose: true
-    skip: true
+    skip: false
 
   - name: test-germline-somatic-batch
     message: Test running the main.nf that runs the germline-somatic pipeline in batch.
     nf_script: main.nf
     nf_config: test/test-germline-somatic-batch/test.config
     verbose: false
-    skip: false
+    skip: true
