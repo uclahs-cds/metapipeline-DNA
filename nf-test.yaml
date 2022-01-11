@@ -1,6 +1,6 @@
 ---
 global:
-  temp_dir: /hot/users/agonzalez/008_pipeline-concatenation-DNA-pipelines/output/test-germline-somatic-batch
+  temp_dir: /scratch
   nf_config: test/global.config
   remove_temp: false
   clean_logs: false

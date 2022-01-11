@@ -70,6 +70,7 @@ process call_call_gSNP {
         --input_csv ${input_csv.toRealPath()} \
         --output_dir ${output_dir} \
         --temp_dir ${params.temp_dir} \
+        --java_temp_dir '/scratch' \
         ${args} \
         -c ${moduleDir}/default.config
 
