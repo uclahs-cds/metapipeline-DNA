@@ -61,7 +61,7 @@ cases:
     nf_script: test/test-call-sSNV/test.nf
     nf_config: test/test-call-sSNV/test.config
     verbose: true
-    skip: false
+    skip: true
     asserts:
       - received: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_sSNV/somaticsniper_GZLUCPTA000001_hc.vcf.gz
         expected: /hot/pipeline/development/slurm/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_sSNV/somaticsniper_GZLUCPTA000001_hc.vcf.gz
@@ -102,7 +102,7 @@ cases:
     nf_script: modules/germline_somatic.nf
     nf_config: test/test-germline-somatic/test.config
     verbose: true
-    skip: true
+    skip: false
 
   - name: test-germline-somatic-batch
     message: Test running the main.nf that runs the germline-somatic pipeline in batch.
