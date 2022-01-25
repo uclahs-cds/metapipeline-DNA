@@ -59,12 +59,11 @@ process call_align_DNA {
         'run_SortSam_Picard_cpus',
         'run_SortSam_Picard_memory_GB',
         'run_MarkDuplicate_Picard_cpus',
-        'run_MarkDuplicate_Picard_memory_GB'
-        // 'run_MarkDuplicatesSpark_GATK_cpus',
-        // 'run_MarkDuplicatesSpark_GATK_memory_GB'        
-        // 'run_BuildBamIndex_Picard_cpus',
-        // 'run_BuildBamIndex_Picard_memory_GB'
+        'run_MarkDuplicate_Picard_memory_GB',
+        'run_MarkDuplicatesSpark_GATK_cpus',
+        'run_MarkDuplicatesSpark_GATK_memory_GB'
     ]
+
     args = generate_args(params.align_DNA, arg_list)
     aligner = params.align_DNA.aligner.join(',')
     """
@@ -75,9 +74,7 @@ process call_align_DNA {
         --aligner ${aligner} \
         ${args} \
         --output_dir \$(pwd)/${output_dir} \
-        --temp_dir \$(pwd)/work \
-        --tmp-dir \$(pwd)/work \
-        --spark_temp_dir \$(pwd)/work \
+        --temp_dir ${params.temp_dir} \
         --input_csv ${input_csv} \
         -c ${moduleDir}/default.config
     cd ${output_dir}
