@@ -31,12 +31,12 @@ cases:
     nf_config: test/test-align-DNA/test.config
     verbose: true
     skip: false
-    # asserts:
-    #   - received: test/output/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/align_DNA/BWA-MEM2-2.2.1/GZLUCPTA000001-N001-B01-F.bam
-    #     expected: /hot/pipeline/development/slurm/germline-somatic/1.0.0/test-output/test-align-DNA/GZLUCPTA000001/GZLUCPTA000001-N001-B01-F/align_DNA/BWA-MEM2-2.2.1/GZLUCPTA000001-N001-B01-F.bam
+    asserts:
+      - received: /hot/pipeline/development/slurm/meta-germline-somatic/output/test-align-DNA/TCEB1/TCEB1_RCC_S00-9422N_079_114/align_DNA/BWA-MEM2-2.2.1/TCEB1_RCC_S00-9422N_079_114.bam
+        expected: /hot/pipeline/development/slurm/meta-germline-somatic/systematic_tests_outputs/align-DNA/TCEB1/TCEB1_RCC_S00-9422N_079_114/TCEB1_RCC_S00-9422N_079_114.bam
 
-    #   - received: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/align_DNA/BWA-MEM2-2.2.1/GZLUCPTA000001-T001-P01-F.bam
-    #     expected: /hot/pipeline/development/slurm/germline-somatic/1.0.0/test-output/test-align-DNA/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/align_DNA/BWA-MEM2-2.2.1/GZLUCPTA000001-T001-P01-F.bam
+      - received: /hot/pipeline/development/slurm/meta-germline-somatic/output/test-align-DNA/TCEB1/TCEB1_RCC_S00-9422T_027_166/align_DNA/BWA-MEM2-2.2.1/TCEB1_RCC_S00-9422T_027_166.bam
+        expected: /hot/pipeline/development/slurm/meta-germline-somatic/systematic_tests_outputs/align-DNA/TCEB1/TCEB1_RCC_S00-9422T_027_166/TCEB1_RCC_S00-9422T_027_166.bam
 
   - name: test-call-gSNP
     message: Test call-gSNP with one tumor normal pair
