@@ -8,7 +8,7 @@ global:
 cases:
   - name: test-bam2fastq
     message: Test convert-BAM2FASTQ
-    skip: false
+    skip: true
     nf_script: test/test-bam2fastq/test.nf
     nf_config: test/test-bam2fastq/test.config
     verbose: true
@@ -30,7 +30,7 @@ cases:
     nf_script: test/test-align-DNA/test.nf
     nf_config: test/test-align-DNA/test.config
     verbose: true
-    skip: true
+    skip: false
     asserts:
       - received: /hot/pipeline/development/slurm/meta-germline-somatic/output/test-align-DNA/TCEB1/TCEB1_RCC_S00-9422N_079_114/align_DNA/BWA-MEM2-2.2.1/TCEB1_RCC_S00-9422N_079_114.bam
         expected: /hot/pipeline/development/slurm/meta-germline-somatic/systematic_tests/align-DNA/TCEB1/TCEB1_RCC_S00-9422N_079_114/TCEB1_RCC_S00-9422N_079_114.bam

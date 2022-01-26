@@ -66,6 +66,7 @@ process call_align_DNA {
 
     args = generate_args(params.align_DNA, arg_list)
     aligner = params.align_DNA.aligner.join(',')
+
     """
     mkdir ${output_dir}
     nextflow run \

@@ -9,3 +9,10 @@ References: ""
 Tools: []
 Engineering_Owner: []
 Scientific_Owner: []
+Pipeline_Versions: [
+  bam2fastq: [1.0.0],
+  align-DNA: [7.3.0],
+  call-gSNP: [ ],
+  call-sSNV: [],
+  call-mtSNV: []
+]
