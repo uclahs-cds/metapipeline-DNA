@@ -74,9 +74,6 @@ process call_call_gSNP {
         ${args} \
         -c ${moduleDir}/default.config
 
-    pwd > path.txt
-    ls > directories.txt
     mv ${output_dir}/output/${patient}* ./
-    tree > tree.txt
     """
 }
