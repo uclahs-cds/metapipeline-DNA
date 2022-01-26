@@ -51,6 +51,7 @@ process call_align_DNA {
     bam = "${output_dir}/BWA-MEM2-2.2.1/${sample}.bam"
     arg_list = [
         'enable_spark',
+        'mark_duplicates',
         'reference_fasta_bwa',
         'reference_fasta_hisat2',
         'hisat2_index_prefix',
