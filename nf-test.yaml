@@ -45,7 +45,7 @@ cases:
     nf_script: test/test-call-gSNP/test.nf
     nf_config: test/test-call-gSNP/test.config
     verbose: true
-    skip: false
+    skip: true
     asserts:
       - received: /hot/pipeline/development/slurm/meta-germline-somatic/output/test-call-gSNP/TCEB1_RCC_S00/9422/call_gSNP/output/S00-9422N_079_114_realigned_recalibrated_merged.bam
         expected: /hot/pipeline/development/slurm/meta-germline-somatic/systematic_tests/call-gSNP/output/test-call-gSNP/TCEB1/S00-9422N_079_114_realigned_recalibrated_merged.bam
@@ -111,4 +111,4 @@ cases:
     nf_script: main.nf
     nf_config: test/test-germline-somatic-batch/test.config
     verbose: false
-    skip: true
+    skip: false
