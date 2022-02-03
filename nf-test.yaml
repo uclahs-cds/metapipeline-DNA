@@ -1,6 +1,6 @@
 ---
 global:
-  temp_dir: /scratch
+  temp_dir: ./test/work
   nf_config: test/global.config
   remove_temp: false
   clean_logs: false
