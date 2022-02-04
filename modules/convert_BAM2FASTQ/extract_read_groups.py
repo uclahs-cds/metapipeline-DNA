@@ -104,7 +104,7 @@ def main():
             sequencing_center=args.sequencing_center,
             platform_unit=args.platform_unit,
             id_for_pu=args.id_for_pu
-        )    
+        )
     except ValueError as error:
         if error.args[0] == BAM_HAS_NO_RG_ERROR:
             print(BAM_HAS_NO_RG_ERROR, file=sys.stderr)
