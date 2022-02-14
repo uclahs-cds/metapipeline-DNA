@@ -113,6 +113,7 @@ process call_germline_somatic {
         )
     output:
         file patient
+        path '.command.*'
 
     script:
     """

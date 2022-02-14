@@ -1,3 +1,3 @@
 patient,sample,state,site,bam
-GZLUCPTA000001,GZLUCPTA000001-T001-P01-F,tumor,primary,/hot/pipeline/development/slurm/germline-somatic/downsampled_data/bam/GZLUCPTA000001-T001-P01-F_chr21M_n1.3.bam
-GZLUCPTA000001,GZLUCPTA000001-N001-B01-F,normal,blood,/hot/pipeline/development/slurm/germline-somatic/downsampled_data/bam/GZLUCPTA000001-N001-B01-F_chr21M_n1.3.bam
+TCEB1,TCEB1_RCC_S00-9422N_079_114,tumor,primary,/hot/pipeline/development/slurm/meta-germline-somatic/systematic_tests/bam2fastq/inputs/TCEB1_RCC_S00-9422N_079_114_merged_05prcnt.bam
+TCEB1,TCEB1_RCC_S00-9422T_027_166,normal,blood,/hot/pipeline/development/slurm/meta-germline-somatic/systematic_tests/bam2fastq/inputs/TCEB1_RCC_S00-9422T_027_166_merged_05prcnt.bam

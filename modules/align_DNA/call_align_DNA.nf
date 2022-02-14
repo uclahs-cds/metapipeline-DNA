@@ -50,6 +50,8 @@ process call_align_DNA {
     output_dir = 'align_DNA'
     bam = "${output_dir}/BWA-MEM2-2.2.1/${sample}.bam"
     arg_list = [
+        'enable_spark',
+        'mark_duplicates',
         'reference_fasta_bwa',
         'reference_fasta_hisat2',
         'hisat2_index_prefix',
@@ -59,11 +61,13 @@ process call_align_DNA {
         'run_SortSam_Picard_memory_GB',
         'run_MarkDuplicate_Picard_cpus',
         'run_MarkDuplicate_Picard_memory_GB',
-        'run_BuildBamIndex_Picard_cpus',
-        'run_BuildBamIndex_Picard_memory_GB'
+        'run_MarkDuplicatesSpark_GATK_cpus',
+        'run_MarkDuplicatesSpark_GATK_memory_GB'
     ]
+
     args = generate_args(params.align_DNA, arg_list)
     aligner = params.align_DNA.aligner.join(',')
+
     """
     mkdir ${output_dir}
     nextflow run \
@@ -72,7 +76,7 @@ process call_align_DNA {
         --aligner ${aligner} \
         ${args} \
         --output_dir \$(pwd)/${output_dir} \
-        --temp_dir \$(pwd)/work \
+        --temp_dir ${params.temp_dir}/align_DNA_temp_files \
         --input_csv ${input_csv} \
         -c ${moduleDir}/default.config
     cd ${output_dir}
