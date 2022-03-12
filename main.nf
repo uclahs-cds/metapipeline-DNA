@@ -71,11 +71,11 @@ process create_input_csv_germline_somatic {
     output:
         tuple(
             val(patient),
-            file(input_csv)
+            val("_germline_somatic_input.csv")
         )
 
     script:
-    input_csv = 'germline_somatci_input.csv'
+    input_csv = "${patient}_germline_somatic_input.csv"
     lines = []
     for (record in records) {
         lines.add(record.join(','))
@@ -84,6 +84,7 @@ process create_input_csv_germline_somatic {
     """
     echo 'patient,sample,state,site,bam' > ${input_csv}
     echo '${lines}' >> ${input_csv}
+    mv ${input_csv} ${params.output_dir}/
     """
 }
 
@@ -102,29 +103,35 @@ process create_input_csv_germline_somatic {
 process call_germline_somatic {
     // For the first ${params.maxForks} number of tasks, give each taks a 5 delay. Because reference
     // files are copied to worker node each time, so this would reduce the nextwork burden.
-    beforeScript "sleep ${((task.index < task.maxForks ? task.index : task.maxForks) - 1) * 300}"
+    // beforeScript "sleep ${((task.index < task.maxForks ? task.index : task.maxForks) - 1) * 300}"
+
+    echo true
 
     publishDir params.output_dir, mode: 'move'
 
     input:
         tuple(
             val(patient),
-            file(input_csv)
+            path(input_csv)
         )
+
     output:
-        file patient
+        path "${patient}/*"
+        path "align-DNA*/*"
+        path "call-gSNP*/*"
+        path "call-sSNV*/*"
         path '.command.*'
 
     script:
     """
-    NXF_WORK=${params.temp_dir} \
+    ls -l
     nextflow run \
         ${moduleDir}/modules/germline_somatic.nf \
         --input_csv ${input_csv} \
         --patient ${patient} \
         --project_id ${params.project_id} \
         --save_intermediate_files ${params.save_intermediate_files} \
-        --output_dir ./ \
+        --output_dir . \
         -c ${file(params.germline_somatic_config)} \
         -c ${projectDir}/modules/methods.config
     """
@@ -136,5 +143,10 @@ workflow {
         .map { [it.patient, [it.patient, it.sample, it.state, it.site, it.bam]] }
         .groupTuple(by:0)
     create_input_csv_germline_somatic(ich)
-    call_germline_somatic(create_input_csv_germline_somatic.out[0])
+    create_input_csv_germline_somatic.out[0].map{ it ->
+        [it[0], "${params.output_dir}/${it[0]}${it[1]}"]
+        }
+        .set{ mapped_germline_somatic_csv }
+    mapped_germline_somatic_csv.view()
+    call_germline_somatic(mapped_germline_somatic_csv)
 }
