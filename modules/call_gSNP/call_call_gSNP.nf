@@ -75,11 +75,5 @@ process call_call_gSNP {
         --java_temp_dir ${params.temp_dir} \
         ${args} \
         -c call_gsnp_default_metapipeline.config
-
-    # Manually re-arrange the output until call-gSNP standardized version is added to meta-pipeline
-    # mv output call-gSNP-*/${patient}
-    # mv QC call-gSNP-*/${patient}
-    # mv validation call-gSNP-*/${patient}
-    # if [ -d intermediate ]; then mv intermediate call-gSNP-*/${patient}; fi
     """
 }
