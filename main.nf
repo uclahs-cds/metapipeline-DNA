@@ -103,7 +103,7 @@ process create_input_csv_germline_somatic {
 process call_germline_somatic {
     // For the first ${params.maxForks} number of tasks, give each taks a 5 delay. Because reference
     // files are copied to worker node each time, so this would reduce the nextwork burden.
-    // beforeScript "sleep ${((task.index < task.maxForks ? task.index : task.maxForks) - 1) * 300}"
+    beforeScript "sleep ${((task.index < task.maxForks ? task.index : task.maxForks) - 1) * 300}"
 
     echo true
 
