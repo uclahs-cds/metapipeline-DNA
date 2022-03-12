@@ -46,8 +46,8 @@ process call_call_gSNP {
         file "call-gSNP-*"
 
     script:
-    normal_bam = "call-gSNP-*/${patient}/output/${normal_bam_sm}_realigned_recalibrated_merged.bam"
-    tumor_bam = "call-gSNP-*/${patient}/output/${tumor_bam_sm}_realigned_recalibrated_merged.bam"
+    normal_bam = "call-gSNP-*/${patient}/GATK-*/output/${normal_bam_sm}_realigned_recalibrated_merged.bam"
+    tumor_bam = "call-gSNP-*/${patient}/GATK-*/output/${tumor_bam_sm}_realigned_recalibrated_merged.bam"
     arg_list = [
         'java_temp_dir',
         'is_NT_paired',

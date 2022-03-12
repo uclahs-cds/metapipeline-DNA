@@ -124,7 +124,6 @@ process call_germline_somatic {
 
     script:
     """
-    ls -l
     nextflow run \
         ${moduleDir}/modules/germline_somatic.nf \
         --input_csv ${input_csv} \
