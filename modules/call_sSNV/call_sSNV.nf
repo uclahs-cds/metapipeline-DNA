@@ -25,7 +25,7 @@ process call_sSNV {
 
     publishDir "${params.output_dir}",
         mode: "copy",
-        pattern: "call-sSNV-*"
+        pattern: "call-sSNV-*/*"
 
     input:
         tuple(
@@ -39,7 +39,7 @@ process call_sSNV {
         )
 
     output:
-        file "call-sSNV-*"
+        path "call-sSNV-*/*"
 
     script:
     arg_list = [

@@ -23,7 +23,7 @@ process call_align_DNA {
 
     publishDir "${params.output_dir}",
         mode: "copy",
-        pattern: "align-DNA-*"
+        pattern: "align-DNA-*/*"
 
     input:
         tuple(
@@ -43,7 +43,7 @@ process call_align_DNA {
             val(bam_header_sm),
             file(bam)
         )
-        file "align-DNA-*"
+        file "align-DNA-*/*"
     
     script:
     bam_header_sm = get_header_sample_name(input_csv.toRealPath().toString())

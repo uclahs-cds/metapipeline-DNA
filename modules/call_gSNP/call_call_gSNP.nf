@@ -24,7 +24,7 @@ process call_call_gSNP {
 
     publishDir "${params.output_dir}",
         mode: "copy",
-        pattern: "call-gSNP-*"
+        pattern: "call-gSNP-*/*"
 
 
     input:
@@ -43,7 +43,7 @@ process call_call_gSNP {
             val(tumor_site),   val(normal_site),
             file(tumor_bam),   file(normal_bam)
         )
-        file "call-gSNP-*"
+        file "call-gSNP-*/*"
 
     script:
     normal_bam = "call-gSNP-*/${patient}/GATK-*/output/${normal_bam_sm}_realigned_recalibrated_merged.bam"
