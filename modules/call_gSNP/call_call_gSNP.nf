@@ -22,7 +22,7 @@ include { generate_args } from "${moduleDir}/../common"
 process call_call_gSNP {
     cpus params.call_gSNP.subworkflow_cpus
 
-    publishDir "${params.output_dir}",
+    publishDir "${params.output_dir}/output",
         mode: "copy",
         pattern: "call-gSNP-*/*"
 

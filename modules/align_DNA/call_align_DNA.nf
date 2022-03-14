@@ -21,7 +21,7 @@ def get_header_sample_name(path) {
 process call_align_DNA {
     cpus params.align_DNA.subworkflow_cpus
 
-    publishDir "${params.output_dir}",
+    publishDir "${params.output_dir}/output",
         mode: "copy",
         pattern: "align-DNA-*/*"
 

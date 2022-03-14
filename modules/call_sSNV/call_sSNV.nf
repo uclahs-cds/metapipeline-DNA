@@ -23,7 +23,7 @@ include { generate_args } from "${moduleDir}/../common"
 process call_sSNV {
     cpus params.call_sSNV.subworkflow_cpus
 
-    publishDir "${params.output_dir}",
+    publishDir "${params.output_dir}/output",
         mode: "copy",
         pattern: "call-sSNV-*/*"
 

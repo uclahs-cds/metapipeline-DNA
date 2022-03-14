@@ -62,6 +62,16 @@ log.info """\
 *       pipeline.
 */
 process create_input_csv_germline_somatic {
+    publishDir path: "${params.log_output_dir}/process-log",
+        mode: "copy",
+        pattern: ".command.*",
+        saveAs: { "${task.process}/${patient}/log${file(it).getName()}" }
+
+    publishDir path: "${params.output_dir}/intermediate/${task.process}/${patient}",
+        enabled: params.save_intermediate_files,
+        mode: "copy",
+        pattern: "*.csv"
+
     input:
         tuple(
             val(patient),
@@ -73,6 +83,7 @@ process create_input_csv_germline_somatic {
             val(patient),
             path(input_csv)
         )
+        path(".command.*")
 
     script:
     input_csv = "${patient}_germline_somatic_input.csv"
@@ -104,7 +115,11 @@ process call_germline_somatic {
     // files are copied to worker node each time, so this would reduce the nextwork burden.
     beforeScript "sleep ${((task.index < task.maxForks ? task.index : task.maxForks) - 1) * 300}"
 
-    publishDir params.output_dir, mode: 'move'
+    publishDir path: "${params.log_output_dir}/process-log",
+        mode: "copy",
+        pattern: ".command.*",
+        saveAs: { "${task.process}/${patient}/log${file(it).getName()}" }
+
 
     input:
         tuple(
@@ -113,7 +128,7 @@ process call_germline_somatic {
         )
 
     output:
-        path '.command.*'
+        path(".command.*")
 
     script:
     """
@@ -124,8 +139,7 @@ process call_germline_somatic {
         --project_id ${params.project_id} \
         --save_intermediate_files ${params.save_intermediate_files} \
         --output_dir ${params.output_dir} \
-        -c ${file(params.germline_somatic_config)} \
-        -c ${projectDir}/modules/methods.config
+        -c ${file(params.germline_somatic_config)}
     """
 }
 

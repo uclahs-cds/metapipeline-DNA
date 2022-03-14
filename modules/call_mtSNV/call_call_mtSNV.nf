@@ -4,7 +4,7 @@ include { generate_args } from "${moduleDir}/../common"
 process call_call_mtSNV {
     cpus params.call_mtSNV.subworkflow_cpus
 
-    publishDir "${params.output_dir}/${patient}/${tumor_sample}",
+    publishDir "${params.output_dir}/output/${patient}/${tumor_sample}",
         mode: "copy",
         pattern: "call_mtSNV"
     
