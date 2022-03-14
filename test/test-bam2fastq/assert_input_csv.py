@@ -23,7 +23,7 @@ def parse_args():
 def main():
     """ Main entrypoint """
     args = parse_args()
-    with open(args.RECEIVED, 'rt') as lhs, open(args.EXPECTED, 'rt') as rhs:
+    with open(args.RECEIVED, 'rt', encoding='utf8') as lhs, open(args.EXPECTED, 'rt', encoding='utf8') as rhs:
         received = csv.DictReader(lhs)
         expected = csv.DictReader(rhs)
         for rec, exp in zip(received, expected):

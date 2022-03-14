@@ -28,7 +28,7 @@ def main():
     args = parse_args()
     normals = []
     tumors = []
-    with open(args.INPUT, 'rt') as handle:
+    with open(args.INPUT, 'rt', encoding='utf8') as handle:
         reader = csv.DictReader(handle)
         for line in reader:
             if line[args.state_field] == args.state_normal:
@@ -40,7 +40,7 @@ def main():
     if len(normals) > 1:
         raise ValueError('Multiple normal sample found')
     normal = normals[0]
-    with open(args.OUTPUT, 'w') as handle:
+    with open(args.OUTPUT, 'w', encoding='utf8') as handle:
         fieldnames = [
             'patient',
             'tumor_sample', 'normal_sample',

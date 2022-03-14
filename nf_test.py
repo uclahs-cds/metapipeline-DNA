@@ -221,7 +221,7 @@ class NFTestRunner():
     def load_from_config(self, config_yaml:str):
         """ Load test info from config file. """
         validate_yaml(config_yaml)
-        with open(config_yaml, 'rt') as handle:
+        with open(config_yaml, 'rt', encoding='utf8') as handle:
             config = yaml.safe_load(handle)
             self._global = NFTestGlobal(**config['global'])
             for case in config['cases']:
