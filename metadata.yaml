@@ -2,7 +2,7 @@
 Category: "pipeline"
 Description: "Nextflow pipeline to call gSNP and sSNV"
 Maintainers: "Chenghao Zhu ChenghaoZhu@mednet.ucla.edu"
-Contributors: ["Chenghao Zhu", "Alfredo Enrique Gonzalez", "Helena Winata"]
+Contributors: ["Chenghao Zhu", "Alfredo Enrique Gonzalez", "Helena Winata", "Yash Patel"]
 Languages: ["Nextflow"]
 Dependencies: ["Java", "Nextflow", "Docker"]
 References: ""
