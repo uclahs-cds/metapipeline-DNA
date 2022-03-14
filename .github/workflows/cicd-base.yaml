@@ -21,4 +21,4 @@ jobs:
 
       # Run CICD-base
       - name: CICD-base
-        uses: docker://blcdsdockerregistry/cicd-base:latest
+        uses: docker://blcdsdockerregistry/cicd-base:dev
