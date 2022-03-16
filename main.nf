@@ -61,7 +61,7 @@ log.info """\
 *     @return input_csv (file): the input CSV file generated to be passed to the germline-somatic
 *       pipeline.
 */
-process create_input_csv_germline_somatic {
+process create_input_csv_metapipeline_DNA {
     publishDir path: "${params.log_output_dir}/process-log",
         mode: "copy",
         pattern: ".command.*",
@@ -86,7 +86,7 @@ process create_input_csv_germline_somatic {
         path(".command.*")
 
     script:
-    input_csv = "${patient}_germline_somatic_input.csv"
+    input_csv = "${patient}_metapipeline_DNA_input.csv"
     lines = []
     for (record in records) {
         lines.add(record.join(','))
@@ -110,7 +110,7 @@ process create_input_csv_germline_somatic {
 * Output:
 *   @return Directory contains all data for the patient.
 */
-process call_germline_somatic {
+process call_metapipeline_DNA {
     // For the first ${params.maxForks} number of tasks, give each taks a 5 delay. Because reference
     // files are copied to worker node each time, so this would reduce the nextwork burden.
     beforeScript "sleep ${((task.index < task.maxForks ? task.index : task.maxForks) - 1) * 300}"
@@ -133,7 +133,7 @@ process call_germline_somatic {
     script:
     """
     nextflow run \
-        ${moduleDir}/modules/germline_somatic.nf \
+        ${moduleDir}/modules/metapipeline_DNA.nf \
         --input_csv ${input_csv} \
         --patient ${patient} \
         --project_id ${params.project_id} \
@@ -148,6 +148,6 @@ workflow {
     ich = Channel.fromPath(params.input_csv).splitCsv(header:true)
         .map { [it.patient, [it.patient, it.sample, it.state, it.site, it.bam]] }
         .groupTuple(by:0)
-    create_input_csv_germline_somatic(ich)
-    call_germline_somatic(create_input_csv_germline_somatic.out[0])
+    create_input_csv_metapipeline_DNA(ich)
+    call_metapipeline_DNA(create_input_csv_metapipeline_DNA.out[0])
 }
