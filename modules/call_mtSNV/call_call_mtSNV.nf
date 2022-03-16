@@ -4,9 +4,9 @@ include { generate_args } from "${moduleDir}/../common"
 process call_call_mtSNV {
     cpus params.call_mtSNV.subworkflow_cpus
 
-    publishDir "${params.output_dir}/${patient}/${tumor_sample}/",
-        mode: 'copy',
-        pattern: 'call_mtSNV'
+    publishDir "${params.output_dir}/output/${patient}/${tumor_sample}",
+        mode: "copy",
+        pattern: "call_mtSNV"
     
     input:
         tuple(
@@ -19,7 +19,7 @@ process call_call_mtSNV {
             file(normal_bam),
             file(input_csv)
         )
-    
+
     output:
         file output_dir
 
@@ -40,7 +40,7 @@ process call_call_mtSNV {
         --input_csv ${input_csv} \
         --temp_dir ${params.temp_dir} \
         ${args}
-    
+
     cd ${output_dir}
     latest=\$(ls -1 | head -n 1)
     mv \${latest}/* ./

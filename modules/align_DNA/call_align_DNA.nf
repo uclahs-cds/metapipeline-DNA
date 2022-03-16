@@ -21,9 +21,9 @@ def get_header_sample_name(path) {
 process call_align_DNA {
     cpus params.align_DNA.subworkflow_cpus
 
-    publishDir "${params.output_dir}/${patient}/${sample}/",
-        mode: 'copy',
-        pattern: 'align_DNA'
+    publishDir "${params.output_dir}/output",
+        mode: "copy",
+        pattern: "align-DNA-*/*"
 
     input:
         tuple(
@@ -43,12 +43,11 @@ process call_align_DNA {
             val(bam_header_sm),
             file(bam)
         )
-        file output_dir
+        file "align-DNA-*/*"
     
     script:
     bam_header_sm = get_header_sample_name(input_csv.toRealPath().toString())
-    output_dir = 'align_DNA'
-    bam = "${output_dir}/BWA-MEM2-2.2.1/${sample}.bam"
+    bam = "align-DNA-*/BWA-MEM2-2.2.1/${sample}.bam"
     arg_list = [
         'enable_spark',
         'mark_duplicates',
@@ -69,19 +68,14 @@ process call_align_DNA {
     aligner = params.align_DNA.aligner.join(',')
 
     """
-    mkdir ${output_dir}
     nextflow run \
         ${moduleDir}/../../external/pipeline-align-DNA/pipeline/align-DNA.nf \
         --sample_name ${sample} \
         --aligner ${aligner} \
         ${args} \
-        --output_dir \$(pwd)/${output_dir} \
+        --output_dir \$(pwd) \
         --temp_dir ${params.temp_dir}/align_DNA_temp_files \
         --input_csv ${input_csv} \
         -c ${moduleDir}/default.config
-    cd ${output_dir}
-    latest=\$(ls -1 | head -n 1)
-    mv \${latest}/* ./
-    rmdir \${latest}
     """
 }

@@ -28,8 +28,8 @@ def parse_args():
 def main():
     """ Main entrypoint """
     args = parse_args()
-    with open(args.read_groups, 'rt') as in_handle, \
-            open(args.output_path, 'w') as out_handle:
+    with open(args.read_groups, 'rt', encoding='utf8') as in_handle, \
+            open(args.output_path, 'w', encoding='utf8') as out_handle:
         reader = csv.DictReader(in_handle)
         fields = reader.fieldnames + ['read1_fastq', 'read2_fastq']
         writer = csv.DictWriter(out_handle, fields)

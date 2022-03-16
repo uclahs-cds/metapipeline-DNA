@@ -23,9 +23,9 @@ include { generate_args } from "${moduleDir}/../common"
 process call_sSNV {
     cpus params.call_sSNV.subworkflow_cpus
 
-    publishDir "${params.output_dir}/${patient}/${tumor_sample}/",
-        mode: 'copy',
-        pattern: 'call_sSNV'
+    publishDir "${params.output_dir}/output",
+        mode: "copy",
+        pattern: "call-sSNV-*/*"
 
     input:
         tuple(
@@ -37,12 +37,11 @@ process call_sSNV {
             file(tumor_bam),
             file(normal_bam)
         )
-    
+
     output:
-        file output_dir
+        path "call-sSNV-*/*"
 
     script:
-    output_dir = 'call_sSNV'
     arg_list = [
         'reference',
         'exon',
@@ -67,14 +66,19 @@ process call_sSNV {
     ]
     args = generate_args(params.call_sSNV, arg_list)
     """
-    nextflow -C ${moduleDir}/default.config \
-        run ${moduleDir}/../../external/pipeline-call-sSNV/pipeline/call-sSNV.nf \
-        --output_dir ${output_dir} \
+    set -euo pipefail
+
+    cat ${moduleDir}/default.config | sed "s:<OUTPUT-DIR-METAPIPELINE>:\$(pwd):g" \
+        > call_ssnv_default_metapipeline.config
+
+    nextflow run \
+        ${moduleDir}/../../external/pipeline-call-sSNV/pipeline/call-sSNV.nf \
         --temp_dir ${params.temp_dir} \
         --sample_name ${patient} \
         --tumor ${tumor_bam.toRealPath().toString()} \
         --normal ${normal_bam.toRealPath().toString()} \
         --algorithm_str ${params.call_sSNV.algorithm.join(',')} \
-        ${args}
+        ${args} \
+        -c call_ssnv_default_metapipeline.config
     """
 }

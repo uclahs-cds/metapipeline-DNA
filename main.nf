@@ -61,7 +61,17 @@ log.info """\
 *     @return input_csv (file): the input CSV file generated to be passed to the germline-somatic
 *       pipeline.
 */
-process create_input_csv_germline_somatic {
+process create_input_csv_metapipeline_DNA {
+    publishDir path: "${params.log_output_dir}/process-log",
+        mode: "copy",
+        pattern: ".command.*",
+        saveAs: { "${task.process}/${patient}/log${file(it).getName()}" }
+
+    publishDir path: "${params.output_dir}/intermediate/${task.process}/${patient}",
+        enabled: params.save_intermediate_files,
+        mode: "copy",
+        pattern: "*.csv"
+
     input:
         tuple(
             val(patient),
@@ -71,11 +81,12 @@ process create_input_csv_germline_somatic {
     output:
         tuple(
             val(patient),
-            file(input_csv)
+            path(input_csv)
         )
+        path(".command.*")
 
     script:
-    input_csv = 'germline_somatci_input.csv'
+    input_csv = "${patient}_metapipeline_DNA_input.csv"
     lines = []
     for (record in records) {
         lines.add(record.join(','))
@@ -99,34 +110,36 @@ process create_input_csv_germline_somatic {
 * Output:
 *   @return Directory contains all data for the patient.
 */
-process call_germline_somatic {
+process call_metapipeline_DNA {
     // For the first ${params.maxForks} number of tasks, give each taks a 5 delay. Because reference
     // files are copied to worker node each time, so this would reduce the nextwork burden.
     beforeScript "sleep ${((task.index < task.maxForks ? task.index : task.maxForks) - 1) * 300}"
 
-    publishDir params.output_dir, mode: 'move'
+    publishDir path: "${params.log_output_dir}/process-log",
+        mode: "copy",
+        pattern: ".command.*",
+        saveAs: { "${task.process}/${patient}/log${file(it).getName()}" }
+
 
     input:
         tuple(
             val(patient),
-            file(input_csv)
+            path(input_csv)
         )
+
     output:
-        file patient
-        path '.command.*'
+        path(".command.*")
 
     script:
     """
-    NXF_WORK=${params.temp_dir} \
     nextflow run \
-        ${moduleDir}/modules/germline_somatic.nf \
+        ${moduleDir}/modules/metapipeline_DNA.nf \
         --input_csv ${input_csv} \
         --patient ${patient} \
         --project_id ${params.project_id} \
         --save_intermediate_files ${params.save_intermediate_files} \
-        --output_dir ./ \
-        -c ${file(params.germline_somatic_config)} \
-        -c ${projectDir}/modules/methods.config
+        --output_dir ${params.output_dir} \
+        -c ${file(params.germline_somatic_config)}
     """
 }
 
@@ -135,6 +148,6 @@ workflow {
     ich = Channel.fromPath(params.input_csv).splitCsv(header:true)
         .map { [it.patient, [it.patient, it.sample, it.state, it.site, it.bam]] }
         .groupTuple(by:0)
-    create_input_csv_germline_somatic(ich)
-    call_germline_somatic(create_input_csv_germline_somatic.out[0])
+    create_input_csv_metapipeline_DNA(ich)
+    call_metapipeline_DNA(create_input_csv_metapipeline_DNA.out[0])
 }

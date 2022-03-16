@@ -22,9 +22,10 @@ include { generate_args } from "${moduleDir}/../common"
 process call_call_gSNP {
     cpus params.call_gSNP.subworkflow_cpus
 
-    publishDir "${params.output_dir}/${patient}/${tumor_sample}/",
-        mode: 'copy',
-        pattern: 'call_gSNP'
+    publishDir "${params.output_dir}/output",
+        mode: "copy",
+        pattern: "call-gSNP-*/*"
+
 
     input:
         tuple(
@@ -42,12 +43,11 @@ process call_call_gSNP {
             val(tumor_site),   val(normal_site),
             file(tumor_bam),   file(normal_bam)
         )
-        file output_dir
+        file "call-gSNP-*/*"
 
     script:
-    output_dir = 'call_gSNP'
-    normal_bam = "${output_dir}/output/${normal_bam_sm}_realigned_recalibrated_merged.bam"
-    tumor_bam = "${output_dir}/output/${tumor_bam_sm}_realigned_recalibrated_merged.bam"
+    normal_bam = "call-gSNP-*/${patient}/GATK-*/output/${normal_bam_sm}_realigned_recalibrated_merged.bam"
+    tumor_bam = "call-gSNP-*/${patient}/GATK-*/output/${tumor_bam_sm}_realigned_recalibrated_merged.bam"
     arg_list = [
         'java_temp_dir',
         'is_NT_paired',
@@ -65,15 +65,15 @@ process call_call_gSNP {
     """
     set -euo pipefail
 
+    cat ${moduleDir}/default.config | sed "s:<OUTPUT-DIR-METAPIPELINE>:\$(pwd):g" \
+        > call_gsnp_default_metapipeline.config
+
     nextflow run \
         ${moduleDir}/../../external/pipeline-call-gSNP/pipeline/call-gSNP.nf \
         --input_csv ${input_csv.toRealPath()} \
-        --output_dir ${output_dir} \
         --temp_dir ${params.temp_dir} \
         --java_temp_dir ${params.temp_dir} \
         ${args} \
-        -c ${moduleDir}/default.config
-
-    mv ${output_dir}/output/${patient}* ./
+        -c call_gsnp_default_metapipeline.config
     """
 }

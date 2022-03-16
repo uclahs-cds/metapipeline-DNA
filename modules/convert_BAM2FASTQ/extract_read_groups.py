@@ -76,7 +76,7 @@ def create_read_groups(bam:Path, output:Path, sequencing_center:str,
         'sample': 'SM'
     }
 
-    with open(output, 'wt') as handle:
+    with open(output, 'wt', encoding='utf8') as handle:
         handle.write(','.join(fields) + '\n')
         for i, read_group in enumerate(read_groups):
             row = []
