@@ -132,7 +132,7 @@ process call_metapipeline_DNA {
 
     script:
     """
-    NXF_WORK=${params.temp_dir} \
+    NXF_WORK=${params.pipeline_work_dir} \
     nextflow run \
         ${moduleDir}/modules/metapipeline_DNA.nf \
         --input_csv ${input_csv} \
