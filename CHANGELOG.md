@@ -14,3 +14,4 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 + Nextflow testing module 
 ### Changed
 + Standardize output directory
++ Reduce number of temp files in /hot
