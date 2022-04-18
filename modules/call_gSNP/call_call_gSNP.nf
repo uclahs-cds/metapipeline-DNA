@@ -49,7 +49,6 @@ process call_call_gSNP {
     normal_bam = "call-gSNP-*/${patient}/GATK-*/output/${normal_bam_sm}_realigned_recalibrated_merged.bam"
     tumor_bam = "call-gSNP-*/${patient}/GATK-*/output/${tumor_bam_sm}_realigned_recalibrated_merged.bam"
     arg_list = [
-        'java_temp_dir',
         'is_NT_paired',
         'input_all_chromosomes_group_small_contigs',
         'input_all_chromosomes_each_per_line',
