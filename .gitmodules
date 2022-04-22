@@ -1,15 +1,21 @@
 [submodule "external/pipeline-align-DNA"]
 	path = external/pipeline-align-DNA
 	url = git@github.com:uclahs-cds/pipeline-align-DNA.git
+	branch = main
+	ignore = dirty
 [submodule "external/pipeline-call-gSNP"]
 	path = external/pipeline-call-gSNP
 	url = git@github.com:uclahs-cds/pipeline-call-gSNP.git
+	branch = main
 [submodule "external/pipeline-convert-BAM2FASTQ"]
 	path = external/pipeline-convert-BAM2FASTQ
 	url = git@github.com:uclahs-cds/pipeline-convert-BAM2FASTQ.git
+	branch = main
 [submodule "external/pipeline-call-sSNV"]
 	path = external/pipeline-call-sSNV
 	url = git@github.com:uclahs-cds/pipeline-call-sSNV.git
+	branch = main
 [submodule "external/pipeline-call-mtSNV"]
 	path = external/pipeline-call-mtSNV
 	url = git@github.com:uclahs-cds/pipeline-call-mtSNV.git
+	branch = main

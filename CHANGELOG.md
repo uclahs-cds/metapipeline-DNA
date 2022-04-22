@@ -15,3 +15,4 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Changed
 + Standardize output directory
 + Reduce number of temp files in /hot
++ align-DNA: 7.3.1 -> 8.0.0
