@@ -49,7 +49,6 @@ process call_call_gSNP {
     normal_bam = "call-gSNP-*/${patient}/GATK-*/output/${normal_bam_sm}_realigned_recalibrated_merged.bam"
     tumor_bam = "call-gSNP-*/${patient}/GATK-*/output/${tumor_bam_sm}_realigned_recalibrated_merged.bam"
     arg_list = [
-        'java_temp_dir',
         'is_NT_paired',
         'input_all_chromosomes_group_small_contigs',
         'input_all_chromosomes_each_per_line',
@@ -71,8 +70,7 @@ process call_call_gSNP {
     nextflow run \
         ${moduleDir}/../../external/pipeline-call-gSNP/pipeline/call-gSNP.nf \
         --input_csv ${input_csv.toRealPath()} \
-        --temp_dir ${params.temp_dir} \
-        --java_temp_dir ${params.temp_dir} \
+        --work_dir ${params.temp_dir} \
         ${args} \
         -c call_gsnp_default_metapipeline.config
     """
