@@ -23,3 +23,8 @@
 	url = git@github.com:uclahs-cds/pipeline-call-mtSNV.git
 	branch = main
 	ignore = dirty
+[submodule "external/pipeline-Nextflow-config"]
+	path = external/pipeline-Nextflow-config
+	url = git@github.com:uclahs-cds/pipeline-Nextflow-config.git
+	branch = main
+	ignore = dirty
