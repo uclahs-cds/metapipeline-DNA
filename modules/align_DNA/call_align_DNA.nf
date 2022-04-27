@@ -74,7 +74,7 @@ process call_align_DNA {
         --aligner ${aligner} \
         ${args} \
         --output_dir \$(pwd) \
-        --temp_dir ${params.temp_dir}/align_DNA_temp_files \
+        --work_dir ${params.work_dir}/align_DNA_temp_files \
         --input_csv ${input_csv} \
         -c ${moduleDir}/default.config
     """

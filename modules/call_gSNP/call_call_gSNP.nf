@@ -70,7 +70,7 @@ process call_call_gSNP {
     nextflow run \
         ${moduleDir}/../../external/pipeline-call-gSNP/pipeline/call-gSNP.nf \
         --input_csv ${input_csv.toRealPath()} \
-        --work_dir ${params.temp_dir} \
+        --work_dir ${params.work_dir} \
         ${args} \
         -c call_gsnp_default_metapipeline.config
     """

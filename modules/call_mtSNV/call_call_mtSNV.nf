@@ -38,7 +38,7 @@ process call_call_mtSNV {
         --output_dir ${output_dir} \
         --run_name ${tumor_sample} \
         --input_csv ${input_csv} \
-        --temp_dir ${params.temp_dir} \
+        --temp_dir ${params.work_dir} \
         ${args}
 
     cd ${output_dir}

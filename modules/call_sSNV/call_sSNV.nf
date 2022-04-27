@@ -73,7 +73,7 @@ process call_sSNV {
 
     nextflow run \
         ${moduleDir}/../../external/pipeline-call-sSNV/pipeline/call-sSNV.nf \
-        --temp_dir ${params.temp_dir} \
+        --work_dir ${params.work_dir} \
         --sample_name ${patient} \
         --tumor ${tumor_bam.toRealPath().toString()} \
         --normal ${normal_bam.toRealPath().toString()} \
