@@ -140,6 +140,7 @@ process call_metapipeline_DNA {
         --project_id ${params.project_id} \
         --save_intermediate_files ${params.save_intermediate_files} \
         --output_dir ${params.output_dir} \
+        --work_dir ${params.work_dir} \
         -c ${file(params.germline_somatic_config)}
     """
 }

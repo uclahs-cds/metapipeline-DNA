@@ -56,7 +56,7 @@ process call_convert_BAM2FASTQ {
         --run_name ${sample_name} \
         --input_csv ${input_csv} \
         --output_dir ${output_dir} \
-        --temp_dir ${params.temp_dir} \
+        --temp_dir ${params.work_dir} \
         ${args}
 
     # organize output directory

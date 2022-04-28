@@ -25,7 +25,7 @@ The pipeline has a leading process running on the submitter node (can be a F2 no
 
 ## How To Run
 
-1. Creating a leading [`batch.config`](config/template_batch.config) and a patient specific [`germline-somatic.config`](config/template_germline_somatic.config) file, using the template given in the links. The former `batch.config` takes the patient sample list, while the latter one defines the parameters, reference files, and resources configurations for each run.
+1. Creating a leading [`lead.config`](config/template_meta-lead.config) and a patient specific [`meta-pipeline.config`](config/template_meta-pipeline.config) file, using the template given in the links. The former `lead.config` takes the patient sample list, while the latter one defines the parameters, reference files, and resources configurations for each run.
 
 2. Create an [input.csv](inputs/template-inputs.csv) fille with path to the BAM files of each patient with both normal and tumor. For example patient, there must be exactly one sample that the `state` column is `normal`, while the other samples are `tumor`. It is then able to create each tumor with the only normal sample within this patient.
 
