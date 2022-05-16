@@ -25,7 +25,7 @@ log.info """\
         output_dir: ${params.output_dir}
 
     - options:
-        option sample_level_config: ${params.sample_level_config}
+        option germline_somatic_config: ${params.germline_somatic_config}
         option executor: ${params.executor}
         option partition: ${params.partition}
         option per_job_cpus: ${params.per_job_cpus} 
@@ -147,8 +147,8 @@ process call_metapipeline_DNA {
 
 
 workflow {
-    ich = Channel.fromPath(params.input_csv).splitCsv(header:true)
-        .map { [it.patient, [it.patient, it.sample, it.state, it.site, it.bam]] }
+    ich = Channel.from(params.input.BAM)
+        .map { [it.patient, [it.patient, it.sample, it.state, it.site, it.path]] }
         .groupTuple(by:0)
     create_input_csv_metapipeline_DNA(ich)
     call_metapipeline_DNA(create_input_csv_metapipeline_DNA.out[0])
