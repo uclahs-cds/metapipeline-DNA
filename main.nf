@@ -25,7 +25,7 @@ log.info """\
         output_dir: ${params.output_dir}
 
     - options:
-        option germline_somatic_config: ${params.germline_somatic_config}
+        option metapipeline_DNA_config: ${params.metapipeline_DNA_config}
         option executor: ${params.executor}
         option partition: ${params.partition}
         option per_job_cpus: ${params.per_job_cpus} 
@@ -141,7 +141,7 @@ process call_metapipeline_DNA {
         --save_intermediate_files ${params.save_intermediate_files} \
         --output_dir ${params.output_dir} \
         --work_dir ${params.work_dir} \
-        -c ${file(params.germline_somatic_config)}
+        -c ${file(params.metapipeline_DNA_config)}
     """
 }
 
