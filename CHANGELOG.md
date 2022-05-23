@@ -13,6 +13,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 + "Unit tests" with a downsampled CPTAC WGS sample.
 + Nextflow testing module 
 + Checks for working directories
++ YAML input
 ### Changed
 + Standardize output directory
 + Reduce number of temp files in /hot

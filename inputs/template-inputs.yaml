@@ -1,0 +1,8 @@
+---
+input:
+  BAM:
+    - patient: "patient ID"
+      sample: "sample ID"
+      state: "state - normal or tumor"
+      site: "sample site"
+      path: "/path/to/BAM"
