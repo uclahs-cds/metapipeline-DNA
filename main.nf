@@ -75,7 +75,9 @@ process create_input_csv_metapipeline_DNA {
     input:
         tuple(
             val(patient),
+            val(file_type),
             val(records)
+            // <TODO maybe add header as input here?
         )
 
     output:
@@ -92,8 +94,17 @@ process create_input_csv_metapipeline_DNA {
         lines.add(record.join(','))
     }
     lines = lines.join('\n')
+    println("with brackets ${file_type}")
+    println(file_type)
+    if (file_type.equals('BAM')) {
+        println('creating bam csv')
+        header_line = "patient,sample,state,site,bam"
+    } else if (file_type.equals('FASTQ')) { //records.size().equals(14)) {
+        println('creating fastq csv')
+        header_line = "patient,sample,state,site,index,read_group_identifier,sequencing_center,library_identifier,platform_technology,platform_unit,bam_header_sm,lane,read1_fastq,read2_fastq"
+    }
     """
-    echo 'patient,sample,state,site,bam' > ${input_csv}
+    echo ${header_line} > ${input_csv}
     echo '${lines}' >> ${input_csv}
     """
 }
@@ -147,9 +158,16 @@ process call_metapipeline_DNA {
 
 
 workflow {
-    ich = Channel.from(params.input.BAM)
-        .map { [it.patient, [it.patient, it.sample, it.state, it.site, it.path]] }
-        .groupTuple(by:0)
+    if (params.input?.BAM) {
+        ich = Channel.from(params.input.BAM)
+            .map { [it.patient, 'BAM', [it.patient, it.sample, it.state, it.site, it.path]] }
+            .groupTuple(by:[0,1])
+    } else if (params.input?.FASTQ) {
+        ich = Channel.from(params.input.FASTQ)
+            .map { [it.patient, 'FASTQ', [it.patient, it.sample, it.state, it.site, it.index, it.read_group_identifier, it.sequencing_center, it.library_identifier, it.platform_technology, it.platform_unit, it.bam_header_sm, it.lane, it.read1_fastq, it.read2_fastq]] }
+            .groupTuple(by:[0,1])
+    }
+    ich.view()
     create_input_csv_metapipeline_DNA(ich)
-    call_metapipeline_DNA(create_input_csv_metapipeline_DNA.out[0])
+    // call_metapipeline_DNA(create_input_csv_metapipeline_DNA.out[0])
 }
