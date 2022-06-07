@@ -1,0 +1,17 @@
+---
+input:
+  YAML:
+    - patient: "patient ID"
+      sample: "sample ID"
+      state: "state - normal or tumor"
+      site: "sample site"
+      index:
+      read_group_identifier:
+      sequencing_center:
+      library_identifier:
+      platform_technology:
+      platform_unit:
+      bam_header_sm:
+      lane:
+      read1_fastq: "/path/to/FASTQ_r1"
+      read2_fastq: "/path/to/FASTQ_r2"
