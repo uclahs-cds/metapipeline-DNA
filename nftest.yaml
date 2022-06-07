@@ -98,17 +98,17 @@ cases:
         script: test/test-call-gSNP/assert_vcf.sh
 
 
-  - name: test-germline-somatic
+  - name: test-metapipeline-DNA
     message: Test calling all pipelines with one tumor normal pair
-    nf_script: modules/germline_somatic.nf
-    nf_config: test/test-germline-somatic/test.config
+    nf_script: modules/metapipeline_DNA.nf
+    nf_config: test/test-metapipeline-DNA/test.config
     verbose: true
-    skip: true
+    skip: false
 
 
-  - name: test-germline-somatic-batch
-    message: Test running the main.nf that runs the germline-somatic pipeline in batch.
+  - name: test-metapipeline-DNA-batch
+    message: Test running the main.nf that runs the metapipeline-DNA pipeline in batch.
     nf_script: main.nf
-    nf_config: test/test-germline-somatic-batch/test.config
+    nf_config: test/test-metapipeline-DNA-batch/test.config
     verbose: false
     skip: false

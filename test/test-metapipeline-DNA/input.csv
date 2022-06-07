@@ -1,3 +1,3 @@
-patient,sample,state,site,path
+patient,sample,state,site,bam
 TCEB1,TCEB1_RCC_S00-9422N_079_114,tumor,primary,/hot/users/agonzalez/data/test_data/TCEB1/TCEB1_RCC_S00-9422N_079_114_merged_05prcnt.bam
 TCEB1,TCEB1_RCC_S00-9422T_027_166,normal,blood,/hot/users/agonzalez/data/test_data/TCEB1/TCEB1_RCC_S00-9422T_027_166_merged_05prcnt.bam
