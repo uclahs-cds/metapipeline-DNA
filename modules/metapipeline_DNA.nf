@@ -8,11 +8,11 @@ include { call_sSNV } from "${moduleDir}/call_sSNV/call_sSNV"
 include { call_mtSNV } from "${moduleDir}/call_mtSNV/workflow"
 
 workflow {
-    if (params.input.containsKey('BAM')) {
+    if (params.file_type.equals('BAM')) {
     convert_BAM2FASTQ()
     align_DNA_input = convert_BAM2FASTQ.out
 
-    } else if (params.input.containsKey('FASTQ')) { 
+    } else if (params.file_type.equals('FASTQ')) { 
         println 'RUNNING FASTQ OPTION'
         align_DNA_input = Channel.value([
             params.patient, 
@@ -26,7 +26,6 @@ workflow {
     }
 
     align_DNA(align_DNA_input)
-    align_DNA.out[0]
 
     call_gSNP(align_DNA.out[0].map{[it]}.collect())
     
