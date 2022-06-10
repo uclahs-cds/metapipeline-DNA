@@ -13,7 +13,6 @@ workflow {
     align_DNA_input = convert_BAM2FASTQ.out
 
     } else if (params.file_type.equals('FASTQ')) { 
-        println 'RUNNING FASTQ OPTION'
         align_DNA_input = Channel.value([
             params.patient, 
             params.sample,
