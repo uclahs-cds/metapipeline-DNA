@@ -51,10 +51,10 @@ cases:
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/call-gSNP/output/test-call-gSNP/TCEB1/S00-9422T_027_166_merged_raw_variants.g.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
 
-      #   Disabling BAM comparison for now - checksums differ even if tools like GATK CompareSAMs report identical BAM files
-      #   requires a custom script to use GATK docker for comparison of BAMs
-      # - actual: test/output/output/call-gSNP-8.0.0/TCEB1_RCC_S00/GATK-4.2.4.1/output/S00-9422N_079_114_realigned_recalibrated_merged.bam
-      #   expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/call-gSNP/output/test-call-gSNP/TCEB1/S00-9422N_079_114_realigned_recalibrated_merged.bam
+  #   Disabling BAM comparison for now - checksums differ even if tools like GATK CompareSAMs report identical BAM files
+  #   requires a custom script to use GATK docker for comparison of BAMs
+  # - actual: test/output/output/call-gSNP-8.0.0/TCEB1_RCC_S00/GATK-4.2.4.1/output/S00-9422N_079_114_realigned_recalibrated_merged.bam
+  #   expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/call-gSNP/output/test-call-gSNP/TCEB1/S00-9422N_079_114_realigned_recalibrated_merged.bam
 
 
   - name: test-call-sSNV
