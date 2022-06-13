@@ -94,73 +94,16 @@ process create_input_csv_metapipeline_DNA {
 
     script:
     input_csv = "${patient}_metapipeline_DNA_input.csv"
+    header_line = (params.input_type == 'BAM') ? \
+        "patient,sample,state,site,bam" : \
+        "patient,sample,state,site,index,read_group_identifier,sequencing_center,library_identifier,platform_technology,platform_unit,bam_header_sm,lane,read1_fastq,read2_fastq"
     lines = []
     for (record in records) {
         lines.add(record.join(','))
     }
     lines = lines.join('\n')
     """
-    echo 'patient,sample,state,site,bam' > ${input_csv}
-    echo '${lines}' >> ${input_csv}
-    """
-}
-
-
-/*
-* Create input CSV file for fastq entry following the input for the call_align_DNA process
-*
-* Input:
-*   A tuple of five objects.
-*     @param patient (val): the patient ID
-*     @param sample (val): the sample ID
-*     @param state (val): tumor or normal
-*     @param site (val): the sample site
-*     @records (tuple[tuple[str|file]]): A 2D tuple, that each child tuple contains the patient ID,
-*       sample ID, state, site, and path to the BAM file.
-*
-* Output:
-*   A tuple of five objects.
-*     @return patient (val): the patient ID
-*     @return sample (val): the sample ID
-*     @return state (val): tumor or normal
-*     @return site (val): the sample site
-*     @return input_csv (file): the input CSV file generated to be passed to the germline-somatic
-*       pipeline.
-*/
-
-process create_input_csv_metapipeline_DNA_fastq {
-    publishDir path: "${params.log_output_dir}/process-log",
-        mode: "copy",
-        pattern: ".command.*",
-        saveAs: { "${task.process}/${patient}/log${file(it).getName()}" }
-
-    publishDir path: "${params.output_dir}/intermediate/${task.process}/${patient}",
-        enabled: params.save_intermediate_files,
-        mode: "copy",
-        pattern: "*.csv"
-
-    input:
-        tuple(
-            val(patient),
-            val(records)
-        )
-
-    output:
-        tuple(
-            val(patient),
-            path(input_csv)
-        )
-        path(".command.*")
-
-    script:
-    input_csv = "${patient}_align_DNA_input.csv"
-    lines = []
-    for (record in records) {
-        lines.add(record.join(','))
-    }
-    lines = lines.join('\n')
-    """
-    echo "patient,sample,state,site,index,read_group_identifier,sequencing_center,library_identifier,platform_technology,platform_unit,bam_header_sm,lane,read1_fastq,read2_fastq" > ${input_csv}
+    echo ${header_line} > ${input_csv}
     echo '${lines}' >> ${input_csv}
     """
 }
@@ -214,21 +157,16 @@ process call_metapipeline_DNA {
     """
 }
 
-
 workflow {
     if (params.input_type == 'BAM') {
         ich  = Channel.from(params.input.BAM)
             .map{ [it.patient, [it.patient, it.sample, it.state, it.site, it.path]] }
             .groupTuple(by: 0)
-        create_input_csv_metapipeline_DNA(ich)
-        metapipeline_DNA_ich = create_input_csv_metapipeline_DNA.out[0]
     } else if (params.input_type == 'FASTQ') {
         ich = Channel.from(params.input.FASTQ)
             .map{ [it.patient, [it.patient, it.sample, it.state, it.site, it.index, it.read_group_identifier, it.sequencing_center, it.library_identifier, it.platform_technology, it.platform_unit, it.bam_header_sm, it.lane, it.read1_fastq, it.read2_fastq]] }
             .groupTuple(by: 0)
-        create_input_csv_metapipeline_DNA_fastq(ich)
-        metapipeline_DNA_ich = create_input_csv_metapipeline_DNA_fastq.out[0]
     }
-
-    call_metapipeline_DNA(metapipeline_DNA_ich)
+    create_input_csv_metapipeline_DNA(ich)
+    call_metapipeline_DNA(create_input_csv_metapipeline_DNA.out[0])
 }
