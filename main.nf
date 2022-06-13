@@ -52,11 +52,8 @@ log.info """\
 * Input:
 *   A tuple of two objects.
 *     @return patient (val): the patient ID
-*     @return sample (val): the sample ID
-*     @return state (val): tumor or normal
-*     @return site (val): the sample site
 *     @records (tuple[tuple[str|file]]): A 2D tuple, that each child tuple contains the patient ID,
-*       sample ID, state, site, and path to the BAM file.
+*       sample ID, state, site, and other inputs depending on input type.
 *
 * Output:
 *   A tuple of five objects.
@@ -64,8 +61,7 @@ log.info """\
 *     @return sample (val): the sample ID
 *     @return state (val): tumor or normal
 *     @return site (val): the sample site
-*     @return input_csv (file): the input CSV file generated to be passed to the germline-somatic
-*       pipeline.
+*     @return input_csv (file): the input CSV file generated to be passed to the metapipeline-DNA.
 */
 
 process create_input_csv_metapipeline_DNA {
