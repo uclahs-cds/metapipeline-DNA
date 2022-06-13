@@ -6,22 +6,23 @@ include { align_DNA } from "${moduleDir}/align_DNA/workflow"
 include { call_gSNP } from "${moduleDir}/call_gSNP/workflow"
 include { call_sSNV } from "${moduleDir}/call_sSNV/call_sSNV"
 include { call_mtSNV } from "${moduleDir}/call_mtSNV/workflow"
+include { create_csv_for_align_DNA } from "${moduleDir}/create_csv_for_align_DNA" addParams( log_output_dir: params.metapipeline_log_output_dir )
 
 workflow {
-    if (params.file_type.equals('BAM')) {
-    convert_BAM2FASTQ()
-    align_DNA_input = convert_BAM2FASTQ.out
+    if ( params.input_type == 'BAM' ) {
+        convert_BAM2FASTQ()
+        align_DNA_input = convert_BAM2FASTQ.out
+    } else if ( params.input_type == 'FASTQ' ) {
+        // Load CSV and group by sample for align-DNA
+        ich = Channel.fromPath(params.input_csv)
+            .splitCsv(header: true)
+            .view()
+            .map{ [it.sample, [it.state, it.site, it.index, it.read_group_identifier, it.sequencing_center, it.library_identifier, it.platform_technology, it.platform_unit, it.bam_header_sm, it.lane, it.read1_fastq, it.read2_fastq]] }
+            .groupTuple(by: 0)
 
-    } else if (params.file_type.equals('FASTQ')) { 
-        align_DNA_input = Channel.value([
-            params.patient, 
-            params.sample,
-            params.state,
-            params.site,
-            params.input_csv
-            ])
-        align_DNA_input.view()
-        
+        // Create input CSV for align-DNA per sample
+        create_csv_for_align_DNA(ich)
+        align_DNA_input = create_csv_for_align_DNA.out[0]
     }
 
     align_DNA(align_DNA_input)
