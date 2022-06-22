@@ -1,3 +1,0 @@
-patient,sample,state,site,bam
-GZLUCPTA000001,GZLUCPTA000001-N001-B01-F,normal,/hot/users/yashpatel/pipeline-call-gSNP/work/inputs/TCEB1_RCC_S00-9422N_079_114_0.1.bam
-GZLUCPTA000001,GZLUCPTA000001-T001-P01-F,tumor,primary,/hot/users/yashpatel/pipeline-call-gSNP/work/inputs/TCEB1_RCC_S00-9422T_027_166_0.1.bam
