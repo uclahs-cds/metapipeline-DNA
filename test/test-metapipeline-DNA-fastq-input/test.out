@@ -1,6 +1,0 @@
-N E X T F L O W  ~  version 21.10.5
-Launching `main.nf` [reverent_knuth] - revision: 7ae7e2b7c3
-[patient, sample, state, site, index, read_group_identifier, sequencing_center, library_identifier, platform_technology, platform_unit, bam_header_sm, lane, read1_fastq, read2_fastq]
-Unknown config attribute `out` -- check config file: /hot/user/hwinata/pipelines/metapipeline-DNA/test/test-metapipeline-DNA-fastq-input/test.config
-
-
