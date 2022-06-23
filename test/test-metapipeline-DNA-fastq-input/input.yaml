@@ -29,5 +29,3 @@ input:
       lane: 0
       read1_fastq: "/hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-bam2fastq/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/bam2fastq/create_fastqs_SAMtools/collated_HKCFN.1_R1.fq.gz"
       read2_fastq: "/hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-bam2fastq/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/bam2fastq/create_fastqs_SAMtools/collated_HKCFN.1_R2.fq.gz"
-
-
