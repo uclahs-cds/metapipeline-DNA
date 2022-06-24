@@ -6,7 +6,7 @@ include { align_DNA } from "${moduleDir}/align_DNA/workflow"
 include { call_gSNP } from "${moduleDir}/call_gSNP/workflow"
 include { call_sSNV } from "${moduleDir}/call_sSNV/call_sSNV"
 include { call_mtSNV } from "${moduleDir}/call_mtSNV/workflow"
-include { create_csv_for_align_DNA } from "${moduleDir}/create_csv_for_align_DNA" addParams( log_output_dir: params.metapipeline_log_output_dir )
+include { create_csv_for_align_DNA } from "${moduleDir}/align_DNA/create_csv_for_align_DNA" addParams( log_output_dir: params.metapipeline_log_output_dir )
 
 workflow {
     if ( params.input_type == 'BAM' ) {
