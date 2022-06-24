@@ -11,7 +11,7 @@ include { create_csv_for_align_DNA } from "${moduleDir}/align_DNA/create_csv_for
 workflow {
     if ( params.input_type == 'BAM' ) {
         convert_BAM2FASTQ()
-        align_DNA_input = convert_BAM2FASTQ.out
+        ich_align_DNA_fastq = convert_BAM2FASTQ.out
     } else if ( params.input_type == 'FASTQ' ) {
         // Load CSV and group by sample for align-DNA
         ich = Channel.fromPath(params.input_csv)
@@ -22,10 +22,10 @@ workflow {
 
         // Create input CSV for align-DNA per sample
         create_csv_for_align_DNA(ich)
-        align_DNA_input = create_csv_for_align_DNA.out[0]
+        ich_align_DNA_fastq = create_csv_for_align_DNA.out[0]
     }
 
-    align_DNA(align_DNA_input)
+    align_DNA(ich_align_DNA_fastq)
 
     call_gSNP(align_DNA.out[0].map{[it]}.collect())
     
