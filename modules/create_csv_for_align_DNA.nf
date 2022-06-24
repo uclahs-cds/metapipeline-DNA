@@ -2,7 +2,7 @@
 * Create input CSV file for align-DNA  for fastq entry
 *
 * Input:
-*   A tuple of five objects.
+*   A tuple of two objects.
 *     @param patient (val): the patient ID
 *     @records (tuple[tuple[str|file]]): A 2D tuple, that each child tuple contains the state, site,
 *       and required inputs for align-DNA.

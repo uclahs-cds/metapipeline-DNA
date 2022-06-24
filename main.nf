@@ -56,7 +56,7 @@ log.info """\
 *       sample ID, state, site, and other inputs depending on input type.
 *
 * Output:
-*   A tuple of five objects.
+*   A tuple of two objects.
 *     @return patient (val): the patient ID
 *     @return input_csv (file): the input CSV file generated to be passed to the metapipeline-DNA.
 */
