@@ -115,3 +115,10 @@ cases:
     nf_config: test/test-metapipeline-DNA-batch/test.config
     verbose: true
     skip: true
+
+  - name: test-metapipeline-DNA-fastq-input
+    message: Test running the main.nf that runs the metapipeline-DNA pipeline in batch with fastq inputs.
+    nf_script: main.nf
+    nf_config: test/test-metapipeline-DNA-fastq-input/test.config
+    verbose: true
+    skip: false

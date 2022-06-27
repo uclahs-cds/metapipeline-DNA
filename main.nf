@@ -35,7 +35,7 @@ log.info """\
     Tools Used:
         uclahs-cds/pipeline-convert-BAM2FASTQ: ${params.version_BAM2FASTQ}
         uclahs-cds/pipeline-align-DNA: ${params.version_align_DNA}
-        uclahs-cds/pipeline-caall-gSNP: ${params.version_call_gSNP}
+        uclahs-cds/pipeline-call-gSNP: ${params.version_call_gSNP}
         uclahs-cds/pipeline-call-sSNV: ${params.version_call_sSNV}
         uclahs-cds/pipeline-call-mtSNV: ${params.version_call_mtSNV}
 
@@ -53,14 +53,14 @@ log.info """\
 *   A tuple of two objects.
 *     @param patient (val): the patient ID
 *     @records (tuple[tuple[str|file]]): A 2D tuple, that each child tuple contains the patient ID,
-*       sample ID, state, site, and path to the BAM file.
+*       sample ID, state, site, and other inputs depending on input type.
 *
 * Output:
-*   A tuple of tow objects.
+*   A tuple of two objects.
 *     @return patient (val): the patient ID
-*     @return input_csv (file): the input CSV file generated to be passed to the germline-somatic
-*       pipeline.
+*     @return input_csv (file): the input CSV file generated to be passed to the metapipeline-DNA.
 */
+
 process create_input_csv_metapipeline_DNA {
     publishDir path: "${params.log_output_dir}/process-log",
         mode: "copy",
@@ -87,13 +87,16 @@ process create_input_csv_metapipeline_DNA {
 
     script:
     input_csv = "${patient}_metapipeline_DNA_input.csv"
+    header_line = (params.input_type == 'BAM') ? \
+        "patient,sample,state,site,bam" : \
+        "patient,sample,state,site,index,read_group_identifier,sequencing_center,library_identifier,platform_technology,platform_unit,bam_header_sm,lane,read1_fastq,read2_fastq"
     lines = []
     for (record in records) {
         lines.add(record.join(','))
     }
     lines = lines.join('\n')
     """
-    echo 'patient,sample,state,site,bam' > ${input_csv}
+    echo ${header_line} > ${input_csv}
     echo '${lines}' >> ${input_csv}
     """
 }
@@ -137,19 +140,26 @@ process call_metapipeline_DNA {
         ${moduleDir}/modules/metapipeline_DNA.nf \
         --input_csv ${input_csv} \
         --patient ${patient} \
+        --input_type ${params.input_type} \
         --project_id ${params.project_id} \
         --save_intermediate_files ${params.save_intermediate_files} \
         --output_dir ${params.output_dir} \
+        --metapipeline_log_output_dir ${params.log_output_dir} \
         --work_dir ${params.work_dir} \
         -c ${file(params.metapipeline_DNA_config)}
     """
 }
 
-
 workflow {
-    ich = Channel.from(params.input.BAM)
-        .map { [it.patient, [it.patient, it.sample, it.state, it.site, it.path]] }
-        .groupTuple(by:0)
+    if (params.input_type == 'BAM') {
+        ich  = Channel.from(params.input.BAM)
+            .map{ [it.patient, [it.patient, it.sample, it.state, it.site, it.path]] }
+            .groupTuple(by: 0)
+    } else if (params.input_type == 'FASTQ') {
+        ich = Channel.from(params.input.FASTQ)
+            .map{ [it.patient, [it.patient, it.sample, it.state, it.site, it.index, it.read_group_identifier, it.sequencing_center, it.library_identifier, it.platform_technology, it.platform_unit, it.bam_header_sm, it.lane, it.read1_fastq, it.read2_fastq]] }
+            .groupTuple(by: 0)
+    }
     create_input_csv_metapipeline_DNA(ich)
     call_metapipeline_DNA(create_input_csv_metapipeline_DNA.out[0])
 }
