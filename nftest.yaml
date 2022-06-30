@@ -62,7 +62,7 @@ cases:
     nf_script: test/test-call-sSNV/test.nf
     nf_config: test/test-call-sSNV/test.config
     verbose: true
-    skip: false
+    skip: true
     asserts:
       - actual: test/output/output/call-sSNV-4.0.1/GZLUCPTA000001/somaticsniper-1.0.5.0/output/somaticsniper_GZLUCPTA000001_hc.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_sSNV/somaticsniper_GZLUCPTA000001_hc.vcf.gz
@@ -114,7 +114,7 @@ cases:
     nf_script: main.nf
     nf_config: test/test-metapipeline-DNA-batch/test.config
     verbose: true
-    skip: true
+    skip: false
 
   - name: test-metapipeline-DNA-fastq-input
     message: Test running the main.nf that runs the metapipeline-DNA pipeline in batch with fastq inputs.
