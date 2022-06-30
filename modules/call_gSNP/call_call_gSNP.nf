@@ -46,8 +46,8 @@ process call_call_gSNP {
         file "call-gSNP-*/*"
 
     script:
-    normal_bam = "call-gSNP-*/${patient}/GATK-*/output/${normal_bam_sm}_realigned_recalibrated_merged.bam"
-    tumor_bam = "call-gSNP-*/${patient}/GATK-*/output/${tumor_bam_sm}_realigned_recalibrated_merged.bam"
+    normal_bam = "call-gSNP-*/${patient}/GATK-*/output/${normal_bam_sm}_realigned_recalibrated_merged_dedup.bam"
+    tumor_bam = "call-gSNP-*/${patient}/GATK-*/output/${tumor_bam_sm}_realigned_recalibrated_merged_dedup.bam"
     arg_list = [
         'is_NT_paired',
         'input_all_chromosomes_group_small_contigs',
@@ -68,7 +68,7 @@ process call_call_gSNP {
         > call_gsnp_default_metapipeline.config
 
     nextflow run \
-        ${moduleDir}/../../external/pipeline-call-gSNP/pipeline/call-gSNP.nf \
+        ${moduleDir}/../../external/pipeline-call-gSNP/main.nf \
         --input_csv ${input_csv.toRealPath()} \
         --work_dir ${params.work_dir} \
         ${args} \

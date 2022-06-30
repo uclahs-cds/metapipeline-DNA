@@ -18,5 +18,5 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 + Standardize output directory
 + Reduce number of temp files in /hot
 + align-DNA: 7.3.1 -> 8.0.0
-+ call-gSNP: 7.2.1 -> 8.0.0
++ call-gSNP: 7.2.1 -> 9.0.1
 + Automatically set the work_dir parameter for ucla_cds

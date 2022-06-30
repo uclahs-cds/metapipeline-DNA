@@ -47,7 +47,7 @@ cases:
     verbose: true
     skip: true
     asserts:
-      - actual: test/output/output/call-gSNP-8.0.0/TCEB1_RCC_S00/GATK-4.2.4.1/output/S00-9422T_027_166_merged_raw_variants.g.vcf.gz
+      - actual: test/output/output/call-gSNP-9.0.1/TCEB1_RCC_S00/GATK-4.2.4.1/output/S00-9422T_027_166_merged_raw_variants.g.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/call-gSNP/output/test-call-gSNP/TCEB1/S00-9422T_027_166_merged_raw_variants.g.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
 
