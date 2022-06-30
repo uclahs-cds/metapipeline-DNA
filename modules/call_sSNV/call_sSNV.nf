@@ -68,15 +68,22 @@ process call_sSNV {
     """
     set -euo pipefail
 
-    cat ${moduleDir}/default.config | sed "s:<OUTPUT-DIR-METAPIPELINE>:\$(pwd):g" \
+    cat ${moduleDir}/default.config | \
+        sed "s:<OUTPUT-DIR-METAPIPELINE>:\$(pwd):g" | \
+        sed "s:<CALL-REGION-METAPIPELINE>:${params.call_sSNV.call_region}:g" | \
+        sed "s:<GNOMAD-VCF-METAPIPELNE>:${params.call_sSNV.germline_resource_gnomad_vcf}:g" \
         > call_ssnv_default_metapipeline.config
 
+    cat ${moduleDir}/base.yaml | \
+        sed "s:<NORMAL_PATH>:${normal_bam.toRealPath().toString()}:g" | \
+        sed "s:<TUMOR_PATH>:${tumor_bam.toRealPath().toString()}:g" \
+        > call_ssnv_input.yaml
+
     nextflow run \
-        ${moduleDir}/../../external/pipeline-call-sSNV/pipeline/call-sSNV.nf \
+        ${moduleDir}/../../external/pipeline-call-sSNV/main.nf \
         --work_dir ${params.work_dir} \
-        --sample_name ${patient} \
-        --tumor ${tumor_bam.toRealPath().toString()} \
-        --normal ${normal_bam.toRealPath().toString()} \
+        --sample_id ${patient} \
+        -params-file call_ssnv_input.yaml \
         --algorithm_str ${params.call_sSNV.algorithm.join(',')} \
         ${args} \
         -c call_ssnv_default_metapipeline.config

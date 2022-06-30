@@ -62,21 +62,21 @@ cases:
     nf_script: test/test-call-sSNV/test.nf
     nf_config: test/test-call-sSNV/test.config
     verbose: true
-    skip: true
+    skip: false
     asserts:
-      - actual: test/output/output/call-sSNV-3.0.0-rc.1/GZLUCPTA000001/somaticsniper-1.0.5.0/output/somaticsniper_GZLUCPTA000001_hc.vcf.gz
+      - actual: test/output/output/call-sSNV-4.0.1/GZLUCPTA000001/somaticsniper-1.0.5.0/output/somaticsniper_GZLUCPTA000001_hc.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_sSNV/somaticsniper_GZLUCPTA000001_hc.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
 
-      - actual: test/output/output/call-sSNV-3.0.0-rc.1/GZLUCPTA000001/strelka2-2.9.10/output/strelka2_GZLUCPTA000001_somatic_snvs_pass.vcf.gz
+      - actual: test/output/output/call-sSNV-4.0.1/GZLUCPTA000001/strelka2-2.9.10/output/strelka2_GZLUCPTA000001_somatic_snvs_pass.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_sSNV/strelka2_GZLUCPTA000001_somatic_snvs_pass.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
 
-      - actual: test/output/output/call-sSNV-3.0.0-rc.1/GZLUCPTA000001/strelka2-2.9.10/output/strelka2_GZLUCPTA000001_somatic_indels_pass.vcf.gz
+      - actual: test/output/output/call-sSNV-4.0.1/GZLUCPTA000001/strelka2-2.9.10/output/strelka2_GZLUCPTA000001_somatic_indels_pass.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_sSNV/strelka2_GZLUCPTA000001_somatic_indels_pass.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
 
-      - actual: test/output/output/call-sSNV-3.0.0-rc.1/GZLUCPTA000001/mutect2-4.2.4.1/output/mutect2_GZLUCPTA000001_filtered_pass.vcf.gz
+      - actual: test/output/output/call-sSNV-4.0.1/GZLUCPTA000001/mutect2-4.2.4.1/output/mutect2_GZLUCPTA000001_filtered_pass.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_sSNV-Mutect2-v4.2.4.1/mutect2_GZLUCPTA000001_filtered_pass.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
 
@@ -121,4 +121,4 @@ cases:
     nf_script: main.nf
     nf_config: test/test-metapipeline-DNA-fastq-input/test.config
     verbose: true
-    skip: false
+    skip: true
