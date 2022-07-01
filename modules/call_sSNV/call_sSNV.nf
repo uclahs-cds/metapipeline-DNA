@@ -44,39 +44,34 @@ process call_sSNV {
     script:
     arg_list = [
         'reference',
-        'exon',
+        'exome',
         'split_intervals_extra_args',
         'mutect2_extra_args',
         'filter_mutect_calls_extra_args',
         'gatk_command_mem_diff',
         'scatter_count',
-        'intervals',
-        'bam_somaticsniper_cpus',
-        'bam_somaticsniper_memory_GB',
-        'samtools_pileup_cpus',
-        'samtools_pileup_memory_GB',
-        'samtools_varfilter_cpus',
-        'samtools_varfilter_memory_GB',
-        'manta_cpus',
-        'strelka2_somatic_cpus',
-        'm2_cpus',
-        'm2_memory_GB',
-        'm2_non_canonical_cpus',
-        'm2_non_canonical_memory_GB'
+        'intervals'
     ]
     args = generate_args(params.call_sSNV, arg_list)
     """
     set -euo pipefail
 
-    cat ${moduleDir}/default.config | sed "s:<OUTPUT-DIR-METAPIPELINE>:\$(pwd):g" \
+    cat ${moduleDir}/default.config | \
+        sed "s:<OUTPUT-DIR-METAPIPELINE>:\$(pwd):g" | \
+        sed "s:<CALL-REGION-METAPIPELINE>:${params.call_sSNV.call_region}:g" | \
+        sed "s:<GNOMAD-VCF-METAPIPELNE>:${params.call_sSNV.germline_resource_gnomad_vcf}:g" \
         > call_ssnv_default_metapipeline.config
 
+    cat ${moduleDir}/base.yaml | \
+        sed "s:<NORMAL_PATH>:${normal_bam.toRealPath().toString()}:g" | \
+        sed "s:<TUMOR_PATH>:${tumor_bam.toRealPath().toString()}:g" \
+        > call_ssnv_input.yaml
+
     nextflow run \
-        ${moduleDir}/../../external/pipeline-call-sSNV/pipeline/call-sSNV.nf \
+        ${moduleDir}/../../external/pipeline-call-sSNV/main.nf \
         --work_dir ${params.work_dir} \
-        --sample_name ${patient} \
-        --tumor ${tumor_bam.toRealPath().toString()} \
-        --normal ${normal_bam.toRealPath().toString()} \
+        --sample_id ${patient} \
+        -params-file call_ssnv_input.yaml \
         --algorithm_str ${params.call_sSNV.algorithm.join(',')} \
         ${args} \
         -c call_ssnv_default_metapipeline.config
