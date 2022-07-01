@@ -44,25 +44,13 @@ process call_sSNV {
     script:
     arg_list = [
         'reference',
-        'exon',
+        'exome',
         'split_intervals_extra_args',
         'mutect2_extra_args',
         'filter_mutect_calls_extra_args',
         'gatk_command_mem_diff',
         'scatter_count',
-        'intervals',
-        'bam_somaticsniper_cpus',
-        'bam_somaticsniper_memory_GB',
-        'samtools_pileup_cpus',
-        'samtools_pileup_memory_GB',
-        'samtools_varfilter_cpus',
-        'samtools_varfilter_memory_GB',
-        'manta_cpus',
-        'strelka2_somatic_cpus',
-        'm2_cpus',
-        'm2_memory_GB',
-        'm2_non_canonical_cpus',
-        'm2_non_canonical_memory_GB'
+        'intervals'
     ]
     args = generate_args(params.call_sSNV, arg_list)
     """
