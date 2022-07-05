@@ -8,7 +8,6 @@ process create_input_csv {
             val(patient),
             val(sample),
             val(state),
-            val(site),
             file(bam)
         )
     
@@ -17,7 +16,6 @@ process create_input_csv {
             val(patient),
             val(sample),
             val(state),
-            val(site),
             file(csv_file)
         )
     

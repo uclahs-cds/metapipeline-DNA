@@ -53,7 +53,7 @@ log.info """\
 *   A tuple of two objects.
 *     @param patient (val): the patient ID
 *     @records (tuple[tuple[str|file]]): A 2D tuple, that each child tuple contains the patient ID,
-*       sample ID, state, site, and other inputs depending on input type.
+*       sample ID, state, and other inputs depending on input type.
 *
 * Output:
 *   A tuple of two objects.
@@ -88,8 +88,8 @@ process create_input_csv_metapipeline_DNA {
     script:
     input_csv = "${patient}_metapipeline_DNA_input.csv"
     header_line = (params.input_type == 'BAM') ? \
-        "patient,sample,state,site,bam" : \
-        "patient,sample,state,site,index,read_group_identifier,sequencing_center,library_identifier,platform_technology,platform_unit,bam_header_sm,lane,read1_fastq,read2_fastq"
+        "patient,sample,state,bam" : \
+        "patient,sample,state,index,read_group_identifier,sequencing_center,library_identifier,platform_technology,platform_unit,bam_header_sm,lane,read1_fastq,read2_fastq"
     lines = []
     for (record in records) {
         lines.add(record.join(','))
@@ -153,11 +153,11 @@ process call_metapipeline_DNA {
 workflow {
     if (params.input_type == 'BAM') {
         ich  = Channel.from(params.input.BAM)
-            .map{ [it.patient, [it.patient, it.sample, it.state, it.site, it.path]] }
+            .map{ [it.patient, [it.patient, it.sample, it.state, it.path]] }
             .groupTuple(by: 0)
     } else if (params.input_type == 'FASTQ') {
         ich = Channel.from(params.input.FASTQ)
-            .map{ [it.patient, [it.patient, it.sample, it.state, it.site, it.index, it.read_group_identifier, it.sequencing_center, it.library_identifier, it.platform_technology, it.platform_unit, it.bam_header_sm, it.lane, it.read1_fastq, it.read2_fastq]] }
+            .map{ [it.patient, [it.patient, it.sample, it.state, it.index, it.read_group_identifier, it.sequencing_center, it.library_identifier, it.platform_technology, it.platform_unit, it.bam_header_sm, it.lane, it.read1_fastq, it.read2_fastq]] }
             .groupTuple(by: 0)
     }
     create_input_csv_metapipeline_DNA(ich)

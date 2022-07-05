@@ -13,8 +13,6 @@ process create_input_csv {
             val(patient),
             val(tumor_sample),
             val(normal_sample),
-            val(tumor_site),
-            val(normal_site),
             file(tumor_bam),
             file(normal_bam)
         )
@@ -24,8 +22,6 @@ process create_input_csv {
             val(patient),
             val(tumor_sample),
             val(normal_sample),
-            val(tumor_site),
-            val(normal_site),
             file(tumor_bam),
             file(normal_bam),
             file(input_csv)

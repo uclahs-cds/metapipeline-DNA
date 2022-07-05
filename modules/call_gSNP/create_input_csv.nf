@@ -10,7 +10,6 @@
 *     @param patient (String): Patient ID
 *     @param sample (String): Sample ID
 *     @param state (String): Must be either normal or tumor.
-*     @param site (Sting): Site of the sample (e.g., primary tumor, blood, or adjacent normal)
 *     @param bam_header_sm (String): The SM tag value in the BAM header.
 *     @param bam (file): Path to the BAM file.
 *
@@ -43,7 +42,7 @@ process create_normal_tumor_pairs {
     }
     lines = lines.join('\n')
     """
-    echo "patient,sample,state,site,bam_header_sm,bam" > ${ich_file}
+    echo "patient,sample,state,bam_header_sm,bam" > ${ich_file}
     echo '${lines}' >> ${ich_file}
     python ${moduleDir}/create_normal_tumor_pairs.py ${ich_file} ${output_file}
     """

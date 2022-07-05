@@ -44,7 +44,6 @@ def main():
         fieldnames = [
             'patient',
             'tumor_sample', 'normal_sample',
-            'tumor_site',   'normal_site',
             'tumor_bam_sm', 'normal_bam_sm',
             'tumor_bam',    'normal_bam'
         ]
@@ -55,8 +54,6 @@ def main():
                 fieldnames[0]: tumor['patient'],
                 fieldnames[1]: tumor['sample'],
                 fieldnames[2]: normal['sample'],
-                fieldnames[3]: tumor['site'],
-                fieldnames[4]: normal['site'],
                 fieldnames[5]: tumor['bam_header_sm'],
                 fieldnames[6]: normal['bam_header_sm'],
                 fieldnames[7]: tumor['bam'],

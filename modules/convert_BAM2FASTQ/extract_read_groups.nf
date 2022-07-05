@@ -9,7 +9,6 @@ process extract_read_groups {
             val(patient),
             val(sample),
             val(state),
-            val(site),
             file(bam)
         )
 
@@ -18,7 +17,6 @@ process extract_read_groups {
             val(patient),
             val(sample),
             val(state),
-            val(site),
             file(read_group_csv)
         )
 

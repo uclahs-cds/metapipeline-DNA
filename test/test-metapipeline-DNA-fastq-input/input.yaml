@@ -4,7 +4,6 @@ input:
     - patient: "GZLUCPTA000001"
       sample: "GZLUCPTA000001-N001-B01-F"
       state: "normal"
-      site: "blood"
       index: 0
       read_group_identifier: "HKCKT.1"
       sequencing_center: "BI"
@@ -18,7 +17,6 @@ input:
     - patient: "GZLUCPTA000001"
       sample: "GZLUCPTA000001-T001-P01-F"
       state: "tumor"
-      site: "primary"
       index: 0
       read_group_identifier: "HKCFN.1"
       sequencing_center: "BI"
