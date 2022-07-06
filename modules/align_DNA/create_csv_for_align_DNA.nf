@@ -4,7 +4,7 @@
 * Input:
 *   A tuple of two objects.
 *     @param patient (val): the patient ID
-*     @records (tuple[tuple[str|file]]): A 2D tuple, that each child tuple contains the state, site,
+*     @records (tuple[tuple[str|file]]): A 2D tuple, that each child tuple contains the state,
 *       and required inputs for align-DNA.
 *
 * Output:
