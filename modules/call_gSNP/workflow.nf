@@ -20,10 +20,6 @@ include { call_call_gSNP } from "${moduleDir}/call_call_gSNP"
 *     patient (String): Patient ID
 *     tumor_sample (String): Sample ID of the tumor sample.
 *     normal_sample (String): Sample ID of the nomral sample.
-*     tumor_site (Sting): The site of the tumor sample (e.g., primary tumor, blood, or
-*       adjacent normal)
-*     normal_site (Sting): The site of the normal sample (e.g., primary tumor, blood, or
-*       adjacent normal)
 *     tumor_bam (file): Tumor's calibrated BAM file output by the call-gSNP pipeline.
 *     normal_bam (file): Normal's calibrated BAM file output by the call-gSNP pipeline.
 */

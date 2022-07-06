@@ -43,9 +43,6 @@ process call_call_gSNP {
     normal_bam = "call-gSNP-*/${patient}/GATK-*/output/${normal_bam_sm}_realigned_recalibrated_merged_dedup.bam"
     tumor_bam = "call-gSNP-*/${patient}/GATK-*/output/${tumor_bam_sm}_realigned_recalibrated_merged_dedup.bam"
     arg_list = [
-        'is_NT_paired',
-        'input_all_chromosomes_group_small_contigs',
-        'input_all_chromosomes_each_per_line',
         'bundle_mills_and_1000g_gold_standard_indels_vcf_gz',
         'bundle_known_indels_vcf_gz',
         'bundle_v0_dbsnp138_vcf_gz',

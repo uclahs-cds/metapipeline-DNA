@@ -54,10 +54,10 @@ def main():
                 fieldnames[0]: tumor['patient'],
                 fieldnames[1]: tumor['sample'],
                 fieldnames[2]: normal['sample'],
-                fieldnames[5]: tumor['bam_header_sm'],
-                fieldnames[6]: normal['bam_header_sm'],
-                fieldnames[7]: tumor['bam'],
-                fieldnames[8]: normal['bam']
+                fieldnames[3]: tumor['bam_header_sm'],
+                fieldnames[4]: normal['bam_header_sm'],
+                fieldnames[5]: tumor['bam'],
+                fieldnames[6]: normal['bam']
             }
             writer.writerow(pair)
 
