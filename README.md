@@ -1,6 +1,6 @@
-# germline-somatic
+# metapipeline-DNA
 
-- [germline-somatic](#germline-somatic)
+- [metapipeline-DNA](#metapipeline-dna)
   - [Overview](#overview)
   - [How To Run](#how-to-run)
   - [Flow Diagram](#flow-diagram)
@@ -11,13 +11,19 @@
     - [4. call-sSNV](#4-call-ssnv)
     - [5. call-mtSNV](#5-call-mtsnv)
   - [Inputs](#inputs)
-    - [Input CSV](#input-csv)
+    - [Input BAM](#input-bam)
+    - [Input FASTQ](#input-fastq)
+    - [Config Params](#config-params)
+  - [Outputs](#outputs)
+  - [Discussions](#discussions)
+  - [Contributors](#contributors)
+  - [License](#license)
 
 ## Overview
 
-This meta pipeline takes aligned WGS data (BAM), convert them back to FASTQ, re-align to the reference genome, and calls for germline SNPs, somatic SNVs and mitochondrial SNVs. The input of this meta pipeline is a CSV file with a list of patients and their tumor normal paired BAM samples. Each patient must have **exact one** normal sample, while multiple tumor samples are allowed. If a patient has multiple tumor samples, each tumor is paired with the normal an it will call gSNP, sSNV and mtSNV separately.
+This meta pipeline takes either aligned sequencing data (BAM) and converts it back to FASTQ format or direct FASTQ data. The FASTQs are re-aligned to the reference genome and called for germline SNPs, somatic SNVs and mitochondrial SNVs. The input to this meta pipeline includes a list of patients and their tumor-normal paired samples. Each patient must have **exactly one** normal sample, while multiple tumor samples are allowed. If a patient has multiple tumor samples, each tumor will be paired with the normal and calling will be done for each pair.
 
-The pipeline has a leading process running on the submitter node (can be a F2 node) that submits processes of all pipelines (align-DNA, call-gSNP etc.) on all samples of the patient to the same worker node (usually a F72 node). All processes for the same patient run on the sample node to avoid network traffic.
+The pipeline has a leading process running on the submitter node (can be a F2 node as the leading process does not require many resources) that submits samples of each patient to a worker node (usually an F72 node) for processing. All processes for the same patient run on the same node to avoid network traffic.
 
 ![design](img/design.drawio.svg?raw=true)
 
@@ -25,13 +31,13 @@ The pipeline has a leading process running on the submitter node (can be a F2 no
 
 ## How To Run
 
-1. Creating a leading [`lead.config`](config/template_meta-lead.config) and a patient specific [`meta-pipeline.config`](config/template_meta-pipeline.config) file, using the template given in the links. The former `lead.config` takes the patient sample list, while the latter one defines the parameters, reference files, and resources configurations for each run.
+1. Creating a leading [`lead.config`](config/template_meta-lead.config) and a patient specific [`meta-pipeline.config`](config/template_meta-pipeline.config) file, using the linked templates. The former `lead.config` takes the input samples along with general parameters, while the latter defines the parameters, reference files, and resources configurations for each run and each pipeline.
 
-2. Create an [input.csv](inputs/template-inputs.csv) fille with path to the BAM files of each patient with both normal and tumor. For example patient, there must be exactly one sample that the `state` column is `normal`, while the other samples are `tumor`. It is then able to create each tumor with the only normal sample within this patient.
+2. Create an [input.csv](inputs/template-inputs.csv) or an [input.yaml](inputs/template-inputs.yaml) file with path to the input files of each patient with both normal and tumor samples. For each patient, there must be one sample where the `state` is `normal` and the other samples for that patient must be `tumor`.
 
-3. See the submission script, [here](https://github.com/uclahs-cds/tool-submit-nf), to submit your pipeline
+3. See the submission script, [here](https://github.com/uclahs-cds/tool-submit-nf), to submit your pipeline.
 
-> :warning: A low memory node (*e.g* F2) is sufficient for the leading job. Submitting the leading job to a F72 node is wasty!
+> **warning**: A low memory node (*e.g* F2) is sufficient for the leading job. Submitting the leading job to a F72 node is wasteful!
 
 ---
 
@@ -44,6 +50,7 @@ The pipeline has a leading process running on the submitter node (can be a F2 no
 ## Pipeline Steps
 
 ### 1. convert-BAM2FASTQ
+*Optional*: only run when BAMs are provided as input.
 
 Aligned BAM file for each sample is first converted back to FASTQ using [pipeline-convert-BAM2FASTQ](https://github.com/uclahs-cds/pipeline-convert-BAM2FASTQ/).
 
@@ -53,7 +60,7 @@ The FASTQ file for each sample is then realigned to the genome using [pipeline-a
 
 ### 3. call-gSNP
 
-Germline SNP is then called from the re-aligned BAM files using [pipeline-call-gSNP](https://github.com/uclahs-cds/pipeline-call-gSNP). The call-gSNP also performs BAM calibration. Tumor and normal samples from the sam patient are paired in this step.
+Germline SNPs are then called from the re-aligned BAM files using [pipeline-call-gSNP](https://github.com/uclahs-cds/pipeline-call-gSNP). Call-gSNP also performs BAM re-calibration. Tumor and normal samples from the same patient are paired in this step.
 
 ### 4. call-sSNV
 
@@ -67,16 +74,84 @@ The same calibrated BAM from step 3 is also used to call for mitochondrial SNVs 
 
 ## Inputs
 
-### Input CSV
+### Input BAM
 
-The input CSV file must contain 5 fields as listed below.
+| Field | Type | Required | Description |
+| :---: | :--: | :------: | :---------: |
+| patient | string | yes | Identifier for the patient |
+| sample | string | yes | Identifier for the sample |
+| state | string | yes | Must be either "tumor" or "normal" |
+| path | path | yes | Absolute path to the sample BAM file |
 
-| Parameter/Flag | Description                                |
-| -------------- | ------------------------------------------ |
-| patient        | Patient ID                                 |
-| sample         | Sample ID                                  |
-| state          | Must be either "tumor" or "normal"         |
-| site           | The site of sample (*e.g.* primary, blood) |
-| bam            | Absolute path to the BAM file.             |
+See this [template](inputs/template-inputs-BAM.csv) for CSV format and this [template](inputs/template-inputs-BAM.yaml) for YAML format.
 
-See this [template](input/template-inputs.csv),
+### Input FASTQ
+
+| Field | Type | Required | Description |
+| :---: | :--: | :------: | :---------: |
+| patient | string | yes | Identifier for the patient |
+| sample | string | yes | Identifier for the sample |
+| state | string | yes | Must be either "tumor" or "normal" |
+| index | integer | yes | Index number for align-DNA |
+| read_group_identifier | string | yes | Read group ID |
+| sequencing_center | string | yes | Center where sequencing was performed |
+| library_identifier | string | yes | Library used for sample |
+| platform_technology | string | yes | Technology used for sequencing |
+| platform_unit | string | yes | Name of specific platform unit |
+| bam_header_sm | string | yes | Sample name tag for BAM |
+| lane | string | yes | Lane identifier for sample |
+| read1_fastq | path | yes | Absolute path to R1 FASTQ |
+| read2_fastq | path | yes | Absolute path to R2 FASTQ |
+
+See this [template](inputs/template-inputs-FASTQ.csv) for CSV format and this [template](inputs/template-inputs-FASTQ.yaml) for YAML format.
+
+### Config Params
+
+| Input Parameter | Type | Required | Description |
+| :---: | :--: | :------: | :---------: |
+| `input_csv` | path | no | Absolute path to input CSV when using CSV input format |
+ `output_dir` | path | yes | Absolute path to directory where output files will be saved |
+| `leading_work_dir` | path | yes | Absolute path to **common** working directory (under `/hot` for example for access across all nodes). **Cannot** be `/scratch` |
+| `pipeline_work_dir` | path | yes | Absolute path to outputs from each individual pipeline before copying to `output_dir`. Default: `/scratch` |
+| `project_id` | string | yes | Project identifier |
+| `save_intermediate_files` | boolean | yes | Whether to save intermediate files. Default: `false` |
+| `metapipeline_DNA_config` | path | yes | Absolute path to config file containing pipeline-specific parameters. Created using [this template](config/template_meta-pipeline.config) |
+| `partition` | string | yes | Partition type for submitting each processing jobs |
+| `clusterOptions` | string | yes | Additional `slurm` submission options |
+| `per_job_cpus` | integer | yes | Number of CPUs per job |
+| `per_job_memory` | float | yes | Memory requested per job |
+| `max_parallel_jobs` | integer | yes | Number of jobs to submit at once. Default:  5 |
+
+---
+
+## Outputs
+
+The output of each pipeline is located in its respective directory under the output directory. See individual pipeline documentation for specific outputs.
+
+---
+
+## Discussions
+
+- [Issue tracker](https://github.com/uclahs-cds/metapipeline-DNA/issues) to report errors and enhancement ideas.
+- Discussions can take place in [metapipeline-DNA Discussions](https://github.com/uclahs-cds/metapipeline-DNA/discussions)
+- [metapipeline-DNA pull requests](https://github.com/uclahs-cds/metapipeline-DNA/pulls) are also open for discussion
+
+---
+
+## Contributors
+
+Please see list of [Contributors](https://github.com/uclahs-cds/metapipeline-DNA/graphs/contributors) at GitHub.
+
+---
+
+## License
+
+metapipeline-DNA is licensed under the GNU General Public License version 2. See the file LICENSE for the terms of the GNU GPL license.
+
+metapipeline-DNA performs alignment, germline SNP calling, somatic SNV calling, and mitochondrial SNV calling for given samples.
+
+Copyright (C) 2022 University of California Los Angeles ("Boutros Lab") All rights reserved.
+
+This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
