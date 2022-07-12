@@ -4,7 +4,7 @@
 * Input:
 *   A tuple of two objects.
 *     @param patient (val): the patient ID
-*     @records (tuple[tuple[str|file]]): A 2D tuple, that each child tuple contains the state, site,
+*     @records (tuple[tuple[str|file]]): A 2D tuple, that each child tuple contains the state,
 *       and required inputs for align-DNA.
 *
 * Output:
@@ -12,7 +12,6 @@
 *     @return patient (val): the patient ID
 *     @return sample (val): the sample ID
 *     @return state (val): tumor or normal
-*     @return site (val): the sample site
 *     @return input_csv (file): the input CSV file generated to be passed to align-DNA
 */
 process create_csv_for_align_DNA {
@@ -37,7 +36,6 @@ process create_csv_for_align_DNA {
             val(params.patient),
             val(sample),
             val(state),
-            val(site),
             path(input_csv)
         )
         path(".command.*")
@@ -46,9 +44,8 @@ process create_csv_for_align_DNA {
     input_csv = "${sample}_align_DNA_input.csv"
     lines = []
     state = records[0][0]
-    site = records[0][1]
     for (record in records) {
-        lines.add(record[2..-1].join(','))
+        lines.add(record[1..-1].join(','))
     }
     lines = lines.join('\n')
     """

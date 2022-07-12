@@ -28,7 +28,6 @@ process call_convert_BAM2FASTQ {
             val(patient),
             val(sample),
             val(state),
-            val(site),
             file(input_csv)
         )
 
@@ -37,7 +36,6 @@ process call_convert_BAM2FASTQ {
             val(patient),
             val(sample),
             val(state),
-            val(site),
             file("${output_dir}/create_fastqs_SAMtools/*.fq.gz")
         )
         file output_dir

@@ -30,7 +30,6 @@ process call_align_DNA {
             val(patient),
             val(sample),
             val(state),
-            val(site),
             file(input_csv)
         )
     
@@ -39,7 +38,6 @@ process call_align_DNA {
             val(patient),
             val(sample),
             val(state),
-            val(site),
             val(bam_header_sm),
             file(bam)
         )

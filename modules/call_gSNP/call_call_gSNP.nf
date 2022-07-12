@@ -9,15 +9,11 @@ include { generate_args } from "${moduleDir}/../common"
 *     @param patient (String): Patient ID
 *     @param tumor_sample (String): Sample ID of the tumor sample.
 *     @param normal_sample (String): Sample ID of the nomral sample.
-*     @param tumor_site (Sting): The site of the tumor sample (e.g., primary tumor, blood, or
-*       adjacent normal)
-*     @param normal_site (Sting): The site of the normal sample (e.g., primary tumor, blood, or
-*       adjacent normal)
 *     @param input_csv (file): The input CSV file for call-gSNP pipeline.
 *
 * Output:
 *   @return A tuple of 7 items, the input values of patient, tumor_sample, normal_sample,
-*     normal_sample, tumor_site, normal_site, as well as the output tumor and normal BAM files.
+*     normal_sample, as well as the output tumor and normal BAM files.
 */
 process call_call_gSNP {
     cpus params.call_gSNP.subworkflow_cpus
@@ -31,7 +27,6 @@ process call_call_gSNP {
         tuple(
             val(patient),
             val(tumor_sample), val(normal_sample),
-            val(tumor_site),   val(normal_site),
             val(tumor_bam_sm), val(normal_bam_sm),
             file(input_csv)
         )
@@ -40,7 +35,6 @@ process call_call_gSNP {
         tuple(
             val(patient),
             val(tumor_sample), val(normal_sample),
-            val(tumor_site),   val(normal_site),
             file(tumor_bam),   file(normal_bam)
         )
         file "call-gSNP-*/*"
@@ -49,9 +43,6 @@ process call_call_gSNP {
     normal_bam = "call-gSNP-*/${patient}/GATK-*/output/${normal_bam_sm}_realigned_recalibrated_merged_dedup.bam"
     tumor_bam = "call-gSNP-*/${patient}/GATK-*/output/${tumor_bam_sm}_realigned_recalibrated_merged_dedup.bam"
     arg_list = [
-        'is_NT_paired',
-        'input_all_chromosomes_group_small_contigs',
-        'input_all_chromosomes_each_per_line',
         'bundle_mills_and_1000g_gold_standard_indels_vcf_gz',
         'bundle_known_indels_vcf_gz',
         'bundle_v0_dbsnp138_vcf_gz',
