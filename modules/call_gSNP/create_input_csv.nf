@@ -10,7 +10,6 @@
 *     @param patient (String): Patient ID
 *     @param sample (String): Sample ID
 *     @param state (String): Must be either normal or tumor.
-*     @param site (Sting): Site of the sample (e.g., primary tumor, blood, or adjacent normal)
 *     @param bam_header_sm (String): The SM tag value in the BAM header.
 *     @param bam (file): Path to the BAM file.
 *
@@ -43,7 +42,7 @@ process create_normal_tumor_pairs {
     }
     lines = lines.join('\n')
     """
-    echo "patient,sample,state,site,bam_header_sm,bam" > ${ich_file}
+    echo "patient,sample,state,bam_header_sm,bam" > ${ich_file}
     echo '${lines}' >> ${ich_file}
     python ${moduleDir}/create_normal_tumor_pairs.py ${ich_file} ${output_file}
     """
@@ -57,16 +56,11 @@ process create_normal_tumor_pairs {
 *     @param patient (String): Patient ID
 *     @param tumor_sample (String): Sample ID of the tumor sample.
 *     @param normal_sample (String): Sample ID of the nomral sample.
-*     @param tumor_site (Sting): The site of the tumor sample (e.g., primary tumor, blood, or
-*       adjacent normal)
-*     @param normal_site (Sting): The site of the normal sample (e.g., primary tumor, blood, or
-*       adjacent normal)
 *     @param tumor_bam (file): Path to the BAM file of tumor sample.
 *     @param normal_bam (file): Path to the BAM file of normal sample.
 *
 * Output:
-*   @return A tuple of 6 items, inlcuding the patient, tumor_sample, normal_sample, tumor_site,
-*     normal_site of input, and the input CSV file created for the call-gSNP pipeline.
+*   @return A tuple of 6 items, inlcuding the patient, tumor_sample, normal_sample of input, and the input CSV file created for the call-gSNP pipeline.
 */
 process create_input_csv_call_gSNP {
     publishDir "${params.output_dir}/${patient}/${tumor_sample}/intermediate/call_gSNP/${task.process.replace(':', '/')}/${task.index}",
@@ -78,7 +72,6 @@ process create_input_csv_call_gSNP {
         tuple(
             val(patient),
             val(tumor_sample), val(normal_sample),
-            val(tumor_site),   val(normal_site),
             val(tumor_bam_sm), val(normal_bam_sm),
             val(tumor_bam),    val(normal_bam)
         )
@@ -87,7 +80,6 @@ process create_input_csv_call_gSNP {
         tuple(
             val(patient),
             val(tumor_sample), val(normal_sample),
-            val(tumor_site),   val(normal_site),
             val(tumor_bam_sm), val(normal_bam_sm),
             file(input_csv)
         )

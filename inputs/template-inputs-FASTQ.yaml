@@ -1,0 +1,16 @@
+---
+input:
+  FASTQ:
+    - patient: "patient ID"
+      sample: "sample ID"
+      state: "state - normal or tumor"
+      index: <index number>
+      read_group_identifier: "Read group identifier for alignment"
+      sequencing_center: "Center where sequencing was performed"
+      library_identifier: "Library used for sample"
+      platform_technology: "Technology used for sequencing"
+      platform_unit: "Name of specific platform unit"
+      bam_header_sm: "Sample name tag for BAM"
+      lane: <lane>
+      read1_fastq: "/path/to/r1.fq.gz"
+      read2_fastq: "/path/to/r2.fq.gz"

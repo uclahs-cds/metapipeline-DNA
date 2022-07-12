@@ -13,8 +13,6 @@ process call_call_mtSNV {
             val(patient),
             val(tumor_sample),
             val(normal_sample),
-            val(tumor_site),
-            val(normal_site),
             file(tumor_bam),
             file(normal_bam),
             file(input_csv)

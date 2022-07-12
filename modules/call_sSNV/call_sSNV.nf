@@ -11,10 +11,6 @@ include { generate_args } from "${moduleDir}/../common"
 *   @param patient (String): Patient ID
 *   @param tumor_sample (String): Sample ID of the tumor sample.
 *   @parma normal_sample (String): Sample ID of the nomral sample.
-*   @param tumor_site (Sting): The site of the tumor sample (e.g., primary tumor, blood, or
-*       adjacent normal)
-*   @param normal_site (Sting): The site of the normal sample (e.g., primary tumor, blood, or
-*       adjacent normal)
 *   @param tumor_bam (file): Tumor's calibrated BAM file output by the call-gSNP pipeline.
 *   @param normal_bam (file): Normal's calibrated BAM file output by the call-gSNP pipeline.
 *
@@ -32,8 +28,6 @@ process call_sSNV {
             val(patient),
             val(tumor_sample),
             val(normal_sample),
-            val(tumor_site),
-            val(normal_site),
             file(tumor_bam),
             file(normal_bam)
         )

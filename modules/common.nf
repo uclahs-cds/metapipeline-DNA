@@ -16,7 +16,7 @@
 def generate_args(par, arg_list) {
     def args = ''
     for (it in arg_list) {
-        if (par.containsKey(it)) {
+        if (par.containsKey(it) && par[it]) {
             args += " --${it} ${par[it]}"
         }
     }

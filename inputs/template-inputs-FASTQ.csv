@@ -1,0 +1,2 @@
+patient,sample,state,index,read_group_identifier,sequencing_center,library_identifier,platform_technology,platform_unit,bam_header_sm,lane,read1_fastq,read2_fastq
+XXXX000001,XXXX000001-T001-P01-F,tumor,0,rg1,ucla,lib1,illumina,unit1,sample_name,L001,/path/to/r1.fq.gz,/path/to/r2.fq.gz
