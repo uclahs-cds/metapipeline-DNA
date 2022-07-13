@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 + Nextflow testing module 
 + Checks for working directories
 + YAML input
++ GPL2 license
 ### Changed
 + Standardize output directory
 + Reduce number of temp files in /hot
@@ -21,6 +22,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 + call-gSNP: 7.2.1 -> 9.0.1
 + call-sSNV: 3.0.0-rc.1 -> 4.0.1
 + Automatically set the work_dir parameter for ucla_cds
++ Update README
 + Main process `errorStrategy` set to `ignore`
 + call-mtSNV: 2.0.0 -> 3.0.0-rc.1
 ### Removed
