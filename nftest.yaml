@@ -86,17 +86,17 @@ cases:
     nf_script: test/test-call-mtSNV/test.nf
     nf_config: test/test-call-mtSNV/test.config
     verbose: true
-    skip: true
+    skip: false
     asserts:
       # Disabling the tsv test as the tsv contains a timestamp so files are never equal - might require a custom comparison script
       # - actual: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_mtSNV/call_heteroplasmy/GZLUCPTA000001-T001-P01-F_vs_GZLUCPTA000001-N001-B01-F.tsv
       #   expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-mtSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_mtSNV/call_heteroplasmy/GZLUCPTA000001-T001-P01-F_vs_GZLUCPTA000001-N001-B01-F.tsv
 
-      - actual: test/output/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_mtSNV/convert_mitoCaller2vcf_mitoCaller/GZLUCPTA000001-T001-P01-F/GZLUCPTA000001-T001-P01-F.vcf
+      - actual: test/output/output/call-mtSNV-3.0.0-rc.1/GZLUCPTA000001/mitoCaller-1.0.0/output/GZLUCPTA000001-T001-P01-F.vcf
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-mtSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_mtSNV/convert_mitoCaller2vcf_mitoCaller/GZLUCPTA000001-T001-P01-F/GZLUCPTA000001-T001-P01-F.vcf
         script: test/test-call-gSNP/assert_vcf.sh
 
-      - actual: test/output/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_mtSNV/convert_mitoCaller2vcf_mitoCaller/GZLUCPTA000001-T001-P01-F/GZLUCPTA000001-T001-P01-F_homoplasmy.vcf
+      - actual: test/output/output/call-mtSNV-3.0.0-rc.1/GZLUCPTA000001/mitoCaller-1.0.0/output/GZLUCPTA000001-T001-P01-F_homoplasmy.vcf
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-mtSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_mtSNV/convert_mitoCaller2vcf_mitoCaller/GZLUCPTA000001-T001-P01-F/GZLUCPTA000001-T001-P01-F_homoplasmy.vcf
         script: test/test-call-gSNP/assert_vcf.sh
 
@@ -121,4 +121,4 @@ cases:
     nf_script: main.nf
     nf_config: test/test-metapipeline-DNA-fastq-input/test.config
     verbose: true
-    skip: false
+    skip: true

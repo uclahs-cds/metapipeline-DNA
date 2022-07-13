@@ -3,34 +3,34 @@
 */
 
 process create_input_csv {
-    publishDir "${params.output_dir}/${patient}/${tumor_sample}/intermediate/call_mtSNV/${task.process.replace(':', '/')}",
+    publishDir "${params.output_dir}/${sample_id}/${tumour_id}/intermediate/call_mtSNV/${task.process.replace(':', '/')}",
         enabled: params.save_intermediate_files,
         pattern: 'call_mtSNV_input.csv',
         mode: 'copy'
     
     input:
         tuple(
-            val(patient),
-            val(tumor_sample),
-            val(normal_sample),
-            file(tumor_bam),
-            file(normal_bam)
+            val(sample_id),
+            val(tumour_id),
+            val(normal_id),
+            file(tumour_BAM),
+            file(normal_BAM)
         )
 
     output:
         tuple(
-            val(patient),
-            val(tumor_sample),
-            val(normal_sample),
-            file(tumor_bam),
-            file(normal_bam),
+            val(sample_id),
+            val(tumour_id),
+            val(normal_id),
+            file(tumour_BAM),
+            file(normal_BAM),
             file(input_csv)
         )
 
     script:
     input_csv = 'call_mtSNV_input.csv'
     """
-    echo 'sample_input_1_type,sample_input_1_name,sample_input_1_path,sample_input_2_type,sample_input_2_name,sample_input_2_path' > ${input_csv}
-    echo "normal,${normal_sample},${normal_bam.toRealPath()},tumor,${tumor_sample},${tumor_bam.toRealPath()}" >> ${input_csv}
+    echo 'project_id,sample_id,tumour_id,tumour_BAM,normal_id,normal_BAM' > ${input_csv}
+    echo "project_placeholder,${sample_id},${tumour_id},${tumour_BAM.toRealPath()},${normal_id},${normal_BAM.toRealPath()}" >> ${input_csv}
     """
 }

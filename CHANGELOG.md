@@ -24,5 +24,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 + Automatically set the work_dir parameter for ucla_cds
 + Update README
 + Main process `errorStrategy` set to `ignore`
++ call-mtSNV: 2.0.0 -> 3.0.0-rc.1
 ### Removed
 + `site` from inputs
