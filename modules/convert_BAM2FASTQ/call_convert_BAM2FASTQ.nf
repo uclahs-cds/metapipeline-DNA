@@ -19,7 +19,7 @@ def get_sample_name(input_csv) {
 process call_convert_BAM2FASTQ {
     cpus params.bam2fastq.subworkflow_cpus
     
-    publishDir "${params.output_dir}/${patient}/${sample}/",
+    publishDir "${params.output_dir}/output/${patient}/${sample}/",
         mode: 'copy',
         pattern: 'bam2fastq'
 
