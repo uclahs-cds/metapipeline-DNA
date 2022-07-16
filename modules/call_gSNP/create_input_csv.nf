@@ -22,7 +22,7 @@ process create_normal_tumor_pairs {
 
     containerOptions "-v ${moduleDir}:${moduleDir}"
 
-    publishDir "${params.output_dir}/${params.patient}/intermediate/call_gSNP/${task.process.replace(':', '/')}",
+    publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}",
         enabled: params.save_intermediate_files,
         pattern: 'paried_input_csv.txt',
         mode: 'copy'
@@ -63,7 +63,7 @@ process create_normal_tumor_pairs {
 *   @return A tuple of 6 items, inlcuding the patient, tumor_sample, normal_sample of input, and the input CSV file created for the call-gSNP pipeline.
 */
 process create_input_csv_call_gSNP {
-    publishDir "${params.output_dir}/${patient}/${tumor_sample}/intermediate/call_gSNP/${task.process.replace(':', '/')}/${task.index}",
+    publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}/${task.index}",
         enabled: params.save_intermediate_files,
         pattern: 'call_gSNP_input.csv',
         mode: 'copy'

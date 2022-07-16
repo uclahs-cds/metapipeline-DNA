@@ -5,7 +5,7 @@ process create_input_csv_for_align_DNA {
     container "quay.io/biocontainers/pysam:0.16.0.1--py38hf7546f9_3"
     containerOptions "-v ${moduleDir}:${moduleDir}"
 
-    publishDir "${params.output_dir}/${patient}/${sample}/intermediates/bam2fastq/${task.process.replace(':', '/')}",
+    publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${patient}/${sample}",
         mode: 'copy',
         enabled: params.save_intermediate_files,
         pattern: 'align_DNA_input.csv'

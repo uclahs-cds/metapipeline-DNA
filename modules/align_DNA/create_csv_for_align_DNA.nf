@@ -18,9 +18,9 @@ process create_csv_for_align_DNA {
     publishDir path: "${params.log_output_dir}/process-log",
         mode: "copy",
         pattern: ".command.*",
-        saveAs: { "${task.process}/${sample}/log${file(it).getName()}" }
+        saveAs: { "${task.process}-${params.patient_id}/${sample}/log${file(it).getName()}" }
 
-    publishDir path: "${params.output_dir}/intermediate/${task.process}/${sample}",
+    publishDir path: "${params.output_dir}/intermediate/${task.process}-${params.patient_id}/${sample}",
         enabled: params.save_intermediate_files,
         mode: "copy",
         pattern: "*.csv"

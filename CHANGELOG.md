@@ -8,6 +8,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+
+---
+
+## [1.0.0-rc.1] - 2022-07-15
 ### Added
 + Main pipelines, including convert-BAM2FASTQ, align-DNA, call-gSNP, call-sSNV, and call-mtSNV.
 + "Unit tests" with a downsampled CPTAC WGS sample.
@@ -25,5 +29,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 + Update README
 + Main process `errorStrategy` set to `ignore`
 + call-mtSNV: 2.0.0 -> 3.0.0-rc.1
++ Standardize output directory
 ### Removed
 + `site` from inputs
