@@ -33,4 +33,4 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Removed
 + `site` from inputs
 ### Fixed
-+ Remove invisible character from input examples
++ Remove carriage-return/Windows-specific characters from input examples
