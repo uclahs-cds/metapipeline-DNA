@@ -32,3 +32,5 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 + Standardize output directory
 ### Removed
 + `site` from inputs
+### Fixed
++ Remove invisible character from input examples
