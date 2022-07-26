@@ -114,9 +114,6 @@ process create_input_csv_metapipeline_DNA {
 *   @return Directory contains all data for the patient.
 */
 process call_metapipeline_DNA {
-    // For the first ${params.maxForks} number of tasks, give each taks a 5 delay. Because reference
-    // files are copied to worker node each time, so this would reduce the nextwork burden.
-
     publishDir path: "${params.log_output_dir}/process-log",
         mode: "copy",
         pattern: ".command.*",
