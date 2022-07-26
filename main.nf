@@ -116,7 +116,6 @@ process create_input_csv_metapipeline_DNA {
 process call_metapipeline_DNA {
     // For the first ${params.maxForks} number of tasks, give each taks a 5 delay. Because reference
     // files are copied to worker node each time, so this would reduce the nextwork burden.
-    beforeScript "sleep ${((task.index < task.maxForks ? task.index : task.maxForks) - 1) * 300}"
 
     publishDir path: "${params.log_output_dir}/process-log",
         mode: "copy",

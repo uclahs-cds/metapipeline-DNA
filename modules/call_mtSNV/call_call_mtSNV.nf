@@ -36,7 +36,7 @@ process call_call_mtSNV {
         --run_name ${tumor_sample} \
         --input_csv ${input_csv} \
         --temp_dir ${params.work_dir} \
-        --patient_id ${params.patient_id} \
+        --patient_id ${params.patient} \
         ${args}
     """
 }
