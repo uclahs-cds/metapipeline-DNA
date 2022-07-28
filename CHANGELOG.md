@@ -8,6 +8,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+### Changed
++ Use `executor` rate limit to limit job submission rate rather than custom sleep command
 
 ---
 
