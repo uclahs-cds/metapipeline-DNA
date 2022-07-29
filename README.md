@@ -21,7 +21,7 @@
 
 ## Overview
 
-This meta pipeline takes either aligned sequencing data (BAM) and converts it back to FASTQ format or direct FASTQ data. The FASTQs are re-aligned to the reference genome and called for germline SNPs, somatic SNVs and mitochondrial SNVs. The input to this meta pipeline includes a list of patients and their tumor-normal paired samples. Each patient must have **exactly one** normal sample, while multiple tumor samples are allowed. If a patient has multiple tumor samples, each tumor will be paired with the normal and calling will be done for each pair.
+This meta pipeline takes either aligned sequencing data (BAM - <u>**BETA FEATURE**</u>) and converts it back to FASTQ format or direct FASTQ data. The FASTQs are re-aligned to the reference genome and called for germline SNPs, somatic SNVs and mitochondrial SNVs. The input to this meta pipeline includes a list of patients and their tumor-normal paired samples. Each patient must have **exactly one** normal sample, while multiple tumor samples are allowed. If a patient has multiple tumor samples, each tumor will be paired with the normal and calling will be done for each pair.
 
 The pipeline has a leading process running on the submitter node (can be a F2 node as the leading process does not require many resources) that submits samples of each patient to a worker node (usually an F72 node) for processing. All processes for the same patient run on the same node to avoid network traffic.
 
@@ -51,6 +51,7 @@ The pipeline has a leading process running on the submitter node (can be a F2 no
 
 ### 1. convert-BAM2FASTQ
 *Optional*: only run when BAMs are provided as input.
+> **WARNING - BETA**: The convert-BAM2FASTQ pipeline has *not* officially been released so BAM inputs to metapipeline are a BETA feature. Use with caution.
 
 Aligned BAM file for each sample is first converted back to FASTQ using [pipeline-convert-BAM2FASTQ](https://github.com/uclahs-cds/pipeline-convert-BAM2FASTQ/).
 
@@ -75,6 +76,8 @@ The same calibrated BAM from step 3 is also used to call for mitochondrial SNVs 
 ## Inputs
 
 ### Input BAM
+
+> **BETA** - See warning above
 
 | Field | Type | Required | Description |
 | :---: | :--: | :------: | :---------: |
