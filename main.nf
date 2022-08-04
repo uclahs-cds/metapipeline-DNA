@@ -5,6 +5,8 @@
 
 nextflow.enable.dsl = 2
 
+import groovy.json.JsonOutput
+
 // Log info here
 log.info """\
     =================================================
@@ -102,6 +104,28 @@ process create_input_csv_metapipeline_DNA {
 }
 
 /*
+* Dump the pipeline-specific params to a JSON file
+*
+* Output:
+*   @return pipeline_params_json (file): JSON file containing all pipeline-specific params
+*/
+process create_config_json {
+    output:
+    path "pipeline_specific_params.json", emit: pipeline_params_json
+
+    exec:
+    params_to_write = [:]
+    params.each{ key, val ->
+        if (key.startsWith('pipeline_params_')) {
+            params_to_write[key.replace('pipeline_params_', '')] = val
+        }
+    }
+    json_params = JsonOutput.prettyPrint(JsonOutput.toJson(params_to_write))
+    writer = file("${task.workDir}/pipeline_specific_params.json")
+    writer.write(json_params)
+}
+
+/*
 * Process to call the germline-somatic pipeline. The pipeline accepts one patient with all samples
 * of them.
 *
@@ -123,7 +147,8 @@ process call_metapipeline_DNA {
     input:
         tuple(
             val(patient),
-            path(input_csv)
+            path(input_csv),
+            path(pipeline_params_json)
         )
 
     output:
@@ -142,7 +167,7 @@ process call_metapipeline_DNA {
         --output_dir ${params.output_dir} \
         --metapipeline_log_output_dir ${params.log_output_dir} \
         --work_dir ${params.work_dir} \
-        -c ${file(params.metapipeline_DNA_config)}
+        -params-file ${pipeline_params_json}
     """
 }
 
@@ -157,5 +182,6 @@ workflow {
             .groupTuple(by: 0)
     }
     create_input_csv_metapipeline_DNA(ich)
-    call_metapipeline_DNA(create_input_csv_metapipeline_DNA.out[0])
+    create_config_json()
+    call_metapipeline_DNA(create_input_csv_metapipeline_DNA.out[0].combine(create_config_json.out.pipeline_params_json))
 }
