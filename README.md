@@ -31,7 +31,7 @@ The pipeline has a leading process running on the submitter node (can be a F2 no
 
 ## How To Run
 
-1. Creating a leading [`lead.config`](config/template_meta-lead.config) and a patient specific [`meta-pipeline.config`](config/template_meta-pipeline.config) file, using the linked templates. The former `lead.config` takes the input samples along with general parameters, while the latter defines the parameters, reference files, and resources configurations for each run and each pipeline.
+1. Create a [`lead.config`](config/template_meta-lead.config) file using the linked template. The `lead.config` takes the input samples along with general parameters, with a section defining the parameters, reference files, and resources configurations for each run and each pipeline.
 
 2. Create an [input.csv](inputs/template-inputs.csv) or an [input.yaml](inputs/template-inputs.yaml) file with path to the input files of each patient with both normal and tumor samples. For each patient, there must be one sample where the `state` is `normal` and the other samples for that patient must be `tumor`.
 
@@ -118,7 +118,6 @@ See this [template](inputs/template-inputs-FASTQ.csv) for CSV format and this [t
 | `pipeline_work_dir` | path | yes | Absolute path to outputs from each individual pipeline before copying to `output_dir`. Default: `/scratch` |
 | `project_id` | string | yes | Project identifier |
 | `save_intermediate_files` | boolean | yes | Whether to save intermediate files. Default: `false` |
-| `metapipeline_DNA_config` | path | yes | Absolute path to config file containing pipeline-specific parameters. Created using [this template](config/template_meta-pipeline.config) |
 | `partition` | string | yes | Partition type for submitting each processing jobs |
 | `clusterOptions` | string | yes | Additional `slurm` submission options |
 | `per_job_cpus` | integer | yes | Number of CPUs per job |
