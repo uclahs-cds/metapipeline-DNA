@@ -31,7 +31,7 @@ The pipeline has a leading process running on the submitter node (can be a F2 no
 
 ## How To Run
 
-1. Create a [`lead.config`](config/template.config) file using the linked template. The `lead.config` takes the input samples along with general parameters, with a section defining the parameters, reference files, and resources configurations for each run and each pipeline.
+1. Create a config file using the [`template`](config/template.config), which takes the input samples along with general parameters, with a section defining the parameters, reference files, and resources configurations for each run and each pipeline.
 
 2. Create an [input.csv](inputs/template-inputs.csv) or an [input.yaml](inputs/template-inputs.yaml) file with path to the input files of each patient with both normal and tumor samples. For each patient, there must be one sample where the `state` is `normal` and the other samples for that patient must be `tumor`.
 
