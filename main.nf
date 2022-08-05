@@ -114,13 +114,7 @@ process create_config_json {
     path "pipeline_specific_params.json", emit: pipeline_params_json
 
     exec:
-    params_to_write = [:]
-    params.each{ key, val ->
-        if (key.startsWith('pipeline_params_')) {
-            params_to_write[key.replace('pipeline_params_', '')] = val
-        }
-    }
-    json_params = JsonOutput.prettyPrint(JsonOutput.toJson(params_to_write))
+    json_params = JsonOutput.prettyPrint(JsonOutput.toJson(params.pipeline_params))
     writer = file("${task.workDir}/pipeline_specific_params.json")
     writer.write(json_params)
 }
