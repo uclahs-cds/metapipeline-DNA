@@ -29,16 +29,10 @@ process call_call_gSNP {
             val(tumor_sample), val(normal_sample),
             val(normal_bam_sm), file(input_csv)
         )
-    
+
     output:
-        tuple(
-            val(patient),
-            val(tumor_sample),
-            val(normal_sample),
-            file(tumor_bam)
-            file(normal_bam)
-        ), emit: full_output
-        file(tumor_bam), emit: tumor_bam
+        tuple val(patient), val(tumor_sample), val(normal_sample), path(tumor_bam), path(normal_bam), emit: full_output
+        path(tumor_bam), emit: tumor_bam
         file "call-gSNP-*/*"
 
     script:

@@ -27,7 +27,6 @@ log.info """\
         output_dir: ${params.output_dir}
 
     - options:
-        option metapipeline_DNA_config: ${params.metapipeline_DNA_config}
         option executor: ${params.executor}
         option partition: ${params.partition}
         option per_job_cpus: ${params.per_job_cpus} 
@@ -156,6 +155,7 @@ process call_metapipeline_DNA {
         --input_csv ${input_csv} \
         --patient ${patient} \
         --input_type ${params.input_type} \
+        --multi_sample_calling ${params.multi_sample_calling} \
         --project_id ${params.project_id} \
         --save_intermediate_files ${params.save_intermediate_files} \
         --output_dir ${params.output_dir} \
