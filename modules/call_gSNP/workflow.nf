@@ -56,6 +56,7 @@ workflow call_gSNP {
         } else {
             output_ch_call_gsnp = call_call_gSNP.out.full_output
         }
+        output_ch_call_gsnp.view{"Output from call-gSNP: ${it}"}
     emit:
         output_ch_call_gsnp
 }
