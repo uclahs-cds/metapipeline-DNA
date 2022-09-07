@@ -123,6 +123,7 @@ See this [template](inputs/template-inputs-FASTQ.csv) for CSV format and this [t
 | `per_job_cpus` | integer | yes | Number of CPUs per job |
 | `per_job_memory` | float | yes | Memory requested per job |
 | `max_parallel_jobs` | integer | yes | Number of jobs to submit at once. Default:  5 |
+| `multi_sample_calling` | boolean | yes | Whether to perform multi-sample calling per patient, Default: `false` |
 
 ---
 
