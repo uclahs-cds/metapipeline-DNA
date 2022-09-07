@@ -3,7 +3,7 @@
 * This process takes the channel emitted by the align_DNA module, and create tumor normal paires.
 * Only one normal sample is allowed. If multiple tumor samples are found (e.g., primary tumor &
 * adjacent normal), each tumor sample is paired with the normal sample, and the call_gSNP pipeline
-* is called separately.
+* is called separately if multi_sample_calling is not enabled.
 *
 * input:
 *   A nested list or tuple, that each child is a list or tuple contains six elements:

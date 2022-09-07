@@ -45,6 +45,10 @@ workflow call_gSNP {
         call_call_gSNP(create_input_csv_call_gSNP.out)
 
         if (params.multi_sample_calling) {
+            /**
+            *   For multi-sample calling, keep the patient, tumor_id, normal_id, and normal_BAM
+            *   then combine with each tumor BAM for downstream pipelines
+            */
             normal_ch_for_join = call_call_gSNP.out.full_output
                 .first()
                 .map{ [it[0], it[1], it[2], it[4]] }
@@ -56,7 +60,6 @@ workflow call_gSNP {
         } else {
             output_ch_call_gsnp = call_call_gSNP.out.full_output
         }
-        output_ch_call_gsnp.view{"Output from call-gSNP: ${it}"}
     emit:
         output_ch_call_gsnp
 }
