@@ -3,7 +3,7 @@
 */
 
 process create_input_csv {
-    publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}/${tumour_id}",
+    publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}/${mtsnv_tumour_id}",
         enabled: params.save_intermediate_files,
         pattern: 'call_mtSNV_input.csv',
         mode: 'copy'
