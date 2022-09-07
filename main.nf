@@ -32,6 +32,7 @@ log.info """\
         option per_job_cpus: ${params.per_job_cpus} 
         option per_job_memory_GB: ${params.per_job_memory_GB}
         option max_parallel_jobs: ${params.max_parallel_jobs}
+        option multi_sample_calling: ${params.multi_sample_calling}
 
     Tools Used:
         uclahs-cds/pipeline-convert-BAM2FASTQ: ${params.version_BAM2FASTQ}
