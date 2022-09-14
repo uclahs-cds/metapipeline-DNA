@@ -30,10 +30,10 @@ process create_input_yaml_call_sSNV {
             path(input_yaml)
         )
 
-    exec:
+    script:
     input_yaml = 'call_sSNV_input.yaml'
-    param_tumor_bams = tumor_bam.collect{ "${task.workDir}/${it}" }
-    param_normal_bam = normal_bam.collect{ "${task.workDir}/${it}" }
+    param_tumor_bams = tumor_bam.collect{ "${it}" as String }
+    param_normal_bam = normal_bam.collect{ "${it}" as String }
     input_map = [
         'sample_id': sample_id,
         'input': [
@@ -44,5 +44,18 @@ process create_input_yaml_call_sSNV {
         ]
     ]
     Yaml yaml = new Yaml()
-    yaml.dump(input_map, new FileWriter("${task.workDir}/${input_yaml}"))
+    input_string = yaml.dump(input_map)
+    """
+    echo "${input_string}" > ${input_yaml}
+    for i in `echo ${normal_bam}`
+    do
+        real_path=`realpath \$i`
+        sed -i "s:\$i:\$real_path:g" ${input_yaml}
+    done
+    for i in `echo ${tumor_bam}`
+    do
+        real_path=`realpath \$i`
+        sed -i "s:\$i:\$real_path:g" ${input_yaml}
+    done
+    """
 }
