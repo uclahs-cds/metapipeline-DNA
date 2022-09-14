@@ -3,7 +3,7 @@
 */
 
 process create_input_csv {
-    publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}/${sample_id}",
+    publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}/${mtsnv_tumour_id}",
         enabled: params.save_intermediate_files,
         pattern: 'call_mtSNV_input.csv',
         mode: 'copy'
@@ -29,8 +29,12 @@ process create_input_csv {
 
     script:
     input_csv = 'call_mtSNV_input.csv'
+    mtsnv_sample_id = (params.multi_sample_calling) ?
+        "${tumour_BAM.baseName.replace('_realigned_recalibrated_merged_dedup', '')}" :
+        "${tumour_id}"
+    mtsnv_tumour_id = "${tumour_BAM.baseName.replace('_realigned_recalibrated_merged_dedup', '')}"
     """
     echo 'project_id,sample_id,tumour_id,tumour_BAM,normal_id,normal_BAM' > ${input_csv}
-    echo "project_placeholder,${sample_id},${tumour_id},${tumour_BAM.toRealPath()},${normal_id},${normal_BAM.toRealPath()}" >> ${input_csv}
+    echo "project_placeholder,${mtsnv_sample_id},${mtsnv_tumour_id},${tumour_BAM.toRealPath()},${normal_id},${normal_BAM.toRealPath()}" >> ${input_csv}
     """
 }

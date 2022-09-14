@@ -3,7 +3,7 @@
 * This process takes the channel emitted by the align_DNA module, and create tumor normal paires.
 * Only one normal sample is allowed. If multiple tumor samples are found (e.g., primary tumor &
 * adjacent normal), each tumor sample is paired with the normal sample, and the call_gSNP pipeline
-* is called separately.
+* is called separately if multi_sample_calling is not enabled.
 *
 * input:
 *   A nested list or tuple, that each child is a list or tuple contains six elements:
@@ -52,41 +52,43 @@ process create_normal_tumor_pairs {
 * Create input CSV file for the call-gSNP pipeline.
 *
 * Input:
-*   A tuple of sevel items:
+*   A tuple of two items:
 *     @param patient (String): Patient ID
-*     @param tumor_sample (String): Sample ID of the tumor sample.
-*     @param normal_sample (String): Sample ID of the nomral sample.
-*     @param tumor_bam (file): Path to the BAM file of tumor sample.
-*     @param normal_bam (file): Path to the BAM file of normal sample.
+*     @param records (List): List of records to include in CSV.
 *
 * Output:
-*   @return A tuple of 6 items, inlcuding the patient, tumor_sample, normal_sample of input, and the input CSV file created for the call-gSNP pipeline.
+*   @return A tuple of 5 items, inlcuding the patient, tumor_sample, normal_sample of input, normal_bam_sm of input, and the input CSV file created for the call-gSNP pipeline.
 */
 process create_input_csv_call_gSNP {
     publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}/${task.index}",
         enabled: params.save_intermediate_files,
         pattern: 'call_gSNP_input.csv',
         mode: 'copy'
-    
+
     input:
         tuple(
-            val(patient),
-            val(tumor_sample), val(normal_sample),
-            val(tumor_bam_sm), val(normal_bam_sm),
-            val(tumor_bam),    val(normal_bam)
+            val(patient), val(records)
         )
-    
+
     output:
         tuple(
             val(patient),
             val(tumor_sample), val(normal_sample),
-            val(tumor_bam_sm), val(normal_bam_sm),
-            file(input_csv)
+            val(normal_bam_sm), file(input_csv)
         )
+
     script:
     input_csv = 'call_gSNP_input.csv'
+    lines = []
+    tumor_sample = (params.multi_sample_calling) ? patient : records[0][1]
+    normal_bam_sm = records[0][4]
+    normal_sample = records[0][2]
+    for (record in records) {
+        lines.add([params.project_id, patient, record[4], record[6], record[3], record[5]].join(','))
+    }
+    lines = lines.join('\n')
     """
     echo 'project_id,sample_id,normal_id,normal_BAM,tumour_id,tumour_BAM' > ${input_csv}
-    echo "${params.project_id},${patient},${normal_bam_sm},${normal_bam},${tumor_bam_sm},${tumor_bam}" >> ${input_csv}
+    echo '${lines}' >> ${input_csv}
     """
 }

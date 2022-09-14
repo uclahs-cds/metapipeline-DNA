@@ -47,6 +47,9 @@ process call_sSNV {
         'intervals'
     ]
     args = generate_args(params.call_sSNV, arg_list)
+    sample_id = (params.multi_sample_calling) ?
+        "${tumor_bam.baseName.replace('_realigned_recalibrated_merged_dedup', '')}" :
+        "${tumor_sample}"
     """
     set -euo pipefail
 
@@ -64,7 +67,7 @@ process call_sSNV {
     nextflow run \
         ${moduleDir}/../../external/pipeline-call-sSNV/main.nf \
         --work_dir ${params.work_dir} \
-        --sample_id ${patient} \
+        --sample_id ${sample_id} \
         -params-file call_ssnv_input.yaml \
         --algorithm_str ${params.call_sSNV.algorithm.join(',')} \
         ${args} \

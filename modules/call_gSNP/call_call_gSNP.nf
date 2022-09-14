@@ -8,7 +8,7 @@ include { generate_args } from "${moduleDir}/../common"
 *   A tuple that contains 6 items:
 *     @param patient (String): Patient ID
 *     @param tumor_sample (String): Sample ID of the tumor sample.
-*     @param normal_sample (String): Sample ID of the nomral sample.
+*     @param normal_sample (String): Sample ID of the normal sample.
 *     @param input_csv (file): The input CSV file for call-gSNP pipeline.
 *
 * Output:
@@ -27,21 +27,16 @@ process call_call_gSNP {
         tuple(
             val(patient),
             val(tumor_sample), val(normal_sample),
-            val(tumor_bam_sm), val(normal_bam_sm),
-            file(input_csv)
+            val(normal_bam_sm), file(input_csv)
         )
-    
+
     output:
-        tuple(
-            val(patient),
-            val(tumor_sample), val(normal_sample),
-            file(tumor_bam),   file(normal_bam)
-        )
+        tuple val(patient), val(tumor_sample), val(normal_sample), path("*.bam"), path(normal_bam), emit: full_output
+        path("*.bam"), emit: tumor_bam
         file "call-gSNP-*/*"
 
     script:
     normal_bam = "call-gSNP-*/${patient}/GATK-*/output/${normal_bam_sm}_realigned_recalibrated_merged_dedup.bam"
-    tumor_bam = "call-gSNP-*/${patient}/GATK-*/output/${tumor_bam_sm}_realigned_recalibrated_merged_dedup.bam"
     arg_list = [
         'bundle_mills_and_1000g_gold_standard_indels_vcf_gz',
         'bundle_known_indels_vcf_gz',
@@ -64,5 +59,11 @@ process call_call_gSNP {
         --work_dir ${params.work_dir} \
         ${args} \
         -c call_gsnp_default_metapipeline.config
+
+    for i in `ls --hide=${normal_bam_sm}_realigned_recalibrated_merged_dedup.bam call-gSNP-*/${patient}/GATK-*/output/ -1 | grep ".bam\$"`
+    do
+        full_path=`find \$(pwd) -name \$i`
+        ln -s \$full_path \$i
+    done
     """
 }
