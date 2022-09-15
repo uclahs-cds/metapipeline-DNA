@@ -47,12 +47,7 @@ process create_input_yaml_call_sSNV {
     input_string = yaml.dump(input_map)
     """
     echo "${input_string}" > ${input_yaml}
-    for i in `echo ${normal_bam}`
-    do
-        real_path=`realpath \$i`
-        sed -i "s:\$i:\$real_path:g" ${input_yaml}
-    done
-    for i in `echo ${tumor_bam}`
+    for i in `echo ${normal_bam} ${tumor_bam}`
     do
         real_path=`realpath \$i`
         sed -i "s:\$i:\$real_path:g" ${input_yaml}
