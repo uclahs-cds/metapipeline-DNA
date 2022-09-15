@@ -41,6 +41,9 @@ process call_call_sSNV {
         'intervals'
     ]
     args = generate_args(params.call_sSNV, arg_list)
+    sample_id = (params.multi_sample_calling) ?
+        "${tumor_bam.baseName.replace('_realigned_recalibrated_merged_dedup', '')}" :
+        "${tumor_sample}"
     """
     set -euo pipefail
 
