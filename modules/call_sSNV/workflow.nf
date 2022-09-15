@@ -5,7 +5,7 @@ include { create_input_yaml_call_sSNV } from "${moduleDir}/create_input_yaml"
 include { call_call_sSNV } from "${moduleDir}/call_call_sSNV"
 
 /*
-* Main workflow for calling the call-gSNP pipeline
+* Main workflow for calling the call-sSNV pipeline
 *
 * Input:
 *   Input is a channel that each element is a tuple or list of 6 items:
