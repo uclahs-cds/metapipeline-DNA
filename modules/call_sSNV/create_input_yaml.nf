@@ -5,7 +5,7 @@ import org.yaml.snakeyaml.Yaml
 * Input:
 *   A tuple of two items:
 *     @param sample_id (String): Sample ID to be used for run
-*     @param normal_bam (path): Path to normal BAM
+*     @param normal_bam (String): Path to normal BAM
 *     @param tumor_bam (List): List of paths to tumor BAMs
 *     @param algorithms (String): Comma-separated list of algorithms to run
 *
@@ -20,7 +20,7 @@ process create_input_yaml_call_sSNV {
 
     input:
         tuple(
-            val(sample_id), path(normal_bam), path(tumor_bam), val(algorithms)
+            val(sample_id), val(normal_bam), val(tumor_bam), val(algorithms)
         )
 
     output:
@@ -30,7 +30,7 @@ process create_input_yaml_call_sSNV {
             path(input_yaml)
         )
 
-    script:
+    exec:
     input_yaml = 'call_sSNV_input.yaml'
     param_tumor_bams = tumor_bam.collect{ "${it}" as String }
     param_normal_bam = normal_bam.collect{ "${it}" as String }
@@ -44,13 +44,5 @@ process create_input_yaml_call_sSNV {
         ]
     ]
     Yaml yaml = new Yaml()
-    input_string = yaml.dump(input_map)
-    """
-    echo "${input_string}" > ${input_yaml}
-    for i in `echo ${normal_bam} ${tumor_bam}`
-    do
-        real_path=`realpath \$i`
-        sed -i "s:\$i:\$real_path:g" ${input_yaml}
-    done
-    """
+    input_string = yaml.dump(input_map, new FileWriter("${task.workDir}/${input_yaml}"))
 }

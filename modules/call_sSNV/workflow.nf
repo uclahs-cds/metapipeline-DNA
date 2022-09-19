@@ -21,14 +21,14 @@ workflow call_sSNV {
     main:
         // [patient, normal_BAM, tumor_BAM]
         input_ch_create_ssnv_yaml_multisample = ich.map{ it ->
-            [it[0], it[4], it[3]]
+            [it[0], [it[4].toRealPath()], it[3].toRealPath()]
         }.groupTuple(by: [0,1])
 
         // [sample_id, normal_BAM, [tumor_BAM]]
         input_ch_create_ssnv_yaml_pairedsample = ich.map{ it ->
             (params.multi_sample_calling) ? \
-                [it[3].baseName.replace('_realigned_recalibrated_merged_dedup', ''), it[4], [it[3]]] : \
-                [it[1], it[4], [it[3]]]
+                [it[3].baseName.replace('_realigned_recalibrated_merged_dedup', ''), [it[4].toRealPath()], [it[3].toRealPath()]] : \
+                [it[1], [it[4].toRealPath()], [it[3].toRealPath()]]
         }
 
 
