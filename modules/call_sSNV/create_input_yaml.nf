@@ -44,5 +44,5 @@ process create_input_yaml_call_sSNV {
         ]
     ]
     Yaml yaml = new Yaml()
-    input_string = yaml.dump(input_map, new FileWriter("${task.workDir}/${input_yaml}"))
+    yaml.dump(input_map, new FileWriter("${task.workDir}/${input_yaml}"))
 }
