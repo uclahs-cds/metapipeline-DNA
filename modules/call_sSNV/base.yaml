@@ -1,7 +1,0 @@
----
-input:
-  BAM:
-    normal:
-      - <NORMAL_PATH>
-    tumor:
-      - <TUMOR_PATH>

@@ -4,7 +4,7 @@ nextflow.enable.dsl = 2
 include { convert_BAM2FASTQ } from "${moduleDir}/convert_BAM2FASTQ/workflow"
 include { align_DNA } from "${moduleDir}/align_DNA/workflow"
 include { call_gSNP } from "${moduleDir}/call_gSNP/workflow"
-include { call_sSNV } from "${moduleDir}/call_sSNV/call_sSNV"
+include { call_sSNV } from "${moduleDir}/call_sSNV/workflow"
 include { call_mtSNV } from "${moduleDir}/call_mtSNV/workflow"
 include { create_csv_for_align_DNA } from "${moduleDir}/align_DNA/create_csv_for_align_DNA" addParams( log_output_dir: params.metapipeline_log_output_dir )
 

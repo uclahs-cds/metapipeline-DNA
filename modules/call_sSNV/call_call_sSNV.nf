@@ -5,18 +5,14 @@
 include { generate_args } from "${moduleDir}/../common"
 
 /*
-* Process to callthe call-sSNV pipeline
+* Process to call the call-sSNV pipeline
 *
 * Input:
-*   @param patient (String): Patient ID
-*   @param tumor_sample (String): Sample ID of the tumor sample.
-*   @parma normal_sample (String): Sample ID of the nomral sample.
-*   @param tumor_bam (file): Tumor's calibrated BAM file output by the call-gSNP pipeline.
-*   @param normal_bam (file): Normal's calibrated BAM file output by the call-gSNP pipeline.
-*
-* Output:
+*   @param sample_id (String): Sample ID
+*   @param algorithms (String): Comma-separated list of algorithms
+*   @param input_yaml (path): Path to YAML containing inputs
 */
-process call_sSNV {
+process call_call_sSNV {
     cpus params.call_sSNV.subworkflow_cpus
 
     publishDir "${params.output_dir}/output",
@@ -25,11 +21,9 @@ process call_sSNV {
 
     input:
         tuple(
-            val(patient),
-            val(tumor_sample),
-            val(normal_sample),
-            file(tumor_bam),
-            file(normal_bam)
+            val(sample_id),
+            val(algorithms),
+            path(input_yaml)
         )
 
     output:
@@ -47,9 +41,6 @@ process call_sSNV {
         'intervals'
     ]
     args = generate_args(params.call_sSNV, arg_list)
-    sample_id = (params.multi_sample_calling) ?
-        "${tumor_bam.baseName.replace('_realigned_recalibrated_merged_dedup', '')}" :
-        "${tumor_sample}"
     """
     set -euo pipefail
 
@@ -59,17 +50,11 @@ process call_sSNV {
         sed "s:<GNOMAD-VCF-METAPIPELNE>:${params.call_sSNV.germline_resource_gnomad_vcf}:g" \
         > call_ssnv_default_metapipeline.config
 
-    cat ${moduleDir}/base.yaml | \
-        sed "s:<NORMAL_PATH>:${normal_bam.toRealPath().toString()}:g" | \
-        sed "s:<TUMOR_PATH>:${tumor_bam.toRealPath().toString()}:g" \
-        > call_ssnv_input.yaml
-
     nextflow run \
         ${moduleDir}/../../external/pipeline-call-sSNV/main.nf \
         --work_dir ${params.work_dir} \
-        --sample_id ${sample_id} \
-        -params-file call_ssnv_input.yaml \
-        --algorithm_str ${params.call_sSNV.algorithm.join(',')} \
+        -params-file ${input_yaml} \
+        --algorithm_str ${algorithms} \
         ${args} \
         -c call_ssnv_default_metapipeline.config
     """

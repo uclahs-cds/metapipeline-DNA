@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Added
 + Pipeline selection module
 + Option for multi-sample gSNP calling
++ Option for multi-sample sSNV Mutect2 calling
 ### Changed
 + Merge configs into one config
 
