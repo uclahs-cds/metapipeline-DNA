@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 + Option for multi-sample sSNV Mutect2 calling
 ### Changed
 + Merge configs into one config
++ call-mtSNV: 3.0.0-rc.1 -> 3.0.0
 
 ---
 
