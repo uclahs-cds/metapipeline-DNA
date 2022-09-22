@@ -23,7 +23,7 @@ process call_call_mtSNV {
 
     script:
     arg_list = [
-        'directory_containing_mt_ref_genome_chrRSRS_files',
+        'mt_ref_genome_dir',
         'gmapdb'
     ]
     args = generate_args(params.call_mtSNV, arg_list)
@@ -33,13 +33,16 @@ process call_call_mtSNV {
     """
     set -euo pipefail
 
-    nextflow -C ${moduleDir}/default.config \
+    cat ${moduleDir}/default.config | sed "s:<OUTPUT-DIR-METAPIPELINE>:\$(pwd):g" \
+        > call_mtsnv_default_metapipeline.config
+
+    nextflow -C call_mtsnv_default_metapipeline.config \
         run ${moduleDir}/../../external/pipeline-call-mtSNV/main.nf \
-        --output_dir \$(pwd) \
         --run_name ${tumor_sample} \
         --input_csv ${input_csv} \
-        --temp_dir ${params.work_dir} \
+        --work_dir ${params.work_dir} \
         --patient_id ${params.patient} \
+        --dataset_id ${params.project_id} \
         ${args}
     """
 }
