@@ -45,9 +45,9 @@ cases:
     nf_script: test/test-call-gSNP/test.nf
     nf_config: test/test-call-gSNP/test.config
     verbose: true
-    skip: true
+    skip: false
     asserts:
-      - actual: test/output/output/call-gSNP-9.0.1/TCEB1_RCC_S00/GATK-4.2.4.1/output/S00-9422T_027_166_merged_raw_variants.g.vcf.gz
+      - actual: test/output/output/call-gSNP-9.1.0/TCEB1_RCC_S00/GATK-4.2.4.1/output/S00-9422T_027_166_merged_raw_variants.g.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/call-gSNP/output/test-call-gSNP/TCEB1/S00-9422T_027_166_merged_raw_variants.g.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
 
@@ -86,7 +86,7 @@ cases:
     nf_script: test/test-call-mtSNV/test.nf
     nf_config: test/test-call-mtSNV/test.config
     verbose: true
-    skip: false
+    skip: true
     asserts:
       # Disabling the tsv test as the tsv contains a timestamp so files are never equal - might require a custom comparison script
       # - actual: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_mtSNV/call_heteroplasmy/GZLUCPTA000001-T001-P01-F_vs_GZLUCPTA000001-N001-B01-F.tsv
