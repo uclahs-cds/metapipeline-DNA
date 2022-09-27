@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 + Merge configs into one config
 + call-mtSNV: 3.0.0-rc.1 -> 3.0.0
 + call-gSNP: 9.0.1 -> 9.1.0
++ align-DNA: 8.0.0 -> 8.1.0
 
 ---
 
