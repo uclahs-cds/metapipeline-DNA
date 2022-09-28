@@ -31,12 +31,12 @@ cases:
     nf_script: test/test-align-DNA/test.nf
     nf_config: test/test-align-DNA/test.config
     verbose: true
-    skip: true
+    skip: false
     asserts:
-      - actual: test/output/output/align-DNA-8.0.0/TCEB1_RCC_S00-9422N_079_114/BWA-MEM2-2.2.1/output/TCEB1_RCC_S00-9422N_079_114.bam
+      - actual: test/output/output/align-DNA-8.1.0/TCEB1_RCC_S00-9422N_079_114/BWA-MEM2-2.2.1/output/TCEB1_RCC_S00-9422N_079_114.bam
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/align-DNA/TCEB1/TCEB1_RCC_S00-9422N_079_114/TCEB1_RCC_S00-9422N_079_114.bam
 
-      - actual: test/output/output/align-DNA-8.0.0/TCEB1_RCC_S00-9422T_027_166/BWA-MEM2-2.2.1/output/TCEB1_RCC_S00-9422T_027_166.bam
+      - actual: test/output/output/align-DNA-8.1.0/TCEB1_RCC_S00-9422T_027_166/BWA-MEM2-2.2.1/output/TCEB1_RCC_S00-9422T_027_166.bam
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/align-DNA/TCEB1/TCEB1_RCC_S00-9422T_027_166/TCEB1_RCC_S00-9422T_027_166.bam
 
 
