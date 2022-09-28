@@ -88,7 +88,7 @@ process create_input_csv_call_gSNP {
     }
     lines = lines.join('\n')
     """
-    echo 'project_id,sample_id,normal_id,normal_BAM,tumour_id,tumour_BAM' > ${input_csv}
+    echo 'patient_id,sample_id,normal_id,normal_BAM,tumour_id,tumour_BAM' > ${input_csv}
     echo '${lines}' >> ${input_csv}
     """
 }
