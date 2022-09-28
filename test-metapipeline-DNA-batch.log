@@ -1,0 +1,106 @@
+N E X T F L O W  ~  version 22.04.5
+Launching `main.nf` [naughty_mirzakhani] DSL2 - revision: e1bf473bf7
+WARN: Access to undefined parameter `multi_sample_calling` -- Initialise it to a default value eg. `params.multi_sample_calling = some_value`
+=================================================
+P I P E L I N E - G E R M L I N E - S O M A T I C
+=================================================
+Boutros Lab
+
+Current Configuration:
+- pipeline:
+    name: metapipeline-DNA
+    version: 1.0.0
+
+- input:
+    input input_csv: /hot/user/hwinata/pipelines/metapipeline-DNA/test/test-metapipeline-DNA-batch/input.csv
+    input project_id: GZLUCPTA000001
+
+- output: 
+    output_dir: /hot/user/hwinata/pipelines/metapipeline-DNA/test/output/metapipeline-DNA-1.0.0/GZLUCPTA000001/main_workflow
+
+- options:
+    option executor: slurm
+    option partition: F72
+    option per_job_cpus: 72 
+    option per_job_memory_GB: 136.8
+    option max_parallel_jobs: 5
+    option multi_sample_calling: null
+
+Tools Used:
+    uclahs-cds/pipeline-convert-BAM2FASTQ: v1.0.0-16-g9d2c5c8
+    uclahs-cds/pipeline-align-DNA: v8.0.0
+    uclahs-cds/pipeline-call-gSNP: v8.0.0
+    uclahs-cds/pipeline-call-sSNV: v4.0.1
+    uclahs-cds/pipeline-call-mtSNV: v3.0.0-rc.1
+
+------------------------------------
+Starting workflow...
+------------------------------------
+
+[-        ] process > create_input_csv_metapipeline_DNA -
+[-        ] process > create_config_json                -
+
+[-        ] process > create_input_csv_metapipeline_DNA -
+[-        ] process > create_config_json                -
+[-        ] process > call_metapipeline_DNA             -
+
+executor >  local (1)
+[-        ] process > create_input_csv_metapipeline_DNA [  0%] 0 of 1
+[92/641969] process > create_config_json                [100%] 1 of 1 ✔
+[-        ] process > call_metapipeline_DNA             -
+
+executor >  local (2)
+[08/7a2b8f] process > create_input_csv_metapipeline_DNA (1) [  0%] 0 of 1
+[92/641969] process > create_config_json                    [100%] 1 of 1 ✔
+[-        ] process > call_metapipeline_DNA                 -
+
+executor >  local (2)
+[08/7a2b8f] process > create_input_csv_metapipeline_DNA (1) [  0%] 0 of 1
+[92/641969] process > create_config_json                    [100%] 1 of 1 ✔
+[-        ] process > call_metapipeline_DNA                 -
+
+executor >  local (2)
+[08/7a2b8f] process > create_input_csv_metapipeline_DNA (1) [  0%] 0 of 1
+[92/641969] process > create_config_json                    [100%] 1 of 1 ✔
+[-        ] process > call_metapipeline_DNA                 -
+
+
+executor >  local (2)
+[08/7a2b8f] process > create_input_csv_metapipeline_DNA (1) [100%] 1 of 1 ✔
+[92/641969] process > create_config_json                    [100%] 1 of 1 ✔
+[-        ] process > call_metapipeline_DNA                 [  0%] 0 of 1
+
+
+executor >  local (2), slurm (1)
+[08/7a2b8f] process > create_input_csv_metapipeline_DNA (1) [100%] 1 of 1 ✔
+[92/641969] process > create_config_json                    [100%] 1 of 1 ✔
+[6a/af45d3] process > call_metapipeline_DNA (1)             [  0%] 0 of 1
+
+
+executor >  local (2), slurm (1)
+[08/7a2b8f] process > create_input_csv_metapipeline_DNA (1) [100%] 1 of 1 ✔
+[92/641969] process > create_config_json                    [100%] 1 of 1 ✔
+[6a/af45d3] process > call_metapipeline_DNA (1)             [  0%] 0 of 1 ✔
+
+[6a/af45d3] NOTE: Process `call_metapipeline_DNA (1)` terminated with an error exit status (1) -- Error is ignored
+
+executor >  local (2), slurm (1)
+[08/7a2b8f] process > create_input_csv_metapipeline_DNA (1) [100%] 1 of 1 ✔
+[92/641969] process > create_config_json                    [100%] 1 of 1 ✔
+[6a/af45d3] process > call_metapipeline_DNA (1)             [100%] 1 of 1, failed: 1 ✔
+[6a/af45d3] NOTE: Process `call_metapipeline_DNA (1)` terminated with an error exit status (1) -- Error is ignored
+
+
+executor >  local (2), slurm (1)
+[08/7a2b8f] process > create_input_csv_metapipeline_DNA (1) [100%] 1 of 1 ✔
+[92/641969] process > create_config_json                    [100%] 1 of 1 ✔
+[6a/af45d3] process > call_metapipeline_DNA (1)             [100%] 1 of 1, failed: 1 ✔
+[6a/af45d3] NOTE: Process `call_metapipeline_DNA (1)` terminated with an error exit status (1) -- Error is ignored
+Completed at: 26-Sep-2022 13:45:09
+Duration    : 11m 13s
+CPU hours   : (a few seconds)
+Succeeded   : 2
+Ignored     : 1
+Failed      : 1
+
+

@@ -33,7 +33,7 @@ The pipeline has a leading process running on the submitter node (can be a F2 no
 
 1. Create a config file using the [`template`](config/template.config), which takes the input samples along with general parameters, with a section defining the parameters, reference files, and resources configurations for each run and each pipeline.
 
-2. Create an [input.csv](inputs/template-inputs.csv) or an [input.yaml](inputs/template-inputs.yaml) file with path to the input files of each patient with both normal and tumor samples. For each patient, there must be one sample where the `state` is `normal` and the other samples for that patient must be `tumor`.
+2. Create an [input.csv](input/template-input.csv) or an [input.yaml](input/template-input.yaml) file with path to the input files of each patient with both normal and tumor samples. For each patient, there must be one sample where the `state` is `normal` and the other samples for that patient must be `tumor`.
 
 3. See the submission script, [here](https://github.com/uclahs-cds/tool-submit-nf), to submit your pipeline.
 
@@ -86,7 +86,7 @@ The same calibrated BAM from step 3 is also used to call for mitochondrial SNVs 
 | state | string | yes | Must be either "tumor" or "normal" |
 | path | path | yes | Absolute path to the sample BAM file |
 
-See this [template](inputs/template-inputs-BAM.csv) for CSV format and this [template](inputs/template-inputs-BAM.yaml) for YAML format.
+See this [template](input/template-input-BAM.csv) for CSV format and this [template](input/template-input-BAM.yaml) for YAML format.
 
 ### Input FASTQ
 
@@ -106,7 +106,7 @@ See this [template](inputs/template-inputs-BAM.csv) for CSV format and this [tem
 | read1_fastq | path | yes | Absolute path to R1 FASTQ |
 | read2_fastq | path | yes | Absolute path to R2 FASTQ |
 
-See this [template](inputs/template-inputs-FASTQ.csv) for CSV format and this [template](inputs/template-inputs-FASTQ.yaml) for YAML format.
+See this [template](input/template-input-FASTQ.csv) for CSV format and this [template](input/template-input-FASTQ.yaml) for YAML format.
 
 ### Config Params
 

@@ -1,0 +1,53 @@
+N E X T F L O W  ~  version 22.04.5
+Launching `main.nf` [furious_fermi] DSL2 - revision: e1bf473bf7
+WARN: Access to undefined parameter `executor` -- Initialise it to a default value eg. `params.executor = some_value`
+WARN: Access to undefined parameter `partition` -- Initialise it to a default value eg. `params.partition = some_value`
+WARN: Access to undefined parameter `per_job_cpus` -- Initialise it to a default value eg. `params.per_job_cpus = some_value`
+WARN: Access to undefined parameter `per_job_memory_GB` -- Initialise it to a default value eg. `params.per_job_memory_GB = some_value`
+WARN: Access to undefined parameter `max_parallel_jobs` -- Initialise it to a default value eg. `params.max_parallel_jobs = some_value`
+WARN: Access to undefined parameter `multi_sample_calling` -- Initialise it to a default value eg. `params.multi_sample_calling = some_value`
+WARN: Access to undefined parameter `version_BAM2FASTQ` -- Initialise it to a default value eg. `params.version_BAM2FASTQ = some_value`
+WARN: Access to undefined parameter `version_align_DNA` -- Initialise it to a default value eg. `params.version_align_DNA = some_value`
+WARN: Access to undefined parameter `version_call_gSNP` -- Initialise it to a default value eg. `params.version_call_gSNP = some_value`
+WARN: Access to undefined parameter `version_call_sSNV` -- Initialise it to a default value eg. `params.version_call_sSNV = some_value`
+WARN: Access to undefined parameter `version_call_mtSNV` -- Initialise it to a default value eg. `params.version_call_mtSNV = some_value`
+=================================================
+P I P E L I N E - G E R M L I N E - S O M A T I C
+=================================================
+Boutros Lab
+
+Current Configuration:
+- pipeline:
+    name: metapipeline-DNA
+    version: 1.0.0
+
+- input:
+    input input_csv: /hot/user/hwinata/pipelines/metapipeline-DNA/test/test-metapipeline-DNA/input.csv
+    input project_id: LUAD0000034
+
+- output: 
+    output_dir: /hot/user/hwinata/pipelines/metapipeline-DNA/test/output
+
+- options:
+    option executor: null
+    option partition: null
+    option per_job_cpus: null 
+    option per_job_memory_GB: null
+    option max_parallel_jobs: null
+    option multi_sample_calling: null
+
+Tools Used:
+    uclahs-cds/pipeline-convert-BAM2FASTQ: null
+    uclahs-cds/pipeline-align-DNA: null
+    uclahs-cds/pipeline-call-gSNP: null
+    uclahs-cds/pipeline-call-sSNV: null
+    uclahs-cds/pipeline-call-mtSNV: null
+
+------------------------------------
+Starting workflow...
+------------------------------------
+
+WARN: Access to undefined parameter `input` -- Initialise it to a default value eg. `params.input = some_value`
+Cannot get property 'BAM' on null object
+
+ -- Check script 'main.nf' at line: 171 or see '.nextflow.log' file for more details

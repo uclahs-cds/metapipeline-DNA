@@ -1,7 +1,7 @@
 
 nextflow.enable.dsl = 2
 
-include { align_DNA } from "${projectDir}/../../modules/align_DNA/workflow"
+include { align_DNA } from "${projectDir}/../../module/align_DNA/workflow"
 
 workflow {
     ich = Channel.fromPath(params.input_csv).splitCsv(header:true)
