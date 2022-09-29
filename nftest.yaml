@@ -31,7 +31,7 @@ cases:
     nf_script: test/test-align-DNA/test.nf
     nf_config: test/test-align-DNA/test.config
     verbose: true
-    skip: false
+    skip: true
     asserts:
       - actual: test/output/output/align-DNA-8.1.0/TCEB1_RCC_S00-9422N_079_114/BWA-MEM2-2.2.1/output/TCEB1_RCC_S00-9422N_079_114.bam
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/align-DNA/TCEB1/TCEB1_RCC_S00-9422N_079_114/TCEB1_RCC_S00-9422N_079_114.bam
@@ -45,7 +45,7 @@ cases:
     nf_script: test/test-call-gSNP/test.nf
     nf_config: test/test-call-gSNP/test.config
     verbose: true
-    skip: false
+    skip: true
     asserts:
       - actual: test/output/output/call-gSNP-9.1.0/TCEB1_RCC_S00/GATK-4.2.4.1/output/S00-9422T_027_166_merged_raw_variants.g.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/call-gSNP/output/test-call-gSNP/TCEB1/S00-9422T_027_166_merged_raw_variants.g.vcf.gz
@@ -106,7 +106,7 @@ cases:
     nf_script: module/metapipeline_DNA.nf
     nf_config: test/test-metapipeline-DNA/test.config
     verbose: true
-    skip: false
+    skip: true
 
 
   - name: test-metapipeline-DNA-batch
@@ -114,7 +114,7 @@ cases:
     nf_script: main.nf
     nf_config: test/test-metapipeline-DNA-batch/test.config
     verbose: true
-    skip: true
+    skip: false
 
   - name: test-metapipeline-DNA-fastq-input
     message: Test running the main.nf that runs the metapipeline-DNA pipeline in batch with fastq inputs.
