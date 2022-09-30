@@ -8,6 +8,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+
+---
+
+## [2.0.0-rc.1] - 2022-09-30
 ### Added
 + Pipeline selection module
 + Option for multi-sample gSNP calling
