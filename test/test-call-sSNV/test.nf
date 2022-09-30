@@ -1,6 +1,6 @@
 nextflow.enable.dsl = 2
 
-include { call_sSNV } from "${projectDir}/../../modules/call_sSNV/call_sSNV"
+include { call_sSNV } from "${projectDir}/../../module/call_sSNV/workflow"
 
 workflow {
     ich = Channel.fromPath(params.input_csv).splitCsv(header:true)
