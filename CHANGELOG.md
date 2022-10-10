@@ -8,6 +8,11 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+### Added
++ Additional call-gSNP params
+### Changed
++ Extract submodule version from `nextflow.config`
++ Identify gSNP `sample_id` based on run mode
 
 ---
 
