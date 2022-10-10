@@ -84,7 +84,8 @@ process create_input_csv_call_gSNP {
     normal_bam_sm = records[0][4]
     normal_sample = records[0][2]
     for (record in records) {
-        lines.add([params.project_id, patient, record[4], record[6], record[3], record[5]].join(','))
+        sample_id_for_gsnp = (params.multi_sample_calling) ? patient : record[3]
+        lines.add([params.project_id, sample_id_for_gsnp, record[4], record[6], record[3], record[5]].join(','))
     }
     lines = lines.join('\n')
     """
