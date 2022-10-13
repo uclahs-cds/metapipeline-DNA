@@ -8,6 +8,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+
+---
+
+## [2.0.0] - 2022-10-13
 ### Added
 + Additional call-gSNP params
 ### Changed
