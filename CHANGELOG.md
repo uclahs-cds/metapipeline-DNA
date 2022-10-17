@@ -11,6 +11,15 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [2.0.0] - 2022-10-13
+### Added
++ Additional call-gSNP params
+### Changed
++ Extract submodule version from `nextflow.config`
++ Identify gSNP `sample_id` based on run mode
+
+---
+
 ## [2.0.0-rc.1] - 2022-09-30
 ### Added
 + Pipeline selection module

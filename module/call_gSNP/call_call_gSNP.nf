@@ -36,7 +36,8 @@ process call_call_gSNP {
         file "call-gSNP-*/*"
 
     script:
-    normal_bam = "call-gSNP-*/${patient}/GATK-*/output/${normal_bam_sm}_realigned_recalibrated_merged_dedup.bam"
+    sample_id_for_gsnp = (params.multi_sample_calling) ? patient : tumor_sample
+    normal_bam = "call-gSNP-*/${sample_id_for_gsnp}/GATK-*/output/${normal_bam_sm}_realigned_recalibrated_merged_dedup.bam"
     arg_list = [
         'bundle_mills_and_1000g_gold_standard_indels_vcf_gz',
         'bundle_known_indels_vcf_gz',
@@ -44,7 +45,10 @@ process call_call_gSNP {
         'bundle_hapmap_3p3_vcf_gz',
         'bundle_omni_1000g_2p5_vcf_gz',
         'bundle_phase1_1000g_snps_high_conf_vcf_gz',
-        'bundle_contest_hapmap_3p3_vcf_gz'
+        'bundle_contest_hapmap_3p3_vcf_gz',
+        'intervals',
+        'scatter_count',
+        'gatk_ir_compression'
     ]
     args = generate_args(params.call_gSNP, arg_list)
     """
@@ -60,7 +64,7 @@ process call_call_gSNP {
         ${args} \
         -c call_gsnp_default_metapipeline.config
 
-    for i in `ls --hide=${normal_bam_sm}_realigned_recalibrated_merged_dedup.bam call-gSNP-*/${patient}/GATK-*/output/ -1 | grep ".bam\$"`
+    for i in `ls --hide=${normal_bam_sm}_realigned_recalibrated_merged_dedup.bam call-gSNP-*/${sample_id_for_gsnp}/GATK-*/output/ -1 | grep ".bam\$"`
     do
         full_path=`find \$(pwd) -name \$i`
         ln -s \$full_path \$i
