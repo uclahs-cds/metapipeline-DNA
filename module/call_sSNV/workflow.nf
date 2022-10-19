@@ -26,7 +26,7 @@ workflow call_sSNV {
 
         // [sample_id, normal_BAM, [tumor_BAM]]
         input_ch_create_ssnv_yaml_pairedsample = ich.map{ it ->
-            (params.multi_sample_calling) ? \
+            (params.sample_mode == 'multi') ? \
                 [it[3].baseName.replace('_realigned_recalibrated_merged_dedup', ''), [it[4].toRealPath()], [it[3].toRealPath()]] : \
                 [it[1], [it[4].toRealPath()], [it[3].toRealPath()]]
         }
@@ -35,7 +35,7 @@ workflow call_sSNV {
         input_ch_create_ssnv_yaml = Channel.empty()
         requested_ssnv_algorithms = params.call_sSNV.algorithm
 
-        if ( params.multi_sample_calling && 'mutect2' in requested_ssnv_algorithms ) {
+        if ( params.sample_mode == 'multi' && 'mutect2' in requested_ssnv_algorithms ) {
             input_ch_create_ssnv_yaml = input_ch_create_ssnv_yaml_multisample
                 .combine( Channel.of( 'mutect2' ) )
 

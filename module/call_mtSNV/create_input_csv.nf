@@ -29,7 +29,7 @@ process create_input_csv {
 
     script:
     input_csv = 'call_mtSNV_input.csv'
-    mtsnv_sample_id = (params.multi_sample_calling) ?
+    mtsnv_sample_id = (params.sample_mode == 'multi') ?
         "${tumour_BAM.baseName.replace('_realigned_recalibrated_merged_dedup', '')}" :
         "${tumour_id}"
     mtsnv_tumour_id = "${tumour_BAM.baseName.replace('_realigned_recalibrated_merged_dedup', '')}"

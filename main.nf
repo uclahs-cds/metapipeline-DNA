@@ -32,7 +32,7 @@ log.info """\
         option per_job_cpus: ${params.per_job_cpus} 
         option per_job_memory_GB: ${params.per_job_memory_GB}
         option max_parallel_jobs: ${params.max_parallel_jobs}
-        option multi_sample_calling: ${params.multi_sample_calling}
+        option sample_mode: ${params.sample_mode}
 
     Tools Used:
         uclahs-cds/pipeline-convert-BAM2FASTQ: ${params.version_BAM2FASTQ}
@@ -156,7 +156,7 @@ process call_metapipeline_DNA {
         --input_csv ${input_csv} \
         --patient ${patient} \
         --input_type ${params.input_type} \
-        --multi_sample_calling ${params.multi_sample_calling} \
+        --sample_mode ${params.sample_mode} \
         --project_id ${params.project_id} \
         --save_intermediate_files ${params.save_intermediate_files} \
         --output_dir ${params.output_dir} \

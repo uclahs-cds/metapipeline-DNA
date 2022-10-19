@@ -27,7 +27,7 @@ process call_call_mtSNV {
         'gmapdb'
     ]
     args = generate_args(params.call_mtSNV, arg_list)
-    sample_id = (params.multi_sample_calling) ?
+    sample_id = (params.sample_mode == 'multi') ?
         "${tumor_bam.baseName.replace('_realigned_recalibrated_merged_dedup', '')}" :
         "${tumor_sample}"
     """

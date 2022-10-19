@@ -33,7 +33,7 @@ workflow call_gSNP {
                 [it.patient, [it.patient, it.tumor_sample, it.normal_sample, it.tumor_bam_sm, it.normal_bam_sm, it.tumor_bam, it.normal_bam]]
             }
 
-        if (params.multi_sample_calling) {
+        if (params.sample_mode == 'multi') {
             input_ch_create_gsnp_csv = paired_info.groupTuple(by: 0)
         } else {
             input_ch_create_gsnp_csv = paired_info.map{ it ->
@@ -44,7 +44,7 @@ workflow call_gSNP {
         create_input_csv_call_gSNP(input_ch_create_gsnp_csv)
         call_call_gSNP(create_input_csv_call_gSNP.out)
 
-        if (params.multi_sample_calling) {
+        if (params.sample_mode == 'multi') {
             /**
             *   For multi-sample calling, keep the patient, tumor_id, normal_id, and normal_BAM
             *   then combine with each tumor BAM for downstream pipelines

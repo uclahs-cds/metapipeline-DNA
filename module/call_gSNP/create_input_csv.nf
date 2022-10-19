@@ -1,9 +1,9 @@
 
 /*
-* This process takes the channel emitted by the align_DNA module, and create tumor normal paires.
+* This process takes the channel emitted by the align_DNA module, and create tumor normal pairs for paired and multi-sample mode.
 * Only one normal sample is allowed. If multiple tumor samples are found (e.g., primary tumor &
 * adjacent normal), each tumor sample is paired with the normal sample, and the call_gSNP pipeline
-* is called separately if multi_sample_calling is not enabled.
+* is called separately if multi sample calling is not enabled.
 *
 * input:
 *   A nested list or tuple, that each child is a list or tuple contains six elements:
@@ -80,11 +80,11 @@ process create_input_csv_call_gSNP {
     script:
     input_csv = 'call_gSNP_input.csv'
     lines = []
-    tumor_sample = (params.multi_sample_calling) ? patient : records[0][1]
+    tumor_sample = (params.sample_mode == 'multi') ? patient : records[0][1]
     normal_bam_sm = records[0][4]
     normal_sample = records[0][2]
     for (record in records) {
-        sample_id_for_gsnp = (params.multi_sample_calling) ? patient : record[3]
+        sample_id_for_gsnp = (params.sample_mode == 'multi') ? patient : record[3]
         lines.add([params.project_id, sample_id_for_gsnp, record[4], record[6], record[3], record[5]].join(','))
     }
     lines = lines.join('\n')
