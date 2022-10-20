@@ -1,7 +1,7 @@
 /*
     Main entry point for calling call-gSNP pipeline
 */
-include { create_normal_tumor_pairs; create_input_csv_call_gSNP } from "${moduleDir}/create_input_csv"
+include { create_normal_tumor_pairs; create_input_csv_call_gSNP; create_input_csv_call_gSNP_single } from "${moduleDir}/create_input_csv"
 include { call_call_gSNP } from "${moduleDir}/call_call_gSNP"
 
 /*
@@ -27,36 +27,48 @@ workflow call_gSNP {
     take:
         ich
     main:
-        create_normal_tumor_pairs(ich)
-        paired_info = create_normal_tumor_pairs.out.splitCsv(header:true)
-            .map{
-                [it.patient, [it.patient, it.tumor_sample, it.normal_sample, it.tumor_bam_sm, it.normal_bam_sm, it.tumor_bam, it.normal_bam]]
+        ich.view{"Raw: $it"}
+        if (params.sample_mode != 'single') {
+            create_normal_tumor_pairs(ich)
+            paired_info = create_normal_tumor_pairs.out.splitCsv(header:true)
+                .map{
+                    [it.patient, [it.patient, it.tumor_sample, it.normal_sample, it.tumor_bam_sm, it.normal_bam_sm, it.tumor_bam, it.normal_bam]]
+                }
+
+            if (params.sample_mode == 'multi') {
+                input_ch_create_gsnp_csv = paired_info.groupTuple(by: 0)
+            } else {
+                input_ch_create_gsnp_csv = paired_info.map{ it ->
+                    [it[0], [it[1]]]
+                }
             }
 
-        if (params.sample_mode == 'multi') {
-            input_ch_create_gsnp_csv = paired_info.groupTuple(by: 0)
+            create_input_csv_call_gSNP(input_ch_create_gsnp_csv)
+            ich_call_gsnp = create_input_csv_call_gSNP.out
         } else {
-            input_ch_create_gsnp_csv = paired_info.map{ it ->
-                [it[0], [it[1]]]
-            }
+            ich_create_csv = ich
+                .map{ [it[1], it] } // [sample, records]
+                .groupTuple(by: 0)
+                .map{ [it[1][0][0], it[1]] } // [patient, records]
+                .view{"Formated: $it"}
+            create_input_csv_call_gSNP_single(ich_create_csv)
+            ich_call_gsnp = create_input_csv_call_gSNP_single.out
         }
-
-        create_input_csv_call_gSNP(input_ch_create_gsnp_csv)
-        call_call_gSNP(create_input_csv_call_gSNP.out)
+        call_call_gSNP(ich_call_gsnp)
 
         if (params.sample_mode == 'multi') {
             /**
-            *   For multi-sample calling, keep the patient, tumor_id, normal_id, and normal_BAM
+            *   For multi-sample calling, keep the patient, run_mode, tumor_id, normal_id, and normal_BAM
             *   then combine with each tumor BAM for downstream pipelines
             */
             normal_ch_for_join = call_call_gSNP.out.full_output
                 .first()
-                .map{ [it[0], it[1], it[2], it[4]] }
+                .map{ [it[0], it[1], it[2], it[3], it[5]] }
 
             output_ch_call_gsnp = call_call_gSNP.out.tumor_bam
                 .flatten()
                 .combine(normal_ch_for_join)
-                .map{ [it[1], it[2], it[3], it[0], it[4]] }
+                .map{ [it[1], it[2], it[3], it[4], it[0], it[5]] }
         } else {
             output_ch_call_gsnp = call_call_gSNP.out.full_output
         }

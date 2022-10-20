@@ -24,7 +24,7 @@ process create_normal_tumor_pairs {
 
     publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}",
         enabled: params.save_intermediate_files,
-        pattern: 'paried_input_csv.txt',
+        pattern: 'paired_input_csv.txt',
         mode: 'copy'
     
     input:
@@ -34,7 +34,7 @@ process create_normal_tumor_pairs {
         file output_file
 
     script:
-    output_file = 'paried_input_csv.txt'
+    output_file = 'paired_input_csv.txt'
     ich_file = 'ich.txt'
     lines = []
     for (record in records) {
@@ -57,7 +57,7 @@ process create_normal_tumor_pairs {
 *     @param records (List): List of records to include in CSV.
 *
 * Output:
-*   @return A tuple of 5 items, inlcuding the patient, tumor_sample, normal_sample of input, normal_bam_sm of input, and the input CSV file created for the call-gSNP pipeline.
+*   @return A tuple of 6 items, inlcuding the patient, run mode, tumor_sample, normal_sample of input, normal_bam_sm of input, and the input CSV file created for the call-gSNP pipeline.
 */
 process create_input_csv_call_gSNP {
     publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}/${task.index}",
@@ -72,7 +72,7 @@ process create_input_csv_call_gSNP {
 
     output:
         tuple(
-            val(patient),
+            val(patient), val('multi'),
             val(tumor_sample), val(normal_sample),
             val(normal_bam_sm), file(input_csv)
         )
@@ -90,6 +90,57 @@ process create_input_csv_call_gSNP {
     lines = lines.join('\n')
     """
     echo 'patient_id,sample_id,normal_id,normal_BAM,tumour_id,tumour_BAM' > ${input_csv}
+    echo '${lines}' >> ${input_csv}
+    """
+}
+
+/*
+* Create input CSV file for the call-gSNP pipeline in single sample mode.
+*
+* Input:
+*   A tuple of two items:
+*     @param patient (String): Patient ID
+*     @param records (List): List of records to include in CSV.
+*
+* Output:
+*   @return A tuple of 6 items, inlcuding the patient, run mode, tumor_sample, normal_sample of input, normal_bam_sm of input, and the input CSV file created for the call-gSNP pipeline.
+*/
+process create_input_csv_call_gSNP_single {
+    publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}/${identifier}",
+        enabled: params.save_intermediate_files,
+        pattern: 'call_gSNP_input.csv',
+        mode: 'copy'
+
+    input:
+        tuple(
+            val(patient),
+            val(records)
+        )
+
+    output:
+        tuple(
+            val(patient), val(run_mode),
+            val(tumor_sample), val(normal_sample),
+            val(normal_bam_sm), file(input_csv)
+        )
+
+    script:
+    input_csv = 'call_gSNP_input.csv'
+    identifier = records[0][1]
+    run_mode = records[0][2]
+    lines = []
+    // Set single sample to normal for call-gSNP
+    // Call-gSNP single sample mode has no differences between normal and tumor
+    tumor_sample = 'NO_ID'
+    normal_sample = identifier
+    normal_bam_sm = records[0][3]
+    for (record in records) {
+        sample_id_for_gsnp = normal_sample
+        lines.add([params.project_id, sample_id_for_gsnp, normal_bam_sm, record[4]].join(','))
+    }
+    lines = lines.join('\n')
+    """
+    echo 'patient_id,sample_id,normal_id,normal_BAM' > ${input_csv}
     echo '${lines}' >> ${input_csv}
     """
 }

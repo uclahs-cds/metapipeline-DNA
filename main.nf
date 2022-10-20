@@ -52,13 +52,14 @@ log.info """\
 *
 * Input:
 *   A tuple of two objects.
-*     @param identifier (val): identifier for the files being processed
+*     @param patient (val): the patient ID
+*     @param identifier (val): the identifier for the file
 *     @records (tuple[tuple[str|file]]): A 2D tuple, that each child tuple contains the patient ID,
 *       sample ID, state, and other inputs depending on input type.
 *
 * Output:
 *   A tuple of two objects.
-*     @return identifier (val): identifier for the files being processed
+*     @return patient (val): the patient ID
 *     @return input_csv (file): the input CSV file generated to be passed to the metapipeline-DNA.
 */
 
@@ -75,13 +76,14 @@ process create_input_csv_metapipeline_DNA {
 
     input:
         tuple(
+            val(patient),
             val(identifier),
             val(records)
         )
 
     output:
         tuple(
-            val(identifier),
+            val(patient),
             path(input_csv)
         )
         path(".command.*")
@@ -175,12 +177,15 @@ workflow {
     }
 
     if (params.sample_mode == 'single') {
-        // Group by sample instead of patient
+        // Group by sample
         ich = ich_individual
             .map{ [it[1][1], it[1]] }
             .groupTuple(by: 0)
+            .map{ [it[1][0][0], it[0], it[1]] } // [patient, sample, records]
     } else {
-        ich = ich_individual.groupTuple(by: 0)
+        ich = ich_individual
+            .groupTuple(by: 0)
+            .map{ [it[0], it[0], it[1]] } // [patient, patient, records]
     }
 
     create_input_csv_metapipeline_DNA(ich)

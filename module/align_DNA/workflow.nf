@@ -16,7 +16,9 @@ workflow align_DNA {
     take:
         ich
     main:
+        ich.view{"inaligndnabefore: $it"}
         call_align_DNA(ich)
+        call_align_DNA.out[0].view{"inaligndnaafter: $it"}
     emit:
         call_align_DNA.out[0]
 }

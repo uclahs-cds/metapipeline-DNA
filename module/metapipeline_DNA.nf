@@ -26,8 +26,11 @@ workflow {
 
     align_DNA(ich_align_DNA_fastq)
 
-    call_gSNP(align_DNA.out[0].map{[it]}.collect())
-    
+    if (params.sample_mode == 'single') {
+        call_gSNP(align_DNA.out[0])
+    } else {
+        call_gSNP(align_DNA.out[0].map{[it]}.collect())
+    }
     call_sSNV(call_gSNP.out[0])
 
     call_mtSNV(call_gSNP.out[0])
