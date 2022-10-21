@@ -33,7 +33,7 @@ process call_call_mtSNV {
 
     cat ${moduleDir}/default.config | \
         sed "s:<OUTPUT-DIR-METAPIPELINE>:\$(pwd):g" | \
-        sed "s:<SAMPLE-MODE-METAPIPELINE>:${sample_mode}:g" | \
+        sed "s:<SAMPLE-MODE-METAPIPELINE>:${sample_mode}:g" \
         > call_mtsnv_default_metapipeline.config
 
     nextflow -C call_mtsnv_default_metapipeline.config \

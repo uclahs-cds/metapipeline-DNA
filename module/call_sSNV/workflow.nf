@@ -24,7 +24,7 @@ workflow call_sSNV {
             if ('mutect2' in params.call_sSNV.algorithm) {
                 input_ch_tumor_only = ich
                     .filter{ it[1] == 'tumor' }
-                    .map{ [it[3], 'NO_BAM.bam', [it[4].toRealPath()], 'mutect2'] }
+                    .map{ [it[3], 'NO_BAM.bam', [it[5].toRealPath()], 'mutect2'] }
             } else {
                 input_ch_tumor_only = Channel.empty()
             }
