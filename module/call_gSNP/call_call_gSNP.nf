@@ -25,7 +25,7 @@ process call_call_gSNP {
 
     input:
         tuple(
-            val(patient), val(run_mode),
+            val(patient), val(run_mode), val(sample_id_for_gsnp),
             val(tumor_sample), val(normal_sample),
             val(normal_bam_sm), file(input_csv)
         )

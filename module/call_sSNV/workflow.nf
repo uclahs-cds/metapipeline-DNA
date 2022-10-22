@@ -10,6 +10,7 @@ include { call_call_sSNV } from "${moduleDir}/call_call_sSNV"
 * Input:
 *   Input is a channel that each element is a tuple or list of 6 items:
 *     @param patient (String): Patient ID
+*     @param run_mode (String): Indicator of type of sample
 *     @param tumor_sample (String): Tumor sample name
 *     @param normal_sample (String): Normal sample name
 *     @param tumor_bam (file): Path to tumor BAM
@@ -32,14 +33,14 @@ workflow call_sSNV {
         } else {
             // [patient, normal_BAM, tumor_BAM]
             input_ch_create_ssnv_yaml_multisample = ich.map{ it ->
-                [it[0], [it[4].toRealPath()], it[3].toRealPath()]
+                [it[0], [it[5].toRealPath()], it[4].toRealPath()]
             }.groupTuple(by: [0,1])
 
             // [sample_id, normal_BAM, [tumor_BAM]]
             input_ch_create_ssnv_yaml_pairedsample = ich.map{ it ->
                 (params.sample_mode == 'multi') ? \
-                    [it[3].baseName.replace('_realigned_recalibrated_merged_dedup', ''), [it[4].toRealPath()], [it[3].toRealPath()]] : \
-                    [it[1], [it[4].toRealPath()], [it[3].toRealPath()]]
+                    [it[4].baseName.replace('_realigned_recalibrated_merged_dedup', ''), [it[5].toRealPath()], [it[4].toRealPath()]] : \
+                    [it[2], [it[5].toRealPath()], [it[4].toRealPath()]]
             }
 
             input_ch_create_ssnv_yaml = Channel.empty()

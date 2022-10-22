@@ -72,7 +72,7 @@ process create_input_csv_call_gSNP {
 
     output:
         tuple(
-            val(patient), val('multi'),
+            val(patient), val('multi'), val(sample_id_for_gsnp),
             val(tumor_sample), val(normal_sample),
             val(normal_bam_sm), file(input_csv)
         )
@@ -81,10 +81,10 @@ process create_input_csv_call_gSNP {
     input_csv = 'call_gSNP_input.csv'
     lines = []
     tumor_sample = (params.sample_mode == 'multi') ? patient : records[0][1]
+    sample_id_for_gsnp = tumor_sample
     normal_bam_sm = records[0][4]
     normal_sample = records[0][2]
     for (record in records) {
-        sample_id_for_gsnp = (params.sample_mode == 'multi') ? patient : record[3]
         lines.add([params.project_id, sample_id_for_gsnp, record[4], record[6], record[3], record[5]].join(','))
     }
     lines = lines.join('\n')
@@ -119,7 +119,7 @@ process create_input_csv_call_gSNP_single {
 
     output:
         tuple(
-            val(patient), val(run_mode),
+            val(patient), val(run_mode), val(sample_id_for_gsnp),
             val(tumor_sample), val(normal_sample),
             val(normal_bam_sm), file(input_csv)
         )
