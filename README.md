@@ -21,7 +21,7 @@
 
 ## Overview
 
-This meta pipeline takes either aligned sequencing data (BAM - <u>**BETA FEATURE**</u>) and converts it back to FASTQ format or direct FASTQ data. The FASTQs are re-aligned to the reference genome and called for germline SNPs, somatic SNVs and mitochondrial SNVs. The input to this meta pipeline includes a list of patients and their tumor-normal paired samples. Each patient must have **exactly one** normal sample, while multiple tumor samples are allowed. If a patient has multiple tumor samples, each tumor will be paired with the normal and calling will be done for each pair.
+This meta pipeline takes either aligned sequencing data (BAM - <u>**BETA FEATURE**</u>) and converts it back to FASTQ format or direct FASTQ data. The FASTQs are re-aligned to the reference genome and called for germline SNPs, somatic SNVs and mitochondrial SNVs. The input to this meta pipeline includes a list of patients and their tumor-normal paired samples. Each patient must have **exactly one** normal sample, while multiple tumor samples are allowed. There are 3 available calling modes: paired mode where each tumour sample will be paired with the normal sample for calling; multi mode where all samples for a patient will be called together; single mode where each sample for the patient will be called separately.
 
 The pipeline has a leading process running on the submitter node (can be a F2 node as the leading process does not require many resources) that submits samples of each patient to a worker node (usually an F72 node) for processing. All processes for the same patient run on the same node to avoid network traffic.
 
