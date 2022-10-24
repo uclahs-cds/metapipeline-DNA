@@ -27,7 +27,6 @@ workflow call_gSNP {
     take:
         ich
     main:
-        ich.view{"Raw: $it"}
         if (params.sample_mode != 'single') {
             create_normal_tumor_pairs(ich)
             paired_info = create_normal_tumor_pairs.out.splitCsv(header:true)
@@ -50,7 +49,6 @@ workflow call_gSNP {
                 .map{ [it[1], it] } // [sample, records]
                 .groupTuple(by: 0)
                 .map{ [it[1][0][0], it[1]] } // [patient, records]
-                .view{"Formated: $it"}
             create_input_csv_call_gSNP_single(ich_create_csv)
             ich_call_gsnp = create_input_csv_call_gSNP_single.out
         }
