@@ -34,15 +34,26 @@ process create_input_yaml_call_sSNV {
     input_yaml = 'call_sSNV_input.yaml'
     param_tumor_bams = tumor_bam.collect{ "${it}" as String }
     param_normal_bam = normal_bam.collect{ "${it}" as String }
-    input_map = [
-        'sample_id': sample_id,
-        'input': [
-            'BAM': [
-                'normal': param_normal_bam,
-                'tumor': param_tumor_bams
+    if (params.sample_mode == 'single') {
+        input_map = [
+            'sample_id': sample_id,
+            'input': [
+                'BAM': [
+                    'tumor': param_tumor_bams
+                ]
             ]
         ]
-    ]
+    } else {
+        input_map = [
+            'sample_id': sample_id,
+            'input': [
+                'BAM': [
+                    'normal': param_normal_bam,
+                    'tumor': param_tumor_bams
+                ]
+            ]
+        ]
+    }
     Yaml yaml = new Yaml()
     yaml.dump(input_map, new FileWriter("${task.workDir}/${input_yaml}"))
 }

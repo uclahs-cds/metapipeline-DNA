@@ -26,14 +26,14 @@ process call_call_mtSNV {
         'mt_ref_genome_dir',
         'gmapdb'
     ]
+    sample_mode = (params.sample_mode == 'single') ? 'single' : 'paired'
     args = generate_args(params.call_mtSNV, arg_list)
-    sample_id = (params.multi_sample_calling) ?
-        "${tumor_bam.baseName.replace('_realigned_recalibrated_merged_dedup', '')}" :
-        "${tumor_sample}"
     """
     set -euo pipefail
 
-    cat ${moduleDir}/default.config | sed "s:<OUTPUT-DIR-METAPIPELINE>:\$(pwd):g" \
+    cat ${moduleDir}/default.config | \
+        sed "s:<OUTPUT-DIR-METAPIPELINE>:\$(pwd):g" | \
+        sed "s:<SAMPLE-MODE-METAPIPELINE>:${sample_mode}:g" \
         > call_mtsnv_default_metapipeline.config
 
     nextflow -C call_mtsnv_default_metapipeline.config \

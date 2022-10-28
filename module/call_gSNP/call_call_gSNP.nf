@@ -25,18 +25,24 @@ process call_call_gSNP {
 
     input:
         tuple(
-            val(patient),
+            val(patient), val(run_mode), val(sample_id_for_gsnp),
             val(tumor_sample), val(normal_sample),
             val(normal_bam_sm), file(input_csv)
         )
 
     output:
-        tuple val(patient), val(tumor_sample), val(normal_sample), path("*.bam"), path(normal_bam), emit: full_output
+        tuple val(patient), val(run_mode), val(tumor_sample), val(normal_sample), path("*.bam"), path(normal_bam), emit: full_output
         path("*.bam"), emit: tumor_bam
         file "call-gSNP-*/*"
 
     script:
-    sample_id_for_gsnp = (params.multi_sample_calling) ? patient : tumor_sample
+    if (params.sample_mode == 'multi') {
+        sample_id_for_gsnp = patient
+    } else if (params.sample_mode == 'single') {
+        sample_id_for_gsnp = normal_sample
+    } else {
+        sample_id_for_gsnp = tumor_sample
+    }
     normal_bam = "call-gSNP-*/${sample_id_for_gsnp}/GATK-*/output/${normal_bam_sm}_realigned_recalibrated_merged_dedup.bam"
     arg_list = [
         'bundle_mills_and_1000g_gold_standard_indels_vcf_gz',
@@ -64,10 +70,15 @@ process call_call_gSNP {
         ${args} \
         -c call_gsnp_default_metapipeline.config
 
-    for i in `ls --hide=${normal_bam_sm}_realigned_recalibrated_merged_dedup.bam call-gSNP-*/${sample_id_for_gsnp}/GATK-*/output/ -1 | grep ".bam\$"`
-    do
-        full_path=`find \$(pwd) -name \$i`
-        ln -s \$full_path \$i
-    done
+    if ${params.sample_mode == 'single'}
+    then
+        touch NO_FILE.bam
+    else
+        for i in `ls --hide=${normal_bam_sm}_realigned_recalibrated_merged_dedup.bam call-gSNP-*/${sample_id_for_gsnp}/GATK-*/output/ -1 | grep ".bam\$"`
+        do
+            full_path=`find \$(pwd) -name \$i`
+            ln -s \$full_path \$i
+        done
+    fi
     """
 }

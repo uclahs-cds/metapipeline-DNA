@@ -3,7 +3,7 @@
 */
 
 process create_input_csv {
-    publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}/${mtsnv_tumour_id}",
+    publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}/${mtsnv_sample_id}",
         enabled: params.save_intermediate_files,
         pattern: 'call_mtSNV_input.csv',
         mode: 'copy'
@@ -11,6 +11,7 @@ process create_input_csv {
     input:
         tuple(
             val(sample_id),
+            val(run_mode),
             val(tumour_id),
             val(normal_id),
             file(tumour_BAM),
@@ -29,12 +30,22 @@ process create_input_csv {
 
     script:
     input_csv = 'call_mtSNV_input.csv'
-    mtsnv_sample_id = (params.multi_sample_calling) ?
-        "${tumour_BAM.baseName.replace('_realigned_recalibrated_merged_dedup', '')}" :
-        "${tumour_id}"
-    mtsnv_tumour_id = "${tumour_BAM.baseName.replace('_realigned_recalibrated_merged_dedup', '')}"
+    if (params.sample_mode == 'single') {
+        mtsnv_sample_id = normal_id
+    } else if (params.sample_mode == 'paired') {
+        mtsnv_sample_id = tumour_id
+    } else {
+        mtsnv_sample_id = tumour_BAM.baseName.replace('_realigned_recalibrated_merged_dedup', '')
+    }
+    mtsnv_tumour_id = tumour_BAM.baseName.replace('_realigned_recalibrated_merged_dedup', '')
     """
-    echo 'project_id,sample_id,tumour_id,tumour_BAM,normal_id,normal_BAM' > ${input_csv}
-    echo "project_placeholder,${mtsnv_sample_id},${mtsnv_tumour_id},${tumour_BAM.toRealPath()},${normal_id},${normal_BAM.toRealPath()}" >> ${input_csv}
+    if ${params.sample_mode == 'single'}
+    then
+        echo 'project_id,sample_id,normal_id,normal_BAM' > ${input_csv}
+        echo "project_placeholder,${mtsnv_sample_id},${normal_id},${normal_BAM.toRealPath()}" >> ${input_csv}
+    else
+        echo 'project_id,sample_id,tumour_id,tumour_BAM,normal_id,normal_BAM' > ${input_csv}
+        echo "project_placeholder,${mtsnv_sample_id},${mtsnv_tumour_id},${tumour_BAM.toRealPath()},${normal_id},${normal_BAM.toRealPath()}" >> ${input_csv}
+    fi
     """
 }

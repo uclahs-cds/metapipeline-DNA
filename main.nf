@@ -32,7 +32,7 @@ log.info """\
         option per_job_cpus: ${params.per_job_cpus} 
         option per_job_memory_GB: ${params.per_job_memory_GB}
         option max_parallel_jobs: ${params.max_parallel_jobs}
-        option multi_sample_calling: ${params.multi_sample_calling}
+        option sample_mode: ${params.sample_mode}
 
     Tools Used:
         uclahs-cds/pipeline-convert-BAM2FASTQ: ${params.version_BAM2FASTQ}
@@ -48,12 +48,12 @@ log.info """\
     .stripIndent()
 
 /*
-* Create input CSV file with all samples belong to a single patient to be passed to the germline-
-* somatic pipeline.
+* Create input CSV file to be passed to the metapipeline-DNA pipeline.
 *
 * Input:
 *   A tuple of two objects.
 *     @param patient (val): the patient ID
+*     @param identifier (val): the identifier for the file
 *     @records (tuple[tuple[str|file]]): A 2D tuple, that each child tuple contains the patient ID,
 *       sample ID, state, and other inputs depending on input type.
 *
@@ -67,9 +67,9 @@ process create_input_csv_metapipeline_DNA {
     publishDir path: "${params.log_output_dir}/process-log",
         mode: "copy",
         pattern: ".command.*",
-        saveAs: { "${task.process}-${patient}/log${file(it).getName()}" }
+        saveAs: { "${task.process}-${identifier}/log${file(it).getName()}" }
 
-    publishDir path: "${params.output_dir}/intermediate/${task.process}-${patient}",
+    publishDir path: "${params.output_dir}/intermediate/${task.process}-${identifier}",
         enabled: params.save_intermediate_files,
         mode: "copy",
         pattern: "*.csv"
@@ -77,6 +77,7 @@ process create_input_csv_metapipeline_DNA {
     input:
         tuple(
             val(patient),
+            val(identifier),
             val(records)
         )
 
@@ -88,7 +89,7 @@ process create_input_csv_metapipeline_DNA {
         path(".command.*")
 
     script:
-    input_csv = "${patient}_metapipeline_DNA_input.csv"
+    input_csv = "${identifier}_metapipeline_DNA_input.csv"
     header_line = (params.input_type == 'BAM') ? \
         "patient,sample,state,bam" : \
         "patient,sample,state,index,read_group_identifier,sequencing_center,library_identifier,platform_technology,platform_unit,bam_header_sm,lane,read1_fastq,read2_fastq"
@@ -156,7 +157,7 @@ process call_metapipeline_DNA {
         --input_csv ${input_csv} \
         --patient ${patient} \
         --input_type ${params.input_type} \
-        --multi_sample_calling ${params.multi_sample_calling} \
+        --sample_mode ${params.sample_mode} \
         --project_id ${params.project_id} \
         --save_intermediate_files ${params.save_intermediate_files} \
         --output_dir ${params.output_dir} \
@@ -168,14 +169,25 @@ process call_metapipeline_DNA {
 
 workflow {
     if (params.input_type == 'BAM') {
-        ich  = Channel.from(params.input.BAM)
+        ich_individual  = Channel.from(params.input.BAM)
             .map{ [it.patient, [it.patient, it.sample, it.state, it.path]] }
-            .groupTuple(by: 0)
     } else if (params.input_type == 'FASTQ') {
-        ich = Channel.from(params.input.FASTQ)
+        ich_individual = Channel.from(params.input.FASTQ)
             .map{ [it.patient, [it.patient, it.sample, it.state, it.index, it.read_group_identifier, it.sequencing_center, it.library_identifier, it.platform_technology, it.platform_unit, it.bam_header_sm, it.lane, it.read1_fastq, it.read2_fastq]] }
-            .groupTuple(by: 0)
     }
+
+    if (params.sample_mode == 'single') {
+        // Group by sample
+        ich = ich_individual
+            .map{ [it[1][1], it[1]] }
+            .groupTuple(by: 0)
+            .map{ [it[1][0][0], it[0], it[1]] } // [patient, sample, records]
+    } else {
+        ich = ich_individual
+            .groupTuple(by: 0)
+            .map{ [it[0], it[0], it[1]] } // [patient, patient, records]
+    }
+
     create_input_csv_metapipeline_DNA(ich)
     create_config_json()
     call_metapipeline_DNA(create_input_csv_metapipeline_DNA.out[0].combine(create_config_json.out.pipeline_params_json))
