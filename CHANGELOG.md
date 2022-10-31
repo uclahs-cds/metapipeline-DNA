@@ -8,6 +8,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+
+---
+
+## [3.0.0-rc.1] - 2022-10-31
 ### Added
 + Support for single-sample mode (single normal and single tumor samples)
 
