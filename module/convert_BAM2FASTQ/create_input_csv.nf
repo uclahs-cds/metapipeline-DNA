@@ -22,7 +22,7 @@ process create_input_csv {
     script:
     csv_file = 'input.csv'
     """
-    echo 'sample_name,sample' > ${csv_file}
+    echo 'sample_id,sample' > ${csv_file}
     echo "${sample},${bam.toRealPath()}" >> ${csv_file}
     """
 }

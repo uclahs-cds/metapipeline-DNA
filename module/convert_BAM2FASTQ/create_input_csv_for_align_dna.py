@@ -40,10 +40,10 @@ def main():
             for fastq in args.fastq_files:
                 if 'read1_fastq' in record and 'read2_fastq' in record:
                     break
-                if fastq.name == f"collated_{rg_id}_R1.fq.gz":
+                if fastq.name == f"{rg_id}_collated_R1.fq.gz":
                     record['read1_fastq'] = str(fastq.absolute())
                     continue
-                if fastq.name == f"collated_{rg_id}_R2.fq.gz":
+                if fastq.name == f"{rg_id}_collated_R2.fq.gz":
                     record['read2_fastq'] = str(fastq.absolute())
             if 'read1_fastq' not in record:
                 raise ValueError('R1 FASTQ not found')
