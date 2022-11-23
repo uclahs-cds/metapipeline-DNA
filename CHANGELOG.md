@@ -11,6 +11,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [3.0.0] - 2022-11-23
+### Changed
++ call-sSNV: 4.0.1 -> 5.0.0
++ call-gSNP: 9.1.0 -> 9.2.0
+
+---
+
 ## [3.0.0-rc.1] - 2022-11-08
 ### Added
 + Support for single-sample mode (single normal and single tumor samples)
