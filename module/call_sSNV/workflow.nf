@@ -38,9 +38,7 @@ workflow call_sSNV {
 
             // [sample_id, normal_BAM, [tumor_BAM]]
             input_ch_create_ssnv_yaml_pairedsample = ich.map{ it ->
-                (params.sample_mode == 'multi') ? \
-                    [it[4].baseName.replace('_realigned_recalibrated_merged_dedup', ''), [[it[3], it[5].toRealPath()]], [[it[2], it[4].toRealPath()]]] : \
-                    [it[2], [[it[3], it[5].toRealPath()]], [[it[2], it[4].toRealPath()]]]
+                [it[2], [[it[3], it[5].toRealPath()]], [[it[2], it[4].toRealPath()]]]
             }
 
             input_ch_create_ssnv_yaml = Channel.empty()

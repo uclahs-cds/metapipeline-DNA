@@ -36,13 +36,6 @@ process call_call_gSNP {
         file "call-gSNP-*/*"
 
     script:
-    if (params.sample_mode == 'multi') {
-        sample_id_for_gsnp = patient
-    } else if (params.sample_mode == 'single') {
-        sample_id_for_gsnp = normal_sample
-    } else {
-        sample_id_for_gsnp = tumor_sample
-    }
     normal_bam = "call-gSNP-*/${sample_id_for_gsnp}/GATK-*/output/${normal_bam_sm}_realigned_recalibrated_merged_dedup.bam"
     arg_list = [
         'bundle_mills_and_1000g_gold_standard_indels_vcf_gz',
