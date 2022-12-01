@@ -12,6 +12,6 @@ jobs:
     name: A job to add a release asset with submodules
     steps:
       - id: release-asset
-        uses: uclahs-cds/tool-Nextflow-action/add-source-with-submodules@latest
+        uses: uclahs-cds/tool-Nextflow-action/add-source-with-submodules@yashpatel-use-recursive-checkout
         with:
-          my-token: ${{ secrets.UCLAHS_CDS_YASH_TEST }}
+          my-token: ${{ secrets.UCLAHS_CDS_REPO_READ_TOKEN }}
