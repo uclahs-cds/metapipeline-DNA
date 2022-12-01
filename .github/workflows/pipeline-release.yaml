@@ -14,4 +14,4 @@ jobs:
       - id: release-asset
         uses: uclahs-cds/tool-Nextflow-action/add-source-with-submodules@latest
         with:
-          my-token: ${{ secrets.UCLAHS_CDS_REPO_READ_TOKEN }}
+          my-token: ${{ secrets.UCLAHS_CDS_YASH_TEST }}
