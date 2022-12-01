@@ -1,0 +1,17 @@
+---
+on:
+  push:
+    tags: "v*"
+  release:
+    types: [published]
+
+permissions: read-all
+jobs:
+  add_release_asset:
+    runs-on: ubuntu-latest
+    name: A job to add a release asset with submodules
+    steps:
+      - id: release-asset
+        uses: uclahs-cds/tool-Nextflow-action/add-source-with-submodules@latest
+        with:
+          my-token: ${{ secrets.UCLAHS_CDS_REPO_READ_TOKEN }}
