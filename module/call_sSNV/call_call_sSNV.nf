@@ -38,7 +38,10 @@ process call_call_sSNV {
         'filter_mutect_calls_extra_args',
         'gatk_command_mem_diff',
         'scatter_count',
-        'intervals'
+        'intervals',
+        'bgzip_extra_args',
+        'tabix_extra_args',
+        'dbSNP'
     ]
     args = generate_args(params.call_sSNV, arg_list)
     """
@@ -55,6 +58,7 @@ process call_call_sSNV {
         --work_dir ${params.work_dir} \
         -params-file ${input_yaml} \
         --algorithm_str ${algorithms} \
+        --dataset_id ${params.project_id} \
         ${args} \
         -c call_ssnv_default_metapipeline.config
     """

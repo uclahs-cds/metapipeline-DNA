@@ -56,17 +56,18 @@ workflow call_gSNP {
 
         if (params.sample_mode == 'multi') {
             /**
-            *   For multi-sample calling, keep the patient, run_mode, tumor_id, normal_id, and normal_BAM
+            *   For multi-sample calling, keep the patient, run_mode, normal_id, and normal_BAM
             *   then combine with each tumor BAM for downstream pipelines
+            *   then derive the tumor sample name from the BAM
             */
             normal_ch_for_join = call_call_gSNP.out.full_output
                 .first()
-                .map{ [it[0], it[1], it[2], it[3], it[5]] }
+                .map{ [it[0], it[1], it[3], it[5]] } // [patient, run_mode, normal_id, normal_bam]
 
             output_ch_call_gsnp = call_call_gSNP.out.tumor_bam
                 .flatten()
                 .combine(normal_ch_for_join)
-                .map{ [it[1], it[2], it[3], it[4], it[0], it[5]] }
+                .map{ [it[1], it[2], it[0].baseName.replace('_realigned_recalibrated_merged_dedup', ''), it[3], it[0], it[4]] }
         } else {
             output_ch_call_gsnp = call_call_gSNP.out.full_output
         }
