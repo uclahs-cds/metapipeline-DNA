@@ -28,3 +28,6 @@
 	url = git@github.com:uclahs-cds/pipeline-Nextflow-config.git
 	branch = main
 	ignore = dirty
+[submodule "external/pipeline-call-gSV"]
+	path = external/pipeline-call-gSV
+	url = git@github.com:uclahs-cds/pipeline-call-gSV.git
