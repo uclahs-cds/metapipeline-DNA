@@ -21,20 +21,28 @@ workflow call_gSV {
     take:
         ich
     main:
-        // Get normal sample
-        ich
-            .first()
-            .map{ [it[0], it[3], it[5]] } // [patient, sample, BAM]
-            .set{ input_ch_create_csv_normal }
+        if (params.sample_mode == 'single') {
+            // Single sample mode always has BAM in normal
+            ich
+                .map{ [it[0], it[3], it[5]] } // [patient, sample, BAM]
+                .set{ input_ch_create_csv }
+        } else {
+            // Get normal sample
+            ich
+                .first()
+                .map{ [it[0], it[3], it[5]] } // [patient, sample, BAM]
+                .set{ input_ch_create_csv_normal }
 
-        // Tumor samples
-        ich
-            .map{ [it[0], it[2], it[4]] } // [patient, sample, BAM]
-            .set{ input_ch_create_csv_tumor }
+            // Tumor samples
+            ich
+                .map{ [it[0], it[2], it[4]] } // [patient, sample, BAM]
+                .set{ input_ch_create_csv_tumor }
 
-        create_input_csv_call_gSV(
             input_ch_create_csv_normal.mix(input_ch_create_csv_tumor)
-        )
+                .set{ input_ch_create_csv }
+        }
+
+        create_input_csv_call_gSV(input_ch_create_csv)
 
         call_call_gSV(create_input_csv_call_gSV.out)
 }
