@@ -29,7 +29,6 @@ process call_call_gSV {
         'exclusion_file',
         'mappability_map',
         'run_discovery',
-        'run_regenotyping',
         'run_delly',
         'run_manta',
         'run_qc',
