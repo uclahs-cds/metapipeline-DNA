@@ -24,21 +24,14 @@ workflow call_gSV {
         if (params.sample_mode == 'single') {
             // Single sample mode always has BAM in normal
             ich
+                .filter{ it[1] == 'normal' }
                 .map{ [it[0], it[3], it[5]] } // [patient, sample, BAM]
                 .set{ input_ch_create_csv }
         } else {
-            // Get normal sample
+            // Get normal sample from first emission since normal sample is common for all emissions
             ich
                 .first()
                 .map{ [it[0], it[3], it[5]] } // [patient, sample, BAM]
-                .set{ input_ch_create_csv_normal }
-
-            // Tumor samples
-            ich
-                .map{ [it[0], it[2], it[4]] } // [patient, sample, BAM]
-                .set{ input_ch_create_csv_tumor }
-
-            input_ch_create_csv_normal.mix(input_ch_create_csv_tumor)
                 .set{ input_ch_create_csv }
         }
 
