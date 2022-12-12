@@ -40,6 +40,7 @@ log.info """\
         uclahs-cds/pipeline-call-gSNP: ${params.version_call_gSNP}
         uclahs-cds/pipeline-call-sSNV: ${params.version_call_sSNV}
         uclahs-cds/pipeline-call-mtSNV: ${params.version_call_mtSNV}
+        uclahs-cds/pipeline-call-gSV: ${params.version_call_gSV}
 
     ------------------------------------
     Starting workflow...
