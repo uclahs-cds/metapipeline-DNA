@@ -31,3 +31,6 @@
 [submodule "external/pipeline-call-gSV"]
 	path = external/pipeline-call-gSV
 	url = git@github.com:uclahs-cds/pipeline-call-gSV.git
+[submodule "external/pipeline-call-sSV"]
+	path = external/pipeline-call-sSV
+	url = git@github.com:uclahs-cds/pipeline-call-sSV.git
