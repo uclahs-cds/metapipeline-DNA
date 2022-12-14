@@ -10,7 +10,8 @@
     - [3. call-gSNP](#3-call-gsnp)
     - [4. call-sSNV](#4-call-ssnv)
     - [5. call-mtSNV](#5-call-mtsnv)
-    - [6. call-gSV](#6-call-gSV)
+    - [6. call-gSV](#6-call-gsv)
+    - [7. call-sSV](#7-call-ssv)
   - [Inputs](#inputs)
     - [Input BAM](#input-bam)
     - [Input FASTQ](#input-fastq)
@@ -76,7 +77,11 @@ The same calibrated BAM from step 3 is also used to call for mitochondrial SNVs 
 
 The same recalibrated BAM from step 3 is also used to call for germline structural variants using [pipeline-call-gSV](https://github.com/uclahs-cds/pipeline-call-gSV)
 
-> **Note**: The `run_regenotype` mode from the call-gSV pipeline is disabled for the metapipeline. Regenotyping should be performed separately at the cohort-level.
+> **Note**: The `run_regenotyping` mode from the call-gSV pipeline is disabled for the metapipeline. Regenotyping should be performed separately at the cohort-level.
+
+### 7. call-sSV
+
+The same recalibrated BAM(s) from step 3 are also used to call for somatic structural variants using [pipeline-call-sSV](https://github.com/uclahs-cds/pipeline-call-sSV)
 
 ---
 
