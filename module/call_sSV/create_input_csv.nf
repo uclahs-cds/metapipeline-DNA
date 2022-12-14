@@ -18,7 +18,7 @@ process create_input_csv_call_sSV {
 
     publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${tumor_id}",
         enabled: params.save_intermediate_files,
-        pattern: 'call_sSV_input.yaml',
+        pattern: 'call_sSV_input.csv',
         mode: 'copy'
 
     input:

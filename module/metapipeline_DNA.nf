@@ -7,6 +7,7 @@ include { call_gSNP } from "${moduleDir}/call_gSNP/workflow"
 include { call_sSNV } from "${moduleDir}/call_sSNV/workflow"
 include { call_mtSNV } from "${moduleDir}/call_mtSNV/workflow"
 include { call_gSV } from "${moduleDir}/call_gSV/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir )
+include { call_sSV } from "${moduleDir}/call_sSV/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir )
 include { create_csv_for_align_DNA } from "${moduleDir}/align_DNA/create_csv_for_align_DNA" addParams( log_output_dir: params.metapipeline_log_output_dir )
 
 workflow {
@@ -37,4 +38,6 @@ workflow {
     call_mtSNV(call_gSNP.out[0])
 
     call_gSV(call_gSNP.out[0])
+
+    call_sSV(call_gSNP.out[0])
 }
