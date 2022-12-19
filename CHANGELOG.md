@@ -10,8 +10,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 ### Added
 + call-gSV v4.0.0
++ call-sSV v4.0.0
 ### Changed
 + Parameterize time interval between job submissions
++ call-gSV: 4.0.0 -> 4.0.1
 
 ---
 

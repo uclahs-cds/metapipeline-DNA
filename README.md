@@ -10,7 +10,8 @@
     - [3. call-gSNP](#3-call-gsnp)
     - [4. call-sSNV](#4-call-ssnv)
     - [5. call-mtSNV](#5-call-mtsnv)
-    - [6. call-gSV](#6-call-gSV)
+    - [6. call-gSV](#6-call-gsv)
+    - [7. call-sSV](#7-call-ssv)
   - [Inputs](#inputs)
     - [Input BAM](#input-bam)
     - [Input FASTQ](#input-fastq)
@@ -22,7 +23,7 @@
 
 ## Overview
 
-This meta pipeline takes either aligned sequencing data (BAM - <u>**BETA FEATURE**</u>) and converts it back to FASTQ format or direct FASTQ data. The FASTQs are re-aligned to the reference genome and called for germline SNPs, somatic SNVs and mitochondrial SNVs. The input to this meta pipeline includes a list of patients and their tumor-normal paired samples. Each patient must have **exactly one** normal sample, while multiple tumor samples are allowed. There are 3 available calling modes: paired mode where each tumour sample will be paired with the normal sample for calling; multi mode where all samples for a patient will be called together; single mode where each sample for the patient will be called separately.
+This meta pipeline takes either aligned sequencing data (BAM - <u>**BETA FEATURE**</u>) and converts it back to FASTQ format or direct FASTQ data. The FASTQs are re-aligned to the reference genome and called for germline SNPs (single-nucleotide polymorphisms), somatic SNVs (single-nucleotide variants), mitochondrial SNVs, somatic SVs (structural variants), and germline SVs. The input to this meta pipeline includes a list of patients and their tumor-normal paired samples. Each patient must have **exactly one** normal sample, while multiple tumor samples are allowed. There are 3 available calling modes: paired mode where each tumour sample will be paired with the normal sample for calling; multi mode where all samples for a patient will be called together; single mode where each sample for the patient will be called separately.
 
 The pipeline has a leading process running on the submitter node (can be a F2 node as the leading process does not require many resources) that submits samples of each patient to a worker node (usually an F72 node) for processing. All processes for the same patient run on the same node to avoid network traffic.
 
@@ -76,7 +77,11 @@ The same calibrated BAM from step 3 is also used to call for mitochondrial SNVs 
 
 The same recalibrated BAM from step 3 is also used to call for germline structural variants using [pipeline-call-gSV](https://github.com/uclahs-cds/pipeline-call-gSV)
 
-> **Note**: The `run_regenotype` mode from the call-gSV pipeline is disabled for the metapipeline. Regenotyping should be performed separately at the cohort-level.
+> **Note**: The `run_regenotyping` mode from the call-gSV pipeline is disabled for the metapipeline. Regenotyping should be performed separately at the cohort-level.
+
+### 7. call-sSV
+
+The same recalibrated BAM(s) from step 3 are also used to call for somatic structural variants using [pipeline-call-sSV](https://github.com/uclahs-cds/pipeline-call-sSV)
 
 ---
 
