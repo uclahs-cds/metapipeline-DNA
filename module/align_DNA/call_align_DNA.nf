@@ -40,7 +40,7 @@ process call_align_DNA {
             val(state),
             val(bam_header_sm),
             file(bam)
-        )
+        ), emit: metapipeline_out
         file "align-DNA-*/*"
     
     script:

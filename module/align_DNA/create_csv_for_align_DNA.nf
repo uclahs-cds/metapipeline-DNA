@@ -37,7 +37,7 @@ process create_csv_for_align_DNA {
             val(sample),
             val(state),
             path(input_csv)
-        )
+        ), emit: align_dna_csv
         path(".command.*")
 
     script:

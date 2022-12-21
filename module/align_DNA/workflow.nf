@@ -17,6 +17,15 @@ workflow align_DNA {
         ich
     main:
         call_align_DNA(ich)
+        call_align_DNA.out.metapipeline_out
+            .map{ it -> [
+                'patient': it[0],
+                'sample': it[1],
+                'state': it[2],
+                'bam_header_sm': it[3],
+                'bam': it[4]
+            ] }
+            .set{ output_ch_align_dna }
     emit:
-        call_align_DNA.out[0]
+        output_ch_align_dna = output_ch_align_dna
 }

@@ -28,17 +28,19 @@ workflow call_gSNP {
         ich
     main:
         if (params.sample_mode != 'single') {
-            create_normal_tumor_pairs(ich)
+            ich.map{ [it['patient'], it['sample'], it['state'], it['bam_header_sm'], it['bam']] }
+                .set{ input_ch_create_pairs }
+            create_normal_tumor_pairs(input_ch_create_pairs)
             paired_info = create_normal_tumor_pairs.out.splitCsv(header:true)
                 .map{
                     [it.patient, [it.patient, it.tumor_sample, it.normal_sample, it.tumor_bam_sm, it.normal_bam_sm, it.tumor_bam, it.normal_bam]]
                 }
 
             if (params.sample_mode == 'multi') {
-                input_ch_create_gsnp_csv = paired_info.groupTuple(by: 0)
+                input_ch_create_gsnp_csv = paired_info.groupTuple(by: 0) // Group and gather all records
             } else {
                 input_ch_create_gsnp_csv = paired_info.map{ it ->
-                    [it[0], [it[1]]]
+                    [it[0], [it[1]]] // Put each pair into tuple to match grouping operator
                 }
             }
 
@@ -46,7 +48,7 @@ workflow call_gSNP {
             ich_call_gsnp = create_input_csv_call_gSNP.out
         } else {
             ich_create_csv = ich
-                .map{ [it[1], it] } // [sample, records]
+                .map{ [it['sample'], [it['patient'], it['sample'], it['state'], it['bam_header_sm'], it['bam']]] } // [sample, records]
                 .groupTuple(by: 0)
                 .map{ [it[1][0][0], it[1]] } // [patient, records]
             create_input_csv_call_gSNP_single(ich_create_csv)
@@ -64,13 +66,25 @@ workflow call_gSNP {
                 .first()
                 .map{ [it[0], it[1], it[3], it[5]] } // [patient, run_mode, normal_id, normal_bam]
 
-            output_ch_call_gsnp = call_call_gSNP.out.tumor_bam
+            output_ch_call_gsnp_flat = call_call_gSNP.out.tumor_bam
                 .flatten()
                 .combine(normal_ch_for_join)
                 .map{ [it[1], it[2], it[0].baseName.replace('_realigned_recalibrated_merged_dedup', ''), it[3], it[0], it[4]] }
         } else {
-            output_ch_call_gsnp = call_call_gSNP.out.full_output
+            output_ch_call_gsnp_flat = call_call_gSNP.out.full_output
         }
+
+        output_ch_call_gsnp_flat
+            .map{ it -> [
+                'patient': it[0],
+                'run_mode': it[1],
+                'tumor_sample': it[2],
+                'normal_sample': it[3],
+                'tumor_bam': it[4],
+                'normal_bam': it[5]
+            ] }
+            .set{ output_ch_call_gsnp }
+
     emit:
-        output_ch_call_gsnp
+        output_ch_call_gsnp = output_ch_call_gsnp
 }
