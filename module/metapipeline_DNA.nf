@@ -31,7 +31,7 @@ workflow {
     if (params.sample_mode == 'single') {
         call_gSNP(align_DNA.out.output_ch_align_dna)
     } else {
-        call_gSNP(align_DNA.out.output_ch_align_dna.map{[it]}.collect())
+        call_gSNP(align_DNA.out.output_ch_align_dna.map{it}.collect())
     }
     call_sSNV(call_gSNP.out.output_ch_call_gsnp)
 

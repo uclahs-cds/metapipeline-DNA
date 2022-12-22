@@ -3,6 +3,7 @@
 */
 include { create_normal_tumor_pairs; create_input_csv_call_gSNP; create_input_csv_call_gSNP_single } from "${moduleDir}/create_input_csv"
 include { call_call_gSNP } from "${moduleDir}/call_call_gSNP"
+include { flatten_samples } from "${moduleDir}/../functions"
 
 /*
 * Main workflow for calling the call-gSNP pipeline
@@ -28,7 +29,12 @@ workflow call_gSNP {
         ich
     main:
         if (params.sample_mode != 'single') {
-            ich.map{ [it['patient'], it['sample'], it['state'], it['bam_header_sm'], it['bam']] }
+            flatten_samples(ich)
+            flatten_samples.out.och
+                .map{ it[0] }
+                .map{ [[it['patient'], it['sample'], it['state'], it['bam_header_sm'], it['bam']]] }
+                .collect()
+                .view{"before pairs: $it"}
                 .set{ input_ch_create_pairs }
             create_normal_tumor_pairs(input_ch_create_pairs)
             paired_info = create_normal_tumor_pairs.out.splitCsv(header:true)
