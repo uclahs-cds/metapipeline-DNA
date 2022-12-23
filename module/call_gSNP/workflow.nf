@@ -34,7 +34,6 @@ workflow call_gSNP {
                 .map{ it[0] }
                 .map{ [[it['patient'], it['sample'], it['state'], it['bam_header_sm'], it['bam']]] }
                 .collect()
-                .view{"before pairs: $it"}
                 .set{ input_ch_create_pairs }
             create_normal_tumor_pairs(input_ch_create_pairs)
             paired_info = create_normal_tumor_pairs.out.splitCsv(header:true)

@@ -16,7 +16,6 @@ workflow align_DNA {
     take:
         ich
     main:
-        ich.view{ "before align dna: $it" }
         call_align_DNA(ich)
         call_align_DNA.out.metapipeline_out
             .map{ it -> [
@@ -27,7 +26,6 @@ workflow align_DNA {
                 'bam': it[4]
             ] }
             .set{ output_ch_align_dna }
-        output_ch_align_dna.view{ "after align dna: $it" }
     emit:
         output_ch_align_dna = output_ch_align_dna
 }
