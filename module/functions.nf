@@ -7,7 +7,7 @@
     output:
         och: channel where each structured element is its own emission
 */
-workflow flatten_samples {
+workflow flatten_nonrecursive {
     take:
     ich
 

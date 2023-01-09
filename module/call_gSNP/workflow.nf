@@ -3,7 +3,7 @@
 */
 include { create_normal_tumor_pairs; create_input_csv_call_gSNP; create_input_csv_call_gSNP_single } from "${moduleDir}/create_input_csv"
 include { call_call_gSNP } from "${moduleDir}/call_call_gSNP"
-include { flatten_samples } from "${moduleDir}/../functions"
+include { flatten_nonrecursive } from "${moduleDir}/../functions"
 
 /*
 * Main workflow for calling the call-gSNP pipeline
@@ -29,8 +29,8 @@ workflow call_gSNP {
         ich
     main:
         if (params.sample_mode != 'single') {
-            flatten_samples(ich)
-            flatten_samples.out.och
+            flatten_nonrecursive(ich)
+            flatten_nonrecursive.out.och
                 .map{ it[0] }
                 .map{ [[it['patient'], it['sample'], it['state'], it['bam_header_sm'], it['bam']]] }
                 .collect()
