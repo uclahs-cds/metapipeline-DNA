@@ -34,13 +34,7 @@ process call_align_DNA {
         )
     
     output:
-        tuple(
-            val(patient),
-            val(sample),
-            val(state),
-            val(bam_header_sm),
-            file(bam)
-        )
+        tuple val(patient), val(sample), val(state), val(bam_header_sm), file(bam), emit: metapipeline_out
         file "align-DNA-*/*"
     
     script:

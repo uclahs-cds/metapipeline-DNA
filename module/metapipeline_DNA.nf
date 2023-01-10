@@ -23,21 +23,21 @@ workflow {
 
         // Create input CSV for align-DNA per sample
         create_csv_for_align_DNA(ich)
-        ich_align_DNA_fastq = create_csv_for_align_DNA.out[0]
+        ich_align_DNA_fastq = create_csv_for_align_DNA.out.align_dna_csv
     }
 
     align_DNA(ich_align_DNA_fastq)
 
     if (params.sample_mode == 'single') {
-        call_gSNP(align_DNA.out[0])
+        call_gSNP(align_DNA.out.output_ch_align_dna)
     } else {
-        call_gSNP(align_DNA.out[0].map{[it]}.collect())
+        call_gSNP(align_DNA.out.output_ch_align_dna.collect())
     }
-    call_sSNV(call_gSNP.out[0])
+    call_sSNV(call_gSNP.out.output_ch_call_gsnp)
 
-    call_mtSNV(call_gSNP.out[0])
+    call_mtSNV(call_gSNP.out.output_ch_call_gsnp)
 
-    call_gSV(call_gSNP.out[0])
+    call_gSV(call_gSNP.out.output_ch_call_gsnp)
 
-    call_sSV(call_gSNP.out[0])
+    call_sSV(call_gSNP.out.output_ch_call_gsnp)
 }
