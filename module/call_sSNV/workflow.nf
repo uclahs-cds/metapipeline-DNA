@@ -25,7 +25,7 @@ workflow call_sSNV {
             if ('mutect2' in params.call_sSNV.algorithm) {
                 input_ch_tumor_only = ich
                     .filter{ it['run_mode'] == 'tumor' }
-                    .map{ [it['normal_sample'], [['NO_ID', 'NO_BAM.bam']], [[it['normal_sample'], it['normal_bam'].toRealPath()]], 'mutect2'] }
+                    .map{ [it['normal_sample'], [['NO_ID', 'NO_BAM.bam']], [[it['normal_sample'], file(it['normal_bam']).toRealPath()]], 'mutect2'] }
             } else {
                 input_ch_tumor_only = Channel.empty()
             }
@@ -33,12 +33,12 @@ workflow call_sSNV {
         } else {
             // [patient, [normal_ID,normal_BAM], [tumor_ID,tumor_BAM]]
             input_ch_create_ssnv_yaml_multisample = ich.map{ it ->
-                [it['patient'], [[it['normal_sample'], it['normal_bam'].toRealPath()]], [it['tumor_sample'], it['tumor_bam'].toRealPath()]]
+                [it['patient'], [[it['normal_sample'], file(it['normal_bam']).toRealPath()]], [it['tumor_sample'], file(it['tumor_bam']).toRealPath()]]
             }.groupTuple(by: [0,1])
 
             // [sample_id, normal_BAM, [tumor_BAM]]
             input_ch_create_ssnv_yaml_pairedsample = ich.map{ it ->
-                [it['tumor_sample'], [[it['normal_sample'], it['normal_bam'].toRealPath()]], [[it['tumor_sample'], it['tumor_bam'].toRealPath()]]]
+                [it['tumor_sample'], [[it['normal_sample'], file(it['normal_bam']).toRealPath()]], [[it['tumor_sample'], file(it['tumor_bam']).toRealPath()]]]
             }
 
             input_ch_create_ssnv_yaml = Channel.empty()
