@@ -165,6 +165,8 @@ process call_metapipeline_DNA {
         --output_dir ${params.output_dir} \
         --metapipeline_log_output_dir ${params.log_output_dir} \
         --work_dir ${params.work_dir} \
+        --override_realignment ${params.override_realignment} \
+        --override_call_gsnp ${params.override_call_gsnp} \
         -params-file ${pipeline_params_json}
     """
 }

@@ -9,7 +9,7 @@ process extract_read_groups {
             val(patient),
             val(sample),
             val(state),
-            file(bam)
+            path(bam)
         )
 
     output:
@@ -17,7 +17,7 @@ process extract_read_groups {
             val(patient),
             val(sample),
             val(state),
-            file(read_group_csv)
+            path(read_group_csv)
         )
 
     script:

@@ -14,8 +14,8 @@ process create_input_csv {
             val(run_mode),
             val(tumour_id),
             val(normal_id),
-            file(tumour_BAM),
-            file(normal_BAM)
+            path(tumour_BAM),
+            path(normal_BAM)
         )
 
     output:
@@ -23,9 +23,9 @@ process create_input_csv {
             val(sample_id),
             val(tumour_id),
             val(normal_id),
-            file(tumour_BAM),
-            file(normal_BAM),
-            file(input_csv)
+            path(tumour_BAM),
+            path(normal_BAM),
+            path(input_csv)
         )
 
     script:

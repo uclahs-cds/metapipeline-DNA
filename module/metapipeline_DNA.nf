@@ -12,8 +12,14 @@ include { create_csv_for_align_DNA } from "${moduleDir}/align_DNA/create_csv_for
 
 workflow {
     if ( params.input_type == 'BAM' ) {
-        convert_BAM2FASTQ()
-        ich_align_DNA_fastq = convert_BAM2FASTQ.out
+        if (params.override_realignment) {
+            ich_align_DNA_fastq = Channel.fromPath(params.input_csv)
+                .splitCsv(header:true)
+                .map{ tuple(it.patient, it.sample, it.state, file(it.bam)) }
+        } else {
+            convert_BAM2FASTQ()
+            ich_align_DNA_fastq = convert_BAM2FASTQ.out
+        }
     } else if ( params.input_type == 'FASTQ' ) {
         // Load CSV and group by sample for align-DNA
         ich = Channel.fromPath(params.input_csv)
@@ -28,16 +34,29 @@ workflow {
 
     align_DNA(ich_align_DNA_fastq)
 
+    align_DNA.out.output_ch_align_dna.view{ "aligndna - $it" }
+
     if (params.sample_mode == 'single') {
         call_gSNP(align_DNA.out.output_ch_align_dna)
     } else {
         call_gSNP(align_DNA.out.output_ch_align_dna.collect())
     }
-    call_sSNV(call_gSNP.out.output_ch_call_gsnp)
 
-    call_mtSNV(call_gSNP.out.output_ch_call_gsnp)
+    call_gSNP.out.output_ch_call_gsnp.view{ "call-gsnp - $it" }
 
-    call_gSV(call_gSNP.out.output_ch_call_gsnp)
+    if (params.call_sSNV.is_pipeline_enabled) {
+        call_sSNV(call_gSNP.out.output_ch_call_gsnp)
+    }
 
-    call_sSV(call_gSNP.out.output_ch_call_gsnp)
+    if (params.call_mtSNV.is_pipeline_enabled) {
+        call_mtSNV(call_gSNP.out.output_ch_call_gsnp)
+    }
+
+    if (params.call_gSV.is_pipeline_enabled) {
+        call_gSV(call_gSNP.out.output_ch_call_gsnp)
+    }
+
+    if (params.call_sSV.is_pipeline_enabled) {
+        call_sSV(call_gSNP.out.output_ch_call_gsnp)
+    }
 }

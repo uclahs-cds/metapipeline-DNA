@@ -16,16 +16,27 @@ workflow align_DNA {
     take:
         ich
     main:
-        call_align_DNA(ich)
-        call_align_DNA.out.metapipeline_out
-            .map{ it -> [
+        if (params.override_realignment) {
+            ich.map{ it -> [
                 'patient': it[0],
                 'sample': it[1],
                 'state': it[2],
-                'bam_header_sm': it[3],
-                'bam': it[4]
-            ] }
-            .set{ output_ch_align_dna }
+                'bam_header_sm': it[1],
+                'bam': it[3]
+                ] }
+                .set{ output_ch_align_dna }
+        } else {
+            call_align_DNA(ich)
+            call_align_DNA.out.metapipeline_out
+                .map{ it -> [
+                    'patient': it[0],
+                    'sample': it[1],
+                    'state': it[2],
+                    'bam_header_sm': it[3],
+                    'bam': it[4]
+                ] }
+                .set{ output_ch_align_dna }
+        }
     emit:
         output_ch_align_dna = output_ch_align_dna
 }

@@ -74,7 +74,7 @@ process create_input_csv_call_gSNP {
         tuple(
             val(patient), val('multi'), val(sample_id_for_gsnp),
             val(tumor_sample), val(normal_sample),
-            val(normal_bam_sm), file(input_csv)
+            val(normal_bam_sm), path(input_csv)
         )
 
     script:
@@ -121,7 +121,7 @@ process create_input_csv_call_gSNP_single {
         tuple(
             val(patient), val(run_mode), val(sample_id_for_gsnp),
             val(tumor_sample), val(normal_sample),
-            val(normal_bam_sm), file(input_csv)
+            val(normal_bam_sm), path(input_csv)
         )
 
     script:

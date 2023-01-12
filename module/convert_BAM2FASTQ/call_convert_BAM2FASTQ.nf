@@ -16,7 +16,7 @@ process call_convert_BAM2FASTQ {
             val(patient),
             val(sample),
             val(state),
-            file(input_csv)
+            path(input_csv)
         )
 
     output:
@@ -24,9 +24,9 @@ process call_convert_BAM2FASTQ {
             val(patient),
             val(sample),
             val(state),
-            file("convert-BAM2FASTQ-*/*/*/output/*.fq.gz")
+            path("convert-BAM2FASTQ-*/*/*/output/*.fq.gz")
         )
-        file "convert-BAM2FASTQ-*/*"
+        path "convert-BAM2FASTQ-*/*"
         
     script:
     arg_list = ['get_bam_stats_SAMtools_cpus', 'collate_bam_SAMtools_cpus']
