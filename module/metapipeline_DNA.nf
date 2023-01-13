@@ -34,15 +34,11 @@ workflow {
 
     align_DNA(ich_align_DNA_fastq)
 
-    align_DNA.out.output_ch_align_dna.view{ "aligndna - $it" }
-
     if (params.sample_mode == 'single') {
         call_gSNP(align_DNA.out.output_ch_align_dna)
     } else {
         call_gSNP(align_DNA.out.output_ch_align_dna.collect())
     }
-
-    call_gSNP.out.output_ch_call_gsnp.view{ "call-gsnp - $it" }
 
     if (params.call_sSNV.is_pipeline_enabled) {
         call_sSNV(call_gSNP.out.output_ch_call_gsnp)
