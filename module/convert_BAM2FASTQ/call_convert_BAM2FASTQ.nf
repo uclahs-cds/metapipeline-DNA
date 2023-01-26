@@ -5,7 +5,7 @@ include { generate_args } from "${moduleDir}/../common"
     Process to call the convert-BAM2FASTQ pipeline.
 */
 process call_convert_BAM2FASTQ {
-    cpus params.bam2fastq.subworkflow_cpus
+    cpus params.convert_BAM2FASTQ.subworkflow_cpus
     
     publishDir "${params.output_dir}/output",
         mode: 'copy',
@@ -16,7 +16,7 @@ process call_convert_BAM2FASTQ {
             val(patient),
             val(sample),
             val(state),
-            file(input_csv)
+            path(input_csv)
         )
 
     output:
@@ -24,13 +24,13 @@ process call_convert_BAM2FASTQ {
             val(patient),
             val(sample),
             val(state),
-            file("convert-BAM2FASTQ-*/*/*/output/*.fq.gz")
+            path("convert-BAM2FASTQ-*/*/*/output/*.fq.gz")
         )
-        file "convert-BAM2FASTQ-*/*"
+        path "convert-BAM2FASTQ-*/*"
         
     script:
     arg_list = ['get_bam_stats_SAMtools_cpus', 'collate_bam_SAMtools_cpus']
-    args = generate_args(params.bam2fastq, arg_list)
+    args = generate_args(params.convert_BAM2FASTQ, arg_list)
     """
     set -euo pipefail
 

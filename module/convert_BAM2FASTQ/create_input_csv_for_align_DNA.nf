@@ -15,8 +15,8 @@ process create_input_csv_for_align_DNA {
             val(patient),
             val(sample),
             val(state),
-            file(read_group_csv),
-            file(fastqs)
+            path(read_group_csv),
+            path(fastqs)
         )
     
     output:
@@ -24,7 +24,7 @@ process create_input_csv_for_align_DNA {
             val(patient),
             val(sample),
             val(state),
-            file(csv_file)
+            path(csv_file)
         )
     
     script:

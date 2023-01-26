@@ -14,8 +14,8 @@ process create_input_csv {
             val(run_mode),
             val(tumour_id),
             val(normal_id),
-            file(tumour_BAM),
-            file(normal_BAM)
+            path(tumour_BAM),
+            path(normal_BAM)
         )
 
     output:
@@ -23,9 +23,9 @@ process create_input_csv {
             val(sample_id),
             val(tumour_id),
             val(normal_id),
-            file(tumour_BAM),
-            file(normal_BAM),
-            file(input_csv)
+            path(tumour_BAM),
+            path(normal_BAM),
+            path(input_csv)
         )
 
     script:
@@ -41,6 +41,7 @@ process create_input_csv {
     """
     if ${params.sample_mode == 'single'}
     then
+        rm NO_FILE.bam && touch NO_FILE.bam
         echo 'project_id,sample_id,normal_id,normal_BAM' > ${input_csv}
         echo "project_placeholder,${mtsnv_sample_id},${normal_id},${normal_BAM.toRealPath()}" >> ${input_csv}
     else

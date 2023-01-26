@@ -24,7 +24,7 @@ workflow call_sSV {
         // Call-sSV only supports paired mode so filter only for 'multi'
         ich
             .filter{ it['run_mode'] == 'multi' }
-            .map{ [it['tumor_sample'], it['normal_bam'].toRealPath(), it['tumor_bam'].toRealPath()] }
+            .map{ [it['tumor_sample'], file(it['normal_bam']).toRealPath(), file(it['tumor_bam']).toRealPath()] }
             .set{ input_ch_create_csv }
 
         create_input_csv_call_sSV(input_ch_create_csv)

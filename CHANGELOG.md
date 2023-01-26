@@ -8,6 +8,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+### Added
++ Pipeline selection options
 ### Changed
 + Replace tuples with Maps for clarity
 

@@ -9,7 +9,7 @@ process extract_read_groups {
             val(patient),
             val(sample),
             val(state),
-            file(bam)
+            path(bam)
         )
 
     output:
@@ -17,14 +17,14 @@ process extract_read_groups {
             val(patient),
             val(sample),
             val(state),
-            file(read_group_csv)
+            path(read_group_csv)
         )
 
     script:
     read_group_csv = 'read_groups.csv'
-    cn_tag = params.bam2fastq.containsKey('sequencing_center') ? "--sequencing-center ${params.bam2fastq.sequencing_center}" : ''
-    pu_tag = params.bam2fastq.containsKey('platform_unit') ? "--platform-unit ${params.bam2fastq.platform_unit}" : ''
-    id_for_pu_tag = params.bam2fastq.containsKey('id_for_pu') && params.bam2fastq.id_for_pu ? "--id-for-pu" : ''
+    cn_tag = params.convert_BAM2FASTQ.containsKey('sequencing_center') ? "--sequencing-center ${params.convert_BAM2FASTQ.sequencing_center}" : ''
+    pu_tag = params.convert_BAM2FASTQ.containsKey('platform_unit') ? "--platform-unit ${params.convert_BAM2FASTQ.platform_unit}" : ''
+    id_for_pu_tag = params.convert_BAM2FASTQ.containsKey('id_for_pu') && params.convert_BAM2FASTQ.id_for_pu ? "--id-for-pu" : ''
     """
     python ${moduleDir}/extract_read_groups.py \
         --input-bam ${bam} \

@@ -23,7 +23,7 @@ workflow convert_BAM2FASTQ {
         ich = Channel.fromPath(params.input_csv).splitCsv(header:true)
             .map { tuple(it.patient, it.sample, it.state, file(it.bam)) }
         extract_read_groups(ich)
-        create_input_csv(ich)        
+        create_input_csv(ich)
         call_convert_BAM2FASTQ(create_input_csv.out[0])
         
         data_ch = call_convert_BAM2FASTQ.out[0].map { [it[1], it] }
