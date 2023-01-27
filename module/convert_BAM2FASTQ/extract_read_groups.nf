@@ -31,6 +31,7 @@ process extract_read_groups {
         --output-csv ${read_group_csv} \
         ${cn_tag} \
         ${pu_tag} \
-        ${id_for_pu_tag}
+        ${id_for_pu_tag} \
+        --sample-id ${sample}
     """
 }

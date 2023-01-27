@@ -27,6 +27,13 @@ def parse_args() -> argparse.Namespace:
         required=True
     )
     parser.add_argument(
+        '--sample-id',
+        type=str,
+        help='Default sample name',
+        metavar='<value>',
+        required=True
+    )
+    parser.add_argument(
         '--sequencing-center',
         type=str,
         help='CN tag to override the value from BAMs.',
@@ -48,7 +55,7 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 def create_read_groups(bam:Path, output:Path, sequencing_center:str,
-        platform_unit:str, id_for_pu:bool) -> None:
+        platform_unit:str, id_for_pu:bool, sample_id:str) -> None:
     """ Create a read group CSV file from a BAM """
     bam_file = pysam.AlignmentFile(bam, mode='r')
     header = bam_file.header
@@ -76,6 +83,14 @@ def create_read_groups(bam:Path, output:Path, sequencing_center:str,
         'sample': 'SM'
     }
 
+    # ID is required in header so no default value
+    default_field_values = {
+        'LB': 'NA',
+        'PL': 'NA',
+        'PU': 'NA',
+        'SM': sample_id
+    }
+
     with open(output, 'wt', encoding='utf8') as handle:
         handle.write(','.join(fields) + '\n')
         for i, read_group in enumerate(read_groups):
@@ -90,8 +105,12 @@ def create_read_groups(bam:Path, output:Path, sequencing_center:str,
                         row.append(read_group['ID'])
                     else:
                         row.append(platform_unit)
-                else:
+                elif field == 'read_group_identifier':
                     row.append(read_group[fields_map[field]])
+                else:
+                    row.append(
+                        read_group.get(fields_map[field], default_field_values[fields_map[field]])
+                    )
             handle.write(','.join(row) + '\n')
 
 def main():
@@ -103,7 +122,8 @@ def main():
             output=args.output_csv,
             sequencing_center=args.sequencing_center,
             platform_unit=args.platform_unit,
-            id_for_pu=args.id_for_pu
+            id_for_pu=args.id_for_pu,
+            sample_id=args.sample_id
         )
     except ValueError as error:
         if error.args[0] == BAM_HAS_NO_RG_ERROR:
