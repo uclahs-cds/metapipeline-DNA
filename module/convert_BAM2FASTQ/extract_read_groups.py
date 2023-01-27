@@ -54,6 +54,7 @@ def parse_args() -> argparse.Namespace:
     )
     return parser.parse_args()
 
+# pylint: disable=R0914
 def create_read_groups(bam:Path, output:Path, sequencing_center:str,
         platform_unit:str, id_for_pu:bool, sample_id:str) -> None:
     """ Create a read group CSV file from a BAM """
