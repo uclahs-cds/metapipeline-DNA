@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 ### Added
 + Pipeline selection options
++ Default BAM read group tag values
 ### Changed
 + Replace tuples with Maps for clarity
 
