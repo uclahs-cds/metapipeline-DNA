@@ -8,6 +8,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+
+---
+
+## [5.0.0-rc.1] - 2023-01-30
 ### Added
 + Pipeline selection options
 + Default BAM read group tag values
