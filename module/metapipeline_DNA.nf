@@ -24,7 +24,7 @@ workflow {
         // Load CSV and group by sample for align-DNA
         ich = Channel.fromPath(params.input_csv)
             .splitCsv(header: true)
-            .map{ [it.sample, [it.state, it.index, it.read_group_identifier, it.sequencing_center, it.library_identifier, it.platform_technology, it.platform_unit, it.bam_header_sm, it.lane, it.read1_fastq, it.read2_fastq]] }
+            .map{ [it.sample, [it.state, it.read_group_identifier, it.sequencing_center, it.library_identifier, it.platform_technology, it.platform_unit, it.bam_header_sm, it.lane, it.read1_fastq, it.read2_fastq]] }
             .groupTuple(by: 0)
 
         // Create input CSV for align-DNA per sample

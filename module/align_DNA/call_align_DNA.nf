@@ -62,7 +62,7 @@ process call_align_DNA {
     """
     nextflow run \
         ${moduleDir}/../../external/pipeline-align-DNA/main.nf \
-        --sample_name ${sample} \
+        --sample_id ${sample} \
         --aligner ${aligner} \
         ${args} \
         --output_dir \$(pwd) \

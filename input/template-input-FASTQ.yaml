@@ -4,7 +4,6 @@ input:
     - patient: "patient ID"
       sample: "sample ID"
       state: "state - normal or tumor"
-      index: <index number>
       read_group_identifier: "Read group identifier for alignment"
       sequencing_center: "Center where sequencing was performed"
       library_identifier: "Library used for sample"
