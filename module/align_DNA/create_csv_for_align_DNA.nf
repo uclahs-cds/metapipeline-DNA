@@ -49,7 +49,7 @@ process create_csv_for_align_DNA {
     }
     lines = lines.join('\n')
     """
-    echo "index,read_group_identifier,sequencing_center,library_identifier,platform_technology,platform_unit,sample,lane,read1_fastq,read2_fastq" > ${input_csv}
+    echo "read_group_identifier,sequencing_center,library_identifier,platform_technology,platform_unit,sample,lane,read1_fastq,read2_fastq" > ${input_csv}
     echo '${lines}' >> ${input_csv}
     """
 }
