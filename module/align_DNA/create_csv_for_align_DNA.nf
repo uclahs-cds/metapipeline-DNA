@@ -32,12 +32,7 @@ process create_csv_for_align_DNA {
         )
 
     output:
-        tuple(
-            val(params.patient),
-            val(sample),
-            val(state),
-            path(input_csv)
-        ), emit: align_dna_csv
+        tuple val(params.patient), val(sample), val(state), path(input_csv), emit: align_dna_csv
         path(".command.*")
 
     script:
