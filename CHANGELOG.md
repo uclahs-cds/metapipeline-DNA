@@ -12,6 +12,9 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 + align-DNA: 8.1.0 -> 9.0.0
 + call-gSNP: 9.2.0 -> 9.2.1
 + call-sSV: 4.0.0 -> 5.0.0
+### Fixed
++ Output tuple emission syntax
++ Pipeline selection with FASTQ input
 
 ---
 
