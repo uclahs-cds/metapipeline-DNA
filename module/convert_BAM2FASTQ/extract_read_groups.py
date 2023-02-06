@@ -65,7 +65,6 @@ def create_read_groups(bam:Path, output:Path, sequencing_center:str,
     read_groups = header['RG']
 
     fields = [
-        'index',
         'read_group_identifier',
         'sequencing_center',
         'library_identifier',
@@ -97,7 +96,7 @@ def create_read_groups(bam:Path, output:Path, sequencing_center:str,
         for i, read_group in enumerate(read_groups):
             row = []
             for field in fields:
-                if field in ['index', 'lane']:
+                if field in ['lane']:
                     row.append(str(i))
                 elif field == 'sequencing_center' and sequencing_center:
                     row.append(sequencing_center)

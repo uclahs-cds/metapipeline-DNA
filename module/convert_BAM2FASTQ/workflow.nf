@@ -31,7 +31,6 @@ workflow convert_BAM2FASTQ {
             .map { tuple(it[1][0], it[1][1], it[1][2], it[2][3], it[1][3]) }
 
         create_input_csv_for_align_DNA(data_ch)
-    
     emit:
         create_input_csv_for_align_DNA.out[0]
 }

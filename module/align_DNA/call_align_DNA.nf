@@ -5,7 +5,7 @@ def get_header_sample_name(path) {
     def reader = new FileReader(path)
     def sm = []
     reader.splitEachLine(",") { fields ->
-        sm.add(fields[6])
+        sm.add(fields[5])
     }
     sm.removeAt(0)
     sm.unique()
@@ -39,7 +39,7 @@ process call_align_DNA {
     
     script:
     bam_header_sm = get_header_sample_name(input_csv.toRealPath().toString())
-    bam = "align-DNA-*/${sample}/BWA-MEM2-2.2.1/output/${sample}.bam"
+    bam = "align-DNA-*/${sample}/BWA-MEM2-2.2.1/output/BWA-MEM2-*${sample}.bam"
     arg_list = [
         'enable_spark',
         'mark_duplicates',
@@ -62,12 +62,13 @@ process call_align_DNA {
     """
     nextflow run \
         ${moduleDir}/../../external/pipeline-align-DNA/main.nf \
-        --sample_name ${sample} \
+        --sample_id ${sample} \
         --aligner ${aligner} \
         ${args} \
         --output_dir \$(pwd) \
         --work_dir ${params.work_dir} \
         --input_csv ${input_csv} \
+        --dataset_id ${params.project_id} \
         -c ${moduleDir}/default.config
     """
 }

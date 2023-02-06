@@ -18,7 +18,10 @@ process call_call_sSV {
         pattern: "call-sSV-*/*"
 
     input:
-        path(input_csv)
+        tuple(
+            path(input_csv),
+            val(algorithms)
+        )
 
     output:
         path "call-sSV-*/*"
@@ -45,6 +48,7 @@ process call_call_sSV {
         --work_dir ${params.work_dir} \
         --input_csv ${input_csv} \
         --dataset_id ${params.project_id} \
+        --algorithm_str ${algorithms} \
         ${args} \
         -c call_ssv_default_metapipeline.config
     """
