@@ -8,6 +8,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+
+---
+
+## [5.0.0-rc.2] - 2023-02-06
 ### Changed
 + align-DNA: 8.1.0 -> 9.0.0
 + call-gSNP: 9.2.0 -> 9.2.1
