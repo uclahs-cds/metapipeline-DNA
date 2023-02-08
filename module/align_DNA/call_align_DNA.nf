@@ -53,7 +53,8 @@ process call_align_DNA {
         'run_MarkDuplicate_Picard_cpus',
         'run_MarkDuplicate_Picard_memory_GB',
         'run_MarkDuplicatesSpark_GATK_cpus',
-        'run_MarkDuplicatesSpark_GATK_memory_GB'
+        'run_MarkDuplicatesSpark_GATK_memory_GB',
+        'save_intermediate_files'
     ]
 
     args = generate_args(params.align_DNA, arg_list)

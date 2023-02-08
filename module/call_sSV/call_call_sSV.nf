@@ -33,7 +33,8 @@ process call_call_sSV {
         'map_qual',
         'min_clique_size',
         'mad_cutoff',
-        'filter_condition'
+        'filter_condition',
+        'save_intermediate_files'
     ]
     args = generate_args(params.call_sSV, arg_list)
     """
