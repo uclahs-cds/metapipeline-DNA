@@ -9,6 +9,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+---
+
 ## [5.0.0-rc.3] - 2023-02-08
 ### Added
 + Option for intermediate file saving per pipeline
