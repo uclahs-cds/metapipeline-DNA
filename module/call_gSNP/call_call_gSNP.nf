@@ -47,7 +47,8 @@ process call_call_gSNP {
         'bundle_contest_hapmap_3p3_vcf_gz',
         'intervals',
         'scatter_count',
-        'gatk_ir_compression'
+        'gatk_ir_compression',
+        'save_intermediate_files'
     ]
     args = generate_args(params.call_gSNP, arg_list)
     """

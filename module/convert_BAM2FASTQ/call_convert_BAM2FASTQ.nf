@@ -29,7 +29,11 @@ process call_convert_BAM2FASTQ {
         path "convert-BAM2FASTQ-*/*"
         
     script:
-    arg_list = ['get_bam_stats_SAMtools_cpus', 'collate_bam_SAMtools_cpus']
+    arg_list = [
+        'get_bam_stats_SAMtools_cpus',
+        'collate_bam_SAMtools_cpus',
+        'save_intermediate_files'
+    ]
     args = generate_args(params.convert_BAM2FASTQ, arg_list)
     """
     set -euo pipefail

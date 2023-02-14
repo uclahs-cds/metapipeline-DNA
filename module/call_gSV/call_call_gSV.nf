@@ -32,7 +32,8 @@ process call_call_gSV {
         'run_delly',
         'run_manta',
         'run_qc',
-        'map_qual'
+        'map_qual',
+        'save_intermediate_files'
     ]
     args = generate_args(params.call_gSV, arg_list)
     """

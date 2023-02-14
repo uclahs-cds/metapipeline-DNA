@@ -11,6 +11,12 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [5.0.0-rc.3] - 2023-02-08
+### Added
++ Option for intermediate file saving per pipeline
+
+---
+
 ## [5.0.0-rc.2] - 2023-02-06
 ### Changed
 + align-DNA: 8.1.0 -> 9.0.0

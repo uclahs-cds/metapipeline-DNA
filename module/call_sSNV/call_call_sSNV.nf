@@ -41,7 +41,8 @@ process call_call_sSNV {
         'intervals',
         'bgzip_extra_args',
         'tabix_extra_args',
-        'dbSNP'
+        'dbSNP',
+        'save_intermediate_files'
     ]
     args = generate_args(params.call_sSNV, arg_list)
     """

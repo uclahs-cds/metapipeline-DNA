@@ -24,7 +24,8 @@ process call_call_mtSNV {
     script:
     arg_list = [
         'mt_ref_genome_dir',
-        'gmapdb'
+        'gmapdb',
+        'save_intermediate_files'
     ]
     sample_mode = (params.sample_mode == 'single') ? 'single' : 'paired'
     args = generate_args(params.call_mtSNV, arg_list)
