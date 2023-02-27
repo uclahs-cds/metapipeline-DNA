@@ -2,7 +2,7 @@
     Main entry point for calling call-gSNP pipeline
 */
 include { create_normal_tumor_pairs; create_input_csv_call_gSNP; create_input_csv_call_gSNP_single } from "${moduleDir}/create_input_csv"
-include { call_call_gSNP } from "${moduleDir}/call_call_gSNP"
+include { run_call_gSNP } from "${moduleDir}/run_call_gSNP"
 include { flatten_nonrecursive } from "${moduleDir}/../functions"
 
 /*
@@ -83,7 +83,7 @@ workflow call_gSNP {
         if (params.override_call_gsnp) {
             output_ch_call_gsnp = skip_gsnp_output
         } else {
-            call_call_gSNP(ich_call_gsnp)
+            run_call_gSNP(ich_call_gsnp)
 
             if (params.sample_mode == 'multi') {
                 /**
@@ -91,16 +91,16 @@ workflow call_gSNP {
                 *   then combine with each tumor BAM for downstream pipelines
                 *   then derive the tumor sample name from the BAM
                 */
-                normal_ch_for_join = call_call_gSNP.out.full_output
+                normal_ch_for_join = run_call_gSNP.out.full_output
                     .first()
                     .map{ [it[0], it[1], it[3], it[5]] } // [patient, run_mode, normal_id, normal_bam]
 
-                output_ch_call_gsnp_flat = call_call_gSNP.out.tumor_bam
+                output_ch_call_gsnp_flat = run_call_gSNP.out.tumor_bam
                     .flatten()
                     .combine(normal_ch_for_join)
                     .map{ [it[1], it[2], it[0].baseName.replace('_realigned_recalibrated_merged_dedup', ''), it[3], it[0], it[4]] }
             } else {
-                output_ch_call_gsnp_flat = call_call_gSNP.out.full_output
+                output_ch_call_gsnp_flat = run_call_gSNP.out.full_output
             }
 
             output_ch_call_gsnp_flat

@@ -12,7 +12,7 @@ include { generate_args } from "${moduleDir}/../common"
 *   @param algorithms (String): Comma-separated list of algorithms
 *   @param input_yaml (path): Path to YAML containing inputs
 */
-process call_call_sSNV {
+process run_call_sSNV {
     cpus params.call_sSNV.subworkflow_cpus
 
     publishDir "${params.output_dir}/output",

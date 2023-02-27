@@ -3,7 +3,7 @@
 */
 
 include { create_input_csv_call_sSV } from "${moduleDir}/create_input_csv"
-include { call_call_sSV } from "${moduleDir}/call_call_sSV"
+include { run_call_sSV } from "${moduleDir}/run_call_sSV"
 
 /*
 * Main workflow for calling the call-sSV pipeline
@@ -33,5 +33,5 @@ workflow call_sSV {
             .combine( Channel.of( params.call_sSV.algorithm.join(',') ) )
             .set{ input_ch_call_ssv }
 
-        call_call_sSV(input_ch_call_ssv)
+        run_call_sSV(input_ch_call_ssv)
 }
