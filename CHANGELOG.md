@@ -11,6 +11,12 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [5.0.0-rc.4] - 2023-03-03
+### Changed
++ process and .`.nf` file with `call_call` are replaced with `run_call`
+
+---
+
 ## [5.0.0-rc.3] - 2023-02-08
 ### Added
 + Option for intermediate file saving per pipeline
