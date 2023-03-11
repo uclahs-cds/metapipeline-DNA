@@ -2,7 +2,7 @@
     Main entrypoint for calling call-gSV pipeline
 */
 
-include { create_input_csv_call_gSV } from "${moduleDir}/create_input_csv"
+include { create_csv_call_gSV } from "${moduleDir}/create_csv_call_gSV"
 include { run_call_gSV } from "${moduleDir}/run_call_gSV"
 
 /*
@@ -35,7 +35,7 @@ workflow call_gSV {
                 .set{ input_ch_create_csv }
         }
 
-        create_input_csv_call_gSV(input_ch_create_csv)
+        create_csv_call_gSV(input_ch_create_csv)
 
-        run_call_gSV(create_input_csv_call_gSV.out)
+        run_call_gSV(create_csv_call_gSV.out)
 }

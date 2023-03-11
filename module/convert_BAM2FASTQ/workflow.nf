@@ -14,23 +14,23 @@
 */
 
 include { call_convert_BAM2FASTQ } from './call_convert_BAM2FASTQ'
-include { extract_read_groups } from './extract_read_groups.nf'
-include { create_input_csv } from './create_input_csv.nf'
-include { create_input_csv_for_align_DNA } from './create_input_csv_for_align_DNA.nf'
+include { extract_read_groups } from './extract_read_groups'
+include { create_csv_BAM2FASTQ } from './create_csv_BAM2FASTQ'
+include { create_csv_align_DNA } from './create_csv_align_DNA'
 
 workflow convert_BAM2FASTQ {
     main:
         ich = Channel.fromPath(params.input_csv).splitCsv(header:true)
             .map { tuple(it.patient, it.sample, it.state, file(it.bam)) }
         extract_read_groups(ich)
-        create_input_csv(ich)
-        call_convert_BAM2FASTQ(create_input_csv.out[0])
+        create_csv_BAM2FASTQ(ich)
+        call_convert_BAM2FASTQ(create_csv_BAM2FASTQ.out[0])
         
         data_ch = call_convert_BAM2FASTQ.out[0].map { [it[1], it] }
             .join(extract_read_groups.out[0].map { [it[1], it] })
             .map { tuple(it[1][0], it[1][1], it[1][2], it[2][3], it[1][3]) }
 
-        create_input_csv_for_align_DNA(data_ch)
+        create_csv_align_DNA(data_ch)
     emit:
-        create_input_csv_for_align_DNA.out[0]
+        create_csv_align_DNA.out[0]
 }

@@ -8,7 +8,7 @@ include { call_sSNV } from "${moduleDir}/call_sSNV/workflow"
 include { call_mtSNV } from "${moduleDir}/call_mtSNV/workflow"
 include { call_gSV } from "${moduleDir}/call_gSV/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir )
 include { call_sSV } from "${moduleDir}/call_sSV/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir )
-include { create_csv_for_align_DNA } from "${moduleDir}/align_DNA/create_csv_for_align_DNA" addParams( log_output_dir: params.metapipeline_log_output_dir )
+include { create_csv_align_DNA } from "${moduleDir}/align_DNA/create_csv_align_DNA" addParams( log_output_dir: params.metapipeline_log_output_dir )
 
 workflow {
     if ( params.input_type == 'BAM' ) {
@@ -28,8 +28,8 @@ workflow {
             .groupTuple(by: 0)
 
         // Create input CSV for align-DNA per sample
-        create_csv_for_align_DNA(ich)
-        ich_align_DNA_fastq = create_csv_for_align_DNA.out.align_dna_csv
+        create_csv_align_DNA(ich)
+        ich_align_DNA_fastq = create_csv_align_DNA.out.align_dna_csv
     }
 
     align_DNA(ich_align_DNA_fastq)

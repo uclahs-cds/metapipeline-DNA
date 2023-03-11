@@ -14,7 +14,7 @@
 *     @return state (val): tumor or normal
 *     @return input_csv (file): the input CSV file generated to be passed to align-DNA
 */
-process create_csv_for_align_DNA {
+process create_csv_align_DNA {
     publishDir path: "${params.log_output_dir}/process-log",
         mode: "copy",
         pattern: ".command.*",

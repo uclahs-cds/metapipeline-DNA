@@ -65,7 +65,7 @@ log.info """\
 *     @return input_csv (file): the input CSV file generated to be passed to the metapipeline-DNA.
 */
 
-process create_input_csv_metapipeline_DNA {
+process create_csv_metapipeline_DNA {
     publishDir path: "${params.log_output_dir}/process-log",
         mode: "copy",
         pattern: ".command.*",
@@ -112,7 +112,7 @@ process create_input_csv_metapipeline_DNA {
 * Output:
 *   @return pipeline_params_json (file): JSON file containing all pipeline-specific params
 */
-process create_config_json {
+process create_config_metapipeline_DNA {
     output:
     path "pipeline_specific_params.json", emit: pipeline_params_json
 
@@ -192,7 +192,7 @@ workflow {
             .map{ [it[0], it[0], it[1]] } // [patient, patient, records]
     }
 
-    create_input_csv_metapipeline_DNA(ich)
-    create_config_json()
-    call_metapipeline_DNA(create_input_csv_metapipeline_DNA.out[0].combine(create_config_json.out.pipeline_params_json))
+    create_csv_metapipeline_DNA(ich)
+    create_config_metapipeline_DNA()
+    call_metapipeline_DNA(create_csv_metapipeline_DNA.out[0].combine(create_config_metapipeline_DNA.out.pipeline_params_json))
 }

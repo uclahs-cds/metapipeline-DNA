@@ -1,7 +1,7 @@
 /*
     Main entry point for calling call-gSNP pipeline
 */
-include { create_normal_tumor_pairs; create_input_csv_call_gSNP; create_input_csv_call_gSNP_single } from "${moduleDir}/create_input_csv"
+include { create_normal_tumor_pairs; create_csv_call_gSNP; create_csv_call_gSNP_single } from "${moduleDir}/create_csv_call_gSNP"
 include { run_call_gSNP } from "${moduleDir}/run_call_gSNP"
 include { flatten_nonrecursive } from "${moduleDir}/../functions"
 
@@ -58,8 +58,8 @@ workflow call_gSNP {
                 }
             }
 
-            create_input_csv_call_gSNP(input_ch_create_gsnp_csv)
-            ich_call_gsnp = create_input_csv_call_gSNP.out
+            create_csv_call_gSNP(input_ch_create_gsnp_csv)
+            ich_call_gsnp = create_csv_call_gSNP.out
         } else {
             // In single sample mode, put file as normal regardless of actual state
             // to match call-gSNP processing
@@ -76,8 +76,8 @@ workflow call_gSNP {
                 .map{ [it['sample'], [it['patient'], it['sample'], it['state'], it['bam_header_sm'], it['bam']]] } // [sample, records]
                 .groupTuple(by: 0)
                 .map{ [it[1][0][0], it[1]] } // [patient, records]
-            create_input_csv_call_gSNP_single(ich_create_csv)
-            ich_call_gsnp = create_input_csv_call_gSNP_single.out
+            create_csv_call_gSNP_single(ich_create_csv)
+            ich_call_gsnp = create_csv_call_gSNP_single.out
         }
 
         if (params.override_call_gsnp) {

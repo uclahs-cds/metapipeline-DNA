@@ -1,7 +1,7 @@
 /*
     Create input csv file for the convert-BAM2FASTQ pipeline.
 */
-process create_input_csv {
+process create_csv_BAM2FASTQ {
 
     input:
         tuple(
