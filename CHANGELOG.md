@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 ### Changed
 + process and .`.nf` file with `call_call` are replaced with `run_call`
++ Automatically detect CPU and memory for specified partition type
 
 ---
 
