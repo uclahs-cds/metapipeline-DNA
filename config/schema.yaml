@@ -59,23 +59,23 @@ requested_pipelines:
   default:
     - align-DNA
     - call-gSNP
+    - call-gSV
     - call-mtSNV
     - call-sSNV
     - call-sSV
-    - call-gSV
   choices:
     - align-DNA
     - call-gSNP
+    - call-gSV
     - call-mtSNV
     - call-sSNV
     - call-sSV
-    - call-gSV
   help: 'List of pipelines to run'
 override_realignment:
   type: 'Bool'
   required: true
   default: false
-  help: 'Whether to override and skip realignment'
+  help: 'Whether to override and skip back-conversion to FASTQ and realignment with align-DNA'
 override_call_gsnp:
   type: 'Bool'
   required: true
