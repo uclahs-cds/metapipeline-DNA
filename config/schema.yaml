@@ -31,7 +31,7 @@ save_intermediate_files:
 partition:
   type: 'String'
   required: true
-  choices: ['F16', 'F32', 'F72']
+  choices: ['F16', 'F32', 'F72', 'F72_3TB']
   help: 'Partition type to submit jobs to'
 clusterOptions:
   type: 'String'
