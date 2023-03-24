@@ -61,15 +61,21 @@ process call_align_DNA {
     aligner = params.align_DNA.aligner.join(',')
 
     """
+    set -euo pipefail
+
+    WORK_DIR=${params.work_dir}/work-align-DNA-${sample}
+    mkdir \$WORK_DIR
     nextflow run \
         ${moduleDir}/../../external/pipeline-align-DNA/main.nf \
         --sample_id ${sample} \
         --aligner ${aligner} \
         ${args} \
         --output_dir \$(pwd) \
-        --work_dir ${params.work_dir} \
+        --work_dir \$WORK_DIR \
         --input_csv ${input_csv} \
         --dataset_id ${params.project_id} \
         -c ${moduleDir}/default.config
+
+    rm -r \$WORK_DIR
     """
 }

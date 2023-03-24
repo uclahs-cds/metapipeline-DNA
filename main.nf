@@ -167,6 +167,7 @@ process call_metapipeline_DNA {
         --work_dir ${params.work_dir} \
         --override_realignment ${params.override_realignment} \
         --override_call_gsnp ${params.override_call_gsnp} \
+        --enable_input_deletion_call_gsnp ${params.enable_input_deletion_call_gsnp} \
         -params-file ${pipeline_params_json}
     """
 }

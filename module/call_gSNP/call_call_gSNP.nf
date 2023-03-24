@@ -54,13 +54,18 @@ process call_call_gSNP {
     """
     set -euo pipefail
 
+    WORK_DIR=${params.work_dir}/work-call-gSNP-${sample_id_for_gsnp}
+    mkdir \$WORK_DIR
+
     cat ${moduleDir}/default.config | sed "s:<OUTPUT-DIR-METAPIPELINE>:\$(pwd):g" \
         > call_gsnp_default_metapipeline.config
 
     nextflow run \
         ${moduleDir}/../../external/pipeline-call-gSNP/main.nf \
         --input_csv ${input_csv.toRealPath()} \
-        --work_dir ${params.work_dir} \
+        --work_dir \$WORK_DIR \
+        --final_metapipeline_output_dir "${params.output_dir}/output/align-DNA-*/*/BWA-MEM2-*/output" \
+        --metapipeline_delete_input_bams ${params.enable_input_deletion_call_gsnp} \
         ${args} \
         -c call_gsnp_default_metapipeline.config
 
@@ -74,5 +79,7 @@ process call_call_gSNP {
             ln -s \$full_path \$i
         done
     fi
+
+    rm -r \$WORK_DIR
     """
 }

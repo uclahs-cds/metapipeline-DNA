@@ -38,12 +38,16 @@ process call_convert_BAM2FASTQ {
     """
     set -euo pipefail
 
+    WORK_DIR=${params.work_dir}/work-bam2fastq-${sample}
+    mkdir \$WORK_DIR
     nextflow \
         -C ${moduleDir}/default.config \
         run ${moduleDir}/../../external/pipeline-convert-BAM2FASTQ/main.nf \
         --input_csv ${input_csv} \
         --output_dir \$(pwd) \
-        --temp_dir ${params.work_dir} \
+        --work_dir \$WORK_DIR \
         ${args}
+
+    rm -r \$WORK_DIR
     """
 }
