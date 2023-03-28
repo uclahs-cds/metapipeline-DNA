@@ -1,7 +1,7 @@
 /*
     Main entry point for calling call-sSNV pipeline
 */
-include { create_yaml_call_sSNV } from "${moduleDir}/create_yaml_call_sSNV"
+include { create_YAML_call_sSNV } from "${moduleDir}/create_YAML_call_sSNV"
 include { run_call_sSNV } from "${moduleDir}/run_call_sSNV"
 
 /*
@@ -29,7 +29,7 @@ workflow call_sSNV {
             } else {
                 input_ch_tumor_only = Channel.empty()
             }
-            create_yaml_call_sSNV(input_ch_tumor_only)
+            create_YAML_call_sSNV(input_ch_tumor_only)
         } else {
             // [patient, [normal_ID,normal_BAM], [tumor_ID,tumor_BAM]]
             input_ch_create_ssnv_yaml_multisample = ich.map{ it ->
@@ -57,7 +57,7 @@ workflow call_sSNV {
                     .mix( input_ch_create_ssnv_yaml )
             }
 
-            create_yaml_call_sSNV(input_ch_create_ssnv_yaml)
+            create_YAML_call_sSNV(input_ch_create_ssnv_yaml)
         }
-        run_call_sSNV(create_yaml_call_sSNV.out)
+        run_call_sSNV(create_YAML_call_sSNV.out)
 }

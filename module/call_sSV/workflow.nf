@@ -2,7 +2,7 @@
     Main entrypoint for calling call-gSV pipeline
 */
 
-include { create_csv_call_sSV } from "${moduleDir}/create_csv_call_sSV"
+include { create_CSV_call_sSV } from "${moduleDir}/create_CSV_call_sSV"
 include { run_call_sSV } from "${moduleDir}/run_call_sSV"
 
 /*
@@ -25,11 +25,11 @@ workflow call_sSV {
         ich
             .filter{ it['run_mode'] == 'multi' }
             .map{ [it['tumor_sample'], file(it['normal_bam']).toRealPath(), file(it['tumor_bam']).toRealPath()] }
-            .set{ input_ch_create_csv }
+            .set{ input_ch_create_CSV }
 
-        create_csv_call_sSV(input_ch_create_csv)
+        create_CSV_call_sSV(input_ch_create_CSV)
 
-        create_csv_call_sSV.out
+        create_CSV_call_sSV.out
             .combine( Channel.of( params.call_sSV.algorithm.join(',') ) )
             .set{ input_ch_call_ssv }
 

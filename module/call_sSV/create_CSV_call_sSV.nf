@@ -10,7 +10,7 @@
 * Output:
 *   @return A path to the input CSV
 */
-process create_csv_call_sSV {
+process create_CSV_call_sSV {
     publishDir path: "${params.log_output_dir}/process-log",
         mode: "copy",
         pattern: ".command.*",
