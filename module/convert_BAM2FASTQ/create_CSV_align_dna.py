@@ -1,3 +1,4 @@
+# pylint: disable=C0103
 """ Create input csv for align-DNA """
 import argparse
 from pathlib import Path
