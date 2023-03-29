@@ -1,0 +1,200 @@
+---
+input_csv:
+  type: 'Path'
+  mode: 'r'
+  required: false
+  help: 'Absolute path to input CSV'
+output_dir:
+  type: 'Path'
+  mode: 'w'
+  required: true
+  help: 'Absolute path to output directory'
+leading_work_dir:
+  type: 'Path'
+  mode: 'w'
+  required: true
+  help: 'Absolute path to leading job working directory; should be a common directory under /hot'
+pipeline_work_dir:
+  type: 'Path'
+  mode: 'w'
+  required: true
+  help: 'Temporary working directory per pipeline use; should be /scratch'
+project_id:
+  type: 'String'
+  required: true
+  help: 'Project ID'
+save_intermediate_files:
+  type: 'Bool'
+  required: true
+  default: false
+  help: 'Whether to save metapipeline intermediate files'
+partition:
+  type: 'String'
+  required: true
+  choices: ['F16', 'F32', 'F72', 'F72_3TB']
+  help: 'Partition type to submit jobs to'
+clusterOptions:
+  type: 'String'
+  required: true
+  allow_empty: true
+  help: 'Additional cluster options for use with submission command'
+max_parallel_jobs:
+  type: 'Integer'
+  required: true
+  default: 5
+  help: 'Maximum number of jobs to launch in parallel'
+cluster_submission_interval:
+  type: 'Integer'
+  required: true
+  default: 30
+  help: 'Time between each job submission in minutes'
+sample_mode:
+  type: 'String'
+  required: true
+  choices: ['single', 'multi', 'paired']
+  help: 'Mode in which to process the input samples'
+requested_pipelines:
+  type: 'List'
+  required: true
+  default:
+    - align-DNA
+    - call-gSNP
+    - call-gSV
+    - call-mtSNV
+    - call-sSNV
+    - call-sSV
+  choices:
+    - align-DNA
+    - call-gSNP
+    - call-gSV
+    - call-mtSNV
+    - call-sSNV
+    - call-sSV
+  help: 'List of pipelines to run'
+override_realignment:
+  type: 'Bool'
+  required: true
+  default: false
+  help: 'Whether to override and skip back-conversion to FASTQ and realignment with align-DNA'
+override_call_gsnp:
+  type: 'Bool'
+  required: true
+  default: false
+  help: 'Whether to override and skip call-gSNP'
+pipeline_params:
+  type: 'Namespace'
+  required: true
+  help: 'Pipeline-specific parameters'
+  elements:
+    convert_BAM2FASTQ:
+      type: 'Namespace'
+      required: true
+      help: 'Parameters for convert-BAM2FASTQ'
+    align_DNA:
+      type: 'Namespace'
+      required: true
+      help: 'Parameters for align-DNA'
+    call_gSNP:
+      type: 'Namespace'
+      required: true
+      help: 'Parameters for call-gSNP'
+    call_sSNV:
+      type: 'Namespace'
+      required: true
+      help: 'Parameters for call-sSNV'
+    call_mtSNV:
+      type: 'Namespace'
+      required: true
+      help: 'Parameters for call-mtSNV'
+    call_gSV:
+      type: 'Namespace'
+      required: true
+      help: 'Parameters for call-gSV'
+    call_sSV:
+      type: 'Namespace'
+      required: true
+      help: 'Parameters for call-sSV'
+input:
+  type: 'InputNamespace'
+  required: true
+  help: 'Input to process'
+  elements:
+    BAM:
+      type: 'EntryList'
+      required: false
+      help: 'Input BAMs'
+      elements:
+        patient:
+          type: 'String'
+          required: true
+          help: 'Patient ID'
+        sample:
+          type: 'String'
+          required: true
+          help: 'Sample ID'
+        state:
+          type: 'String'
+          required: true
+          choices: ['normal', 'tumor']
+          help: 'State of tissue from which samples was obtained'
+        path:
+          type: 'Path'
+          mode: 'r'
+          required: true
+          help: 'Absolute path to BAM'
+    FASTQ:
+      type: 'EntryList'
+      required: false
+      help: 'Inputs FASTQs'
+      elements:
+        patient:
+          type: 'String'
+          required: true
+          help: 'Patient ID'
+        sample:
+          type: 'String'
+          required: true
+          help: 'Sample ID'
+        state:
+          type: 'String'
+          required: true
+          choices: ['normal', 'tumor']
+          help: 'State of tissue from which samples was obtained'
+        read_group_identifier:
+          type: 'String'
+          required: true
+          help: 'Read group identifier for alignment'
+        sequencing_center:
+          type: 'String'
+          required: true
+          help: 'Center where sequencing was performed'
+        library_identifier:
+          type: 'String'
+          required: true
+          help: 'Library used for sample'
+        platform_technology:
+          type: 'String'
+          required: true
+          help: 'Technology used for sequencing'
+        platform_unit:
+          type: 'String'
+          required: true
+          help: 'Name of specific platform unit'
+        bam_header_sm:
+          type: 'String'
+          required: true
+          help: 'Sample name tag for BAM'
+        lane:
+          type: 'LaneType'
+          required: true
+          help: 'Lane'
+        read1_fastq:
+          type: 'Path'
+          mode: 'r'
+          required: true
+          help: 'Absolute path to R1 FASTQ'
+        read2_fastq:
+          type: 'Path'
+          mode: 'r'
+          required: true
+          help: 'Absolute path to R2 FASTQ'
