@@ -29,8 +29,6 @@ log.info """\
     - options:
         option executor: ${params.executor}
         option partition: ${params.partition}
-        option per_job_cpus: ${params.per_job_cpus} 
-        option per_job_memory_GB: ${params.per_job_memory_GB}
         option max_parallel_jobs: ${params.max_parallel_jobs}
         option sample_mode: ${params.sample_mode}
 
