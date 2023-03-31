@@ -14,6 +14,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 + Standardize process and script names
 + Automatically detect CPU and memory for specified partition type
 + Automate setting of subworkflow CPUs
+### Removed
++ Unnecessary `index` field in FASTQ input
 
 ---
 
