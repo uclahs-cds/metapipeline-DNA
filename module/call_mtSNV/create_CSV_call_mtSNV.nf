@@ -2,7 +2,7 @@
 * Module for creating input CSV file for call-mtSNV pipeline
 */
 
-process create_input_csv {
+process create_CSV_call_mtSNV {
     publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}/${mtsnv_sample_id}",
         enabled: params.save_intermediate_files,
         pattern: 'call_mtSNV_input.csv',
