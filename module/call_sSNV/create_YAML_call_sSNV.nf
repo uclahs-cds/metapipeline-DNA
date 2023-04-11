@@ -12,7 +12,7 @@ import org.yaml.snakeyaml.Yaml
 * Output:
 *   @return A tuple of 3 items, inlcuding the sample_id, algorithms, and the input YAML file created for the call-sSNV pipeline.
 */
-process create_input_yaml_call_sSNV {
+process create_YAML_call_sSNV {
     publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}/${sample_id}",
         enabled: params.save_intermediate_files,
         pattern: 'call_sSNV_input.yaml',

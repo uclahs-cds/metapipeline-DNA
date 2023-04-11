@@ -15,7 +15,7 @@ include { generate_args } from "${moduleDir}/../common"
 *   @return A tuple of 7 items, the input values of patient, tumor_sample, normal_sample,
 *     normal_sample, as well as the output tumor and normal BAM files.
 */
-process call_call_gSNP {
+process run_call_gSNP {
     cpus params.call_gSNP.subworkflow_cpus
 
     publishDir "${params.output_dir}/output",

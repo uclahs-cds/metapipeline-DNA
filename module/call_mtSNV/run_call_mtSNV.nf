@@ -1,7 +1,7 @@
 
 include { generate_args } from "${moduleDir}/../common"
 
-process call_call_mtSNV {
+process run_call_mtSNV {
     cpus params.call_mtSNV.subworkflow_cpus
 
     publishDir "${params.output_dir}/output",

@@ -2,8 +2,8 @@
     Main entrypoint for calling call-gSV pipeline
 */
 
-include { create_input_csv_call_gSV } from "${moduleDir}/create_input_csv"
-include { call_call_gSV } from "${moduleDir}/call_call_gSV"
+include { create_CSV_call_gSV } from "${moduleDir}/create_CSV_call_gSV"
+include { run_call_gSV } from "${moduleDir}/run_call_gSV"
 
 /*
 * Main workflow for calling the call-gSV pipeline
@@ -26,16 +26,16 @@ workflow call_gSV {
             ich
                 .filter{ it['run_mode'] == 'normal' }
                 .map{ [it['patient'], it['normal_sample'], it['normal_bam']] }
-                .set{ input_ch_create_csv }
+                .set{ input_ch_create_CSV }
         } else {
             // Get normal sample from first emission since normal sample is common for all emissions
             ich
                 .first()
                 .map{ [it['patient'], it['normal_sample'], it['normal_bam']] }
-                .set{ input_ch_create_csv }
+                .set{ input_ch_create_CSV }
         }
 
-        create_input_csv_call_gSV(input_ch_create_csv)
+        create_CSV_call_gSV(input_ch_create_CSV)
 
-        call_call_gSV(create_input_csv_call_gSV.out)
+        run_call_gSV(create_CSV_call_gSV.out)
 }

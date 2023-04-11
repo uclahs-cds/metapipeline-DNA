@@ -29,8 +29,6 @@ log.info """\
     - options:
         option executor: ${params.executor}
         option partition: ${params.partition}
-        option per_job_cpus: ${params.per_job_cpus} 
-        option per_job_memory_GB: ${params.per_job_memory_GB}
         option max_parallel_jobs: ${params.max_parallel_jobs}
         option sample_mode: ${params.sample_mode}
 
@@ -65,7 +63,7 @@ log.info """\
 *     @return input_csv (file): the input CSV file generated to be passed to the metapipeline-DNA.
 */
 
-process create_input_csv_metapipeline_DNA {
+process create_CSV_metapipeline_DNA {
     publishDir path: "${params.log_output_dir}/process-log",
         mode: "copy",
         pattern: ".command.*",
@@ -94,7 +92,7 @@ process create_input_csv_metapipeline_DNA {
     input_csv = "${identifier}_metapipeline_DNA_input.csv"
     header_line = (params.input_type == 'BAM') ? \
         "patient,sample,state,bam" : \
-        "patient,sample,state,index,read_group_identifier,sequencing_center,library_identifier,platform_technology,platform_unit,bam_header_sm,lane,read1_fastq,read2_fastq"
+        "patient,sample,state,read_group_identifier,sequencing_center,library_identifier,platform_technology,platform_unit,bam_header_sm,lane,read1_fastq,read2_fastq"
     lines = []
     for (record in records) {
         lines.add(record.join(','))
@@ -112,7 +110,7 @@ process create_input_csv_metapipeline_DNA {
 * Output:
 *   @return pipeline_params_json (file): JSON file containing all pipeline-specific params
 */
-process create_config_json {
+process create_config_metapipeline_DNA {
     output:
     path "pipeline_specific_params.json", emit: pipeline_params_json
 
@@ -178,7 +176,7 @@ workflow {
             .map{ [it.patient, [it.patient, it.sample, it.state, it.path]] }
     } else if (params.input_type == 'FASTQ') {
         ich_individual = Channel.from(params.input.FASTQ)
-            .map{ [it.patient, [it.patient, it.sample, it.state, it.index, it.read_group_identifier, it.sequencing_center, it.library_identifier, it.platform_technology, it.platform_unit, it.bam_header_sm, it.lane, it.read1_fastq, it.read2_fastq]] }
+            .map{ [it.patient, [it.patient, it.sample, it.state, it.read_group_identifier, it.sequencing_center, it.library_identifier, it.platform_technology, it.platform_unit, it.bam_header_sm, it.lane, it.read1_fastq, it.read2_fastq]] }
     }
 
     if (params.sample_mode == 'single') {
@@ -193,7 +191,7 @@ workflow {
             .map{ [it[0], it[0], it[1]] } // [patient, patient, records]
     }
 
-    create_input_csv_metapipeline_DNA(ich)
-    create_config_json()
-    call_metapipeline_DNA(create_input_csv_metapipeline_DNA.out[0].combine(create_config_json.out.pipeline_params_json))
+    create_CSV_metapipeline_DNA(ich)
+    create_config_metapipeline_DNA()
+    call_metapipeline_DNA(create_CSV_metapipeline_DNA.out[0].combine(create_config_metapipeline_DNA.out.pipeline_params_json))
 }

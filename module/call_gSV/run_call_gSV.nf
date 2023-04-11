@@ -10,7 +10,7 @@ include { generate_args } from "${moduleDir}/../common"
 * Input:
 *   @param input_csv (path): Path to the CSV containing inputs
 */
-process call_call_gSV {
+process run_call_gSV {
     cpus params.call_gSV.subworkflow_cpus
 
     publishDir "${params.output_dir}/output",
