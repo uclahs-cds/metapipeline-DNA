@@ -64,7 +64,7 @@ process run_call_gSNP {
         ${moduleDir}/../../external/pipeline-call-gSNP/main.nf \
         --input_csv ${input_csv.toRealPath()} \
         --work_dir \$WORK_DIR \
-        --final_metapipeline_output_dir "${params.output_dir}/output/align-DNA-*/*/BWA-MEM2-*/output" \
+        --metapipeline_final_output_dir "${params.output_dir}/output/align-DNA-*/*/BWA-MEM2-*/output" \
         --metapipeline_delete_input_bams ${params.enable_input_deletion_call_gsnp} \
         ${args} \
         -c call_gsnp_default_metapipeline.config
