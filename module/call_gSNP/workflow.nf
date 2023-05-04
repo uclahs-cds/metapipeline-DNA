@@ -98,7 +98,7 @@ workflow call_gSNP {
                 output_ch_call_gsnp_flat = run_call_gSNP.out.tumor_bam
                     .flatten()
                     .combine(normal_ch_for_join)
-                    .map{ [it[1], it[2], it[0].baseName.replace('_realigned_recalibrated_merged_dedup', ''), it[3], it[0], it[4]] }
+                    .map{ [it[1], it[2], it[0].baseName.split('_')[-1], it[3], it[0], it[4]] }
             } else {
                 output_ch_call_gsnp_flat = run_call_gSNP.out.full_output
             }
