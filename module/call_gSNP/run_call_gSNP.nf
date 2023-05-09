@@ -36,8 +36,10 @@ process run_call_gSNP {
         file "call-gSNP-*/*"
 
     script:
-    normal_bam = "call-gSNP-*/${sample_id_for_gsnp}/GATK-*/output/${normal_bam_sm}_realigned_recalibrated_merged_dedup.bam"
+    normal_bam = "call-gSNP-*/${sample_id_for_gsnp}/GATK-*/output/*_GATK-*_${normal_bam_sm}.bam"
     arg_list = [
+        'reference_fasta',
+        'aligner',
         'bundle_mills_and_1000g_gold_standard_indels_vcf_gz',
         'bundle_known_indels_vcf_gz',
         'bundle_v0_dbsnp138_vcf_gz',
@@ -54,13 +56,19 @@ process run_call_gSNP {
     """
     set -euo pipefail
 
+    WORK_DIR=${params.work_dir}/work-call-gSNP-${sample_id_for_gsnp}
+    mkdir \$WORK_DIR
+
     cat ${moduleDir}/default.config | sed "s:<OUTPUT-DIR-METAPIPELINE>:\$(pwd):g" \
         > call_gsnp_default_metapipeline.config
 
     nextflow run \
         ${moduleDir}/../../external/pipeline-call-gSNP/main.nf \
         --input_csv ${input_csv.toRealPath()} \
-        --work_dir ${params.work_dir} \
+        --work_dir \$WORK_DIR \
+        --metapipeline_final_output_dir "${params.output_dir}/output/align-DNA-*/*/BWA-MEM2-*/output" \
+        --metapipeline_delete_input_bams ${params.enable_input_deletion_call_gsnp} \
+        --dataset_id ${params.project_id} \
         ${args} \
         -c call_gsnp_default_metapipeline.config
 
@@ -68,11 +76,13 @@ process run_call_gSNP {
     then
         touch NO_FILE.bam
     else
-        for i in `ls --hide=${normal_bam_sm}_realigned_recalibrated_merged_dedup.bam call-gSNP-*/${sample_id_for_gsnp}/GATK-*/output/ -1 | grep ".bam\$"`
+        for i in `ls --hide=*_GATK-*_${normal_bam_sm}.bam call-gSNP-*/${sample_id_for_gsnp}/GATK-*/output/ -1 | grep ".bam\$"`
         do
             full_path=`find \$(pwd) -name \$i`
             ln -s \$full_path \$i
         done
     fi
+
+    rm -r \$WORK_DIR
     """
 }

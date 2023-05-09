@@ -35,9 +35,9 @@ process create_CSV_call_mtSNV {
     } else if (params.sample_mode == 'paired') {
         mtsnv_sample_id = tumour_id
     } else {
-        mtsnv_sample_id = tumour_BAM.baseName.replace('_realigned_recalibrated_merged_dedup', '')
+        mtsnv_sample_id = tumour_BAM.baseName.split('_')[-1]
     }
-    mtsnv_tumour_id = tumour_BAM.baseName.replace('_realigned_recalibrated_merged_dedup', '')
+    mtsnv_tumour_id = tumour_BAM.baseName.split('_')[-1]
     """
     if ${params.sample_mode == 'single'}
     then

@@ -8,12 +8,19 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+
+---
+
+## [5.0.0-rc.4] - 2023-05-04
 ### Added
 + Parameter validation
++ Custom schema types with parameter validation
 ### Changed
 + Standardize process and script names
 + Automatically detect CPU and memory for specified partition type
 + Automate setting of subworkflow CPUs
++ Divide `/scratch` into pipeline-specific directories for deletion once pipeline ends
++ Slurm job name to include work directory path
 ### Removed
 + Unnecessary `index` field in FASTQ input
 
