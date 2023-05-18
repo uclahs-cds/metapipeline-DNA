@@ -1,6 +1,3 @@
-
-include { generate_args } from "${moduleDir}/../common"
-
 def get_header_sample_name(path) {
     def reader = new FileReader(path)
     def sm = []

@@ -1,6 +1,3 @@
-
-include { generate_args } from "${moduleDir}/../common"
-
 /*
     Process to call the convert-BAM2FASTQ pipeline.
 */

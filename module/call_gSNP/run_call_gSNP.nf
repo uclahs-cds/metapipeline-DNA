@@ -1,6 +1,3 @@
-
-include { generate_args } from "${moduleDir}/../common"
-
 /*
 * Call the call-gSNP pipeline
 *

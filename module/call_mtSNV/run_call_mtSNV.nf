@@ -1,6 +1,3 @@
-
-include { generate_args } from "${moduleDir}/../common"
-
 process run_call_mtSNV {
     cpus params.call_mtSNV.subworkflow_cpus
 

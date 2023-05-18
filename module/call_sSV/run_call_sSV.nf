@@ -2,8 +2,6 @@
 * Nextflow module for calling the call-sSV pipeline
 */
 
-include { generate_args } from "${moduleDir}/../common"
-
 /*
 * Process to call the call-sSV pipeline
 *
