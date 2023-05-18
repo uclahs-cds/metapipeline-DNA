@@ -29,12 +29,6 @@ process call_convert_BAM2FASTQ {
         path "convert-BAM2FASTQ-*/*"
         
     script:
-    arg_list = [
-        'get_bam_stats_SAMtools_cpus',
-        'collate_bam_SAMtools_cpus',
-        'save_intermediate_files'
-    ]
-    args = generate_args(params.convert_BAM2FASTQ, arg_list)
     """
     set -euo pipefail
 
@@ -43,10 +37,10 @@ process call_convert_BAM2FASTQ {
     nextflow \
         -C ${moduleDir}/default.config \
         run ${moduleDir}/../../external/pipeline-convert-BAM2FASTQ/main.nf \
+        ${params.convert_BAM2FASTQ.metapipeline_arg_string} \
         --input_csv ${input_csv} \
         --output_dir \$(pwd) \
-        --work_dir \$WORK_DIR \
-        ${args}
+        --work_dir \$WORK_DIR
 
     rm -r \$WORK_DIR
     """
