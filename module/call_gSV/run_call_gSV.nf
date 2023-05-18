@@ -24,18 +24,6 @@ process run_call_gSV {
         path "call-gSV-*/*"
 
     script:
-    arg_list = [
-        'reference_fasta',
-        'exclusion_file',
-        'mappability_map',
-        'run_discovery',
-        'run_delly',
-        'run_manta',
-        'run_qc',
-        'map_qual',
-        'save_intermediate_files'
-    ]
-    args = generate_args(params.call_gSV, arg_list)
     """
     set -euo pipefail
 
@@ -45,10 +33,10 @@ process run_call_gSV {
 
     nextflow run \
         ${moduleDir}/../../external/pipeline-call-gSV/main.nf \
+        ${params.call_gSV.metapipeline_arg_string} \
         --work_dir ${params.work_dir} \
         --input_csv ${input_csv} \
         --dataset_id ${params.project_id} \
-        ${args} \
         -c call_gsv_default_metapipeline.config
     """
 }
