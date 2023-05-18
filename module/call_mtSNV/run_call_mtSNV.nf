@@ -22,13 +22,7 @@ process run_call_mtSNV {
         path "call-mtSNV-*/*"
 
     script:
-    arg_list = [
-        'mt_ref_genome_dir',
-        'gmapdb',
-        'save_intermediate_files'
-    ]
     sample_mode = (params.sample_mode == 'single') ? 'single' : 'paired'
-    args = generate_args(params.call_mtSNV, arg_list)
     """
     set -euo pipefail
 
@@ -39,11 +33,11 @@ process run_call_mtSNV {
 
     nextflow -C call_mtsnv_default_metapipeline.config \
         run ${moduleDir}/../../external/pipeline-call-mtSNV/main.nf \
+        ${params.call_mtSNV.metapipeline_arg_string} \
         --run_name ${tumor_sample} \
         --input_csv ${input_csv} \
         --work_dir ${params.work_dir} \
         --patient_id ${params.patient} \
-        --dataset_id ${params.project_id} \
-        ${args}
+        --dataset_id ${params.project_id}
     """
 }
