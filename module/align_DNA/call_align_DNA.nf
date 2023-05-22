@@ -1,6 +1,3 @@
-
-include { generate_args } from "${moduleDir}/../common"
-
 def get_header_sample_name(path) {
     def reader = new FileReader(path)
     def sm = []
@@ -40,24 +37,7 @@ process call_align_DNA {
     script:
     bam_header_sm = get_header_sample_name(input_csv.toRealPath().toString())
     bam = "align-DNA-*/${sample}/BWA-MEM2-2.2.1/output/BWA-MEM2-*${sample}.bam"
-    arg_list = [
-        'enable_spark',
-        'mark_duplicates',
-        'reference_fasta_bwa',
-        'reference_fasta_hisat2',
-        'hisat2_index_prefix',
-        'align_DNA_BWA_MEM2_cpus',
-        'align_DNA_HISAT2_cpus',
-        'run_SortSam_Picard_cpus',
-        'run_SortSam_Picard_memory_GB',
-        'run_MarkDuplicate_Picard_cpus',
-        'run_MarkDuplicate_Picard_memory_GB',
-        'run_MarkDuplicatesSpark_GATK_cpus',
-        'run_MarkDuplicatesSpark_GATK_memory_GB',
-        'save_intermediate_files'
-    ]
 
-    args = generate_args(params.align_DNA, arg_list)
     aligner = params.align_DNA.aligner.join(',')
 
     """
@@ -67,9 +47,9 @@ process call_align_DNA {
     mkdir \$WORK_DIR
     nextflow run \
         ${moduleDir}/../../external/pipeline-align-DNA/main.nf \
+        ${params.align_DNA.metapipeline_arg_string} \
         --sample_id ${sample} \
         --aligner ${aligner} \
-        ${args} \
         --output_dir \$(pwd) \
         --work_dir \$WORK_DIR \
         --input_csv ${input_csv} \

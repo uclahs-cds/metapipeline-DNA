@@ -1,6 +1,3 @@
-
-include { generate_args } from "${moduleDir}/../common"
-
 /*
 * Call the call-gSNP pipeline
 *
@@ -37,22 +34,6 @@ process run_call_gSNP {
 
     script:
     normal_bam = "call-gSNP-*/${sample_id_for_gsnp}/GATK-*/output/*_GATK-*_${normal_bam_sm}.bam"
-    arg_list = [
-        'reference_fasta',
-        'aligner',
-        'bundle_mills_and_1000g_gold_standard_indels_vcf_gz',
-        'bundle_known_indels_vcf_gz',
-        'bundle_v0_dbsnp138_vcf_gz',
-        'bundle_hapmap_3p3_vcf_gz',
-        'bundle_omni_1000g_2p5_vcf_gz',
-        'bundle_phase1_1000g_snps_high_conf_vcf_gz',
-        'bundle_contest_hapmap_3p3_vcf_gz',
-        'intervals',
-        'scatter_count',
-        'gatk_ir_compression',
-        'save_intermediate_files'
-    ]
-    args = generate_args(params.call_gSNP, arg_list)
     """
     set -euo pipefail
 
@@ -64,12 +45,12 @@ process run_call_gSNP {
 
     nextflow run \
         ${moduleDir}/../../external/pipeline-call-gSNP/main.nf \
+        ${params.call_gSNP.metapipeline_arg_string} \
         --input_csv ${input_csv.toRealPath()} \
         --work_dir \$WORK_DIR \
         --metapipeline_final_output_dir "${params.output_dir}/output/align-DNA-*/*/BWA-MEM2-*/output" \
         --metapipeline_delete_input_bams ${params.enable_input_deletion_call_gsnp} \
         --dataset_id ${params.project_id} \
-        ${args} \
         -c call_gsnp_default_metapipeline.config
 
     if ${params.sample_mode == 'single'}

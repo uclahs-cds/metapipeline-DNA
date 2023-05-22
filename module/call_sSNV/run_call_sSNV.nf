@@ -2,8 +2,6 @@
 * Nextflow module for calling the call-sSNV pipeline
 */
 
-include { generate_args } from "${moduleDir}/../common"
-
 /*
 * Process to call the call-sSNV pipeline
 *
@@ -30,21 +28,6 @@ process run_call_sSNV {
         path "call-sSNV-*/*"
 
     script:
-    arg_list = [
-        'reference',
-        'exome',
-        'split_intervals_extra_args',
-        'mutect2_extra_args',
-        'filter_mutect_calls_extra_args',
-        'gatk_command_mem_diff',
-        'scatter_count',
-        'intervals',
-        'bgzip_extra_args',
-        'tabix_extra_args',
-        'dbSNP',
-        'save_intermediate_files'
-    ]
-    args = generate_args(params.call_sSNV, arg_list)
     """
     set -euo pipefail
 
@@ -56,11 +39,11 @@ process run_call_sSNV {
 
     nextflow run \
         ${moduleDir}/../../external/pipeline-call-sSNV/main.nf \
+        ${params.call_sSNV.metapipeline_arg_string} \
         --work_dir ${params.work_dir} \
         -params-file ${input_yaml} \
         --algorithm_str ${algorithms} \
         --dataset_id ${params.project_id} \
-        ${args} \
         -c call_ssnv_default_metapipeline.config
     """
 }

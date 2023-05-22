@@ -8,6 +8,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+### Changed
++ Handle pipeline-specific params without a hard-coded list per pipeline
 
 ---
 
