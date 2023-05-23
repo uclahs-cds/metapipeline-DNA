@@ -13,15 +13,15 @@ cases:
     verbose: true
     skip: true
     asserts:
-      - actual: test/output/output/TCEB1/TCEB1_RCC_S00-9422N_079_114/bam2fastq/create_fastqs_SAMtools/collated_S00-9422N_079_114.Seq1_R1.fq.gz
+      - actual: output/convert-BAM2FASTQ-2.0.0-rc.1/TCEB1_RCC_S00-9422N_079_114/SAMtools-1.15.1/output/S00-9422N_079_114.Seq1_collated_R1.fq.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/bam2fastq/output/TCEB1/TCEB1_RCC_S00-9422N_079_114/collated_S00-9422N_079_114.Seq1_R1.fq.gz
-        method: md5
+        script: test/test-bam2fastq/assert_fastq.sh
 
-      - actual: test/output/output/TCEB1/TCEB1_RCC_S00-9422N_079_114/bam2fastq/create_fastqs_SAMtools/collated_S00-9422N_079_114.Seq1_R2.fq.gz
+      - actual: output/convert-BAM2FASTQ-2.0.0-rc.1/TCEB1_RCC_S00-9422N_079_114/SAMtools-1.15.1/output/S00-9422N_079_114.Seq1_collated_R2.fq.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/bam2fastq/output/TCEB1/TCEB1_RCC_S00-9422N_079_114/collated_S00-9422N_079_114.Seq1_R2.fq.gz
-        method: md5
+        script: test/test-bam2fastq/assert_fastq.sh
 
-      - actual: test/output/intermediate/convert_BAM2FASTQ/create_input_csv_for_align_DNA-TCEB1/TCEB1_RCC_S00-9422N_079_114/align_DNA_input.csv
+      - actual: intermediate/convert_BAM2FASTQ/create_CSV_align_DNA-TCEB1/TCEB1_RCC_S00-9422N_079_114/align_DNA_input.csv
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/bam2fastq/output/TCEB1/align_DNA_input.csv
         script: test/test-bam2fastq/assert_input_csv.py
 
