@@ -1,3 +1,2 @@
 patient,sample,state,bam
-TCEB1,TCEB1_RCC_S00-9422N_079_114,tumor,/hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/bam2fastq/inputs/TCEB1_RCC_S00-9422N_079_114_merged_05prcnt.bam
-TCEB1,TCEB1_RCC_S00-9422T_027_166,normal,/hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/bam2fastq/inputs/TCEB1_RCC_S00-9422T_027_166_merged_05prcnt.bam
+TCEB1,TCEB1_RCC_S00-9422N_079_114,normal,/hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/bam2fastq/inputs/TCEB1_RCC_S00-9422N_079_114_merged_05prcnt.bam
