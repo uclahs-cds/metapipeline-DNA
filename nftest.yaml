@@ -104,6 +104,30 @@ cases:
         script: test/test-call-gSNP/assert_vcf.sh
 
 
+  - name: test-call-gSV
+    message: Test call-gSV pipeline with one tumor normal pair
+    nf_script: test/test-call-gSV/test.nf
+    nf_config: test/test-call-gSV/test.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/DELLY-1.1.3/output/DELLY-1.1.3_CNV_LUAD0000034_GZLUCPTA000001-N001-B01-F.bcf
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-gSV/output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/DELLY-1.1.3/output/DELLY-1.1.3_CNV_LUAD0000034_GZLUCPTA000001-N001-B01-F.bcf
+        method: md5
+      - actual: output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/DELLY-1.1.3/output/DELLY-1.1.3_SV_LUAD0000034_GZLUCPTA000001-N001-B01-F.bcf
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-gSV/output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/DELLY-1.1.3/output/DELLY-1.1.3_SV_LUAD0000034_GZLUCPTA000001-N001-B01-F.bcf
+        method: md5
+      - actual: output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/Manta-1.6.0/output/diploidSV.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-gSV/output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/Manta-1.6.0/output/diploidSV.vcf.gz
+        script: test/test-call-gSNP/assert_vcf.sh
+      - actual: output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/Manta-1.6.0/output/candidateSV.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-gSV/output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/Manta-1.6.0/output/candidateSV.vcf.gz
+        script: test/test-call-gSNP/assert_vcf.sh
+      - actual: output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/Manta-1.6.0/output/candidateSmallIndels.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-gSV/output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/Manta-1.6.0/output/candidateSmallIndels.vcf.gz
+        script: test/test-call-gSNP/assert_vcf.sh
+
+
   - name: test-metapipeline-DNA
     message: Test calling all pipelines with one tumor normal pair
     nf_script: module/metapipeline_DNA.nf
