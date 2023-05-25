@@ -1,3 +1,3 @@
 patient,sample,state,bam_header_sm,bam
-TCEB1_RCC_S00,9422,normal,S00-9422N_079_114,/hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/call-gSNP/inputs/TCEB1/TCEB1_RCC_S00-9422N_079_114.bam
+TCEB1_RCC_S00,9422,normal,S00-9422N-079-114,/hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/call-gSNP/inputs/TCEB1/TCEB1_RCC_S00-9422N-079-114.bam
 TCEB1_RCC_S00,9422,tumor,S00-9422T_027_166,/hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/call-gSNP/inputs/TCEB1/TCEB1_RCC_S00-9422T_027_166.bam
