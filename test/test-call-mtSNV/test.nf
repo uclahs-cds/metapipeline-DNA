@@ -6,7 +6,7 @@ workflow {
     ich = Channel.fromPath(params.input_csv).splitCsv(header:true)
         .map{ it -> [
             'patient': it.patient,
-            'run_mode': 'paired',
+            'run_mode': 'multi',
             'tumor_sample': it.tumour_id,
             'normal_sample': it.normal_id,
             'tumor_bam': file(it.tumour_BAM),
