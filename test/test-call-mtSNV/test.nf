@@ -4,9 +4,13 @@ include { call_mtSNV } from "${projectDir}/../../module/call_mtSNV/workflow"
 
 workflow {
     ich = Channel.fromPath(params.input_csv).splitCsv(header:true)
-        .map { tuple(
-            it.sample_id, it.tumour_id, it.normal_id,
-            file(it.tumour_BAM), file(it.normal_BAM)
-        ) }
+        .map{ it -> [
+            'patient': it.patient,
+            'run_mode': 'paired',
+            'tumor_sample': it.tumour_id,
+            'normal_sample': it.normal_id,
+            'tumor_bam': file(it.tumour_BAM),
+            'normal_bam': file(it.normal_BAM)
+        ] }
     call_mtSNV(ich)
 }

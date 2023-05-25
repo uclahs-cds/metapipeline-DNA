@@ -95,11 +95,11 @@ cases:
       # - actual: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_mtSNV/call_heteroplasmy/GZLUCPTA000001-T001-P01-F_vs_GZLUCPTA000001-N001-B01-F.tsv
       #   expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-mtSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_mtSNV/call_heteroplasmy/GZLUCPTA000001-T001-P01-F_vs_GZLUCPTA000001-N001-B01-F.tsv
 
-      - actual: test/output/output/call-mtSNV-3.0.0/GZLUCPTA000001-T001-P01-F/mitoCaller-1.0.0/output/mitoCaller2vcf-1.0.0_LUAD0000034_GZLUCPTA000001-N001-B01-F.vcf
+      - actual: output/call-mtSNV-3.0.0/GZLUCPTA000001-T001-P01-F/mitoCaller-1.0.0/output/mitoCaller2vcf-1.0.0_LUAD0000034_GZLUCPTA000001-N001-B01-F.vcf
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-mtSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_mtSNV/convert_mitoCaller2vcf_mitoCaller/GZLUCPTA000001-T001-P01-F/GZLUCPTA000001-T001-P01-F.vcf
         script: test/test-call-gSNP/assert_vcf.sh
 
-      - actual: test/output/output/call-mtSNV-3.0.0/GZLUCPTA000001-T001-P01-F/mitoCaller-1.0.0/output/mitoCaller2vcf-1.0.0_LUAD0000034_GZLUCPTA000001-N001-B01-F_homoplasmy.vcf
+      - actual: output/call-mtSNV-3.0.0/GZLUCPTA000001-T001-P01-F/mitoCaller-1.0.0/output/mitoCaller2vcf-1.0.0_LUAD0000034_GZLUCPTA000001-N001-B01-F_homoplasmy.vcf
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-mtSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_mtSNV/convert_mitoCaller2vcf_mitoCaller/GZLUCPTA000001-T001-P01-F/GZLUCPTA000001-T001-P01-F_homoplasmy.vcf
         script: test/test-call-gSNP/assert_vcf.sh
 
