@@ -3,7 +3,7 @@ global:
   temp_dir: ./test/work
   nf_config: test/global.config
   remove_temp: false
-  clean_logs: false
+  clean_logs: true
 
 cases:
   - name: test-bam2fastq
@@ -157,9 +157,9 @@ cases:
     message: Test calling all pipelines with one tumor normal pair
     nf_script: module/metapipeline_DNA.nf
     nf_config: test/test-metapipeline-DNA/test.config
+    params_file: test/test-metapipeline-DNA/pipeline_specific_params.json
     verbose: true
     skip: true
-
 
   - name: test-metapipeline-DNA-batch
     message: Test running the main.nf that runs the metapipeline-DNA pipeline in batch.
