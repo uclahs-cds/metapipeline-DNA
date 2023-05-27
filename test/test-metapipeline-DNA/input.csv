@@ -1,3 +1,3 @@
 patient,sample,state,bam
-TCEB1,TCEB1_RCC_S00-9422N_079_114,tumor,/hot/users/agonzalez/data/test_data/TCEB1/TCEB1_RCC_S00-9422N_079_114_merged_05prcnt.bam
-TCEB1,TCEB1_RCC_S00-9422T_027_166,normal,/hot/users/agonzalez/data/test_data/TCEB1/TCEB1_RCC_S00-9422T_027_166_merged_05prcnt.bam
+BZPRGPT1000001,BZPRGPT1000001-N001-B01-F,normal,/hot/data/unregistered/Boutros-Zeltser-PRAD-GPT1/align-DNA/align-DNA-BZPRGPT1000001-N001-B01-F/align-DNA-20211213-144945/BWA-MEM2-2.2.1/BZPRGPT1000001-N001-B01-F.bam
+BZPRGPT1000001,BZPRGPT1000002-N001-B01-F,tumor,/hot/data/unregistered/Boutros-Zeltser-PRAD-GPT1/align-DNA/align-DNA-BZPRGPT1000002-N001-B01-F/align-DNA-20211213-153513/BWA-MEM2-2.2.1/BZPRGPT1000002-N001-B01-F.bam
