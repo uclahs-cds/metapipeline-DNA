@@ -25,6 +25,7 @@ log.info """\
 
     - output: 
         output_dir: ${params.output_dir}
+        final_output_dir: ${params.final_output_dir}
 
     - options:
         option executor: ${params.executor}
@@ -69,7 +70,7 @@ process create_CSV_metapipeline_DNA {
         pattern: ".command.*",
         saveAs: { "${task.process}-${identifier}/log${file(it).getName()}" }
 
-    publishDir path: "${params.output_dir}/intermediate/${task.process}-${identifier}",
+    publishDir path: "${params.final_output_dir}/intermediate/${task.process}-${identifier}",
         enabled: params.save_intermediate_files,
         mode: "copy",
         pattern: "*.csv"
@@ -160,7 +161,7 @@ process call_metapipeline_DNA {
         --sample_mode ${params.sample_mode} \
         --project_id ${params.project_id} \
         --save_intermediate_files ${params.save_intermediate_files} \
-        --output_dir ${params.output_dir} \
+        --output_dir ${params.final_output_dir} \
         --metapipeline_log_output_dir ${params.log_output_dir} \
         --work_dir ${params.work_dir} \
         --override_realignment ${params.override_realignment} \
