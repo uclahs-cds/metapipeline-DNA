@@ -1,3 +1,4 @@
 patient,sample,state,path
-GZLUCPTA000001,GZLUCPTA000001-N001-B01-F,normal,/hot/software/pipeline/pipeline-call-gSNP/Nextflow/development/input/data/TCEB1_RCC_S00-9422N_079_114_0.1.bam
-GZLUCPTA000001,GZLUCPTA000001-T001-P01-F,tumor,/hot/software/pipeline/pipeline-call-gSNP/Nextflow/development/input/data/TCEB1_RCC_S00-9422T_027_166_0.1.bam
+BZPRGPT1000001,BZPRGPT1000001-N001-B01-F,normal,/hot/data/unregistered/Boutros-Zeltser-PRAD-GPT1/align-DNA/align-DNA-BZPRGPT1000001-N001-B01-F/align-DNA-20211213-144945/BWA-MEM2-2.2.1/BZPRGPT1000001-N001-B01-F.bam
+BZPRGPT1000001,BZPRGPT1000002-N001-B01-F,tumor,/hot/data/unregistered/Boutros-Zeltser-PRAD-GPT1/align-DNA/align-DNA-BZPRGPT1000002-N001-B01-F/align-DNA-20211213-153513/BWA-MEM2-2.2.1/BZPRGPT1000002-N001-B01-F.bam
+BZPRGPT1000001,BZPRGPT1000003-N001-B01-F,tumor,/hot/data/unregistered/Boutros-Zeltser-PRAD-GPT1/align-DNA/align-DNA-BZPRGPT1000003-N001-B01-F/align-DNA-20211213-153910/BWA-MEM2-2.2.1/BZPRGPT1000003-N001-B01-F.bam
