@@ -1,6 +1,6 @@
 nextflow.enable.dsl = 2
 
-include { call_sSNV } from "${projectDir}/../../module/call_sSNV/workflow"
+include { call_sSV } from "${projectDir}/../../module/call_sSV/workflow"
 
 workflow {
     ich = Channel.fromPath(params.input_csv).splitCsv(header:true)
@@ -12,5 +12,5 @@ workflow {
             'tumor_bam': file(it.tumor_bam),
             'normal_bam': file(it.normal_bam)
         ] }
-    call_sSNV(ich)
+    call_sSV(ich)
 }

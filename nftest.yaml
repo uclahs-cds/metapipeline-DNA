@@ -3,7 +3,7 @@ global:
   temp_dir: ./test/work
   nf_config: test/global.config
   remove_temp: false
-  clean_logs: false
+  clean_logs: true
 
 cases:
   - name: test-bam2fastq
@@ -13,15 +13,15 @@ cases:
     verbose: true
     skip: true
     asserts:
-      - actual: test/output/output/TCEB1/TCEB1_RCC_S00-9422N_079_114/bam2fastq/create_fastqs_SAMtools/collated_S00-9422N_079_114.Seq1_R1.fq.gz
+      - actual: output/convert-BAM2FASTQ-2.0.0-rc.1/TCEB1_RCC_S00-9422N_079_114/SAMtools-1.15.1/output/S00-9422N_079_114.Seq1_collated_R1.fq.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/bam2fastq/output/TCEB1/TCEB1_RCC_S00-9422N_079_114/collated_S00-9422N_079_114.Seq1_R1.fq.gz
-        method: md5
+        script: test/test-bam2fastq/assert_fastq.sh
 
-      - actual: test/output/output/TCEB1/TCEB1_RCC_S00-9422N_079_114/bam2fastq/create_fastqs_SAMtools/collated_S00-9422N_079_114.Seq1_R2.fq.gz
+      - actual: output/convert-BAM2FASTQ-2.0.0-rc.1/TCEB1_RCC_S00-9422N_079_114/SAMtools-1.15.1/output/S00-9422N_079_114.Seq1_collated_R2.fq.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/bam2fastq/output/TCEB1/TCEB1_RCC_S00-9422N_079_114/collated_S00-9422N_079_114.Seq1_R2.fq.gz
-        method: md5
+        script: test/test-bam2fastq/assert_fastq.sh
 
-      - actual: test/output/intermediate/convert_BAM2FASTQ/create_input_csv_for_align_DNA-TCEB1/TCEB1_RCC_S00-9422N_079_114/align_DNA_input.csv
+      - actual: intermediate/convert_BAM2FASTQ/create_CSV_align_DNA-TCEB1/TCEB1_RCC_S00-9422N_079_114/align_DNA_input.csv
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/bam2fastq/output/TCEB1/align_DNA_input.csv
         script: test/test-bam2fastq/assert_input_csv.py
 
@@ -32,12 +32,15 @@ cases:
     nf_config: test/test-align-DNA/test.config
     verbose: true
     skip: true
-    asserts:
-      - actual: test/output/output/align-DNA-8.1.0/TCEB1_RCC_S00-9422N_079_114/BWA-MEM2-2.2.1/output/TCEB1_RCC_S00-9422N_079_114.bam
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/align-DNA/TCEB1/TCEB1_RCC_S00-9422N_079_114/TCEB1_RCC_S00-9422N_079_114.bam
+    # Disabling BAM comparisons since there can be variability based on number of threads used
+    # asserts:
+      # - actual: output/align-DNA-9.0.0/TCEB1-RCC-S00-9422N-079-114/BWA-MEM2-2.2.1/output/BWA-MEM2-2.2.1_TCEB1_TCEB1-RCC-S00-9422N-079-114.bam
+      #   expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/align-DNA/TCEB1/TCEB1_RCC_S00-9422N_079_114/TCEB1_RCC_S00-9422N_079_114.bam
+      #   method: md5
 
-      - actual: test/output/output/align-DNA-8.1.0/TCEB1_RCC_S00-9422T_027_166/BWA-MEM2-2.2.1/output/TCEB1_RCC_S00-9422T_027_166.bam
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/align-DNA/TCEB1/TCEB1_RCC_S00-9422T_027_166/TCEB1_RCC_S00-9422T_027_166.bam
+      # - actual: output/align-DNA-9.0.0/TCEB1-RCC-S00-9422T-027-166/BWA-MEM2-2.2.1/output/BWA-MEM2-2.2.1_TCEB1_TCEB1-RCC-S00-9422T-027-166.bam
+      #   expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/align-DNA/TCEB1/TCEB1_RCC_S00-9422T_027_166/TCEB1_RCC_S00-9422T_027_166.bam
+      #   method: md5
 
 
   - name: test-call-gSNP
@@ -47,7 +50,7 @@ cases:
     verbose: true
     skip: true
     asserts:
-      - actual: test/output/output/call-gSNP-9.1.0/TCEB1_RCC_S00/GATK-4.2.4.1/output/S00-9422T_027_166_merged_raw_variants.g.vcf.gz
+      - actual: output/call-gSNP-10.0.0-rc.1/9422/GATK-4.2.4.1/output/GATK-4.2.4.1_test_S00-9422T-027-166.g.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/call-gSNP/output/test-call-gSNP/TCEB1/S00-9422T_027_166_merged_raw_variants.g.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
 
@@ -64,19 +67,19 @@ cases:
     verbose: true
     skip: true
     asserts:
-      - actual: test/output/output/call-sSNV-4.0.1/GZLUCPTA000001-T001-P01-F/somaticsniper-1.0.5.0/output/somaticsniper_GZLUCPTA000001-T001-P01-F_hc.vcf.gz
+      - actual: output/call-sSNV-5.0.0/GZLUCPTA000001-T001-P01-F/SomaticSniper-1.0.5.0/output/SomaticSniper-1.0.5.0_LUAD0000034_GZLUCPTA000001-T001-P01-F_hc.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_sSNV/somaticsniper_GZLUCPTA000001_hc.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
 
-      - actual: test/output/output/call-sSNV-4.0.1/GZLUCPTA000001-T001-P01-F/strelka2-2.9.10/output/strelka2_GZLUCPTA000001-T001-P01-F_somatic_snvs_pass.vcf.gz
+      - actual: output/call-sSNV-5.0.0/GZLUCPTA000001-T001-P01-F/Strelka2-2.9.10/output/Strelka2-2.9.10_LUAD0000034_GZLUCPTA000001-T001-P01-F_somatic-snvs-filtered-pass.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_sSNV/strelka2_GZLUCPTA000001_somatic_snvs_pass.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
 
-      - actual: test/output/output/call-sSNV-4.0.1/GZLUCPTA000001-T001-P01-F/strelka2-2.9.10/output/strelka2_GZLUCPTA000001-T001-P01-F_somatic_indels_pass.vcf.gz
+      - actual: output/call-sSNV-5.0.0/GZLUCPTA000001-T001-P01-F/Strelka2-2.9.10/output/Strelka2-2.9.10_LUAD0000034_GZLUCPTA000001-T001-P01-F_somatic-indels-filtered-pass.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_sSNV/strelka2_GZLUCPTA000001_somatic_indels_pass.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
 
-      - actual: test/output/output/call-sSNV-4.0.1/GZLUCPTA000001-T001-P01-F/mutect2-4.2.4.1/output/mutect2_GZLUCPTA000001-T001-P01-F_filtered_pass.vcf.gz
+      - actual: output/call-sSNV-5.0.0/GZLUCPTA000001-T001-P01-F/Mutect2-4.2.4.1/output/Mutect2-2.9.10_LUAD0000034_GZLUCPTA000001-T001-P01-F_filtered-pass.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_sSNV-Mutect2-v4.2.4.1/mutect2_GZLUCPTA000001_filtered_pass.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
 
@@ -92,12 +95,61 @@ cases:
       # - actual: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_mtSNV/call_heteroplasmy/GZLUCPTA000001-T001-P01-F_vs_GZLUCPTA000001-N001-B01-F.tsv
       #   expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-mtSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_mtSNV/call_heteroplasmy/GZLUCPTA000001-T001-P01-F_vs_GZLUCPTA000001-N001-B01-F.tsv
 
-      - actual: test/output/output/call-mtSNV-3.0.0/GZLUCPTA000001-T001-P01-F/mitoCaller-1.0.0/output/mitoCaller2vcf-1.0.0_LUAD0000034_GZLUCPTA000001-N001-B01-F.vcf
+      - actual: output/call-mtSNV-3.0.0/GZLUCPTA000001-T001-P01-F/mitoCaller-1.0.0/output/mitoCaller2vcf-1.0.0_LUAD0000034_GZLUCPTA000001-N001-B01-F.vcf
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-mtSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_mtSNV/convert_mitoCaller2vcf_mitoCaller/GZLUCPTA000001-T001-P01-F/GZLUCPTA000001-T001-P01-F.vcf
         script: test/test-call-gSNP/assert_vcf.sh
 
-      - actual: test/output/output/call-mtSNV-3.0.0/GZLUCPTA000001-T001-P01-F/mitoCaller-1.0.0/output/mitoCaller2vcf-1.0.0_LUAD0000034_GZLUCPTA000001-N001-B01-F_homoplasmy.vcf
+      - actual: output/call-mtSNV-3.0.0/GZLUCPTA000001-T001-P01-F/mitoCaller-1.0.0/output/mitoCaller2vcf-1.0.0_LUAD0000034_GZLUCPTA000001-N001-B01-F_homoplasmy.vcf
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-mtSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_mtSNV/convert_mitoCaller2vcf_mitoCaller/GZLUCPTA000001-T001-P01-F/GZLUCPTA000001-T001-P01-F_homoplasmy.vcf
+        script: test/test-call-gSNP/assert_vcf.sh
+
+
+  - name: test-call-gSV
+    message: Test call-gSV pipeline with one tumor normal pair
+    nf_script: test/test-call-gSV/test.nf
+    nf_config: test/test-call-gSV/test.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/DELLY-1.1.3/output/DELLY-1.1.3_CNV_LUAD0000034_GZLUCPTA000001-N001-B01-F.bcf
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-gSV/output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/DELLY-1.1.3/output/DELLY-1.1.3_CNV_LUAD0000034_GZLUCPTA000001-N001-B01-F.bcf
+        method: md5
+      - actual: output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/DELLY-1.1.3/output/DELLY-1.1.3_SV_LUAD0000034_GZLUCPTA000001-N001-B01-F.bcf
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-gSV/output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/DELLY-1.1.3/output/DELLY-1.1.3_SV_LUAD0000034_GZLUCPTA000001-N001-B01-F.bcf
+        method: md5
+      - actual: output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/Manta-1.6.0/output/diploidSV.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-gSV/output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/Manta-1.6.0/output/diploidSV.vcf.gz
+        script: test/test-call-gSNP/assert_vcf.sh
+      - actual: output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/Manta-1.6.0/output/candidateSV.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-gSV/output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/Manta-1.6.0/output/candidateSV.vcf.gz
+        script: test/test-call-gSNP/assert_vcf.sh
+      - actual: output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/Manta-1.6.0/output/candidateSmallIndels.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-gSV/output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/Manta-1.6.0/output/candidateSmallIndels.vcf.gz
+        script: test/test-call-gSNP/assert_vcf.sh
+
+
+  - name: test-call-sSV
+    message: Test call-gSV pipeline with one tumor normal pair
+    nf_script: test/test-call-sSV/test.nf
+    nf_config: test/test-call-sSV/test.config
+    verbose: true
+    skip: true
+    asserts:
+      # Timestamp in command in header interferes with comparison of BCF checksum directly
+      # - actual: output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/DELLY-1.1.3/output/DELLY-1.1.3_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered.bcf
+      #   expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-sSV/output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/DELLY-1.1.3/output/DELLY-1.1.3_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered.bcf
+      #   method: md5
+      - actual: output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered_diploidSV.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-sSV/output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered_diploidSV.vcf.gz
+        script: test/test-call-gSNP/assert_vcf.sh
+      - actual: output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered_candidateSV.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-sSV/output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered_candidateSV.vcf.gz
+        script: test/test-call-gSNP/assert_vcf.sh
+      - actual: output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered_candidateSmallIndels.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-sSV/output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered_candidateSmallIndels.vcf.gz
+        script: test/test-call-gSNP/assert_vcf.sh
+      - actual: output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered_somaticSV.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-sSV/output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered_somaticSV.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
 
 
@@ -105,9 +157,9 @@ cases:
     message: Test calling all pipelines with one tumor normal pair
     nf_script: module/metapipeline_DNA.nf
     nf_config: test/test-metapipeline-DNA/test.config
+    params_file: test/test-metapipeline-DNA/pipeline_specific_params.json
     verbose: true
     skip: true
-
 
   - name: test-metapipeline-DNA-batch
     message: Test running the main.nf that runs the metapipeline-DNA pipeline in batch.

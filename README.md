@@ -107,7 +107,6 @@ See this [template](input/template-input-BAM.csv) for CSV format and this [templ
 | patient | string | yes | Identifier for the patient |
 | sample | string | yes | Identifier for the sample |
 | state | string | yes | Must be either "tumor" or "normal" |
-| index | integer | yes | Index number for align-DNA |
 | read_group_identifier | string | yes | Read group ID |
 | sequencing_center | string | yes | Center where sequencing was performed |
 | library_identifier | string | yes | Library used for sample |
