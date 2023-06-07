@@ -151,7 +151,10 @@ process call_metapipeline_DNA {
         path(".command.*")
 
     script:
-    """
+    submission_command = (params.uclahs_cds_wgs) ? params.global_job_submission_sbatch + "-J ${task.process}_${patient} --wrap=\"" : ""
+    limiter_wrapper_pre = (params.uclahs_cds_wgs) ? params.global_job_submission_limiter + submission_command : ""
+    limiter_wrapper_post = (params.uclahs_cds_wgs) ? "\"; sleep 120" : ""
+    limiter_wrapper_pre + """
     NXF_WORK=${params.pipeline_work_dir} \
     nextflow run \
         ${moduleDir}/module/metapipeline_DNA.nf \
@@ -168,7 +171,7 @@ process call_metapipeline_DNA {
         --override_call_gsnp ${params.override_call_gsnp} \
         --enable_input_deletion_call_gsnp ${params.enable_input_deletion_call_gsnp} \
         -params-file ${pipeline_params_json}
-    """
+    """ + limiter_wrapper_post
 }
 
 workflow {
