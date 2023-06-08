@@ -81,6 +81,36 @@ override_call_gsnp:
   required: true
   default: false
   help: 'Whether to override and skip call-gSNP'
+uclahs_cds_wgs:
+  type: 'Bool'
+  required: true
+  default: false
+  help: 'Whether to enable global job limiter when processing large WGS samples'
+global_allowed_jobs:
+  type: 'Integer'
+  required: true
+  default: 12
+  help: 'Maximum number of jobs to run in parallel cluster-wide'
+per_user_allowed_jobs:
+  type: 'Integer'
+  required: true
+  default: 3
+  help: 'Max number of large WGS jobs allowed per user'
+global_rate_limit:
+  type: 'Integer'
+  required: true
+  default: 90
+  help: 'Time intervals between submissions of large WGS jobs'
+global_job_submission_limiter:
+  type: 'String'
+  required: true
+  allow_empty: true
+  help: 'Limiter wrapper for metapipeline job submission'
+global_job_submission_sbatch:
+  type: 'String'
+  required: true
+  allow_empty: true
+  help: 'Sbatch command for submitting metapipeline job'
 pipeline_params:
   type: 'Namespace'
   required: true
