@@ -148,13 +148,19 @@ process call_metapipeline_DNA {
         )
 
     output:
-        tuple env(current_work_dir), env(sbatch_ret), emit: submit_out
+        tuple env(CURRENT_WORK_DIR), env(SBATCH_RET), emit: submit_out
         path(".command.*")
 
     script:
-    submission_command = (params.uclahs_cds_wgs) ? params.global_job_submission_sbatch + "-J ${task.process}_${file(input_csv).getName().replace('_metapipeline_DNA_input.csv', '')} --wrap=\"" : ""
-    limiter_wrapper_pre = (params.uclahs_cds_wgs) ? params.global_job_submission_limiter + submission_command : ""
-    limiter_wrapper_post = (params.uclahs_cds_wgs) ? "\"); sleep 120" : ""
+    submission_command = (params.uclahs_cds_wgs)
+        ? params.global_job_submission_sbatch + "-J ${task.process}_${file(input_csv).getName().replace('_metapipeline_DNA_input.csv', '')} --wrap=\""
+        : ""
+    limiter_wrapper_pre = (params.uclahs_cds_wgs)
+        ? params.global_job_submission_limiter + submission_command
+        : ""
+    limiter_wrapper_post = (params.uclahs_cds_wgs)
+        ? "\")"
+        : ""
     limiter_wrapper_pre + """
     NXF_WORK=${params.pipeline_work_dir} \
     nextflow run \
