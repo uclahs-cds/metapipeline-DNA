@@ -8,6 +8,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+### Added
++ Global job volume and submission rate limiter
 ### Changed
 + Handle pipeline-specific params without a hard-coded list per pipeline
 + Update tests for current pipeline versions
