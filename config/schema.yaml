@@ -84,7 +84,7 @@ override_call_gsnp:
 uclahs_cds_wgs:
   type: 'Bool'
   required: true
-  default: false
+  default: true
   help: 'Whether to enable global job limiter when processing large WGS samples'
 global_allowed_jobs:
   type: 'Integer'
