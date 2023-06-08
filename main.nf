@@ -193,7 +193,7 @@ process check_process_status {
                 sleep 3
             done
 
-            if `sacct -X -j \$job_id -o ExitCode --noheader | tr -d " " | grep -q "^0:0\$"`
+            if `sacct -j \$job_id -o ExitCode --noheader | tr -d " " | sort -r | head -n 1 | grep -q "^0:0\$"`
             then
                 exit 0
             fi
