@@ -148,10 +148,20 @@ process call_metapipeline_DNA {
         )
 
     output:
+        tuple env(CURRENT_WORK_DIR), env(SBATCH_RET), emit: submit_out
         path(".command.*")
 
     script:
-    """
+    submission_command = (params.uclahs_cds_wgs)
+        ? params.global_job_submission_sbatch + "-J ${task.process}_${file(input_csv).getName().replace('_metapipeline_DNA_input.csv', '')} --wrap=\""
+        : ""
+    limiter_wrapper_pre = (params.uclahs_cds_wgs)
+        ? params.global_job_submission_limiter + submission_command
+        : ""
+    limiter_wrapper_post = (params.uclahs_cds_wgs)
+        ? "\")"
+        : ""
+    limiter_wrapper_pre + """
     NXF_WORK=${params.pipeline_work_dir} \
     nextflow run \
         ${moduleDir}/module/metapipeline_DNA.nf \
@@ -168,6 +178,33 @@ process call_metapipeline_DNA {
         --override_call_gsnp ${params.override_call_gsnp} \
         --enable_input_deletion_call_gsnp ${params.enable_input_deletion_call_gsnp} \
         -params-file ${pipeline_params_json}
+    """ + limiter_wrapper_post
+}
+
+process check_process_status {
+    input:
+        tuple val(work_dir), val(sbatch_ret)
+
+    debug true
+
+    when params.uclahs_cds_wgs
+
+    script:
+    """
+        if `echo ${sbatch_ret} | grep -q "Submitted batch job"`
+        then
+            job_id=`echo ${sbatch_ret} | cut -d ' ' -f 4`
+            while `squeue --noheader --format="%i" | grep -q \$job_id`
+            do
+                sleep 3
+            done
+
+            if `sacct -j \$job_id -o ExitCode --noheader | tr -d " " | sort -r | head -n 1 | grep -q "^0:0\$"`
+            then
+                exit 0
+            fi
+        fi
+        echo "Process in ${work_dir} failed with non-zero exit code."
     """
 }
 
@@ -195,4 +232,6 @@ workflow {
     create_CSV_metapipeline_DNA(ich)
     create_config_metapipeline_DNA()
     call_metapipeline_DNA(create_CSV_metapipeline_DNA.out[0].combine(create_config_metapipeline_DNA.out.pipeline_params_json))
+
+    check_process_status(call_metapipeline_DNA.out.submit_out)
 }
