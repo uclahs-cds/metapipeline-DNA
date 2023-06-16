@@ -1,3 +1,4 @@
+include { sanitize_string } from '../../external/pipeline-Nextflow-module/modules/common/generate_standardized_filename/main.nf'
 /*
 * Call the call-gSNP pipeline
 *
@@ -33,7 +34,7 @@ process run_call_gSNP {
         file "call-gSNP-*/*"
 
     script:
-    normal_bam = "call-gSNP-*/${sample_id_for_gsnp}/GATK-*/output/*_GATK-*_${normal_bam_sm}.bam"
+    normal_bam = "call-gSNP-*/${sample_id_for_gsnp}/GATK-*/output/*_GATK-*_${sanitize_string(normal_bam_sm)}.bam"
     """
     set -euo pipefail
 
@@ -57,7 +58,7 @@ process run_call_gSNP {
     then
         touch NO_FILE.bam
     else
-        for i in `ls --hide=*_GATK-*_${normal_bam_sm}.bam call-gSNP-*/${sample_id_for_gsnp}/GATK-*/output/ -1 | grep ".bam\$"`
+        for i in `ls --hide=*_GATK-*_${sanitize_string(normal_bam_sm)}.bam call-gSNP-*/${sample_id_for_gsnp}/GATK-*/output/ -1 | grep ".bam\$"`
         do
             full_path=`find \$(pwd) -name \$i`
             ln -s \$full_path \$i
