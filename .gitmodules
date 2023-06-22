@@ -34,3 +34,6 @@
 [submodule "external/pipeline-call-sSV"]
 	path = external/pipeline-call-sSV
 	url = git@github.com:uclahs-cds/pipeline-call-sSV.git
+[submodule "external/pipeline-Nextflow-module"]
+	path = external/pipeline-Nextflow-module
+	url = git@github.com:uclahs-cds/pipeline-Nextflow-module.git

@@ -11,13 +11,16 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
-## [5.0.0-rc.5] - 2023-06-08
+## [5.0.0-rc.5] - 2023-06-16
 ### Added
 + Global job volume and submission rate limiter
 ### Changed
 + Handle pipeline-specific params without a hard-coded list per pipeline
 + Update tests for current pipeline versions
 + Update handling of `output_dir` param to avoid modifications
+### Fixed
++ BAM SM tag handling for call-gSNP output filenames
++ Empty intervals parameters
 
 ---
 
