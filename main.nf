@@ -153,7 +153,7 @@ process call_metapipeline_DNA {
 
     script:
     submission_command = (params.uclahs_cds_wgs)
-        ? params.global_job_submission_sbatch + "-J ${task.process}_${file(input_csv).getName().replace('_metapipeline_DNA_input.csv', '')}_\${FIRST_DIR_HASH}_\${SECOND_DIR_HASH} --wrap=\""
+        ? params.global_job_submission_sbatch + "-J wgs_${task.process}_${file(input_csv).getName().replace('_metapipeline_DNA_input.csv', '')}_\${FIRST_DIR_HASH}_\${SECOND_DIR_HASH} --wrap=\""
         : ""
     limiter_wrapper_pre = (params.uclahs_cds_wgs)
         ? params.global_job_submission_limiter + submission_command
