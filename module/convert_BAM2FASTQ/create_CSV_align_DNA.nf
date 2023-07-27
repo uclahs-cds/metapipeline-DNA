@@ -31,7 +31,7 @@ process create_CSV_align_DNA {
     csv_file = 'align_DNA_input.csv'
     """
     python ${moduleDir}/create_CSV_align_dna.py \
-        -r ${sample} \
+        -r ${read_group_csv} \
         -q ${fastqs} \
         -o ${csv_file}
     """
