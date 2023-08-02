@@ -177,6 +177,8 @@ process call_metapipeline_DNA {
         --override_realignment ${params.override_realignment} \
         --override_call_gsnp ${params.override_call_gsnp} \
         --enable_input_deletion_call_gsnp ${params.enable_input_deletion_call_gsnp} \
+        --normal_sample_count ${params.sample_counts[patient]['normal']} \
+        --tumor_sample_count ${params.sample_counts[patient]['tumor']} \
         -params-file ${pipeline_params_json}
     """ + limiter_wrapper_post
 }

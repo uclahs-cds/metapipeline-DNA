@@ -44,7 +44,9 @@ workflow call_sSNV {
             input_ch_create_ssnv_yaml = Channel.empty()
             requested_ssnv_algorithms = params.call_sSNV.algorithm
 
-            if ( params.sample_mode == 'multi' && 'mutect2' in requested_ssnv_algorithms ) {
+            if ( params.sample_mode == 'multi' &&
+                'mutect2' in requested_ssnv_algorithms &&
+                (params.normal_sample_count > 1 || params.tumor_sample_count > 1) ) {
                 input_ch_create_ssnv_yaml = input_ch_create_ssnv_yaml_multisample
                     .combine( Channel.of( 'mutect2' ) )
 
