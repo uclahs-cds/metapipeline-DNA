@@ -1,3 +1,5 @@
+include { combine_input_with_params } from '../common.nf'
+
 process run_call_mtSNV {
     cpus params.call_mtSNV.subworkflow_cpus
 
@@ -20,6 +22,7 @@ process run_call_mtSNV {
 
     script:
     sample_mode = (params.sample_mode == 'single') ? 'single' : 'paired'
+    String params_to_dump = combine_input_with_params(params.call_mtSNV.metapipeline_arg_map)
     """
     set -euo pipefail
 
@@ -28,9 +31,11 @@ process run_call_mtSNV {
         sed "s:<SAMPLE-MODE-METAPIPELINE>:${sample_mode}:g" \
         > call_mtsnv_default_metapipeline.config
 
+    printf "${params_to_dump}" > combined_call_mtsnv_params.yaml
+
     nextflow -C call_mtsnv_default_metapipeline.config \
         run ${moduleDir}/../../external/pipeline-call-mtSNV/main.nf \
-        ${params.call_mtSNV.metapipeline_arg_string} \
+        -params-file combined_call_mtsnv_params.yaml \
         --run_name ${tumor_sample} \
         --input_csv ${input_csv} \
         --work_dir ${params.work_dir} \
