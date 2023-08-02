@@ -2,6 +2,8 @@
 * Nextflow module for calling the call-gSV pipeline
 */
 
+include { combine_input_with_params } from '../common.nf'
+
 /*
 * Process to call the call-gSV pipeline
 *
@@ -22,6 +24,7 @@ process run_call_gSV {
         path "call-gSV-*/*"
 
     script:
+    String params_to_dump = combine_input_with_params(params.call_gSV.metapipeline_arg_map)
     """
     set -euo pipefail
 
@@ -29,9 +32,11 @@ process run_call_gSV {
         sed "s:<OUTPUT-DIR-METAPIPELINE>:\$(pwd):g" \
         > call_gsv_default_metapipeline.config
 
+    printf "${params_to_dump}" > combined_call_gsv_params.yaml
+
     nextflow run \
         ${moduleDir}/../../external/pipeline-call-gSV/main.nf \
-        ${params.call_gSV.metapipeline_arg_string} \
+        -params-file combined_call_gsv_params.yaml \
         --work_dir ${params.work_dir} \
         --input_csv ${input_csv} \
         --dataset_id ${params.project_id} \
