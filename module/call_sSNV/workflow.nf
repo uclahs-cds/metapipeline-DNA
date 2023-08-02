@@ -48,14 +48,14 @@ workflow call_sSNV {
                 'mutect2' in requested_ssnv_algorithms &&
                 (params.normal_sample_count > 1 || params.tumor_sample_count > 1) ) {
                 input_ch_create_ssnv_yaml = input_ch_create_ssnv_yaml_multisample
-                    .combine( Channel.of( 'mutect2' ) )
+                    .combine( Channel.of( ['mutect2'] ) )
 
                 requested_ssnv_algorithms.removeAll{ it == 'mutect2' }
             }
 
             if ( !requested_ssnv_algorithms.isEmpty() ) {
                 input_ch_create_ssnv_yaml = input_ch_create_ssnv_yaml_pairedsample
-                    .combine( Channel.of( requested_ssnv_algorithms.join(',') ) )
+                    .combine( Channel.of( requested_ssnv_algorithms ) )
                     .mix( input_ch_create_ssnv_yaml )
             }
 

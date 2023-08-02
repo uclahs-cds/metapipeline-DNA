@@ -2,6 +2,8 @@
 * Nextflow module for calling the call-sSNV pipeline
 */
 
+include { combine_input_with_params } from '../common.nf'
+
 /*
 * Process to call the call-sSNV pipeline
 *
@@ -28,6 +30,7 @@ process run_call_sSNV {
         path "call-sSNV-*/*"
 
     script:
+    String params_to_dump = combine_input_with_params(params.call_sSNV.metapipeline_arg_map + ['algorithm': algorithms], file(input_yaml))
     """
     set -euo pipefail
 
@@ -37,13 +40,13 @@ process run_call_sSNV {
         sed "s:<GNOMAD-VCF-METAPIPELNE>:${params.call_sSNV.germline_resource_gnomad_vcf}:g" \
         > call_ssnv_default_metapipeline.config
 
+    printf "${params_to_dump}" > combined_call_ssnv_params.yaml
+
     nextflow run \
         ${moduleDir}/../../external/pipeline-call-sSNV/main.nf \
-        ${params.call_sSNV.metapipeline_arg_string} \
         --work_dir ${params.work_dir} \
-        -params-file ${input_yaml} \
-        --algorithm_str ${algorithms} \
-        --dataset_id ${params.project_id} \
+        -params-file combined_call_ssnv_params.yaml \
+        --dataset_id ${params.project_id} \g
         -c call_ssnv_default_metapipeline.config
     """
 }
