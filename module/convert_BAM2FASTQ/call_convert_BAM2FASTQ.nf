@@ -32,14 +32,14 @@ process call_convert_BAM2FASTQ {
     """
     set -euo pipefail
 
-    printf "${params_to_dump}" > combined_params.yaml
+    printf "${params_to_dump}" > combined_bam2fastq_params.yaml
 
     WORK_DIR=${params.work_dir}/work-bam2fastq-${sample}
     mkdir \$WORK_DIR
     nextflow \
         -C ${moduleDir}/default.config \
         run ${moduleDir}/../../external/pipeline-convert-BAM2FASTQ/main.nf \
-        -params-file combined_params.yaml \
+        -params-file combined_bam2fastq_params.yaml \
         --input_csv ${input_csv} \
         --output_dir \$(pwd) \
         --work_dir \$WORK_DIR
