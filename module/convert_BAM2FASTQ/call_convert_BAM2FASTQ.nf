@@ -1,3 +1,5 @@
+include { combine_input_with_params } from '../common.nf'
+
 /*
     Process to call the convert-BAM2FASTQ pipeline.
 */
@@ -26,15 +28,18 @@ process call_convert_BAM2FASTQ {
         path "convert-BAM2FASTQ-*/*"
         
     script:
+    String params_to_dump = combine_input_with_params(params.convert_BAM2FASTQ.metapipeline_arg_map)
     """
     set -euo pipefail
+
+    printf "${params_to_dump}" > combined_params.yaml
 
     WORK_DIR=${params.work_dir}/work-bam2fastq-${sample}
     mkdir \$WORK_DIR
     nextflow \
         -C ${moduleDir}/default.config \
         run ${moduleDir}/../../external/pipeline-convert-BAM2FASTQ/main.nf \
-        ${params.convert_BAM2FASTQ.metapipeline_arg_string} \
+        -params-file combined_params.yaml \
         --input_csv ${input_csv} \
         --output_dir \$(pwd) \
         --work_dir \$WORK_DIR
