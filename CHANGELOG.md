@@ -8,6 +8,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+### Fixed
++ Call-sSNV outputs no longer overwritten when encountering paired samples in `multi` mode
 
 ---
 
