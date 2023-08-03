@@ -2,6 +2,8 @@
 * Nextflow module for calling the call-sSV pipeline
 */
 
+include { combine_input_with_params } from '../common.nf'
+
 /*
 * Process to call the call-sSV pipeline
 *
@@ -16,15 +18,13 @@ process run_call_sSV {
         pattern: "call-sSV-*/*"
 
     input:
-        tuple(
-            path(input_csv),
-            val(algorithms)
-        )
+        path(input_csv)
 
     output:
         path "call-sSV-*/*"
 
     script:
+    String params_to_dump = combine_input_with_params(params.call_sSV.metapipeline_arg_map)
     """
     set -euo pipefail
 
@@ -32,13 +32,14 @@ process run_call_sSV {
         sed "s:<OUTPUT-DIR-METAPIPELINE>:\$(pwd):g" \
         > call_ssv_default_metapipeline.config
 
+    printf "${params_to_dump}" > combined_call_ssv_params.yaml
+
     nextflow run \
         ${moduleDir}/../../external/pipeline-call-sSV/main.nf \
-        ${params.call_sSV.metapipeline_arg_string} \
+        -params-file combined_call_ssv_params.yaml \
         --work_dir ${params.work_dir} \
         --input_csv ${input_csv} \
         --dataset_id ${params.project_id} \
-        --algorithm_str ${algorithms} \
         -c call_ssv_default_metapipeline.config
     """
 }

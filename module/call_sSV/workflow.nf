@@ -29,9 +29,5 @@ workflow call_sSV {
 
         create_CSV_call_sSV(input_ch_create_CSV)
 
-        create_CSV_call_sSV.out
-            .combine( Channel.of( params.call_sSV.algorithm.join(',') ) )
-            .set{ input_ch_call_ssv }
-
-        run_call_sSV(input_ch_call_ssv)
+        run_call_sSV(create_CSV_call_sSV.out)
 }
