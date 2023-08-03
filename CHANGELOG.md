@@ -13,7 +13,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [5.0.0-rc.7] - 2023-08-03
 ### Added
-+ Incorporated user-defined sample-name for "SM" tags when starting from BAM2FASTQ
++ Incorporate user-defined sample-name for "SM" tags when starting from BAM2FASTQ
 
 ---
 
