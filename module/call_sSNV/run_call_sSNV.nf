@@ -30,7 +30,7 @@ process run_call_sSNV {
         path "call-sSNV-*/*"
 
     script:
-    String params_to_dump = combine_input_with_params(params.call_sSNV.metapipeline_arg_map + ['algorithm': algorithms], file(input_yaml))
+    String params_to_dump = combine_input_with_params(params.call_sSNV.metapipeline_arg_map + ['algorithm': algorithms], new File(input_yaml))
     """
     set -euo pipefail
 

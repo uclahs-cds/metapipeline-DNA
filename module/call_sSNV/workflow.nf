@@ -55,7 +55,7 @@ workflow call_sSNV {
 
             if ( !requested_ssnv_algorithms.isEmpty() ) {
                 input_ch_create_ssnv_yaml = input_ch_create_ssnv_yaml_pairedsample
-                    .combine( Channel.of( requested_ssnv_algorithms ) )
+                    .combine( Channel.of( [requested_ssnv_algorithms] ) )
                     .mix( input_ch_create_ssnv_yaml )
             }
 
