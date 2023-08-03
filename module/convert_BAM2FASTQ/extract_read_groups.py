@@ -107,6 +107,8 @@ def create_read_groups(bam:Path, output:Path, sequencing_center:str,
                         row.append(platform_unit)
                 elif field == 'read_group_identifier':
                     row.append(read_group[fields_map[field]])
+                elif field == 'sample':
+                    row.append(sample_id)
                 else:
                     row.append(
                         read_group.get(fields_map[field], default_field_values[fields_map[field]])
