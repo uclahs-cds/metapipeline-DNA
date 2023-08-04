@@ -30,7 +30,8 @@ process run_call_sSNV {
         path "call-sSNV-*/*"
 
     script:
-    String params_to_dump = combine_input_with_params(params.call_sSNV.metapipeline_arg_map + ['algorithm': algorithms], new File(input_yaml))
+    def algorithm_list = (algorithms in List) ? algorithms : [algorithms]
+    String params_to_dump = combine_input_with_params(params.call_sSNV.metapipeline_arg_map + ['algorithm': algorithm_list], new File(input_yaml.toRealPath().toString()))
     """
     set -euo pipefail
 
@@ -46,7 +47,7 @@ process run_call_sSNV {
         ${moduleDir}/../../external/pipeline-call-sSNV/main.nf \
         --work_dir ${params.work_dir} \
         -params-file combined_call_ssnv_params.yaml \
-        --dataset_id ${params.project_id} \g
+        --dataset_id ${params.project_id} \
         -c call_ssnv_default_metapipeline.config
     """
 }
