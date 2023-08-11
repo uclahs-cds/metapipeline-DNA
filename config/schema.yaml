@@ -58,14 +58,14 @@ requested_pipelines:
   required: true
   default:
     - align-DNA
-    - call-gSNP
+    - recalibrate-BAM
     - call-gSV
     - call-mtSNV
     - call-sSNV
     - call-sSV
   choices:
     - align-DNA
-    - call-gSNP
+    - recalibrate-BAM
     - call-gSV
     - call-mtSNV
     - call-sSNV
@@ -76,11 +76,11 @@ override_realignment:
   required: true
   default: false
   help: 'Whether to override and skip back-conversion to FASTQ and realignment with align-DNA'
-override_call_gsnp:
+override_recalibrate_bam:
   type: 'Bool'
   required: true
   default: false
-  help: 'Whether to override and skip call-gSNP'
+  help: 'Whether to override and skip recalibrate-BAM'
 uclahs_cds_wgs:
   type: 'Bool'
   required: true
@@ -124,10 +124,10 @@ pipeline_params:
       type: 'Namespace'
       required: true
       help: 'Parameters for align-DNA'
-    call_gSNP:
+    recalibrate_BAM:
       type: 'Namespace'
       required: true
-      help: 'Parameters for call-gSNP'
+      help: 'Parameters for recalibrate-BAM'
     call_sSNV:
       type: 'Namespace'
       required: true
