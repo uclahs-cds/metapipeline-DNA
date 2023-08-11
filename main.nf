@@ -162,7 +162,7 @@ process call_metapipeline_DNA {
         ? "\")"
         : ""
     limiter_wrapper_pre + """
-    NXF_WORK=${params.pipeline_work_dir} \
+    NXF_WORK=${params.work_dir} \
     nextflow run \
         ${moduleDir}/module/metapipeline_DNA.nf \
         --input_csv ${input_csv} \
