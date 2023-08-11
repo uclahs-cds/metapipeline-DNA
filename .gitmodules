@@ -31,9 +31,20 @@
 [submodule "external/pipeline-call-gSV"]
 	path = external/pipeline-call-gSV
 	url = git@github.com:uclahs-cds/pipeline-call-gSV.git
+	branch = main
+	ignore = dirty
 [submodule "external/pipeline-call-sSV"]
 	path = external/pipeline-call-sSV
 	url = git@github.com:uclahs-cds/pipeline-call-sSV.git
+	branch = main
+	ignore = dirty
 [submodule "external/pipeline-Nextflow-module"]
 	path = external/pipeline-Nextflow-module
 	url = git@github.com:uclahs-cds/pipeline-Nextflow-module.git
+	branch = main
+	ignore = dirty
+[submodule "external/pipeline-recalibrate-BAM"]
+	path = external/pipeline-recalibrate-BAM
+	url = git@github.com:uclahs-cds/pipeline-recalibrate-BAM.git
+	branch = main
+	ignore = dirty
