@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 + Pass pipeline-specific params through a YAML instead of commandline string
 ### Fixed
 + Call-sSNV outputs no longer overwritten when encountering paired samples in `multi` mode
++ Allow pipelines to run under job-specific work_dir
 
 ---
 
