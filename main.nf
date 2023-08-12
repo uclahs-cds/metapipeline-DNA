@@ -36,7 +36,7 @@ log.info """\
     Tools Used:
         uclahs-cds/pipeline-convert-BAM2FASTQ: ${params.version_BAM2FASTQ}
         uclahs-cds/pipeline-align-DNA: ${params.version_align_DNA}
-        uclahs-cds/pipeline-call-gSNP: ${params.version_call_gSNP}
+        uclahs-cds/pipeline-recalibrate-BAM: ${params.version_recalibrate_BAM}
         uclahs-cds/pipeline-call-sSNV: ${params.version_call_sSNV}
         uclahs-cds/pipeline-call-mtSNV: ${params.version_call_mtSNV}
         uclahs-cds/pipeline-call-gSV: ${params.version_call_gSV}
@@ -175,8 +175,8 @@ process call_metapipeline_DNA {
         --metapipeline_log_output_dir ${params.log_output_dir} \
         --work_dir ${params.resolved_work_dir} \
         --override_realignment ${params.override_realignment} \
-        --override_call_gsnp ${params.override_call_gsnp} \
-        --enable_input_deletion_call_gsnp ${params.enable_input_deletion_call_gsnp} \
+        --override_recalibrate_bam ${params.override_recalibrate_bam} \
+        --enable_input_deletion_recalibrate_bam ${params.enable_input_deletion_recalibrate_bam} \
         --normal_sample_count ${params.sample_counts[patient]['normal']} \
         --tumor_sample_count ${params.sample_counts[patient]['tumor']} \
         -params-file ${pipeline_params_json}
