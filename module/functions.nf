@@ -26,5 +26,5 @@ workflow flatten_nonrecursive {
         .set{ och }
 
     emit:
-    och = och    
+    och = och
 }

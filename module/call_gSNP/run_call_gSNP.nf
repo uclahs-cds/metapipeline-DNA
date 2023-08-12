@@ -1,4 +1,5 @@
 include { sanitize_string } from '../../external/pipeline-Nextflow-module/modules/common/generate_standardized_filename/main.nf'
+include { combine_input_with_params } from '../common.nf'
 /*
 * Call the call-gSNP pipeline
 *
@@ -35,6 +36,7 @@ process run_call_gSNP {
 
     script:
     normal_bam = "call-gSNP-*/${sample_id_for_gsnp}/GATK-*/output/*_GATK-*_${sanitize_string(normal_bam_sm)}.bam"
+    String params_to_dump = combine_input_with_params(params.call_gSNP.metapipeline_arg_map)
     """
     set -euo pipefail
 
@@ -44,9 +46,11 @@ process run_call_gSNP {
     cat ${moduleDir}/default.config | sed "s:<OUTPUT-DIR-METAPIPELINE>:\$(pwd):g" \
         > call_gsnp_default_metapipeline.config
 
+    printf "${params_to_dump}" > combined_call_gsnp_params.yaml
+
     nextflow run \
         ${moduleDir}/../../external/pipeline-call-gSNP/main.nf \
-        ${params.call_gSNP.metapipeline_arg_string} \
+        -params-file combined_call_gsnp_params.yaml \
         --input_csv ${input_csv.toRealPath()} \
         --work_dir \$WORK_DIR \
         --metapipeline_final_output_dir "${params.output_dir}/output/align-DNA-*/*/BWA-MEM2-*/output" \

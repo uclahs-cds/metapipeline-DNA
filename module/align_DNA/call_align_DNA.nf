@@ -1,3 +1,5 @@
+include { combine_input_with_params } from '../common.nf'
+
 def get_header_sample_name(path) {
     def reader = new FileReader(path)
     def sm = []
@@ -40,14 +42,17 @@ process call_align_DNA {
 
     aligner = params.align_DNA.aligner.join(',')
 
+    String params_to_dump = combine_input_with_params(params.align_DNA.metapipeline_arg_map)
     """
     set -euo pipefail
+
+    printf "${params_to_dump}" > combined_align_dna_params.yaml
 
     WORK_DIR=${params.work_dir}/work-align-DNA-${sample}
     mkdir \$WORK_DIR
     nextflow run \
         ${moduleDir}/../../external/pipeline-align-DNA/main.nf \
-        ${params.align_DNA.metapipeline_arg_string} \
+        -params-file combined_align_dna_params.yaml \
         --sample_id ${sample} \
         --aligner ${aligner} \
         --output_dir \$(pwd) \
