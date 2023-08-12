@@ -1,12 +1,37 @@
+
+workflow recalibrate_BAM {
+    take:
+        ich
+    main:
+        if (params.sample_mode != 'single') {
+            ich.flatten()
+                .reduce(['normal': [], 'tumor': []]) { a, b ->
+                    a[b.state] += b;
+                    return a
+                }
+                .set{ collected_input_ch }
+            skip_gsnp_output = collected_input_ch
+        }
+}
+
+
+
+
+
+
+
+
+
+
 /*
-    Main entry point for calling call-gSNP pipeline
+    Main entry point for calling recalibrate-BAM pipeline
 */
-include { create_normal_tumor_pairs; create_CSV_call_gSNP; create_CSV_call_gSNP_single } from "${moduleDir}/create_CSV_call_gSNP"
-include { run_call_gSNP } from "${moduleDir}/run_call_gSNP"
+include { create_normal_tumor_pairs; create_CSV_call_gSNP; create_CSV_recalibrate_BAM_single } from "${moduleDir}/create_CSV_recalibrate_BAM"
+include { run_recalibrate_BAM } from "${moduleDir}/run_recalibrate_BAM"
 include { flatten_nonrecursive } from "${moduleDir}/../functions"
 
 /*
-* Main workflow for calling the call-gSNP pipeline
+* Main workflow for calling the recalibrate-BAM pipeline
 *
 * Input:
 *   Input is a channel that each element is a tuple or list of 6 items:
@@ -21,10 +46,10 @@ include { flatten_nonrecursive } from "${moduleDir}/../functions"
 *     patient (String): Patient ID
 *     tumor_sample (String): Sample ID of the tumor sample.
 *     normal_sample (String): Sample ID of the nomral sample.
-*     tumor_bam (file): Tumor's calibrated BAM file output by the call-gSNP pipeline.
-*     normal_bam (file): Normal's calibrated BAM file output by the call-gSNP pipeline.
+*     tumor_bam (file): Tumor's calibrated BAM file output by the recalibrate-BAM pipeline.
+*     normal_bam (file): Normal's calibrated BAM file output by the recalibrate-BAM pipeline.
 */
-workflow call_gSNP {
+workflow recalibrate_BAM {
     take:
         ich
     main:
