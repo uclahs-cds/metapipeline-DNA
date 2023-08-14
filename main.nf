@@ -162,7 +162,7 @@ process call_metapipeline_DNA {
         ? "\")"
         : ""
     limiter_wrapper_pre + """
-    NXF_WORK=${params.pipeline_work_dir} \
+    NXF_WORK=${params.resolved_work_dir} \
     nextflow run \
         ${moduleDir}/module/metapipeline_DNA.nf \
         --input_csv ${input_csv} \
@@ -173,7 +173,7 @@ process call_metapipeline_DNA {
         --save_intermediate_files ${params.save_intermediate_files} \
         --output_dir ${params.final_output_dir} \
         --metapipeline_log_output_dir ${params.log_output_dir} \
-        --work_dir ${params.work_dir} \
+        --work_dir ${params.resolved_work_dir} \
         --override_realignment ${params.override_realignment} \
         --override_call_gsnp ${params.override_call_gsnp} \
         --enable_input_deletion_call_gsnp ${params.enable_input_deletion_call_gsnp} \
