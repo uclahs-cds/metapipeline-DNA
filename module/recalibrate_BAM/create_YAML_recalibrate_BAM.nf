@@ -23,7 +23,7 @@ process create_YAML_recalibrate_BAM {
     exec:
     input_yaml = 'recalibrate_BAM_input.yaml'
 
-    states_to_delete = (params.sample_mode == 'paired') ? sample_info.tumor.states_to_delete : ['normal', 'tumor']
+    states_to_delete = (params.sample_mode == 'paired') ? sample_info.tumor[0].states_to_delete : ['normal', 'tumor']
 
     sample_states = ['normal': [], 'tumor': []]
     sample_info.each { state, samples ->
