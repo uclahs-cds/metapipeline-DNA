@@ -59,6 +59,7 @@ requested_pipelines:
   default:
     - align-DNA
     - recalibrate-BAM
+    - call-gSNP
     - call-gSV
     - call-mtSNV
     - call-sSNV
@@ -66,6 +67,7 @@ requested_pipelines:
   choices:
     - align-DNA
     - recalibrate-BAM
+    - call-gSNP
     - call-gSV
     - call-mtSNV
     - call-sSNV
@@ -128,6 +130,10 @@ pipeline_params:
       type: 'Namespace'
       required: true
       help: 'Parameters for recalibrate-BAM'
+    call_gSNP:
+      type: 'Namespace'
+      required: true
+      help: 'Parameters for call-gSNP'
     call_sSNV:
       type: 'Namespace'
       required: true
