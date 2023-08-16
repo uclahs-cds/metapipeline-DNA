@@ -37,6 +37,7 @@ log.info """\
         uclahs-cds/pipeline-convert-BAM2FASTQ: ${params.version_BAM2FASTQ}
         uclahs-cds/pipeline-align-DNA: ${params.version_align_DNA}
         uclahs-cds/pipeline-recalibrate-BAM: ${params.version_recalibrate_BAM}
+        uclahs-cds/pipeline-call-gSNP: ${params.version_call_gSNP}
         uclahs-cds/pipeline-call-sSNV: ${params.version_call_sSNV}
         uclahs-cds/pipeline-call-mtSNV: ${params.version_call_mtSNV}
         uclahs-cds/pipeline-call-gSV: ${params.version_call_gSV}

@@ -4,6 +4,7 @@ nextflow.enable.dsl = 2
 include { convert_BAM2FASTQ } from "${moduleDir}/convert_BAM2FASTQ/workflow"
 include { align_DNA } from "${moduleDir}/align_DNA/workflow"
 include { recalibrate_BAM } from "${moduleDir}/recalibrate_BAM/workflow"
+include { call_gSNP } from "${moduleDir}/call_gSNP/workflow"
 include { call_sSNV } from "${moduleDir}/call_sSNV/workflow"
 include { call_mtSNV } from "${moduleDir}/call_mtSNV/workflow"
 include { call_gSV } from "${moduleDir}/call_gSV/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir )
@@ -38,6 +39,12 @@ workflow {
         recalibrate_BAM(align_DNA.out.output_ch_align_dna)
     } else {
         recalibrate_BAM(align_DNA.out.output_ch_align_dna.collect())
+    }
+
+    recalibrate_BAM.out.output_ch_recalibrate_bam.view()
+
+    if (params.call_gSNP.is_pipeline_enabled) {
+        call_gSNP(recalibrate_BAM.out.output_ch_recalibrate_bam)
     }
 
     if (params.call_sSNV.is_pipeline_enabled) {
