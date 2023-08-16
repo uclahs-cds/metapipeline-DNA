@@ -10,7 +10,7 @@ import org.yaml.snakeyaml.Yaml
 */
 process create_YAML_recalibrate_BAM {
     publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}/${patient_id}",
-        enabled: true, //params.save_intermediate_files,
+        enabled: params.save_intermediate_files,
         pattern: 'recalibrate_BAM_input.yaml',
         mode: 'copy'
 
