@@ -56,6 +56,7 @@ process call_align_DNA {
         --aligner ${aligner} \
         --output_dir \$(pwd) \
         --work_dir \$WORK_DIR \
+        --spark_temp_dir \$WORK_DIR \
         --input_csv ${input_csv} \
         --dataset_id ${params.project_id} \
         -c ${moduleDir}/default.config
