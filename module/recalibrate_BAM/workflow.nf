@@ -46,7 +46,7 @@ workflow recalibrate_BAM {
                 input_ch_with_deletion_info.map{ it -> it.tumor }.flatten().set{ input_ch_tumor }
 
                 input_ch_normal.combine(input_ch_tumor).map{ it ->
-                    ['normal': it[0], 'tumor': it[1]]
+                    ['normal': [it[0]], 'tumor': [it[1]]]
                 }
                 .set{ input_ch_create_recalibrate_yaml }
             }
@@ -88,7 +88,7 @@ workflow recalibrate_BAM {
                 it[0].normal.each{ normal_sample ->
                     def sample_bam_files = file("${it[1]}/*GATK-*${normal_sample}*.bam");
                     assert sample_bam_files.size() == 1;
-                    resolved_samples.normal.append([
+                    resolved_samples.normal.add([
                         'patient': params.patient,
                         'sample': normal_sample,
                         'state': 'normal',
@@ -98,7 +98,7 @@ workflow recalibrate_BAM {
                 it[0].tumor.each{ tumor_sample ->
                     def sample_bam_files = file("${it[1]}/*GATK-*${tumor_sample}*.bam");
                     assert sample_bam_files.size() == 1;
-                    resolved_samples.tumor.append([
+                    resolved_samples.tumor.add([
                         'patient': params.patient,
                         'sample': normal_sample,
                         'state': 'tumor',
