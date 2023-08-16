@@ -100,7 +100,7 @@ workflow recalibrate_BAM {
                     assert sample_bam_files.size() == 1;
                     resolved_samples.tumor.add([
                         'patient': params.patient,
-                        'sample': normal_sample,
+                        'sample': tumor_sample,
                         'state': 'tumor',
                         'bam': sample_bam_files[0].toRealPath().toString()
                     ])
