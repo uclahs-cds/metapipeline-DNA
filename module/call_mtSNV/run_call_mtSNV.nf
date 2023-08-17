@@ -9,7 +9,6 @@ process run_call_mtSNV {
     
     input:
         tuple(
-            val(patient),
             val(tumor_sample),
             val(normal_sample),
             path(tumor_bam),
