@@ -8,7 +8,7 @@ include { run_call_gSNP } from "${moduleDir}/run_call_gSNP"
 * Main workflow for calling the call-gSNP pipeline
 *
 * Input:
-*   Input is a channel with each element
+*   Input is a channel containing the samples split by type
 */
 workflow call_gSNP {
     take:
