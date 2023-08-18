@@ -21,13 +21,23 @@ workflow call_sSV {
     take:
         ich
     main:
-        // Call-sSV only supports paired mode so filter only for 'multi'
-        ich
-            .filter{ it['run_mode'] == 'multi' }
-            .map{ [it['tumor_sample'], file(it['normal_bam']).toRealPath(), file(it['tumor_bam']).toRealPath()] }
+        // Call-sSV only supports paired mode so run only when not in single mode
+        if (params.sample_mode != 'single') {
+            ich.map{ it -> it.normal }.flatten().unique{ [it.patient, it.sample, it.state] }.set{ input_ch_normal }
+            ich.map{ it -> it.tumor }.flatten().unique{ [it.patient, it.sample, it.state] }.set{ input_ch_tumor }
+
+            input_ch_normal.combine(input_ch_tumor).map{ it ->
+                ['normal': it[0], 'tumor': it[1]]
+            }.map{ it ->
+                [
+                    it['tumor']['sample'],
+                    file(it['normal']['bam'].toRealPath()),
+                    file(it['tumor']['bam'].toRealPath())
+                ]
+            }
             .set{ input_ch_create_CSV }
 
-        create_CSV_call_sSV(input_ch_create_CSV)
-
-        run_call_sSV(create_CSV_call_sSV.out)
+            create_CSV_call_sSV(input_ch_create_CSV)
+            run_call_sSV(create_CSV_call_sSV.out)
+        }
 }
