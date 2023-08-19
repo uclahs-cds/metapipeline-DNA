@@ -2,7 +2,10 @@
     Main entry point for calling recalibrate-BAM pipeline
 */
 include { create_YAML_recalibrate_BAM } from "${moduleDir}/create_YAML_recalibrate_BAM"
-include { run_recalibrate_BAM } from "${moduleDir}/run_recalibrate_BAM"
+include {
+    run_recalibrate_BAM as run_recalibrate_BAM_delete_tumor
+    run_recalibrate_BAM as run_recalibrate_BAM_delete_all
+    } from "${moduleDir}/run_recalibrate_BAM"
 
 /*
 * Main workflow for calling the recalibrate-BAM pipeline
@@ -53,15 +56,7 @@ workflow recalibrate_BAM {
 
             create_YAML_recalibrate_BAM(input_ch_create_recalibrate_yaml)
 
-            // To avoid deleting the normal BAM early, move normal deletion sample to end of channel
-            create_YAML_recalibrate_BAM.out.recalibrate_bam_input
-                .branch {
-                    delete_only_tumor: it[0] == ['tumor']
-                    delete_all: it[0] == ['normal', 'tumor']
-                }
-                .set{ deletion_split }
-
-            deletion_split.delete_only_tumor.concat(deletion_split.delete_all).set{ input_ch_recalibrate_bam }
+            create_YAML_recalibrate_BAM.out.recalibrate_bam_input.set{ input_ch_recalibrate_bam }
         } else {
             input_ch_with_deletion_info.map{ it -> it.normal }
                 .flatten()
@@ -81,32 +76,47 @@ workflow recalibrate_BAM {
         if (params.override_recalibrate_bam) {
             skip_recalibrate_output.set{ output_ch_recalibrate_bam }
         } else {
-            run_recalibrate_BAM(input_ch_recalibrate_bam)
+            input_ch_recalibrate_bam
+                .branch {
+                    delete_only_tumor: it[0] == ['tumor']
+                    delete_all: it[0] == ['normal', 'tumor']
+                }
+                .set{ deletion_split }
 
-            run_recalibrate_BAM.out.metapipeline_out.map{ it ->
-                Map resolved_samples = ['normal': [], 'tumor': []];
-                it[0].normal.each{ normal_sample ->
-                    def sample_bam_files = file("${it[1]}/*GATK-*${normal_sample}*.bam");
-                    assert sample_bam_files.size() == 1;
-                    resolved_samples.normal.add([
-                        'patient': params.patient,
-                        'sample': normal_sample,
-                        'state': 'normal',
-                        'bam': sample_bam_files[0].toRealPath().toString()
-                    ])
-                };
-                it[0].tumor.each{ tumor_sample ->
-                    def sample_bam_files = file("${it[1]}/*GATK-*${tumor_sample}*.bam");
-                    assert sample_bam_files.size() == 1;
-                    resolved_samples.tumor.add([
-                        'patient': params.patient,
-                        'sample': tumor_sample,
-                        'state': 'tumor',
-                        'bam': sample_bam_files[0].toRealPath().toString()
-                    ])
-                };
-                return resolved_samples
-            }
+            run_recalibrate_BAM_delete_tumor(deletion_split.delete_only_tumor.map{ it + ['complete'] })
+
+            run_recalibrate_BAM_delete_tumor.out.metapipeline_out.ifEmpty('default')
+                .collect()
+                .map{ 'complete' }
+                .set{ completion_signal }
+
+            run_recalibrate_BAM_delete_all(deletion_split.delete_all.combine(completion_signal))
+            run_recalibrate_BAM_delete_tumor.out.metapipeline_out
+                .mix(run_recalibrate_BAM_delete_all.out.metapipeline_out)
+                .map{ it ->
+                    Map resolved_samples = ['normal': [], 'tumor': []];
+                    it[0].normal.each{ normal_sample ->
+                        def sample_bam_files = file("${it[1]}/*GATK-*${normal_sample}*.bam");
+                        assert sample_bam_files.size() == 1;
+                        resolved_samples.normal.add([
+                            'patient': params.patient,
+                            'sample': normal_sample,
+                            'state': 'normal',
+                            'bam': sample_bam_files[0].toRealPath().toString()
+                        ])
+                    };
+                    it[0].tumor.each{ tumor_sample ->
+                        def sample_bam_files = file("${it[1]}/*GATK-*${tumor_sample}*.bam");
+                        assert sample_bam_files.size() == 1;
+                        resolved_samples.tumor.add([
+                            'patient': params.patient,
+                            'sample': tumor_sample,
+                            'state': 'tumor',
+                            'bam': sample_bam_files[0].toRealPath().toString()
+                        ])
+                    };
+                    return resolved_samples
+                }
             .reduce(['normal': [] as Set, 'tumor': [] as Set]) { a, b ->
                 a.normal += b.normal;
                 a.tumor += b.tumor;

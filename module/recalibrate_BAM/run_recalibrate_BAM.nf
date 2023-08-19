@@ -25,7 +25,8 @@ process run_recalibrate_BAM {
             val(states_to_delete),
             val(sample_id_for_recalibrate),
             val(sample_states),
-            path(input_yaml)
+            path(input_yaml),
+            val(completion_signal)
         )
 
     output:

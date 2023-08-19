@@ -31,7 +31,7 @@ workflow align_DNA {
                     'patient': it[0],
                     'sample': it[1],
                     'state': it[2],
-                    'bam': it[4]
+                    'bam': it[3]
                 ] }
                 .set{ output_ch_align_dna }
         }

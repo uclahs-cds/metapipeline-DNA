@@ -31,8 +31,8 @@ workflow call_sSV {
             }.map{ it ->
                 [
                     it['tumor']['sample'],
-                    file(it['normal']['bam'].toRealPath()),
-                    file(it['tumor']['bam'].toRealPath())
+                    file(it['normal']['bam']).toRealPath(),
+                    file(it['tumor']['bam']).toRealPath()
                 ]
             }
             .set{ input_ch_create_CSV }
