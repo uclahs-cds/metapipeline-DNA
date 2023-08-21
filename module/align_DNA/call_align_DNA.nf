@@ -1,19 +1,5 @@
 include { combine_input_with_params } from '../common.nf'
 
-// def get_header_sample_name(path) {
-//     def reader = new FileReader(path)
-//     def sm = []
-//     reader.splitEachLine(",") { fields ->
-//         sm.add(fields[5])
-//     }
-//     sm.removeAt(0)
-//     sm.unique()
-//     if (sm.size() > 1) {
-//         throw new Exception('Input csv should have same SM for all fastq pairs')
-//     }
-//     return sm[0]
-// }
-
 /*
     Process to call the align-DNA pipeline.
 */
