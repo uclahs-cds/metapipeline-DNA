@@ -10,8 +10,6 @@ process create_CSV_call_mtSNV {
     
     input:
         tuple(
-            val(sample_id),
-            val(run_mode),
             val(tumour_id),
             val(normal_id),
             path(tumour_BAM),
@@ -20,7 +18,6 @@ process create_CSV_call_mtSNV {
 
     output:
         tuple(
-            val(sample_id),
             val(tumour_id),
             val(normal_id),
             path(tumour_BAM),
@@ -32,12 +29,9 @@ process create_CSV_call_mtSNV {
     input_csv = 'call_mtSNV_input.csv'
     if (params.sample_mode == 'single') {
         mtsnv_sample_id = normal_id
-    } else if (params.sample_mode == 'paired') {
-        mtsnv_sample_id = tumour_id
     } else {
-        mtsnv_sample_id = tumour_BAM.baseName.split('_')[-1]
+        mtsnv_sample_id = tumour_id
     }
-    mtsnv_tumour_id = tumour_BAM.baseName.split('_')[-1]
     """
     if ${params.sample_mode == 'single'}
     then
@@ -46,7 +40,7 @@ process create_CSV_call_mtSNV {
         echo "project_placeholder,${mtsnv_sample_id},${normal_id},${normal_BAM.toRealPath()}" >> ${input_csv}
     else
         echo 'project_id,sample_id,tumour_id,tumour_BAM,normal_id,normal_BAM' > ${input_csv}
-        echo "project_placeholder,${mtsnv_sample_id},${mtsnv_tumour_id},${tumour_BAM.toRealPath()},${normal_id},${normal_BAM.toRealPath()}" >> ${input_csv}
+        echo "project_placeholder,${mtsnv_sample_id},${tumour_id},${tumour_BAM.toRealPath()},${normal_id},${normal_BAM.toRealPath()}" >> ${input_csv}
     fi
     """
 }

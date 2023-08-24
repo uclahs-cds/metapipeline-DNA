@@ -8,38 +8,47 @@ include { run_call_sSNV } from "${moduleDir}/run_call_sSNV"
 * Main workflow for calling the call-sSNV pipeline
 *
 * Input:
-*   Input is a channel that each element is a tuple or list of 6 items:
-*     @param patient (String): Patient ID
-*     @param run_mode (String): Indicator of type of sample
-*     @param tumor_sample (String): Tumor sample name
-*     @param normal_sample (String): Normal sample name
-*     @param tumor_bam (file): Path to tumor BAM
-*     @param normal_bam (file): Path to normal BAM
+*   Input is a channel containing the samples split by type
 */
 workflow call_sSNV {
     take:
         ich
     main:
+        ich.map{ it -> it.normal }.flatten().unique{ [it.patient, it.sample, it.state] }.set{ input_ch_normal }
+        ich.map{ it -> it.tumor }.flatten().unique{ [it.patient, it.sample, it.state] }.set{ input_ch_tumor }
+
         if (params.sample_mode == 'single') {
             // Only Mutect2 supports tumor-only calling
             if ('mutect2' in params.call_sSNV.algorithm) {
-                input_ch_tumor_only = ich
-                    .filter{ it['run_mode'] == 'tumor' }
-                    .map{ [it['normal_sample'], [['NO_ID', 'NO_BAM.bam']], [[it['normal_sample'], file(it['normal_bam']).toRealPath()]], 'mutect2'] }
+                input_ch_tumor
+                    .map{ [it['sample'], [['NO_ID', 'NO_BAM.bam']], [[it['sample'], file(it['bam']).toRealPath()]], 'mutect2'] }
+                    .set{ input_ch_tumor_only }
             } else {
-                input_ch_tumor_only = Channel.empty()
+                Channel.empty().set{ input_ch_tumor_only }
             }
             create_YAML_call_sSNV(input_ch_tumor_only)
         } else {
             // [patient, [normal_ID,normal_BAM], [tumor_ID,tumor_BAM]]
-            input_ch_create_ssnv_yaml_multisample = ich.map{ it ->
-                [it['patient'], [[it['normal_sample'], file(it['normal_bam']).toRealPath()]], [it['tumor_sample'], file(it['tumor_bam']).toRealPath()]]
+            input_ch_normal.combine(input_ch_tumor).map{ it ->
+                ['normal': it[0], 'tumor': it[1]]
+            }.map{ it ->
+                [
+                    params.patient,
+                    [[it['normal']['sample'], file(it['normal']['bam']).toRealPath()]],
+                    [it['tumor']['sample'], file(it['tumor']['bam']).toRealPath()]
+                ]
             }.groupTuple(by: [0,1])
+            .set{ input_ch_create_ssnv_yaml_multisample }
 
-            // [sample_id, normal_BAM, [tumor_BAM]]
-            input_ch_create_ssnv_yaml_pairedsample = ich.map{ it ->
-                [it['tumor_sample'], [[it['normal_sample'], file(it['normal_bam']).toRealPath()]], [[it['tumor_sample'], file(it['tumor_bam']).toRealPath()]]]
-            }
+            input_ch_normal.combine(input_ch_tumor).map{ it ->
+                ['normal': it[0], 'tumor': it[1]]
+            }.map{ it ->
+                [
+                    it['tumor']['sample'],
+                    [[it['normal']['sample'], file(it['normal']['bam']).toRealPath()]],
+                    [[it['tumor']['sample'], file(it['tumor']['bam']).toRealPath()]]
+                ]
+            }.set{ input_ch_create_ssnv_yaml_pairedsample }
 
             input_ch_create_ssnv_yaml = Channel.empty()
             requested_ssnv_algorithms = params.call_sSNV.algorithm

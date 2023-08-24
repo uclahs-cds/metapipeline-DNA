@@ -9,9 +9,40 @@ workflow call_mtSNV {
     take:
         ich
     main:
-        ich
-            .map{ it -> [it['patient'], it['run_mode'], it['tumor_sample'], it['normal_sample'], it['tumor_bam'], it['normal_bam']] }
-            .set{ input_ch_create_CSV }
+        if (params.sample_mode == 'single') {
+            // In signle sample mode, call-mtSNV expects the input to be in the normal sample column
+            ich.map{ it -> it.normal }
+                .flatten()
+                .set{ input_ch_normal }
+            ich.map{ it -> it.tumor }
+                .flatten()
+                .set{ input_ch_tumor }
+
+            input_ch_normal.mix(input_ch_tumor).map{ it ->
+                [
+                    'NO_ID',
+                    it['sample'],
+                    '/scratch/NO_FILE.bam',
+                    it['bam']
+                ]
+            }.set{ input_ch_create_CSV }
+        } else {
+            // Call-mtSNV only supports single or paired modes, not multi
+            ich.map{ it -> it.normal }.flatten().unique{ [it.patient, it.sample, it.state] }.set{ input_ch_normal }
+            ich.map{ it -> it.tumor }.flatten().unique{ [it.patient, it.sample, it.state] }.set{ input_ch_tumor }
+
+            input_ch_normal.combine(input_ch_tumor).map{ it ->
+                ['normal': it[0], 'tumor': it[1]]
+            }.map{ it ->
+                [
+                    it['tumor']['sample'],
+                    it['normal']['sample'],
+                    it['tumor']['bam'],
+                    it['normal']['bam']
+                ]
+            }.set{ input_ch_create_CSV }
+        }
+
         create_CSV_call_mtSNV(input_ch_create_CSV)
         run_call_mtSNV(create_CSV_call_mtSNV.out)
 }
