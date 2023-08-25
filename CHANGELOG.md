@@ -8,6 +8,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+
+---
+
+## [5.0.0-rc.9] - 2023-08-24
 ### Changed
 + Split call-gSNP into recalibrate-BAM and call-gSNP
 
