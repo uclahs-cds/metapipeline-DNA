@@ -20,7 +20,7 @@ process create_YAML_call_sSV {
 
     input:
         tuple(
-            val(tumor_id), val(normal_bam), path(tumor_bam)
+            val(tumor_id), val(normal_bam), val(tumor_bam)
         )
 
     output:
