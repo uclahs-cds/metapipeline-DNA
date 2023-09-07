@@ -33,8 +33,8 @@ process create_YAML_call_sSV {
             'sample_id': ${tumor_id},
             'input': [
                 'BAM': [
-                    'normal': ${normal_bam.toRealPath()},
-                    'tumor': ${tumor_bam.toRealPath()}
+                    'normal': "${normal_bam}" as String,
+                    'tumor': "${tumor_bam}" as String
                 ]
             ]
         ]
