@@ -1,5 +1,5 @@
 /*
-    Main entrypoint for calling call-gSV pipeline
+    Main entrypoint for calling call-sSV pipeline
 */
 
 include { create_YAML_call_sSV } from "${moduleDir}/create_YAML_call_sSV"
