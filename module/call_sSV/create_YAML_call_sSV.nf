@@ -31,7 +31,7 @@ process create_YAML_call_sSV {
     input_yaml = 'call_sSV_input.yaml'
 
     input_map = [
-            'sample_id': ${tumor_id},
+            'sample_id': tumor_id,
             'input': [
                 'BAM': [
                     'normal': "${normal_bam}" as String,
