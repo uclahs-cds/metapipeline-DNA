@@ -1,3 +1,4 @@
+import org.yaml.snakeyaml.Yaml
 /*
 * Create input YAML file for the call-sSV pipeline.
 *
