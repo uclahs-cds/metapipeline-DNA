@@ -3,14 +3,22 @@ nextflow.enable.dsl = 2
 include { call_sSNV } from "${projectDir}/../../module/call_sSNV/workflow"
 
 workflow {
-    ich = Channel.fromPath(params.input_csv).splitCsv(header:true)
+    Channel.fromPath(params.input_csv).splitCsv(header:true)
         .map{ it -> [
-            'patient': it.patient,
-            'run_mode': 'multi',
-            'tumor_sample': it.tumor_sample,
-            'normal_sample': it.normal_sample,
-            'tumor_bam': file(it.tumor_bam),
-            'normal_bam': file(it.normal_bam)
-        ] }
+            'normal': [[
+                'patient': it.patient,
+                'sample': it.normal_sample,
+                'state': 'normal',
+                'bam': it.normal_bam
+                ]],
+            'tumor': [[
+                'patient': it.patient,
+                'sample': it.tumor_sample,
+                'state': 'tumor',
+                'bam': it.tumor_bam
+                ]],
+            ] }
+        .set{ ich }
+
     call_sSNV(ich)
 }
