@@ -19,3 +19,4 @@ pip-delete-this-directory.txt
 
 test/output
 test/work
+.env
