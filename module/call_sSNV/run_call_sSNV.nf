@@ -15,6 +15,8 @@ include { combine_input_with_params } from '../common.nf'
 process run_call_sSNV {
     cpus params.call_sSNV.subworkflow_cpus
 
+    maxForks 1
+
     publishDir "${params.output_dir}/output",
         mode: "copy",
         pattern: "call-sSNV-*/*"
