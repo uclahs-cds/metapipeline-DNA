@@ -42,6 +42,12 @@ cases:
     #   expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/align-DNA/TCEB1/TCEB1_RCC_S00-9422T_027_166/TCEB1_RCC_S00-9422T_027_166.bam
     #   method: md5
 
+  - name: test-recalibrate-BAM
+    message: Test recalibrate-BAM
+    nf_script: test/test-recalibrate-BAM/test.nf
+    nf_config: test/test-recalibrate-BAM/test.config
+    verbose: true
+    skip: true
 
   - name: test-call-gSNP
     message: Test call-gSNP with one tumor normal pair
@@ -129,7 +135,7 @@ cases:
 
 
   - name: test-call-sSV
-    message: Test call-gSV pipeline with one tumor normal pair
+    message: Test call-sSV pipeline with one tumor normal pair
     nf_script: test/test-call-sSV/test.nf
     nf_config: test/test-call-sSV/test.config
     verbose: true
@@ -157,7 +163,6 @@ cases:
     message: Test calling all pipelines with one tumor normal pair
     nf_script: module/metapipeline_DNA.nf
     nf_config: test/test-metapipeline-DNA/test.config
-    params_file: test/test-metapipeline-DNA/pipeline_specific_params.json
     verbose: true
     skip: true
 
