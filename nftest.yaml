@@ -163,6 +163,7 @@ cases:
     message: Test calling all pipelines with one tumor normal pair
     nf_script: module/metapipeline_DNA.nf
     nf_config: test/test-metapipeline-DNA/test.config
+    params_file: test/test-metapipeline-DNA/pipeline_specific_params.json
     verbose: true
     skip: true
 
