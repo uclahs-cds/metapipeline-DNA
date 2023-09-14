@@ -51,7 +51,7 @@ workflow call_sSNV {
             }.set{ input_ch_create_ssnv_yaml_pairedsample }
 
             input_ch_create_ssnv_yaml = Channel.empty()
-            requested_ssnv_algorithms = params.call_sSNV.algorithm as Set as List
+            requested_ssnv_algorithms = params.call_sSNV.algorithm.unique(false)
 
             if ( params.sample_mode == 'multi' &&
                 'mutect2' in requested_ssnv_algorithms &&
