@@ -33,7 +33,7 @@ process run_call_sSV {
         > call_ssv_default_metapipeline.config
 
     printf "${params_to_dump}" > combined_call_ssv_params.yaml
-    cat combined_call_ssv_params.yaml
+
     nextflow run \
         ${moduleDir}/../../external/pipeline-call-sSV/main.nf \
         -params-file combined_call_ssv_params.yaml \

@@ -9,7 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 ### Changed
-+ Update tests to utilize [nftest](https://github.com/uclahs-cds/tool-NFTest)
++ Update tests to conform to pipeline and [nftest](https://github.com/uclahs-cds/tool-NFTest) updates.
 
 
 ---
