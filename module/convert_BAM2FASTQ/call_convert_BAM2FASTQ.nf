@@ -35,7 +35,7 @@ process call_convert_BAM2FASTQ {
     printf "${params_to_dump}" > combined_bam2fastq_params.yaml
 
     WORK_DIR=${params.work_dir}/work-bam2fastq-${sample}
-    mkdir \$WORK_DIR
+    mkdir \$WORK_DIR && chmod a+w \$WORK_DIR
     nextflow \
         -C ${moduleDir}/default.config \
         run ${moduleDir}/../../external/pipeline-convert-BAM2FASTQ/main.nf \

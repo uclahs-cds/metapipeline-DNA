@@ -5,12 +5,18 @@ include { call_gSNP } from "${projectDir}/../../module/call_gSNP/workflow"
 workflow {
     ich = Channel.fromPath(params.input_csv).splitCsv(header:true)
         .map{ it -> [
-            'patient': it.patient,
-            'sample': it.sample,
-            'state': it.state,
-            'bam_header_sm': it.bam_header_sm,
-            'bam': file(it.bam)
-        ] }
-        .collect()
+            'normal': [[
+                'patient': it.patient,
+                'sample': it.normal_sample,
+                'state': 'normal',
+                'bam': it.normal_bam
+                ]],
+            'tumor': [[
+                'patient': it.patient,
+                'sample': it.tumor_sample,
+                'state': 'tumor',
+                'bam': it.tumor_bam
+                ]],
+            ] }
     call_gSNP(ich)    
 }
