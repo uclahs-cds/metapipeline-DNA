@@ -34,7 +34,7 @@ process call_align_DNA {
     printf "${params_to_dump}" > combined_align_dna_params.yaml
 
     WORK_DIR=${params.work_dir}/work-align-DNA-${sample}
-    mkdir \$WORK_DIR
+    mkdir \$WORK_DIR && chmod a+w \$WORK_DIR
     nextflow run \
         ${moduleDir}/../../external/pipeline-align-DNA/main.nf \
         -params-file combined_align_dna_params.yaml \
