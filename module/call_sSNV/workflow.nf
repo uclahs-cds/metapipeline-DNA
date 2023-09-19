@@ -59,7 +59,8 @@ workflow call_sSNV {
                 input_ch_create_ssnv_yaml = input_ch_create_ssnv_yaml_multisample
                     .combine( Channel.of( ['mutect2'] ) )
 
-
+                // With multiple algorithms requested, run Mutect2 twice (in multi and paired mode)
+                // to include Mutect2 in intersection results
                 if (requested_ssnv_algorithms.size() == 1) {
                     requested_ssnv_algorithms.removeAll{ it == 'mutect2' }
                 }
