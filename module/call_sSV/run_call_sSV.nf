@@ -28,17 +28,14 @@ process run_call_sSV {
     """
     set -euo pipefail
 
-    cat ${moduleDir}/default.config | \
-        sed "s:<OUTPUT-DIR-METAPIPELINE>:\$(pwd):g" \
-        > call_ssv_default_metapipeline.config
-
     printf "${params_to_dump}" > combined_call_ssv_params.yaml
 
     nextflow run \
         ${moduleDir}/../../external/pipeline-call-sSV/main.nf \
         -params-file combined_call_ssv_params.yaml \
         --work_dir ${params.work_dir} \
+        --output_dir \$(pwd) \
         --dataset_id ${params.project_id} \
-        -c call_ssv_default_metapipeline.config
+        -c ${moduleDir}/default.config
     """
 }
