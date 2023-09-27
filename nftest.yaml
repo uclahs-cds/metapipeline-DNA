@@ -141,19 +141,19 @@ cases:
     verbose: true
     skip: true
     asserts:
-      - actual: output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/DELLY-1.1.3/output/DELLY-1.1.3_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered.bcf
+      - actual: output/call-sSV-6.0.0-rc.1/CPT0053040010/DELLY-1.1.3/output/DELLY-1.1.3_LUAD0000034_CPT0053040010.bcf
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-sSV/output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/DELLY-1.1.3/output/DELLY-1.1.3_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered.bcf
         script: test/test-call-gSV/assert_bcf.sh
-      - actual: output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered_diploidSV.vcf.gz
+      - actual: output/call-sSV-6.0.0-rc.1/CPT0053040010/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010_diploidSV.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-sSV/output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered_diploidSV.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-      - actual: output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered_candidateSV.vcf.gz
+      - actual: output/call-sSV-6.0.0-rc.1/CPT0053040010/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010_candidateSV.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-sSV/output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered_candidateSV.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-      - actual: output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered_candidateSmallIndels.vcf.gz
+      - actual: output/call-sSV-6.0.0-rc.1/CPT0053040010/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010_candidateSmallIndels.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-sSV/output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered_candidateSmallIndels.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-      - actual: output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered_somaticSV.vcf.gz
+      - actual: output/call-sSV-6.0.0-rc.1/CPT0053040010/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010_somaticSV.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-sSV/output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered_somaticSV.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
 

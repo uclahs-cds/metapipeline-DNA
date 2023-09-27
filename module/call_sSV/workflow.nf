@@ -1,8 +1,8 @@
 /*
-    Main entrypoint for calling call-gSV pipeline
+    Main entrypoint for calling call-sSV pipeline
 */
 
-include { create_CSV_call_sSV } from "${moduleDir}/create_CSV_call_sSV"
+include { create_YAML_call_sSV } from "${moduleDir}/create_YAML_call_sSV"
 include { run_call_sSV } from "${moduleDir}/run_call_sSV"
 
 /*
@@ -35,9 +35,9 @@ workflow call_sSV {
                     file(it['tumor']['bam']).toRealPath()
                 ]
             }
-            .set{ input_ch_create_CSV }
+            .set{ input_ch_create_YAML }
 
-            create_CSV_call_sSV(input_ch_create_CSV)
-            run_call_sSV(create_CSV_call_sSV.out)
+            create_YAML_call_sSV(input_ch_create_YAML)
+            run_call_sSV(create_YAML_call_sSV.out)
         }
-}
+    }
