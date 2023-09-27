@@ -15,6 +15,8 @@ include { combine_input_with_params } from '../common.nf'
 process run_call_sSNV {
     cpus params.call_sSNV.subworkflow_cpus
 
+    maxForks 1
+
     publishDir "${params.output_dir}/output",
         mode: "copy",
         pattern: "call-sSNV-*/*"
@@ -35,19 +37,14 @@ process run_call_sSNV {
     """
     set -euo pipefail
 
-    cat ${moduleDir}/default.config | \
-        sed "s:<OUTPUT-DIR-METAPIPELINE>:\$(pwd):g" | \
-        sed "s:<CALL-REGION-METAPIPELINE>:${params.call_sSNV.call_region}:g" | \
-        sed "s:<GNOMAD-VCF-METAPIPELNE>:${params.call_sSNV.germline_resource_gnomad_vcf}:g" \
-        > call_ssnv_default_metapipeline.config
-
     printf "${params_to_dump}" > combined_call_ssnv_params.yaml
 
     nextflow run \
         ${moduleDir}/../../external/pipeline-call-sSNV/main.nf \
         --work_dir ${params.work_dir} \
+        --output_dir \$(pwd) \
         -params-file combined_call_ssnv_params.yaml \
         --dataset_id ${params.project_id} \
-        -c call_ssnv_default_metapipeline.config
+        -c ${moduleDir}/default.config
     """
 }
