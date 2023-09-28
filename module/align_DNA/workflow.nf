@@ -10,7 +10,9 @@
 *   A tuple with patient, sample, state, and the aligned BAM.
 */
 
-include { call_align_DNA } from "${moduleDir}/call_align_DNA"
+include { call_align_DNA } from "./call_align_DNA"
+include { mark_pipeline_complete } from "../pipeline_status"
+include { identify_align_dna_outputs } from "./identify_outputs"
 
 workflow align_DNA {
     take:
@@ -26,6 +28,9 @@ workflow align_DNA {
                 .set{ output_ch_align_dna }
         } else {
             call_align_DNA(ich)
+            identify_align_dna_outputs(call_align_DNA.out.align_dna_output_directory)
+            println params.sample_data
+            identify_align_dna_outputs.out.och_align_dna_outputs_identified.collect().map{ println params.sample_data; mark_pipeline_complete('align-DNA'); return 'done' }
             call_align_DNA.out.metapipeline_out
                 .map{ it -> [
                     'patient': it[0],
