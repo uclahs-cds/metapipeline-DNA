@@ -10,7 +10,7 @@ include { call_mtSNV } from "${moduleDir}/call_mtSNV/workflow"
 include { call_gSV } from "${moduleDir}/call_gSV/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir )
 include { call_sSV } from "${moduleDir}/call_sSV/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir )
 include { create_CSV_align_DNA } from "${moduleDir}/align_DNA/create_CSV_align_DNA" addParams( log_output_dir: params.metapipeline_log_output_dir )
-include { create_status_directory } from "${moduleDir}/pipeline_status"
+include { create_status_directory; mark_pipeline_complete } from "${moduleDir}/pipeline_status"
 
 workflow {
     // Create a status directory to track when pipelines complete
@@ -21,6 +21,7 @@ workflow {
             ich_align_DNA_fastq = Channel.fromPath(params.input_csv)
                 .splitCsv(header:true)
                 .map{ tuple(it.patient, it.sample, it.state, file(it.bam)) }
+            mark_pipeline_complete('convert-BAM2FASTQ')
         } else {
             convert_BAM2FASTQ()
             ich_align_DNA_fastq = convert_BAM2FASTQ.out
