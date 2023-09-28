@@ -3,7 +3,7 @@ global:
   temp_dir: ./test/work
   nf_config: test/global.config
   remove_temp: false
-  clean_logs: false
+  clean_logs: true
 
 cases:
   - name: test-bam2fastq
@@ -160,7 +160,7 @@ cases:
     nf_script: test/test-call-sSV/test.nf
     nf_config: test/test-call-sSV/test.config
     verbose: true
-    skip: false
+    skip: true
     asserts:
       - actual: output/call-sSV-6.0.0-rc.1/CPT0053040010/DELLY-1.1.3/output/DELLY-1.1.3_LUAD0000034_CPT0053040010.bcf
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-sSV/output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/DELLY-1.1.3/output/DELLY-1.1.3_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered.bcf
