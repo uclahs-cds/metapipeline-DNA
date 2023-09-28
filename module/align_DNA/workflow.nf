@@ -26,6 +26,21 @@ workflow align_DNA {
                 'bam': it[3]
                 ] }
                 .set{ output_ch_align_dna }
+
+            ich.map{ it ->
+                params.sample_data.each { s, s_data ->
+                    s_data['align-DNA'].each {a, a_data ->
+                        a_data['BAM'] = s_data['original_data']['path']
+                    }
+                };
+                return 'done'
+            }
+            .collect()
+            .map{
+                mark_pipeline_complete('align-DNA');
+                println params.sample_data;
+                return 'done'
+            }
         } else {
             call_align_DNA(ich)
             identify_align_dna_outputs(call_align_DNA.out.align_dna_output_directory)
