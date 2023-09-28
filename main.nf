@@ -192,6 +192,7 @@ process call_metapipeline_DNA {
         --output_dir ${params.final_output_dir} \
         --metapipeline_log_output_dir ${params.log_output_dir} \
         --work_dir ${params.resolved_work_dir} \
+        --pipeline_status_directory ${params.resolved_work_dir}/PIPELINESTATUSDIRECTORY \
         --override_realignment ${params.override_realignment} \
         --override_recalibrate_bam ${params.override_recalibrate_bam} \
         --enable_input_deletion_recalibrate_bam ${params.enable_input_deletion_recalibrate_bam} \
