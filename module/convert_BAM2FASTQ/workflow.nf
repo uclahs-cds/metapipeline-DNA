@@ -40,7 +40,7 @@ workflow convert_BAM2FASTQ {
 
         println params.sample_data
 
-        identify_convert_bam2fastq_outputs.out.och_outputs_identified.collect().map{ println params.sample_data; mark_pipeline_complete('convert-BAM2FASTQ'); return 'done' }
+        identify_convert_bam2fastq_outputs.out.och_bam2fastq_outputs_identified.collect().map{ println params.sample_data; mark_pipeline_complete('convert-BAM2FASTQ'); return 'done' }
 
         create_CSV_align_DNA(data_ch)
     emit:
