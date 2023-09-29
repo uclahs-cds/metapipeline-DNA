@@ -25,6 +25,8 @@ include { identify_recalibrate_bam_outputs } from './identify_outputs'
 workflow recalibrate_BAM {
     take:
         ich
+        modification_signal
+
     main:
         ich.flatten()
             .reduce(['normal': [] as Set, 'tumor': [] as Set]) { a, b ->
@@ -81,7 +83,7 @@ workflow recalibrate_BAM {
             // Default to BWA-MEM2 as main aligner unless it's not being used
             def main_aligner = ('BWA-MEM2' in params.align_DNA.aligner) ? 'BWA-MEM2' : params.align_DNA.aligner[0]
 
-            skip_recalibrate_output.collect().map{
+            modification_signal.until{ it == 'done' }.mix(skip_recalibrate_output).collect().map{
                 params.sample_data.each{ s, s_data ->
                     s_data['recalibrate-BAM']['BAM'] = s_data['align-DNA'][main_aligner]['BAM']
                 };
@@ -91,7 +93,7 @@ workflow recalibrate_BAM {
             .map{
                 mark_pipeline_complete('recalibrate-BAM');
                 return 'done'
-            }
+            }.set{ recalibrate_sample_data_updated }
         } else {
             input_ch_recalibrate_bam
                 .branch {
@@ -110,11 +112,12 @@ workflow recalibrate_BAM {
             run_recalibrate_BAM_delete_all(deletion_split.delete_all.combine(completion_signal))
 
             identify_recalibrate_bam_outputs(
-                run_recalibrate_BAM_delete_tumor.out.identify_recalibrate_bam_out
+                modification_signal.until{ it == 'done' }
+                    .mix(run_recalibrate_BAM_delete_tumor.out.identify_recalibrate_bam_out)
                     .mix(run_recalibrate_BAM_delete_all.out.identify_recalibrate_bam_out)
             )
 
-            identify_recalibrate_bam_outputs.out.och_recalibrate_bam_identified.collect().map{ println params.sample_data; mark_pipeline_complete('recalibrate-BAM'); return 'done' }
+            identify_recalibrate_bam_outputs.out.och_recalibrate_bam_identified.collect().map{ println params.sample_data; mark_pipeline_complete('recalibrate-BAM'); return 'done' }.set{ recalibrate_sample_data_updated }
 
             run_recalibrate_BAM_delete_tumor.out.metapipeline_out
                 .mix(run_recalibrate_BAM_delete_all.out.metapipeline_out)
@@ -151,4 +154,5 @@ workflow recalibrate_BAM {
         }
     emit:
         output_ch_recalibrate_bam = output_ch_recalibrate_bam
+        recalibrate_sample_data_updated = recalibrate_sample_data_updated
 }
