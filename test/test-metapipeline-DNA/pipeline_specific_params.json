@@ -146,5 +146,45 @@
             "is_pipeline_enabled": true,
             "subworkflow_cpus": 8
         }
+    },
+    "sample_data": {
+        "BZPRGPT1000001-N001-B01-F": {
+            "align-DNA": {
+                "BWA-MEM2": {
+                    "BAM": ""
+                }
+            },
+            "recalibrate-BAM": {
+                "BAM": "",
+                "contamination_table": ""
+            },
+            "convert-BAM2FASTQ": [
+                
+            ],
+            "original_data": {
+                "path": "/hot/data/unregistered/Boutros-Zeltser-PRAD-GPT1/align-DNA/align-DNA-BZPRGPT1000001-N001-B01-F/align-DNA-20211213-144945/BWA-MEM2-2.2.1/BZPRGPT1000001-N001-B01-F.bam"
+            },
+            "patient": "BZPRGPT1000001",
+            "state": "normal"
+        },
+        "BZPRGPT1000002-N001-B01-F": {
+            "align-DNA": {
+                "BWA-MEM2": {
+                    "BAM": ""
+                }
+            },
+            "recalibrate-BAM": {
+                "BAM": "",
+                "contamination_table": ""
+            },
+            "convert-BAM2FASTQ": [
+                
+            ],
+            "original_data": {
+                "path": "/hot/data/unregistered/Boutros-Zeltser-PRAD-GPT1/align-DNA/align-DNA-BZPRGPT1000002-N001-B01-F/align-DNA-20211213-153513/BWA-MEM2-2.2.1/BZPRGPT1000002-N001-B01-F.bam"
+            },
+            "patient": "BZPRGPT1000001",
+            "state": "tumor"
+        }
     }
 }
