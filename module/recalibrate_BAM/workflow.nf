@@ -85,12 +85,13 @@ workflow recalibrate_BAM {
 
             modification_signal.until{ it == 'done' }.mix(skip_recalibrate_output).collect().map{
                 params.sample_data.each{ s, s_data ->
-                    s_data['recalibrate-BAM']['BAM'] = s_data['align-DNA'][main_aligner]['BAM']
+                    s_data['recalibrate-BAM']['BAM'] = s_data['align-DNA'][main_aligner]['BAM'];
                 };
                 return 'done'
             }
             .collect()
             .map{
+                println params.sample_data;
                 mark_pipeline_complete('recalibrate-BAM');
                 return 'done'
             }.set{ recalibrate_sample_data_updated }
