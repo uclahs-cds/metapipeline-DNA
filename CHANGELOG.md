@@ -8,18 +8,22 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+
+---
+
+## [5.0.0-rc.10] - 2023-10-10
 ### Changed
 + Update call-sSV `actual` paths in `nftest.yaml`
 + Update input structure for call-sSV `6.0.0-rc.1`
 + Update call-sSV `6.0.0-rc.1`
 + Update tests to conform to pipeline and [nftest](https://github.com/uclahs-cds/tool-NFTest) updates.
++ Call-sSNV: 5.0.0 -> 7.0.0-rc.2
 
 ---
 
 ## [5.0.0-rc.9] - 2023-08-24
 ### Changed
 + Split call-gSNP into recalibrate-BAM and call-gSNP
-+ Call-sSNV: 5.0.0 -> 7.0.0-rc.1
 
 ---
 
