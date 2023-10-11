@@ -16,7 +16,6 @@ include { identify_align_dna_outputs } from "./identify_outputs"
 
 workflow align_DNA {
     take:
-        ich
         modification_signal
     main:
         if (params.override_realignment) {
