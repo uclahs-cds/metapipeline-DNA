@@ -86,7 +86,8 @@ process create_CSV_metapipeline_DNA {
     output:
         tuple(
             val(patient),
-            path(input_csv)
+            val(identifier),
+            env(INPUT_CSV)
         )
         path(".command.*")
 
@@ -103,6 +104,7 @@ process create_CSV_metapipeline_DNA {
     """
     echo ${header_line} > ${input_csv}
     echo '${lines}' >> ${input_csv}
+    INPUT_CSV=`realpath ${input_csv}`
     """
 }
 
@@ -113,11 +115,26 @@ process create_CSV_metapipeline_DNA {
 *   @return pipeline_params_json (file): JSON file containing all pipeline-specific params
 */
 process create_config_metapipeline_DNA {
+    input:
+        tuple(
+            val(patient),
+            val(identifier),
+            val(input_csv)
+        )
+
     output:
-    path "pipeline_specific_params.json", emit: pipeline_params_json
+    tuple val(patient), val(input_csv), path("pipeline_specific_params.json"), emit: metapipeline_dna_input
 
     exec:
-    json_params = JsonOutput.prettyPrint(JsonOutput.toJson(params.pipeline_params))
+    def filtering_criteria = { k, v ->
+        if (params.sample_mode == 'single') {
+            return k == identifier
+        } else {
+            return v['patient'] == identifier
+        }
+    }
+    Map sample_data = ['sample_data': params.sample_data.findAll{ sample, sample_vals -> filtering_criteria(sample, sample_vals) }]
+    json_params = JsonOutput.prettyPrint(JsonOutput.toJson(params.pipeline_params + sample_data))
     writer = file("${task.workDir}/pipeline_specific_params.json")
     writer.write(json_params)
 }
@@ -175,6 +192,7 @@ process call_metapipeline_DNA {
         --output_dir ${params.final_output_dir} \
         --metapipeline_log_output_dir ${params.log_output_dir} \
         --work_dir ${params.resolved_work_dir} \
+        --pipeline_status_directory ${params.resolved_work_dir}/PIPELINESTATUSDIRECTORY \
         --override_realignment ${params.override_realignment} \
         --override_recalibrate_bam ${params.override_recalibrate_bam} \
         --enable_input_deletion_recalibrate_bam ${params.enable_input_deletion_recalibrate_bam} \
@@ -233,8 +251,8 @@ workflow {
     }
 
     create_CSV_metapipeline_DNA(ich)
-    create_config_metapipeline_DNA()
-    call_metapipeline_DNA(create_CSV_metapipeline_DNA.out[0].combine(create_config_metapipeline_DNA.out.pipeline_params_json))
+    create_config_metapipeline_DNA(create_CSV_metapipeline_DNA.out[0])
+    call_metapipeline_DNA(create_config_metapipeline_DNA.out.metapipeline_dna_input)
 
     check_process_status(call_metapipeline_DNA.out.submit_out)
 }

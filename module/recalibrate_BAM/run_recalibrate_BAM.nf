@@ -31,10 +31,12 @@ process run_recalibrate_BAM {
 
     output:
         tuple val(sample_states), path(output_directory), emit: metapipeline_out
+        tuple val(sample_states), path(output_directory), path(qc_directory), emit: identify_recalibrate_bam_out
         file "recalibrate-BAM-*/*"
 
     script:
     output_directory = "recalibrate-BAM-*/${sample_id_for_recalibrate}/GATK-*/output"
+    qc_directory = "recalibrate-BAM-*/${sample_id_for_recalibrate}/GATK-*/QC/run_CalculateContamination_GATK"
     String params_to_dump = combine_input_with_params(params.recalibrate_BAM.metapipeline_arg_map, new File(input_yaml.toRealPath().toString()))
     """
     set -euo pipefail

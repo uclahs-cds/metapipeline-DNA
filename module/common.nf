@@ -12,3 +12,15 @@ String combine_input_with_params(Map params_to_add,  File input_yaml = null) {
 
     return combined_yaml
 }
+
+String identify_file(filepath) {
+    def file_found = file(filepath);
+
+    if (file_found in List) {
+        assert file_found.size() == 1
+        file_found = file_found[0]
+    }
+
+    assert file_found.exists();
+    return file_found.toRealPath().toString()
+}

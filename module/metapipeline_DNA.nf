@@ -10,16 +10,24 @@ include { call_mtSNV } from "${moduleDir}/call_mtSNV/workflow"
 include { call_gSV } from "${moduleDir}/call_gSV/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir )
 include { call_sSV } from "${moduleDir}/call_sSV/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir )
 include { create_CSV_align_DNA } from "${moduleDir}/align_DNA/create_CSV_align_DNA" addParams( log_output_dir: params.metapipeline_log_output_dir )
+include { create_status_directory; mark_pipeline_complete } from "${moduleDir}/pipeline_status"
 
 workflow {
+    // Create a status directory to track when pipelines complete
+    create_status_directory()
+
+    Channel.of('done').set{ bam2fastq_modification_complete }
+
     if ( params.input_type == 'BAM' ) {
         if (params.override_realignment) {
             ich_align_DNA_fastq = Channel.fromPath(params.input_csv)
                 .splitCsv(header:true)
                 .map{ tuple(it.patient, it.sample, it.state, file(it.bam)) }
+            mark_pipeline_complete('convert-BAM2FASTQ')
         } else {
             convert_BAM2FASTQ()
-            ich_align_DNA_fastq = convert_BAM2FASTQ.out
+            ich_align_DNA_fastq = convert_BAM2FASTQ.out.output_ch_convert_bam2fastq
+            bam2fastq_modification_complete.mix(convert_BAM2FASTQ.out.bam2fastq_sample_data_updated).set{ bam2fastq_modification_complete }
         }
     } else if ( params.input_type == 'FASTQ' ) {
         // Load CSV and group by sample for align-DNA
@@ -33,12 +41,14 @@ workflow {
         ich_align_DNA_fastq = create_CSV_align_DNA.out.align_dna_csv
     }
 
-    align_DNA(ich_align_DNA_fastq)
+    bam2fastq_modification_complete.collect().map{ 'done' }.set{ align_dna_modification_signal }
+
+    align_DNA(ich_align_DNA_fastq, align_dna_modification_signal)
 
     if (params.sample_mode == 'single') {
-        recalibrate_BAM(align_DNA.out.output_ch_align_dna)
+        recalibrate_BAM(align_DNA.out.output_ch_align_dna, align_DNA.out.alignment_sample_data_updated)
     } else {
-        recalibrate_BAM(align_DNA.out.output_ch_align_dna.collect())
+        recalibrate_BAM(align_DNA.out.output_ch_align_dna.collect(), align_DNA.out.alignment_sample_data_updated)
     }
 
     recalibrate_BAM.out.output_ch_recalibrate_bam.view()

@@ -20,9 +20,11 @@ process call_align_DNA {
     
     output:
         tuple val(patient), val(sample), val(state), path(bam), emit: metapipeline_out
+        tuple val(sample), path(output_directory), emit: align_dna_output_directory
         file "align-DNA-*/*"
-    
+
     script:
+    output_directory = "align-DNA-*/${sample}"
     bam = "align-DNA-*/${sample}/BWA-MEM2-2.2.1/output/BWA-MEM2-*${sample}.bam"
 
     aligner = params.align_DNA.aligner.join(',')

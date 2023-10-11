@@ -23,11 +23,13 @@ process call_convert_BAM2FASTQ {
             val(patient),
             val(sample),
             val(state),
-            path("convert-BAM2FASTQ-*/*/*/output/*.fq.gz")
+            path("convert-BAM2FASTQ-*/*/*/output/*.fq.gz"),
+            path(output_directory)
         )
         path "convert-BAM2FASTQ-*/*"
         
     script:
+    output_directory = "convert-BAM2FASTQ-*/${sample}/SAMtools-*/output"
     String params_to_dump = combine_input_with_params(params.convert_BAM2FASTQ.metapipeline_arg_map)
     """
     set -euo pipefail
