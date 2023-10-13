@@ -30,7 +30,6 @@ process run_recalibrate_BAM {
         )
 
     output:
-        tuple val(sample_states), path(output_directory), emit: metapipeline_out
         tuple val(sample_states), path(output_directory), path(qc_directory), emit: identify_recalibrate_bam_out
         file "recalibrate-BAM-*/*"
 
