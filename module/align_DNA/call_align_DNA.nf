@@ -19,7 +19,6 @@ process call_align_DNA {
         )
     
     output:
-        tuple val(patient), val(sample), val(state), path(bam), emit: metapipeline_out
         tuple val(sample), path(output_directory), emit: align_dna_output_directory
         file "align-DNA-*/*"
 
