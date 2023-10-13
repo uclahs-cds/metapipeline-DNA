@@ -28,7 +28,7 @@ workflow align_DNA {
             //     ] }
             //     .set{ output_ch_align_dna }
 
-            modification_signal.until{ it == 'done' }
+            modification_signal.until{ it == 'done' }.ifEmpty('done')
                 .map{ it ->
                     params.sample_data.each { s, s_data ->
                         s_data['align-DNA'].each {a, a_data ->
@@ -42,7 +42,7 @@ workflow align_DNA {
                 .set{ alignment_sample_data_updated }
         } else {
             // Extract inputs from data structure
-            modification_signal.until{ it == 'done' }
+            modification_signal.until{ it == 'done' }.ifEmpty('done')
                 .map{ it ->
                     def samples = [];
                     params.sample_data.each { s, s_data ->
@@ -57,19 +57,8 @@ workflow align_DNA {
                     return samples
                 }
                 .flatten()
-                .map{ rg_info ->
-                    [rg_info.sample, [
-                        rg_info.state,
-                        rg_info.read_group_identifier.
-                        rg_info.sequencing_center,
-                        rg_info.library_identifier,
-                        rg_info.platform_technology,
-                        rg_info.platform_unit,
-                        rg_info.sample,
-                        rg_info.lane,
-                        rg_info.read1_fastq,
-                        rg_info.read2_fastq
-                    ]]
+                .map{ it ->
+                    [it.sample, [it.state, it.read_group_identifier, it.sequencing_center, it.library_identifier, it.platform_technology, it.platform_unit, it.sample, it.lane, it.read1_fastq, it.read2_fastq]]
                 }
                 .groupTuple(by: 0)
                 .set{ ich_create_csv }
