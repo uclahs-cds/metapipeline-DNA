@@ -20,14 +20,6 @@ workflow align_DNA {
         modification_signal
     main:
         if (params.override_realignment) {
-            // ich.map{ it -> [
-            //     'patient': it[0],
-            //     'sample': it[1],
-            //     'state': it[2],
-            //     'bam': it[3]
-            //     ] }
-            //     .set{ output_ch_align_dna }
-
             modification_signal.until{ it == 'done' }.ifEmpty('done')
                 .map{ it ->
                     params.sample_data.each { s, s_data ->
@@ -36,7 +28,6 @@ workflow align_DNA {
                         }
                     };
                     mark_pipeline_complete('align-DNA');
-                    println params.sample_data;
                     return 'done'
                 }
                 .set{ alignment_sample_data_updated }
@@ -71,13 +62,10 @@ workflow align_DNA {
 
             // Identify outputs
             identify_align_dna_outputs(call_align_DNA.out.align_dna_output_directory)
-            println params.sample_data
-
 
             identify_align_dna_outputs.out.och_align_dna_outputs_identified
                 .collect()
                 .map{
-                    println params.sample_data;
                     mark_pipeline_complete('align-DNA');
                     return 'done'
                 }
