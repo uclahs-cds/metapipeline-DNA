@@ -66,7 +66,6 @@ workflow recalibrate_BAM {
                     return 'done'
                 }
                 .map{
-                    println params.sample_data;
                     mark_pipeline_complete('recalibrate-BAM');
                     return 'done'
                 }.set{ recalibrate_sample_data_updated }
@@ -129,7 +128,6 @@ workflow recalibrate_BAM {
             identify_recalibrate_bam_outputs.out.och_recalibrate_bam_identified
                 .collect()
                 .map{
-                    println params.sample_data;
                     mark_pipeline_complete('recalibrate-BAM');
                     return 'done'
                 }
