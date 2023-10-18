@@ -35,12 +35,6 @@ workflow {
 
     align_DNA(align_dna_modification_signal)
 
-    // if (params.sample_mode == 'single') {
-    //     recalibrate_BAM(align_DNA.out.output_ch_align_dna, align_DNA.out.alignment_sample_data_updated)
-    // } else {
-    //     recalibrate_BAM(align_DNA.out.output_ch_align_dna.collect(), align_DNA.out.alignment_sample_data_updated)
-    // }
-
     recalibrate_BAM(align_DNA.out.alignment_sample_data_updated)
 
     if (params.call_gSNP.is_pipeline_enabled) {
