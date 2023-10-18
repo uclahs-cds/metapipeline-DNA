@@ -41,7 +41,7 @@ process run_recalibrate_BAM {
     set -euo pipefail
 
     WORK_DIR=${params.work_dir}/work-recalibrate-BAM-${sample_id_for_recalibrate}
-    mkdir \$WORK_DIR && chmod a+w \$WORK_DIR
+    mkdir \$WORK_DIR && chmod 2777 \$WORK_DIR
 
     printf "${params_to_dump}" > combined_recalibrate_bam_params.yaml
 
