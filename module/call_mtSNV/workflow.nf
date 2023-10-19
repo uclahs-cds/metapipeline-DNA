@@ -7,8 +7,24 @@ include { run_call_mtSNV } from "${moduleDir}/run_call_mtSNV"
 
 workflow call_mtSNV {
     take:
-        ich
+        modification_signal
     main:
+        // Extract inputs from data structure
+        modification_signal.until{ it == 'done' }.ifEmpty('done')
+            .map{ it ->
+                def samples = [];
+                params.sample_data.each { s, s_data ->
+                    samples.add(['patient': s_data['patient'], 'sample': s, 'state': s_data['state'], 'bam': s_data['recalibrate-BAM']['BAM']]);
+                };
+                return samples
+            }
+            .flatten()
+            .reduce(['normal': [] as Set, 'tumor': [] as Set]) { a, b ->
+                a[b.state] += b;
+                return a
+            }
+            .set{ ich }
+
         if (params.sample_mode == 'single') {
             // In signle sample mode, call-mtSNV expects the input to be in the normal sample column
             ich.map{ it -> it.normal }

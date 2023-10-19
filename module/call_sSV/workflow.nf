@@ -19,8 +19,24 @@ include { run_call_sSV } from "${moduleDir}/run_call_sSV"
 */
 workflow call_sSV {
     take:
-        ich
+        modification_signal
     main:
+        // Extract inputs from data structure
+        modification_signal.until{ it == 'done' }.ifEmpty('done')
+            .map{ it ->
+                def samples = [];
+                params.sample_data.each { s, s_data ->
+                    samples.add(['patient': s_data['patient'], 'sample': s, 'state': s_data['state'], 'bam': s_data['recalibrate-BAM']['BAM']]);
+                };
+                return samples
+            }
+            .flatten()
+            .reduce(['normal': [] as Set, 'tumor': [] as Set]) { a, b ->
+                a[b.state] += b;
+                return a
+            }
+            .set{ ich }
+
         // Call-sSV only supports paired mode so run only when not in single mode
         if (params.sample_mode != 'single') {
             ich.map{ it -> it.normal }.flatten().unique{ [it.patient, it.sample, it.state] }.set{ input_ch_normal }

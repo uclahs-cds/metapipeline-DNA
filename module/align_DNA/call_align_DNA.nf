@@ -19,7 +19,6 @@ process call_align_DNA {
         )
     
     output:
-        tuple val(patient), val(sample), val(state), path(bam), emit: metapipeline_out
         tuple val(sample), path(output_directory), emit: align_dna_output_directory
         file "align-DNA-*/*"
 
@@ -36,7 +35,7 @@ process call_align_DNA {
     printf "${params_to_dump}" > combined_align_dna_params.yaml
 
     WORK_DIR=${params.work_dir}/work-align-DNA-${sample}
-    mkdir \$WORK_DIR && chmod a+w \$WORK_DIR
+    mkdir \$WORK_DIR && chmod 2777 \$WORK_DIR
     nextflow run \
         ${moduleDir}/../../external/pipeline-align-DNA/main.nf \
         -params-file combined_align_dna_params.yaml \

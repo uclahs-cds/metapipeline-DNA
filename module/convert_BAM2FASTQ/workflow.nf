@@ -16,7 +16,6 @@
 include { call_convert_BAM2FASTQ } from './call_convert_BAM2FASTQ'
 include { extract_read_groups } from './extract_read_groups'
 include { create_CSV_BAM2FASTQ } from './create_CSV_BAM2FASTQ'
-include { create_CSV_align_DNA } from './create_CSV_align_DNA'
 include { mark_pipeline_complete } from '../pipeline_status'
 include { identify_convert_bam2fastq_outputs } from './identify_outputs'
 
@@ -27,23 +26,21 @@ workflow convert_BAM2FASTQ {
         extract_read_groups(ich)
         create_CSV_BAM2FASTQ(ich)
         call_convert_BAM2FASTQ(create_CSV_BAM2FASTQ.out[0])
-        
-        data_ch = call_convert_BAM2FASTQ.out[0].map { [it[1], it] }
-            .join(extract_read_groups.out[0].map { [it[1], it] })
-            .map { tuple(it[1][0], it[1][1], it[1][2], it[2][3], it[1][3]) }
 
-        data_ch2 = call_convert_BAM2FASTQ.out[0].map { [it[1], it] }
+        data_ch = call_convert_BAM2FASTQ.out[0].map { [it[1], it] }
             .join(extract_read_groups.out[0].map { [it[1], it] })
             .map { tuple(it[1][0], it[1][1], it[1][2], it[2][3], it[1][4]) }
 
-        identify_convert_bam2fastq_outputs(data_ch2)
+        identify_convert_bam2fastq_outputs(data_ch)
 
-        println params.sample_data
+        identify_convert_bam2fastq_outputs.out.och_bam2fastq_outputs_identified
+            .collect()
+            .map{
+                mark_pipeline_complete('convert-BAM2FASTQ');
+                return 'done'
+            }
+            .set{ bam2fastq_sample_data_updated }
 
-        identify_convert_bam2fastq_outputs.out.och_bam2fastq_outputs_identified.collect().map{ println params.sample_data; mark_pipeline_complete('convert-BAM2FASTQ'); return 'done' }.set{ bam2fastq_sample_data_updated }
-
-        create_CSV_align_DNA(data_ch)
     emit:
-        output_ch_convert_bam2fastq = create_CSV_align_DNA.out[0]
         bam2fastq_sample_data_updated = bam2fastq_sample_data_updated
 }

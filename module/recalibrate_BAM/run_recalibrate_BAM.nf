@@ -30,7 +30,6 @@ process run_recalibrate_BAM {
         )
 
     output:
-        tuple val(sample_states), path(output_directory), emit: metapipeline_out
         tuple val(sample_states), path(output_directory), path(qc_directory), emit: identify_recalibrate_bam_out
         file "recalibrate-BAM-*/*"
 
@@ -42,7 +41,7 @@ process run_recalibrate_BAM {
     set -euo pipefail
 
     WORK_DIR=${params.work_dir}/work-recalibrate-BAM-${sample_id_for_recalibrate}
-    mkdir \$WORK_DIR && chmod a+w \$WORK_DIR
+    mkdir \$WORK_DIR && chmod 2777 \$WORK_DIR
 
     printf "${params_to_dump}" > combined_recalibrate_bam_params.yaml
 
