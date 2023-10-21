@@ -2,9 +2,12 @@
 nextflow.enable.dsl = 2
 
 include { align_DNA } from "${projectDir}/../../module/align_DNA/workflow"
+include { create_status_directory } from "${projectDir}/../../module/pipeline_status"
 
 workflow {
-    ich = Channel.fromPath(params.input_csv).splitCsv(header:true)
-        .map { tuple(it.patient, it.sample, it.state, file(it.input_csv)) }
+    create_status_directory()
+
+    Channel.of('done').set{ ich }
+
     align_DNA(ich)
 }
