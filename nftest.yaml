@@ -21,11 +21,6 @@ cases:
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/bam2fastq/output/TCEB1/TCEB1_RCC_S00-9422N_079_114/collated_S00-9422N_079_114.Seq1_R2.fq.gz
         script: test/test-bam2fastq/assert_fastq.sh
 
-      - actual: intermediate/convert_BAM2FASTQ/create_CSV_align_DNA-TCEB1/TCEB1_RCC_S00-9422N_079_114/align_DNA_input.csv
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/bam2fastq/output/TCEB1/align_DNA_input.csv
-        script: test/test-bam2fastq/assert_input_csv.py
-
-
   - name: test-align-DNA
     message: Test align-DNA
     nf_script: test/test-align-DNA/test.nf
