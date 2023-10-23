@@ -5,7 +5,7 @@ workflow identify_convert_bam2fastq_outputs {
     och_convert_BAM2FASTQ
 
     main:
-    och_convert_BAM2FASTQ.view().map{ bam2fastq_out ->
+    och_convert_BAM2FASTQ.map{ bam2fastq_out ->
         new File(bam2fastq_out[3].toRealPath().toString()).eachLine{ line, line_num ->
             if (line_num == 1) { return; };
             def rg_info = line.split(",");

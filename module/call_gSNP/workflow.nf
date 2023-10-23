@@ -55,11 +55,7 @@ workflow call_gSNP {
             input_ch_normal.mix(input_ch_tumor).set{ input_ch_create_call_gsnp_yaml }
         }
 
-        input_ch_create_call_gsnp_yaml.view{ "INPUT_CREATE: ${it}" }
-
         create_YAML_call_gSNP(input_ch_create_call_gsnp_yaml)
-
-        create_YAML_call_gSNP.out.call_gsnp_input.view{ "INPUT_GSNP: ${it}" }
 
         run_call_gSNP(create_YAML_call_gSNP.out.call_gsnp_input)
 }
