@@ -7,15 +7,18 @@
   - [Pipeline Steps](#pipeline-steps)
     - [1. convert-BAM2FASTQ](#1-convert-bam2fastq)
     - [2. align-DNA](#2-align-dna)
-    - [3. call-gSNP](#3-call-gsnp)
-    - [4. call-sSNV](#4-call-ssnv)
-    - [5. call-mtSNV](#5-call-mtsnv)
-    - [6. call-gSV](#6-call-gsv)
-    - [7. call-sSV](#7-call-ssv)
+    - [3. recalibrate-BAM]($3-recalibrate-bam)
+    - [4. call-gSNP](#4-call-gsnp)
+    - [5. call-sSNV](#5-call-ssnv)
+    - [6. call-mtSNV](#6-call-mtsnv)
+    - [7. call-gSV](#7-call-gsv)
+    - [8. call-sSV](#8-call-ssv)
+    - [Sample modes](#sample-modes)
   - [Inputs](#inputs)
     - [Input BAM](#input-bam)
     - [Input FASTQ](#input-fastq)
     - [Config Params](#config-params)
+      - [UCLAHS-CDS WGS Params](#uclahs-cds-wgs-global-sample-job-submission-parameters)
   - [Outputs](#outputs)
   - [Discussions](#discussions)
   - [Contributors](#contributors)
@@ -61,27 +64,58 @@ Aligned BAM file for each sample is first converted back to FASTQ using [pipelin
 
 The FASTQ file for each sample is then realigned to the genome using [pipeline-align-DNA](https://github.com/uclahs-cds/pipeline-align-DNA).
 
-### 3. call-gSNP
+### 3. recalibrate-BAM
 
-Germline SNPs are then called from the re-aligned BAM files using [pipeline-call-gSNP](https://github.com/uclahs-cds/pipeline-call-gSNP). Call-gSNP also performs BAM re-calibration. Tumor and normal samples from the same patient are paired in this step.
+The aligned BAM goes through Indel Realignment and base quality score recalibration using [pipeline-recalibrate-BAM](https://github.com/uclahs-cds/pipeline-recalibrate-BAM).
 
-### 4. call-sSNV
+### 4. call-gSNP
 
-The calibrated BAM from step 3 is then used to call for somatic SNVs using [pipeline-call-sSNV](https://github.com/uclahs-cds/pipeline-call-sSNV).
+Germline SNPs are then called from the re-calibrated BAMs using [pipeline-call-gSNP](https://github.com/uclahs-cds/pipeline-call-gSNP).
 
-### 5. call-mtSNV
+### 5. call-sSNV
 
-The same calibrated BAM from step 3 is also used to call for mitochondrial SNVs usint [pipeline-call-mtSNV](https://github.com/uclahs-cds/pipeline-call-mtSNV)
+The re-calibrated BAMs from step 3 are then used to call somatic SNVs using [pipeline-call-sSNV](https://github.com/uclahs-cds/pipeline-call-sSNV).
 
-### 6. call-gSV
+### 6. call-mtSNV
 
-The same recalibrated BAM from step 3 is also used to call for germline structural variants using [pipeline-call-gSV](https://github.com/uclahs-cds/pipeline-call-gSV)
+The re-calibrated BAMs from step 3 are used to call mitochondrial SNVs using [pipeline-call-mtSNV](https://github.com/uclahs-cds/pipeline-call-mtSNV).
+
+### 7. call-gSV
+
+The re-calibrated BAMs from step 3 are used to call germline structural variants using [pipeline-call-gSV](https://github.com/uclahs-cds/pipeline-call-gSV).
 
 > **Note**: The `run_regenotyping` mode from the call-gSV pipeline is disabled for the metapipeline. Regenotyping should be performed separately at the cohort-level.
 
-### 7. call-sSV
+### 8. call-sSV
 
-The same recalibrated BAM(s) from step 3 are also used to call for somatic structural variants using [pipeline-call-sSV](https://github.com/uclahs-cds/pipeline-call-sSV)
+The re-calibrated BAMs from step 3 are used to call for somatic structural variants using [pipeline-call-sSV](https://github.com/uclahs-cds/pipeline-call-sSV).
+
+### Sample modes
+
+The metapipeline supports running samples in three modes: `single`, `paired`, and `multi`.
+
+#### Single sample mode
+All samples are processed individually as separate jobs.
+- Normal samples will go through germline calling (call-gSNP, call-gSV) and somatic SNV calling with Mutect2's normal-only mode.
+- Tumor samples will go through germline calling (call-gSNP) and somatic SNV calling with Mutect2's tumor-only mode.
+
+#### Paired sample mode
+
+All samples from the same patient are processed as a single job.
+- Individual samples will go through the convert-BAM2FASTQ and align-DNA pipelines.
+- The normal sample will then be paired with each tumor sample and each pair will go through recalibrate-BAM, call-gSNP, call-sSNV, call-mtSNV, and call-sSV.
+- The normal sample will go through call-gSV.
+
+#### Multi sample mode
+
+All samples from the same patient are processed as a single job.
+- Individual samples will go through the convert-BAM2FASTQ and align-DNA pipelines.
+- The recalibration and germline SNP calling will then proceed on the entire set of samples together.
+- Somatic SNV calling will proceed in two ways:
+    1. The normal sample will be paired with each tumor sample and run through the call-sSNV pipeline
+    2. If Mutect2 was requested, the entire set of samples will go through multi-sample calling with just Mutect2 in call-sSNV.
+- The normal sample will be paired with each tumor sample and each pair will go through call-mtSNV and call-sSV.
+- The normal sample will go through call-gSV.
 
 ---
 
@@ -124,17 +158,30 @@ See this [template](input/template-input-FASTQ.csv) for CSV format and this [tem
 | Input Parameter | Type | Required | Description |
 | :---: | :--: | :------: | :---------: |
 | `input_csv` | path | no | Absolute path to input CSV when using CSV input format |
- `output_dir` | path | yes | Absolute path to directory where output files will be saved |
+| `output_dir` | path | yes | Absolute path to directory where output files will be saved |
 | `leading_work_dir` | path | yes | Absolute path to **common** working directory (under `/hot` for example for access across all nodes). **Cannot** be `/scratch` |
 | `pipeline_work_dir` | path | yes | Absolute path to outputs from each individual pipeline before copying to `output_dir`. Default: `/scratch` |
 | `project_id` | string | yes | Project identifier |
 | `save_intermediate_files` | boolean | yes | Whether to save intermediate files. Default: `false` |
 | `partition` | string | yes | Partition type for submitting each processing jobs |
 | `clusterOptions` | string | yes | Additional `slurm` submission options |
-| `per_job_cpus` | integer | yes | Number of CPUs per job |
-| `per_job_memory` | float | yes | Memory requested per job |
 | `max_parallel_jobs` | integer | yes | Number of jobs to submit at once. Default:  5 |
+| `cluster_submission_interval` | integer | yes | Time in minutes to wait between job submissions, Default: 90 |
 | `sample_mode` | string | yes | Mode for sample calling. Options: `paired`, `single`, `multi`. Default: `paired` |
+| `requested_pipelines` | list | yes | List of pipelines requested. |
+| `override_realignment` | boolean | yes | Whether to override conversion to FASTQ and realignment when given BAM input. Default: `false` |
+| `override_recalibrate_bam` | boolean | yes | Whether to override recalibrate-BAM pipeline when given BAM input. Default: `false` |
+
+#### UCLAHS-CDS WGS global sample job submission parameters
+
+The following parameters are intended to control the global number and rate of WGS jobs. By default, these parameters are enabled; in the case of non-WGS samples, disable `uclahs_cds_wgs` in the config file params.
+
+| Input Parameter | Type | Required | Description |
+| :---: | :--: | :------: | :---------: |
+| `uclahs_cds_wgs` | boolean | yes | Whether global job number and submission limits should be applied. Default: `true` |
+| `global_allowed_jobs` | integer | yes | Global number of WGS jobs allowed. Default: 12 |
+| `per_user_allowed_jobs` | integer | yes | Number of jobs allowed to be running per-user. Default: 3 |
+| `global_rate_limit` | integer | yes | Time in minutes between submission of any WGS jobs. Default: 90 |
 
 ---
 
@@ -164,7 +211,7 @@ metapipeline-DNA is licensed under the GNU General Public License version 2. See
 
 metapipeline-DNA performs alignment, germline SNP calling, somatic SNV calling, and mitochondrial SNV calling for given samples.
 
-Copyright (C) 2021-2022 University of California Los Angeles ("Boutros Lab") All rights reserved.
+Copyright (C) 2021-2023 University of California Los Angeles ("Boutros Lab") All rights reserved.
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
 
