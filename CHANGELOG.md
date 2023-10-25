@@ -8,8 +8,14 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+
+---
+
+## [5.0.0] - 2023-10-25
 ### Changed
 + Use data structure in params to pass outputs between pipelines
++ Update tests
++ Update README with current status and parameters
 
 ---
 
