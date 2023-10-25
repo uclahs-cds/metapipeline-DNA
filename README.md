@@ -7,7 +7,7 @@
   - [Pipeline Steps](#pipeline-steps)
     - [1. convert-BAM2FASTQ](#1-convert-bam2fastq)
     - [2. align-DNA](#2-align-dna)
-    - [3. recalibrate-BAM]($3-recalibrate-bam)
+    - [3. recalibrate-BAM](#3-recalibrate-bam)
     - [4. call-gSNP](#4-call-gsnp)
     - [5. call-sSNV](#5-call-ssnv)
     - [6. call-mtSNV](#6-call-mtsnv)
