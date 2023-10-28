@@ -66,7 +66,7 @@ The FASTQ file for each sample is then realigned to the genome using [pipeline-a
 
 ### 3. recalibrate-BAM
 
-The aligned BAM goes through Indel Realignment and base quality score recalibration using [pipeline-recalibrate-BAM](https://github.com/uclahs-cds/pipeline-recalibrate-BAM).
+The aligned BAM goes through indel realignment and base quality score recalibration using [pipeline-recalibrate-BAM](https://github.com/uclahs-cds/pipeline-recalibrate-BAM).
 
 ### 4. call-gSNP
 
@@ -82,13 +82,13 @@ The re-calibrated BAMs from step 3 are used to call mitochondrial SNVs using [pi
 
 ### 7. call-gSV
 
-The re-calibrated BAMs from step 3 are used to call germline structural variants using [pipeline-call-gSV](https://github.com/uclahs-cds/pipeline-call-gSV).
+The re-calibrated BAMs from step 3 are used to call germline SVs using [pipeline-call-gSV](https://github.com/uclahs-cds/pipeline-call-gSV).
 
 > **Note**: The `run_regenotyping` mode from the call-gSV pipeline is disabled for the metapipeline. Regenotyping should be performed separately at the cohort-level.
 
 ### 8. call-sSV
 
-The re-calibrated BAMs from step 3 are used to call for somatic structural variants using [pipeline-call-sSV](https://github.com/uclahs-cds/pipeline-call-sSV).
+The re-calibrated BAMs from step 3 are used to call for somatic SVs using [pipeline-call-sSV](https://github.com/uclahs-cds/pipeline-call-sSV).
 
 ### Sample modes
 
@@ -96,26 +96,26 @@ The metapipeline supports running samples in three modes: `single`, `paired`, an
 
 #### Single sample mode
 All samples are processed individually as separate jobs.
-- Normal samples will go through germline calling (call-gSNP, call-gSV) and somatic SNV calling with Mutect2's normal-only mode.
-- Tumor samples will go through germline calling (call-gSNP) and somatic SNV calling with Mutect2's tumor-only mode.
+- Normal samples will go through germline calling (`call-gSNP`, `call-gSV`) and somatic SNV calling with `Mutect2`'s normal-only mode.
+- Tumor samples will go through germline calling (`call-gSNP`) and somatic SNV calling with `Mutect2`'s tumor-only mode.
 
 #### Paired sample mode
 
 All samples from the same patient are processed as a single job.
-- Individual samples will go through the convert-BAM2FASTQ and align-DNA pipelines.
-- The normal sample will then be paired with each tumor sample and each pair will go through recalibrate-BAM, call-gSNP, call-sSNV, call-mtSNV, and call-sSV.
-- The normal sample will go through call-gSV.
+- Individual samples will go through the `convert-BAM2FASTQ` and `align-DNA` pipelines.
+- The normal sample will then be paired with each tumor sample and each pair will go through `recalibrate-BAM`, `call-gSNP`, `call-sSNV`, `call-mtSNV`, and `call-sSV`.
+- The normal sample will go through `call-gSV`.
 
 #### Multi sample mode
 
 All samples from the same patient are processed as a single job.
-- Individual samples will go through the convert-BAM2FASTQ and align-DNA pipelines.
+- Individual samples will go through the `convert-BAM2FASTQ` and `align-DNA` pipelines.
 - The recalibration and germline SNP calling will then proceed on the entire set of samples together.
 - Somatic SNV calling will proceed in two ways:
-    1. The normal sample will be paired with each tumor sample and run through the call-sSNV pipeline
-    2. If Mutect2 was requested, the entire set of samples will go through multi-sample calling with just Mutect2 in call-sSNV.
-- The normal sample will be paired with each tumor sample and each pair will go through call-mtSNV and call-sSV.
-- The normal sample will go through call-gSV.
+    1. The normal sample will be paired with each tumor sample and run through the `call-sSNV` pipeline
+    2. If `Mutect2` was requested, the entire set of samples will go through multi-sample calling with just `Mutect2` in `call-sSNV`.
+- The normal sample will be paired with each tumor sample and each pair will go through `call-mtSNV` and `call-sSV`.
+- The normal sample will go through `call-gSV`.
 
 ---
 
