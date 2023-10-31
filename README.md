@@ -179,8 +179,6 @@ The following parameters are intended to control the global number and rate of W
 | Input Parameter | Type | Required | Description |
 | :---: | :--: | :------: | :---------: |
 | `uclahs_cds_wgs` | boolean | yes | Whether global job number and submission limits should be applied. Default: `true` |
-| `global_allowed_jobs` | integer | yes | Global number of WGS jobs allowed. Default: 12 |
-| `per_user_allowed_jobs` | integer | yes | Number of jobs allowed to be running per-user. Default: 3 |
 | `global_rate_limit` | integer | yes | Time in minutes between submission of any WGS jobs. Default: 90 |
 
 ---
