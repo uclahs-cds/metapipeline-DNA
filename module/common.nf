@@ -24,3 +24,35 @@ String identify_file(filepath) {
     assert file_found.exists();
     return file_found.toRealPath().toString()
 }
+
+void delete_file(String filepath, String output_filepattern) {
+    File expected_file = new File(filepath);
+    Integer expected_bytes = expected_file.length();
+
+    String output_filepath = '';
+
+    // Wait and find the output file
+    Boolean keep_looking = true;
+    while (keep_looking) {
+        try {
+            output_filepath = identify_file(output_filepattern);
+            keep_looking = false;
+        } catch (AssertionError e) {
+            if (e.toString().replace(' ', '').contains('[]0')) {
+                sleep(5000); // Sleep 5 seconds then try to find output file again
+            } else {
+                keep_looking = false;
+                System.out.println("Failed to find final output file: ${output_filepattern}, not deleting ${filepath}.");
+                return;
+            }
+        }
+    }
+
+    File output_file = new File(output_filepath);
+    Integer output_bytes = output_file.length();
+    while (output_bytes != expected_bytes) {
+        sleep(5000);
+    }
+
+    expected_file.delete()
+}
