@@ -1,4 +1,4 @@
-include { identify_file } from '../common'
+include { identify_file; delete_file } from '../common'
 
 workflow identify_recalibrate_bam_outputs {
     take:
@@ -7,9 +7,13 @@ workflow identify_recalibrate_bam_outputs {
     main:
     och_recalibrate_bam.map{ recalibrate_bam_out ->
         recalibrate_bam_out[0].normal.each { normal_sample ->
+            String bam_file = identify_file("${recalibrate_bam_out[1]}/*GATK-*${normal_sample}*.bam");
             if (!params.sample_data[normal_sample]['recalibrate-BAM']['BAM']) {
-                params.sample_data[normal_sample]['recalibrate-BAM']['BAM'] = identify_file("${recalibrate_bam_out[1]}/*GATK-*${normal_sample}*.bam");
+                params.sample_data[normal_sample]['recalibrate-BAM']['BAM'] = bam_file;
                 params.sample_data[normal_sample]['recalibrate-BAM']['contamination_table'] = identify_file("${recalibrate_bam_out[2]}/GATK-*${normal_sample}_alone.table");
+            } else {
+                // Normal file already found so delete any other normals - only triggered when running multiple samples in paired mode
+                delete_file(bam_file, "${params.output_dir}/output/${recalibrate_bam_out[1]}/*GATK-*${normal_sample}*.bam");
             };
         };
         recalibrate_bam_out[0].tumor.each { tumor_sample ->
