@@ -13,6 +13,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [5.2.0] - 2023-11-17
+### Changed
++ Default to alt-aware reference for align-DNA
++ Re-order FASTQ CSV to match order in align-DNA
+
+---
+
 ## [5.1.0] - 2023-10-30
 ### Changed
 + Make WGS limits dynamically configurable

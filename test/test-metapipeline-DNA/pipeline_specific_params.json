@@ -14,7 +14,7 @@
     "align_DNA": {
         "enable_spark": true,
         "mark_duplicates": true,
-        "reference_fasta_bwa": "/hot/ref/tool-specific-input/BWA-MEM2-2.2.1/GRCh38-BI-20160721/index/genome.fa",
+        "reference_fasta_bwa": "/hot/ref/tool-specific-input/BWA-MEM2-2.2.1/GRCh38-BI-20160721/alt-aware/genome.fa",
         "aligner": [
             "BWA-MEM2"
         ],
@@ -23,7 +23,7 @@
         "metapipeline_arg_map": {
             "enable_spark": true,
             "mark_duplicates": true,
-            "reference_fasta_bwa": "/hot/ref/tool-specific-input/BWA-MEM2-2.2.1/GRCh38-BI-20160721/index/genome.fa",
+            "reference_fasta_bwa": "/hot/ref/tool-specific-input/BWA-MEM2-2.2.1/GRCh38-BI-20160721/alt-aware/genome.fa",
             "aligner": [
                 "BWA-MEM2"
             ],
