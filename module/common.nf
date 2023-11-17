@@ -25,7 +25,7 @@ String identify_file(filepath) {
     return file_found.toRealPath().toString()
 }
 
-void delete_file(String filepath, String output_filepattern) {
+void delete_file(String filepath, output_filepattern) {
     File expected_file = new File(filepath);
     Integer expected_bytes = expected_file.length();
 
@@ -36,6 +36,7 @@ void delete_file(String filepath, String output_filepattern) {
     while (keep_looking) {
         try {
             output_filepath = identify_file(output_filepattern);
+            System.out.println("Found: ${output_filepath}");
             keep_looking = false;
         } catch (AssertionError e) {
             if (e.toString().replace(' ', '').contains('[]0')) {
@@ -52,6 +53,7 @@ void delete_file(String filepath, String output_filepattern) {
     Integer output_bytes = output_file.length();
     while (output_bytes != expected_bytes) {
         sleep(5000);
+        output_bytes = output_file.length();
     }
 
     expected_file.delete()
