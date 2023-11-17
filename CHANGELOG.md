@@ -8,6 +8,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+### Added
++ Deletion step for normal BAMs when running multi-sample patients in paired mode
 
 ---
 
