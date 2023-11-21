@@ -13,6 +13,8 @@ workflow identify_recalibrate_bam_outputs {
                 params.sample_data[normal_sample]['recalibrate-BAM']['contamination_table'] = identify_file("${recalibrate_bam_out[2]}/GATK-*${normal_sample}_alone.table");
             } else {
                 // Normal file already found so delete any other normals - only triggered when running multiple samples in paired mode
+
+                // Replace the work_dir prefix in the output path with the output_dir prefix for final output
                 String separator = "/recalibrate-BAM-";
                 String dir_stripped = recalibrate_bam_out[1].toString().replaceFirst("${params.work_dir}.*${separator}", "");
                 delete_file(bam_file, "${params.output_dir}/output${separator}${dir_stripped}/*GATK-*${normal_sample}*.bam");
