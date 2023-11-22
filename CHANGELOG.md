@@ -15,6 +15,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Changed
 + Default to alt-aware reference for align-DNA
 + Re-order FASTQ CSV to match order in align-DNA
+### Added
++ Deletion step for normal BAMs when running multi-sample patients in paired mode
 
 ---
 
