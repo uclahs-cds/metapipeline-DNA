@@ -58,6 +58,16 @@ run_downstream_pipelines_serially:
   required: true
   default: false
   help: 'Let pipelines downstream of recalibrate-BAM run sequentially'
+downstream_pipeline_order:
+  type: 'List'
+  required: false
+  choices:
+    - call-gSNP
+    - call-gSV
+    - call-mtSNV
+    - call-sSNV
+    - call-sSV
+  help: 'Ordered list for defining custom pipeline run order'
 requested_pipelines:
   type: 'List'
   required: true
