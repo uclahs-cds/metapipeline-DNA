@@ -22,6 +22,7 @@ process run_call_sSV {
 
     output:
         path "call-sSV-*/*"
+        val('done'), emit: complete
 
     script:
     String params_to_dump = combine_input_with_params(params.call_sSV.metapipeline_arg_map, new File(input_yaml.toRealPath().toString()))
