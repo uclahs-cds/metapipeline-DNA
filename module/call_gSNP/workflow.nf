@@ -3,6 +3,7 @@
 */
 include { create_YAML_call_gSNP } from "${moduleDir}/create_YAML_call_gSNP"
 include { run_call_gSNP } from "${moduleDir}/run_call_gSNP"
+include { mark_pipeline_complete } from "../pipeline_status"
 
 /*
 * Main workflow for calling the call-gSNP pipeline
@@ -58,4 +59,12 @@ workflow call_gSNP {
         create_YAML_call_gSNP(input_ch_create_call_gsnp_yaml)
 
         run_call_gSNP(create_YAML_call_gSNP.out.call_gsnp_input)
+
+        run_call_gSNP.out.complete
+            .collect()
+            .map{ it ->
+                mark_pipeline_complete('call-gSNP');
+                return 'done';
+            }
+            .set{ completion_signal }
 }
