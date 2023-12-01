@@ -134,7 +134,8 @@ process create_config_metapipeline_DNA {
         }
     }
     Map sample_data = ['sample_data': params.sample_data.findAll{ sample, sample_vals -> filtering_criteria(sample, sample_vals) }]
-    json_params = JsonOutput.prettyPrint(JsonOutput.toJson(params.pipeline_params + sample_data))
+    Map pipeline_predecessor = ['pipeline_predecessor': params.pipeline_predecessor]
+    json_params = JsonOutput.prettyPrint(JsonOutput.toJson(params.pipeline_params + sample_data + pipeline_predecessor))
     writer = file("${task.workDir}/pipeline_specific_params.json")
     writer.write(json_params)
 }
