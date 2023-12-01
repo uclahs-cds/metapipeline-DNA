@@ -16,7 +16,8 @@ workflow call_sSNV {
         modification_signal
     main:
         // Watch for pipeline ordering
-        Channel.watchPath( "${params.pipeline_status_directory}/*.complete" )
+        Channel.fromPath( "${params.pipeline_status_directory}/*.complete" )
+            .mix(Channel.watchPath( "${params.pipeline_status_directory}/*.complete" ))
             .until{ it -> it.name == "${params.pipeline_predecessor['call-sSNV']}.complete" }
             .ifEmpty('done')
             .collect()
@@ -104,6 +105,7 @@ workflow call_sSNV {
         run_call_sSNV(create_YAML_call_sSNV.out)
 
         run_call_sSNV.out.complete
+            .mix( pipeline_predecessor_complete )
             .collect()
             .map{ it ->
                 mark_pipeline_complete('call-sSNV');

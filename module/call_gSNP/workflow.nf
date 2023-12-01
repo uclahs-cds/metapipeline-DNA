@@ -16,7 +16,8 @@ workflow call_gSNP {
         modification_signal
     main:
         // Watch for pipeline ordering
-        Channel.watchPath( "${params.pipeline_status_directory}/*.complete" )
+        Channel.fromPath( "${params.pipeline_status_directory}/*.complete" )
+            .mix(Channel.watchPath( "${params.pipeline_status_directory}/*.complete" ))
             .until{ it -> it.name == "${params.pipeline_predecessor['call-gSNP']}.complete" }
             .ifEmpty('done')
             .collect()
@@ -71,6 +72,7 @@ workflow call_gSNP {
         run_call_gSNP(create_YAML_call_gSNP.out.call_gsnp_input)
 
         run_call_gSNP.out.complete
+            .mix( pipeline_predecessor_complete )
             .collect()
             .map{ it ->
                 mark_pipeline_complete('call-gSNP');
