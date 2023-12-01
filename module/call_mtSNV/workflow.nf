@@ -4,6 +4,7 @@
 
 include { create_CSV_call_mtSNV } from "${moduleDir}/create_CSV_call_mtSNV"
 include { run_call_mtSNV } from "${moduleDir}/run_call_mtSNV"
+include { mark_pipeline_complete } from "../pipeline_status"
 
 workflow call_mtSNV {
     take:
@@ -61,4 +62,12 @@ workflow call_mtSNV {
 
         create_CSV_call_mtSNV(input_ch_create_CSV)
         run_call_mtSNV(create_CSV_call_mtSNV.out)
+
+        run_call_mtSNV.out.complete
+            .collect()
+            .map{ it ->
+                mark_pipeline_complete('call-mtSNV');
+                return 'done';
+            }
+            .set{ completion_signal }
 }
