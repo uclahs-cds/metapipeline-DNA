@@ -3,6 +3,7 @@
 */
 include { create_YAML_call_sSNV } from "${moduleDir}/create_YAML_call_sSNV"
 include { run_call_sSNV } from "${moduleDir}/run_call_sSNV"
+include { mark_pipeline_complete } from "../pipeline_status"
 
 /*
 * Main workflow for calling the call-sSNV pipeline
@@ -91,4 +92,12 @@ workflow call_sSNV {
             create_YAML_call_sSNV(input_ch_create_ssnv_yaml)
         }
         run_call_sSNV(create_YAML_call_sSNV.out)
+
+        run_call_sSNV.out.complete
+            .collect()
+            .map{ it ->
+                mark_pipeline_complete('call-sSNV');
+                return 'done';
+            }
+            .set{ completion_signal }
 }

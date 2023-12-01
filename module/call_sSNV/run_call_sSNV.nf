@@ -30,6 +30,7 @@ process run_call_sSNV {
 
     output:
         path "call-sSNV-*/*"
+        val('done'), emit: complete
 
     script:
     def algorithm_list = (algorithms in List) ? algorithms : [algorithms]
