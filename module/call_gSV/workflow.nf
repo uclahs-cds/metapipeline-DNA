@@ -4,6 +4,7 @@
 
 include { create_CSV_call_gSV } from "${moduleDir}/create_CSV_call_gSV"
 include { run_call_gSV } from "${moduleDir}/run_call_gSV"
+include { mark_pipeline_complete } from "../pipeline_status"
 
 /*
 * Main workflow for calling the call-gSV pipeline
@@ -41,4 +42,12 @@ workflow call_gSV {
         create_CSV_call_gSV(input_ch_create_CSV)
 
         run_call_gSV(create_CSV_call_gSV.out)
+
+        run_call_gSV.out.complete
+            .collect()
+            .map{ it ->
+                mark_pipeline_complete('call-gSV');
+                return 'done';
+            }
+            .set{ completion_signal }
 }
