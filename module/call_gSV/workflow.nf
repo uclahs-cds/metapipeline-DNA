@@ -17,8 +17,7 @@ workflow call_gSV {
         modification_signal
     main:
         // Watch for pipeline ordering
-        Channel.fromPath( "${params.pipeline_status_directory}/*.complete" )
-            .mix(Channel.watchPath( "${params.pipeline_status_directory}/*.complete" ))
+        Channel.watchPath( "${params.pipeline_status_directory}/*.complete" )
             .until{ it -> it.name == "${params.pipeline_predecessor['call-gSV']}.complete" }
             .ifEmpty('done')
             .collect()

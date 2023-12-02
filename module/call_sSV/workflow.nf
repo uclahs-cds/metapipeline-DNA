@@ -25,8 +25,7 @@ workflow call_sSV {
         completion_signal = Channel.empty()
 
         // Watch for pipeline ordering
-        Channel.fromPath( "${params.pipeline_status_directory}/*.complete" )
-            .mix(Channel.watchPath( "${params.pipeline_status_directory}/*.complete" ))
+        Channel.watchPath( "${params.pipeline_status_directory}/*.complete" )
             .until{ it -> it.name == "${params.pipeline_predecessor['call-sSV']}.complete" }
             .ifEmpty('done')
             .collect()
