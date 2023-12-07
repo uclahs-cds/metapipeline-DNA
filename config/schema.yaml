@@ -14,11 +14,6 @@ leading_work_dir:
   mode: 'w'
   required: true
   help: 'Absolute path to leading job working directory; should be a common directory under /hot'
-pipeline_work_dir:
-  type: 'Path'
-  mode: 'w'
-  required: true
-  help: 'Temporary working directory per pipeline use; should be /scratch'
 project_id:
   type: 'String'
   required: true
