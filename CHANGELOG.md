@@ -11,6 +11,12 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [5.2.1] - 2023-12-07
+### Removed
++ Remove validation of pipeline-level parameter from metapipeline level validation
+
+---
+
 ## [5.2.0] - 2023-11-17
 ### Changed
 + Default to alt-aware reference for align-DNA
