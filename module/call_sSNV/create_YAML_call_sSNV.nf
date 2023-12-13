@@ -3,7 +3,7 @@ import org.yaml.snakeyaml.Yaml
 * Create input YAML file for the call-sSNV pipeline.
 *
 * Input:
-*   A tuple of two items:
+*   A tuple of four items:
 *     @param sample_id (String): Sample ID to be used for run
 *     @param normal_bam (String): Path to normal BAM
 *     @param tumor_bam (List): List of paths to tumor BAMs
@@ -32,8 +32,8 @@ process create_YAML_call_sSNV {
 
     exec:
     input_yaml = 'call_sSNV_input.yaml'
-    param_tumor_bams = tumor_bam.collect{ ['id': it[0], 'BAM': "${it[1]}" as String] }
-    param_normal_bam = normal_bam.collect{ ['id': it[0], 'BAM': "${it[1]}" as String] }
+    param_tumor_bams = tumor_bam.collect{ 'BAM': "${it[1]}" as String }
+    param_normal_bam = normal_bam.collect{ 'BAM': "${it[1]}" as String }
     if (params.sample_mode == 'single') {
         input_map = [
             'patient_id': sample_id,
