@@ -186,5 +186,12 @@
             "patient": "BZPRGPT1000001",
             "state": "tumor"
         }
+    },
+    "pipeline_predecessor": {
+        "call-gSNP": "recalibrate-BAM",
+        "call-gSV": "recalibrate-BAM",
+        "call-mtSNV": "recalibrate-BAM",
+        "call-sSNV": "recalibrate-BAM",
+        "call-sSV": "recalibrate-BAM"
     }
 }
