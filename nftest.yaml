@@ -72,7 +72,7 @@ cases:
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/CPT0053040010/call_sSNV/BCFtools-1.17_LUAD0000034_CPT0053040010_SNV-concat.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
       - actual: output/call-sSNV-*/CPT0053040010/Intersect-BCFtools-1.17/output/MuSE-2.0.4_LUAD0000034_CPT0053040010_SNV-intersect.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/CPT0053040010/call_sSNV/MuSE-2.0.2_LUAD0000034_CPT0053040010_SNV-intersect.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/CPT0053040010/call_sSNV/MuSE-2.0.4_LUAD0000034_CPT0053040010_SNV-intersect.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
       - actual: output/call-sSNV-*/CPT0053040010/Intersect-BCFtools-1.17/output/Mutect2-4.4.0.0_LUAD0000034_CPT0053040010_SNV-intersect.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/CPT0053040010/call_sSNV/Mutect2-4.4.0.0_LUAD0000034_CPT0053040010_SNV-intersect.vcf.gz
@@ -84,7 +84,7 @@ cases:
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/CPT0053040010/call_sSNV/Strelka2-2.9.10_LUAD0000034_CPT0053040010_SNV-intersect.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
       - actual: output/call-sSNV-*/CPT0053040010/MuSE-2.0.4/output/MuSE-2.0.4_LUAD0000034_CPT0053040010_SNV.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/CPT0053040010/call_sSNV/MuSE-2.0.2_LUAD0000034_CPT0053040010_SNV.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/CPT0053040010/call_sSNV/MuSE-2.0.4_LUAD0000034_CPT0053040010_SNV.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
       - actual: output/call-sSNV-*/CPT0053040010/SomaticSniper-1.0.5.0/output/SomaticSniper-1.0.5.0_LUAD0000034_CPT0053040010_SNV.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/CPT0053040010/call_sSNV/SomaticSniper-1.0.5.0_LUAD0000034_CPT0053040010_SNV.vcf.gz
