@@ -52,7 +52,7 @@ run_downstream_pipelines_serially:
   type: 'Bool'
   required: true
   default: false
-  help: 'Let pipelines downstream of recalibrate-BAM run sequentially'
+  help: 'Let pipelines downstream of recalibrate-BAM run sequentially regardless of whether an ordering has been specified or not'
 downstream_pipeline_order:
   type: 'List'
   required: false
