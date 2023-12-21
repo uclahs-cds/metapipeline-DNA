@@ -22,6 +22,7 @@ process run_call_gSV {
 
     output:
         path "call-gSV-*/*"
+        val('done'), emit: complete
 
     script:
     String params_to_dump = combine_input_with_params(params.call_gSV.metapipeline_arg_map)

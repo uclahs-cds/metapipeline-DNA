@@ -18,6 +18,7 @@ process run_call_mtSNV {
 
     output:
         path "call-mtSNV-*/*"
+        val('done'), emit: complete
 
     script:
     sample_mode = (params.sample_mode == 'single') ? 'single' : 'paired'

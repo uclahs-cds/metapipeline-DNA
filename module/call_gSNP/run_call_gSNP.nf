@@ -26,6 +26,7 @@ process run_call_gSNP {
 
     output:
         file "call-gSNP-*/*"
+        val('done'), emit: complete
 
     script:
     String params_to_dump = combine_input_with_params(params.call_gSNP.metapipeline_arg_map, new File(input_yaml.toRealPath().toString()))

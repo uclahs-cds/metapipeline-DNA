@@ -3,6 +3,7 @@
 */
 include { create_YAML_call_sSNV } from "${moduleDir}/create_YAML_call_sSNV"
 include { run_call_sSNV } from "${moduleDir}/run_call_sSNV"
+include { mark_pipeline_complete } from "../pipeline_status"
 
 /*
 * Main workflow for calling the call-sSNV pipeline
@@ -14,8 +15,18 @@ workflow call_sSNV {
     take:
         modification_signal
     main:
+        // Watch for pipeline ordering
+        Channel.watchPath( "${params.pipeline_status_directory}/*.complete" )
+            .until{ it -> it.name == "${params.pipeline_predecessor['call-sSNV']}.complete" }
+            .ifEmpty('done')
+            .collect()
+            .map{ 'done' }
+            .set{ pipeline_predecessor_complete }
+
         // Extract inputs from data structure
         modification_signal.until{ it == 'done' }.ifEmpty('done')
+            .mix(pipeline_predecessor_complete)
+            .collect()
             .map{ it ->
                 def samples = [];
                 params.sample_data.each { s, s_data ->
@@ -91,4 +102,13 @@ workflow call_sSNV {
             create_YAML_call_sSNV(input_ch_create_ssnv_yaml)
         }
         run_call_sSNV(create_YAML_call_sSNV.out)
+
+        run_call_sSNV.out.complete
+            .mix( pipeline_predecessor_complete )
+            .collect()
+            .map{ it ->
+                mark_pipeline_complete('call-sSNV');
+                return 'done';
+            }
+            .set{ completion_signal }
 }

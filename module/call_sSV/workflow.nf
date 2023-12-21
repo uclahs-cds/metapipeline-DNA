@@ -4,6 +4,7 @@
 
 include { create_YAML_call_sSV } from "${moduleDir}/create_YAML_call_sSV"
 include { run_call_sSV } from "${moduleDir}/run_call_sSV"
+include { mark_pipeline_complete } from "../pipeline_status"
 
 /*
 * Main workflow for calling the call-sSV pipeline
@@ -21,8 +22,20 @@ workflow call_sSV {
     take:
         modification_signal
     main:
+        completion_signal = Channel.empty()
+
+        // Watch for pipeline ordering
+        Channel.watchPath( "${params.pipeline_status_directory}/*.complete" )
+            .until{ it -> it.name == "${params.pipeline_predecessor['call-sSV']}.complete" }
+            .ifEmpty('done')
+            .collect()
+            .map{ 'done' }
+            .set{ pipeline_predecessor_complete }
+
         // Extract inputs from data structure
         modification_signal.until{ it == 'done' }.ifEmpty('done')
+            .mix(pipeline_predecessor_complete)
+            .collect()
             .map{ it ->
                 def samples = [];
                 params.sample_data.each { s, s_data ->
@@ -36,6 +49,8 @@ workflow call_sSV {
                 return a
             }
             .set{ ich }
+
+        completion_signal.mix(ich).set{ completion_signal }
 
         // Call-sSV only supports paired mode so run only when not in single mode
         if (params.sample_mode != 'single') {
@@ -55,5 +70,17 @@ workflow call_sSV {
 
             create_YAML_call_sSV(input_ch_create_YAML)
             run_call_sSV(create_YAML_call_sSV.out)
+
+            run_call_sSV.out.complete
+                .mix(completion_signal)
+                .set{ completion_signal }
         }
+
+        completion_signal
+            .collect()
+            .map{ it ->
+                mark_pipeline_complete('call-sSV');
+                return 'done';
+            }
+            .set{ completion_signal }
     }
