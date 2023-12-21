@@ -171,7 +171,7 @@ See this [template](input/template-input-FASTQ.csv) for CSV format and this [tem
 | `requested_pipelines` | list | yes | List of pipelines requested. |
 | `override_realignment` | boolean | yes | Whether to override conversion to FASTQ and realignment when given BAM input. Default: `false` |
 | `override_recalibrate_bam` | boolean | yes | Whether to override recalibrate-BAM pipeline when given BAM input. Default: `false` |
-| `run_downstream_pipelines_serially` | boolean | no | Whether to run pipelines downstream of recalibrate-BAM sequentially. Default: `false` |
+| `run_downstream_pipelines_serially` | boolean | no | Whether to run pipelines downstream of recalibrate-BAM sequentially. Note: if this option is used in conjunction with `downstream_pipeline_order`, any pipelines with a given ordering will be run sequentially. Default: `false` |
 | `downstream_pipeline_order` | list | no | List indicating specific order in which to run pipelines downstream of recalibrate-BAM. Default: no order |
 
 #### UCLAHS-CDS WGS global sample job submission parameters
