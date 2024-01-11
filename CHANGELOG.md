@@ -8,6 +8,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+
+---
+
+## [5.3.1] - 2024-01-10
 ### Added
 + Pipeline ordering option for pipelines downstream of recalibrate-BAM
 + Parameter to run pipelines sequentially
