@@ -5,3 +5,7 @@ input:
       sample: "sample ID"
       state: "state - normal or tumor"
       path: "/path/to/BAM"
+    - patient: "patient ID"
+      sample: "sample ID"
+      state: "state - normal or tumor"
+      path: "/path/to/BAM"
