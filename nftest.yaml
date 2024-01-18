@@ -44,6 +44,13 @@ cases:
     verbose: true
     skip: true
 
+  - name: test-targeted-coverage
+    message: Test targeted-coverage
+    nf_script: test/test-targeted-coverage/test.nf
+    nf_config: test/test-targeted-coverage/test.config
+    verbose: true
+    skip: true
+
   - name: test-call-gSNP
     message: Test call-gSNP with one tumor normal pair
     nf_script: test/test-call-gSNP/test.nf
