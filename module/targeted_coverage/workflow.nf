@@ -17,7 +17,7 @@ workflow targeted_coverage {
     main:
         // Watch for pipeline ordering
         Channel.watchPath( "${params.pipeline_status_directory}/*.complete" )
-            .until{ it -> it.name == "${params.pipeline_predecessor['call-gSNP']}.complete" }
+            .until{ it -> it.name == "${params.pipeline_predecessor['targeted-coverage']}.complete" }
             .ifEmpty('done')
             .collect()
             .map{ 'done' }
