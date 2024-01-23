@@ -51,3 +51,5 @@
 [submodule "external/pipeline-targeted-coverage"]
 	path = external/pipeline-targeted-coverage
 	url = git@github.com:uclahs-cds/pipeline-targeted-coverage.git
+	branch = main
+	ignore = dirty
