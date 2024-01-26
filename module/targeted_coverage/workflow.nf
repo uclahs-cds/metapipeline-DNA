@@ -41,30 +41,17 @@ workflow targeted_coverage {
             }
             .set{ ich }
 
-        if (params.sample_mode != 'single') {
-            if (params.sample_mode == 'multi') {
-                input_ch_create_targeted_coverage_yaml = ich
-            } else {
-                ich.map{ it -> it.normal }.flatten().unique{ [it.patient, it.sample, it.state] }.set{ input_ch_normal }
-                ich.map{ it -> it.tumor }.flatten().unique{ [it.patient, it.sample, it.state] }.set{ input_ch_tumor }
+        ich.map{ it -> it.normal }
+            .flatten()
+            .map{ it -> [it.sample, it.bam] }
+            .set{ input_ch_normal }
+        ich.map{ it -> it.tumor }
+            .flatten()
+            .map{ it -> [it.sample, it.bam] }
+            .set{ input_ch_tumor }
 
-                input_ch_normal.combine(input_ch_tumor).map{ it ->
-                    ['normal': [it[0]], 'tumor': [it[1]]]
-                }
-                .set{ input_ch_create_targeted_coverage_yaml }
-            }
-        } else {
-            ich.map{ it -> it.normal }
-                .flatten()
-                .map{ it -> ['normal': [it], 'tumor': []] }
-                .set{ input_ch_normal }
-            ich.map{ it -> it.tumor }
-                .flatten()
-                .map{ it -> ['normal': [], 'tumor': [it]] }
-                .set{ input_ch_tumor }
-
-            input_ch_normal.mix(input_ch_tumor).set{ input_ch_create_targeted_coverage_yaml }
-        }
+        input_ch_normal.mix(input_ch_tumor)
+            .set{ input_ch_create_targeted_coverage_yaml }
 
         create_YAML_targeted_coverage(input_ch_create_targeted_coverage_yaml)
 
