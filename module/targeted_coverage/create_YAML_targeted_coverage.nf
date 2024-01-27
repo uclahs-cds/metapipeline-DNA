@@ -9,7 +9,7 @@ import org.yaml.snakeyaml.Yaml
 *   @return A tuple of 2 items, inlcuding the patient_id and input_yaml
 */
 process create_YAML_targeted_coverage {
-    publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}/${patient_id}",
+    publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}/${sample_id}",
         enabled: params.save_intermediate_files,
         pattern: 'targeted_coverage_input.yaml',
         mode: 'copy'
@@ -26,7 +26,7 @@ process create_YAML_targeted_coverage {
     input_map = [
         'sample_id': sample_id,
         'input': [
-            'bam': "${bam}"
+            'bam': "${bam}" as String
         ]
     ]
 
