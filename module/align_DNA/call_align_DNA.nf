@@ -26,8 +26,6 @@ process call_align_DNA {
     output_directory = "align-DNA-*/${sample}"
     bam = "align-DNA-*/${sample}/BWA-MEM2-2.2.1/output/BWA-MEM2-*${sample}.bam"
 
-    aligner = params.align_DNA.aligner.join(',')
-
     String params_to_dump = combine_input_with_params(params.align_DNA.metapipeline_arg_map)
     """
     set -euo pipefail
@@ -40,7 +38,6 @@ process call_align_DNA {
         ${moduleDir}/../../external/pipeline-align-DNA/main.nf \
         -params-file combined_align_dna_params.yaml \
         --sample_id ${sample} \
-        --aligner ${aligner} \
         --output_dir \$(pwd) \
         --work_dir \$WORK_DIR \
         --spark_temp_dir \$WORK_DIR \
