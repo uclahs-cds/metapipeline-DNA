@@ -1,5 +1,5 @@
 /*
-    Main entry point for calling call-gSNP pipeline
+    Main entry point for calling targeted-coverage pipeline
 */
 include { create_YAML_targeted_coverage } from "${moduleDir}/create_YAML_targeted_coverage"
 include { run_targeted_coverage } from "${moduleDir}/run_targeted_coverage"
