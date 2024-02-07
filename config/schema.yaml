@@ -57,6 +57,7 @@ downstream_pipeline_order:
   type: 'List'
   required: false
   choices:
+    - targeted-coverage
     - call-gSNP
     - call-gSV
     - call-mtSNV
@@ -77,6 +78,7 @@ requested_pipelines:
   choices:
     - align-DNA
     - recalibrate-BAM
+    - targeted-coverage
     - call-gSNP
     - call-gSV
     - call-mtSNV
