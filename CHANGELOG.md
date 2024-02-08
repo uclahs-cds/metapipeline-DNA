@@ -8,6 +8,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+### Added
++ Targeted coverage pipeline
 ### Changed
 + Convert-BAM2FASTQ: 2.0.0-rc.1 -> 2.0.0-rc.2
 + Align-DNA: 9.0.0 -> 10.0.0-rc.1
