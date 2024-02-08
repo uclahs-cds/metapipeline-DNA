@@ -55,6 +55,32 @@
             "subworkflow_cpus": 32
         }
     },
+    "targeted_coverage": {
+        "reference_dict": "/hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.dict",
+        "reference_dbSNP": "/hot/ref/database/dbSNP-155/thinned/GRCh38/dbSNP-155_thinned_hg38.vcf.gz",
+        "genome_sizes": "/hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.fasta.fai",
+        "target_bed": "/hot/software/pipeline/metapipeline-DNA/Nextflow/development/input/data/targeted-coverage/small.bed",
+        "bait_bed": "",
+        "collect_metrics": true,
+        "off_target_depth": true,
+        "output_enriched_target_file": true,
+        "target_depth": true,
+        "is_pipeline_enabled": true,
+        "subworkflow_cpus": 8,
+        "metapipeline_arg_map": {
+            "reference_dict": "/hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.dict",
+            "reference_dbSNP": "/hot/ref/database/dbSNP-155/thinned/GRCh38/dbSNP-155_thinned_hg38.vcf.gz",
+            "genome_sizes": "/hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.fasta.fai",
+            "target_bed": "/hot/software/pipeline/metapipeline-DNA/Nextflow/development/input/data/targeted-coverage/small.bed",
+            "bait_bed": "",
+            "collect_metrics": true,
+            "off_target_depth": true,
+            "output_enriched_target_file": true,
+            "target_depth": true,
+            "is_pipeline_enabled": true,
+            "subworkflow_cpus": 8
+        }
+    },
     "call_gSNP": {
         "reference_fasta": "/hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.fasta",
         "bundle_mills_and_1000g_gold_standard_indels_vcf_gz": "/hot/ref/tool-specific-input/GATK/GRCh38/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz",
@@ -188,6 +214,7 @@
         }
     },
     "pipeline_predecessor": {
+        "targeted-coverage": "recalibrate-BAM",
         "call-gSNP": "recalibrate-BAM",
         "call-gSV": "recalibrate-BAM",
         "call-mtSNV": "recalibrate-BAM",

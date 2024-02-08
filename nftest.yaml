@@ -44,6 +44,23 @@ cases:
     verbose: true
     skip: true
 
+  - name: test-targeted-coverage
+    message: Test targeted-coverage
+    nf_script: test/test-targeted-coverage/test.nf
+    nf_config: test/test-targeted-coverage/test.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: output/targeted-coverage-1.0.0-rc.1/9422N/SAMtools-1.16.1/output/9422N.collapsed_coverage.bed
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-targeted-coverage/9422N/SAMtools-1.16.1/output/9422N.collapsed_coverage.bed
+        script: test/test-targeted-coverage/assert_bed.sh
+      - actual: output/targeted-coverage-1.0.0-rc.1/9422N/SAMtools-1.16.1/output/9422N.off-target-dbSNP_depth-per-base.bed
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-targeted-coverage/9422N/SAMtools-1.16.1/output/9422N.off-target-dbSNP_depth-per-base.bed
+        script: test/test-targeted-coverage/assert_bed.sh
+      - actual: output/targeted-coverage-1.0.0-rc.1/9422N/SAMtools-1.16.1/output/9422N.target_with_enriched_off-target_intervals.bed
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-targeted-coverage/9422N/SAMtools-1.16.1/output/9422N.target_with_enriched_off-target_intervals.bed
+        script: test/test-targeted-coverage/assert_bed.sh
+
   - name: test-call-gSNP
     message: Test call-gSNP with one tumor normal pair
     nf_script: test/test-call-gSNP/test.nf
