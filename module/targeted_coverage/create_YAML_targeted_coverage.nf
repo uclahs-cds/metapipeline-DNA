@@ -3,13 +3,13 @@ import org.yaml.snakeyaml.Yaml
 * Create input YAML file for the targeted-coverage pipeline.
 *
 * Input:
-*   sample_info: A Map object containing sample information split into normal and tumor
+*   sample_info: A tuple of 2 items, including the sample_id and the BAM file.
 *
 * Output:
-*   @return A tuple of 2 items, inlcuding the patient_id and input_yaml
+*   @return A tuple of 2 items, including the sample_id and input_yaml
 */
 process create_YAML_targeted_coverage {
-    publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}/${patient_id}",
+    publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}/${sample_id}",
         enabled: params.save_intermediate_files,
         pattern: 'targeted_coverage_input.yaml',
         mode: 'copy'
@@ -26,7 +26,7 @@ process create_YAML_targeted_coverage {
     input_map = [
         'sample_id': sample_id,
         'input': [
-            'bam': "${bam}"
+            'bam': "${bam}" as String
         ]
     ]
 

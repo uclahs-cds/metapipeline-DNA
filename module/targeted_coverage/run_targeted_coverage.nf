@@ -1,14 +1,11 @@
 include { combine_input_with_params } from '../common.nf'
 /*
-* Call the call-gSNP pipeline
+* Call the targeted-coverage pipeline
 *
 * Input:
-*   A tuple that contains 4 items:
+*   A tuple that contains 2 items:
       @param sample_id_for_targeted_coverage (String): Sample ID.
 *     @param input_yaml (file): The input YAML file for targeted_coverage pipeline.
-*
-* Output:
-*   @return A Map...
 */
 process run_targeted_coverage {
     cpus params.targeted_coverage.subworkflow_cpus
