@@ -23,7 +23,7 @@ log.info """\
         input input_csv: ${params.input_csv}
         input project_id: ${params.project_id}
 
-    - output: 
+    - output:
         output_dir: ${params.output_dir}
         final_output_dir: ${params.final_output_dir}
 
