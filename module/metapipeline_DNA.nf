@@ -9,6 +9,7 @@ include { call_sSNV } from "${moduleDir}/call_sSNV/workflow"
 include { call_mtSNV } from "${moduleDir}/call_mtSNV/workflow"
 include { call_gSV } from "${moduleDir}/call_gSV/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir )
 include { call_sSV } from "${moduleDir}/call_sSV/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir )
+include { call_sCNA } from "${moduleDir}/call_sCNA/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir )
 include { create_status_directory; mark_pipeline_complete } from "${moduleDir}/pipeline_status"
 
 workflow {
@@ -55,5 +56,9 @@ workflow {
 
     if (params.call_sSV.is_pipeline_enabled) {
         call_sSV(recalibrate_BAM.out.recalibrate_sample_data_updated)
+    }
+
+    if (params.call_sCNA.is_pipeline_enabled) {
+        call_sCNA(recalibrate_BAM.out.recalibrate_sample_data_updated)
     }
 }
