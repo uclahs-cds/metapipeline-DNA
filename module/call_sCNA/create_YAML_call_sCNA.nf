@@ -1,6 +1,6 @@
 import org.yaml.snakeyaml.Yaml
 /*
-* Create input YAML file for the call-sSV pipeline.
+* Create input YAML file for the call-sCNA pipeline.
 *
 * Input:
 *   sample_info: A Map object containing sample information split into normal and tumor
@@ -8,7 +8,7 @@ import org.yaml.snakeyaml.Yaml
 * Output:
 *   @return A path to the input YAML
 */
-process create_YAML_call_sSV {
+process create_YAML_call_sCNA {
     publishDir path: "${params.log_output_dir}/process-log",
         mode: "copy",
         pattern: ".command.*",
