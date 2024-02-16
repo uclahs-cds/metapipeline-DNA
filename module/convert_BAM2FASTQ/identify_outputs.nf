@@ -14,7 +14,7 @@ workflow identify_convert_bam2fastq_outputs {
                     'read_group_identifier': rg_info[0],
                     'sequencing_center': rg_info[1],
                     'library_identifier': rg_info[2],
-                    'platform_techology': rg_info[3],
+                    'platform_technology': rg_info[3],
                     'platform_unit': rg_info[4],
                     'sample': rg_info[5],
                     'lane': rg_info[6],
