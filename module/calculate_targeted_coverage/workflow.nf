@@ -1,8 +1,8 @@
 /*
-    Main entry point for calling targeted-coverage pipeline
+    Main entry point for calling calculate-targeted-coverage pipeline
 */
-include { create_YAML_targeted_coverage } from "${moduleDir}/create_YAML_targeted_coverage"
-include { run_targeted_coverage } from "${moduleDir}/run_targeted_coverage"
+include { create_YAML_calculate_targeted_coverage } from "${moduleDir}/create_YAML_calculate_targeted_coverage"
+include { run_calculate_targeted_coverage } from "${moduleDir}/run_calculate_targeted_coverage"
 include { mark_pipeline_complete } from "../pipeline_status"
 
 /*
@@ -11,13 +11,13 @@ include { mark_pipeline_complete } from "../pipeline_status"
 * Input:
 *   Input is a channel containing the samples split by type
 */
-workflow targeted_coverage {
+workflow calculate_targeted_coverage {
     take:
         modification_signal
     main:
         // Watch for pipeline ordering
         Channel.watchPath( "${params.pipeline_status_directory}/*.complete" )
-            .until{ it -> it.name == "${params.pipeline_predecessor['targeted-coverage']}.complete" }
+            .until{ it -> it.name == "${params.pipeline_predecessor['calculate-targeted-coverage']}.complete" }
             .ifEmpty('done')
             .collect()
             .map{ 'done' }
@@ -53,15 +53,15 @@ workflow targeted_coverage {
         input_ch_normal.mix(input_ch_tumor)
             .set{ input_ch_create_targeted_coverage_yaml }
 
-        create_YAML_targeted_coverage(input_ch_create_targeted_coverage_yaml)
+        create_YAML_calculate_targeted_coverage(input_ch_create_targeted_coverage_yaml)
 
-        run_targeted_coverage(create_YAML_targeted_coverage.out.targeted_coverage_input)
+        run_calculate_targeted_coverage(create_YAML_calculate_targeted_coverage.out.targeted_coverage_input)
 
-        run_targeted_coverage.out.complete
+        run_calculate_targeted_coverage.out.complete
             .mix( pipeline_predecessor_complete )
             .collect()
             .map{ it ->
-                mark_pipeline_complete('targeted-coverage');
+                mark_pipeline_complete('calculate-targeted-coverage');
                 return 'done';
             }
            .set{ completion_signal }
