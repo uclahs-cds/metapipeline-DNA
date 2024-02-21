@@ -4,7 +4,7 @@ nextflow.enable.dsl = 2
 include { convert_BAM2FASTQ } from "${moduleDir}/convert_BAM2FASTQ/workflow"
 include { align_DNA } from "${moduleDir}/align_DNA/workflow"
 include { recalibrate_BAM } from "${moduleDir}/recalibrate_BAM/workflow"
-include { targeted_coverage } from "${moduleDir}/targeted_coverage/workflow"
+include { calculate_targeted_coverage } from "${moduleDir}/calculate_targeted_coverage/workflow"
 include { call_gSNP } from "${moduleDir}/call_gSNP/workflow"
 include { call_sSNV } from "${moduleDir}/call_sSNV/workflow"
 include { call_mtSNV } from "${moduleDir}/call_mtSNV/workflow"
@@ -38,8 +38,8 @@ workflow {
 
     recalibrate_BAM(align_DNA.out.alignment_sample_data_updated)
 
-    if (params.targeted_coverage.is_pipeline_enabled) {
-        targeted_coverage(recalibrate_BAM.out.recalibrate_sample_data_updated)
+    if (params.calculate_targeted_coverage.is_pipeline_enabled) {
+        calculate_targeted_coverage(recalibrate_BAM.out.recalibrate_sample_data_updated)
     }
 
     if (params.call_gSNP.is_pipeline_enabled) {
