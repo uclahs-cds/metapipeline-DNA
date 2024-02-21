@@ -55,7 +55,7 @@
             "subworkflow_cpus": 32
         }
     },
-    "targeted_coverage": {
+    "calculate_targeted_coverage": {
         "reference_dict": "/hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.dict",
         "reference_dbSNP": "/hot/ref/database/dbSNP-155/thinned/GRCh38/dbSNP-155_thinned_hg38.vcf.gz",
         "genome_sizes": "/hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.fasta.fai",
@@ -214,7 +214,7 @@
         }
     },
     "pipeline_predecessor": {
-        "targeted-coverage": "recalibrate-BAM",
+        "calculate-targeted-coverage": "recalibrate-BAM",
         "call-gSNP": "recalibrate-BAM",
         "call-gSV": "recalibrate-BAM",
         "call-mtSNV": "recalibrate-BAM",
