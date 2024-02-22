@@ -69,7 +69,7 @@ process create_CSV_metapipeline_DNA {
     publishDir path: "${params.log_output_dir}/process-log",
         mode: "copy",
         pattern: ".command.*",
-        saveAs: { "${task.process}-${identifier}/log${file(it).getName()}" }
+        saveAs: { "${task.process}/${identifier}/log${file(it).getName()}" }
 
     publishDir path: "${params.final_output_dir}/intermediate/${task.process}-${identifier}",
         enabled: params.save_intermediate_files,
