@@ -17,7 +17,6 @@ process create_CSV_call_gSV {
         saveAs: { "${task.process}-${patient_id}/${sample_id}/log${file(it).getName()}" }
 
     publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${patient_id}/${sample_id}",
-        enabled: params.save_intermediate_files,
         pattern: 'call_gSV_input.csv',
         mode: 'copy'
 
