@@ -12,7 +12,7 @@ process run_calculate_targeted_coverage {
 
     publishDir "${params.output_dir}/output",
         mode: "copy",
-        pattern: "targeted-coverage-*/*"
+        pattern: "calculate-targeted-coverage-*/*"
 
 
     input:
@@ -22,7 +22,7 @@ process run_calculate_targeted_coverage {
         )
 
     output:
-        file "targeted-coverage-*/*"
+        file "calculate-targeted-coverage-*/*"
         val('done'), emit: complete
 
     script:
@@ -37,7 +37,7 @@ process run_calculate_targeted_coverage {
 
     nextflow run \
         ${moduleDir}/../../external/pipeline-calculate-targeted-coverage/main.nf \
-        -params-file combined_targeted_coverage_params.yaml \
+        -params-file combined_calculate_targeted_coverage_params.yaml \
         --work_dir \$WORK_DIR \
         --output_dir \$(pwd) \
         --dataset_id ${params.project_id} \
