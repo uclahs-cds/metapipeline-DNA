@@ -25,7 +25,7 @@ workflow convert_BAM2FASTQ {
             .map { tuple(it.patient, it.sample, it.state, file(it.bam)) }
         extract_read_groups(ich)
         create_CSV_BAM2FASTQ(ich)
-        call_convert_BAM2FASTQ(create_CSV_BAM2FASTQ.out[0])
+        call_convert_BAM2FASTQ(create_CSV_BAM2FASTQ.out.convert_bam2fastq_csv)
 
         data_ch = call_convert_BAM2FASTQ.out[0].map { [it[1], it] }
             .join(extract_read_groups.out[0].map { [it[1], it] })

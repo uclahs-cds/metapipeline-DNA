@@ -26,7 +26,7 @@ process create_CSV_call_gSV {
         )
 
     output:
-        path(input_csv)
+        path(input_csv), emit: call_gsv_csv
         path(".command.*")
 
     script:
