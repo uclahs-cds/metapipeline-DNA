@@ -51,7 +51,7 @@ workflow call_gSV {
 
         create_CSV_call_gSV(input_ch_create_CSV)
 
-        run_call_gSV(create_CSV_call_gSV.out)
+        run_call_gSV(create_CSV_call_gSV.out[0])
 
         run_call_gSV.out.complete
             .mix( pipeline_predecessor_complete )
