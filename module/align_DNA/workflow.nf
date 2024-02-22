@@ -14,6 +14,7 @@ include { create_CSV_align_DNA } from "./create_CSV_align_DNA" addParams( log_ou
 include { call_align_DNA } from "./call_align_DNA"
 include { mark_pipeline_complete } from "../pipeline_status"
 include { identify_align_dna_outputs } from "./identify_outputs"
+include { sanitize_string } from "../../external/pipeline-Nextflow-module/modules/common/generate_standardized_filename/main.nf"
 
 workflow align_DNA {
     take:
@@ -49,7 +50,18 @@ workflow align_DNA {
                 }
                 .flatten()
                 .map{ it ->
-                    [it.sample, [it.state, it.read_group_identifier, it.sequencing_center, it.library_identifier, it.platform_technology, it.platform_unit, it.sample, it.lane, it.read1_fastq, it.read2_fastq]]
+                    [it.sample, [
+                        it.state,
+                        sanitize_string(it.read_group_identifier),
+                        sanitize_string(it.sequencing_center),
+                        sanitize_string(it.library_identifier),
+                        sanitize_string(it.platform_technology),
+                        sanitize_string(it.platform_unit),
+                        it.sample,
+                        sanitize_string(it.lane.toString()),
+                        it.read1_fastq,
+                        it.read2_fastq
+                    ]]
                 }
                 .groupTuple(by: 0)
                 .set{ ich_create_csv }
