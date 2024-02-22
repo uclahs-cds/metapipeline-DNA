@@ -21,7 +21,6 @@ process create_CSV_align_DNA {
         saveAs: { "${task.process.replace(':', '/')}-${params.patient}/${sample}/log${file(it).getName()}" }
 
     publishDir path: "${params.output_dir}/intermediate/${task.process}-${params.patient}/${sample}",
-        enabled: params.save_intermediate_files,
         mode: "copy",
         pattern: "*.csv"
 
