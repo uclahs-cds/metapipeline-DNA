@@ -71,7 +71,7 @@ workflow call_mtSNV {
         }
 
         create_CSV_call_mtSNV(input_ch_create_CSV)
-        run_call_mtSNV(create_CSV_call_mtSNV.out)
+        run_call_mtSNV(create_CSV_call_mtSNV.out[0])
 
         run_call_mtSNV.out.complete
             .mix( pipeline_predecessor_complete )
