@@ -14,7 +14,7 @@ process create_CSV_call_gSV {
     publishDir path: "${params.log_output_dir}/process-log",
         mode: "copy",
         pattern: ".command.*",
-        saveAs: { "${task.process}-${patient_id}/${sample_id}/log${file(it).getName()}" }
+        saveAs: { "${task.process.replace(':', '/')}-${patient_id}/${sample_id}/log${file(it).getName()}" }
 
     publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${patient_id}/${sample_id}",
         pattern: 'call_gSV_input.csv',
@@ -27,6 +27,7 @@ process create_CSV_call_gSV {
 
     output:
         path(input_csv)
+        path(".command.*")
 
     script:
     input_csv = "call_gSV_input.csv"
