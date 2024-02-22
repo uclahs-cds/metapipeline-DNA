@@ -10,7 +10,6 @@ import org.yaml.snakeyaml.Yaml
 */
 process create_YAML_call_gSNP {
     publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}/${patient_id}",
-        enabled: params.save_intermediate_files,
         pattern: 'call_gSNP_input.yaml',
         mode: 'copy'
 
