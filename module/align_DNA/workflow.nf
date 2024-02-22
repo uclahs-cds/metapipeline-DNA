@@ -58,7 +58,7 @@ workflow align_DNA {
                         sanitize_string(it.platform_technology),
                         sanitize_string(it.platform_unit),
                         it.sample,
-                        sanitize_string(it.lane),
+                        sanitize_string(it.lane.toString()),
                         it.read1_fastq,
                         it.read2_fastq
                     ]]
