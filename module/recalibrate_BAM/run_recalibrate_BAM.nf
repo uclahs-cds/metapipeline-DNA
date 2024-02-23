@@ -15,10 +15,14 @@ include { combine_input_with_params } from '../common.nf'
 process run_recalibrate_BAM {
     cpus params.recalibrate_BAM.subworkflow_cpus
 
+    publishDir path: "${params.log_output_dir}/process-log",
+        mode: "copy",
+        pattern: ".command.*",
+        saveAs: { "${task.process.replace(':', '/')}-${sample_id_for_recalibrate}/log${file(it).getName()}" }
+
     publishDir "${params.output_dir}/output",
         mode: "copy",
         pattern: "recalibrate-BAM-*/*"
-
 
     input:
         tuple(
@@ -32,6 +36,7 @@ process run_recalibrate_BAM {
     output:
         tuple val(sample_states), path(output_directory), path(qc_directory), emit: identify_recalibrate_bam_out
         file "recalibrate-BAM-*/*"
+        file ".command.*"
 
     script:
     output_directory = "recalibrate-BAM-*/${sample_id_for_recalibrate}/GATK-*/output"
