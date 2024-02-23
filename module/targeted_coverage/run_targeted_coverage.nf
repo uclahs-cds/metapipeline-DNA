@@ -10,10 +10,14 @@ include { combine_input_with_params } from '../common.nf'
 process run_targeted_coverage {
     cpus params.targeted_coverage.subworkflow_cpus
 
+    publishDir path: "${params.log_output_dir}/process-log",
+        mode: "copy",
+        pattern: ".command.*",
+        saveAs: { "${task.process.replace(':', '/')}-${sample_id_for_targeted_coverage}/log${file(it).getName()}" }
+
     publishDir "${params.output_dir}/output",
         mode: "copy",
         pattern: "targeted-coverage-*/*"
-
 
     input:
         tuple(
@@ -23,6 +27,7 @@ process run_targeted_coverage {
 
     output:
         file "targeted-coverage-*/*"
+        file ".command.*"
         val('done'), emit: complete
 
     script:
