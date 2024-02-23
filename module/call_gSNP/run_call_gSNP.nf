@@ -13,10 +13,14 @@ include { combine_input_with_params } from '../common.nf'
 process run_call_gSNP {
     cpus params.call_gSNP.subworkflow_cpus
 
+    publishDir path: "${params.log_output_dir}/process-log",
+        mode: "copy",
+        pattern: ".command.*",
+        saveAs: { "${task.process.replace(':', '/')}-${sample_id_for_call_gsnp}/log${file(it).getName()}" }
+
     publishDir "${params.output_dir}/output",
         mode: "copy",
         pattern: "call-gSNP-*/*"
-
 
     input:
         tuple(
@@ -26,6 +30,7 @@ process run_call_gSNP {
 
     output:
         file "call-gSNP-*/*"
+        file ".command.*"
         val('done'), emit: complete
 
     script:
