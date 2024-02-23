@@ -23,6 +23,7 @@ process run_call_mtSNV {
 
     output:
         path "call-mtSNV-*/*"
+        path ".command.*"
         val('done'), emit: complete
 
     script:
