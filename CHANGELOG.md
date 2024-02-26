@@ -15,6 +15,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 + Convert-BAM2FASTQ: 2.0.0-rc.1 -> 2.0.0-rc.2
 + Align-DNA: 9.0.0 -> 10.0.0-rc.1
 + Sanitize metadata passed to align-DNA
++ Calculate-targeted-coverage: update name from targeted-coverage
 
 ---
 
