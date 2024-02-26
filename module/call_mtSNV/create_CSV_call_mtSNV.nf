@@ -21,7 +21,7 @@ process create_CSV_call_mtSNV {
         )
 
     output:
-        tuple(val(tumour_id), val(normal_id), path(tumour_BAM), path(normal_BAM), path(input_csv)), emit: call_mtsnv_csv
+        tuple val(tumour_id), val(normal_id), path(tumour_BAM), path(normal_BAM), path(input_csv), emit: call_mtsnv_csv
         path(".command.*")
 
     script:
