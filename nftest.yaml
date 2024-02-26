@@ -13,11 +13,11 @@ cases:
     verbose: true
     skip: true
     asserts:
-      - actual: output/convert-BAM2FASTQ-2.0.0-rc.1/TCEB1_RCC_S00-9422N_079_114/SAMtools-1.15.1/output/S00-9422N_079_114.Seq1_collated_R1.fq.gz
+      - actual: output/convert-BAM2FASTQ-*/TCEB1_RCC_S00-9422N_079_114/SAMtools-*/output/S00-9422N_079_114.Seq1_collated_R1.fq.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/bam2fastq/output/TCEB1/TCEB1_RCC_S00-9422N_079_114/collated_S00-9422N_079_114.Seq1_R1.fq.gz
         script: test/test-bam2fastq/assert_fastq.sh
 
-      - actual: output/convert-BAM2FASTQ-2.0.0-rc.1/TCEB1_RCC_S00-9422N_079_114/SAMtools-1.15.1/output/S00-9422N_079_114.Seq1_collated_R2.fq.gz
+      - actual: output/convert-BAM2FASTQ-*/TCEB1_RCC_S00-9422N_079_114/SAMtools-*/output/S00-9422N_079_114.Seq1_collated_R2.fq.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/bam2fastq/output/TCEB1/TCEB1_RCC_S00-9422N_079_114/collated_S00-9422N_079_114.Seq1_R2.fq.gz
         script: test/test-bam2fastq/assert_fastq.sh
 
@@ -43,6 +43,23 @@ cases:
     nf_config: test/test-recalibrate-BAM/test.config
     verbose: true
     skip: true
+
+  - name: test-calculate-targeted-coverage
+    message: Test calculate-targeted-coverage
+    nf_script: test/test-calculate-targeted-coverage/test.nf
+    nf_config: test/test-calculate-targeted-coverage/test.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: output/calculate-targeted-coverage-1.0.0-rc.2/9422N/SAMtools-1.16.1/output/9422N.collapsed_coverage.bed
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-calculate-targeted-coverage/9422N/SAMtools-1.16.1/output/9422N.collapsed_coverage.bed
+        script: test/test-calculate-targeted-coverage/assert_bed.sh
+      - actual: output/calculate-targeted-coverage-1.0.0-rc.2/9422N/SAMtools-1.16.1/output/9422N.off-target-dbSNP_depth-per-base.bed
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-calculate-targeted-coverage/9422N/SAMtools-1.16.1/output/9422N.off-target-dbSNP_depth-per-base.bed
+        script: test/test-calculate-targeted-coverage/assert_bed.sh
+      - actual: output/calculate-targeted-coverage-1.0.0-rc.2/9422N/SAMtools-1.16.1/output/9422N.target_with_enriched_off-target_intervals.bed
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-calculate-targeted-coverage/9422N/SAMtools-1.16.1/output/9422N.target_with_enriched_off-target_intervals.bed
+        script: test/test-calculate-targeted-coverage/assert_bed.sh
 
   - name: test-call-gSNP
     message: Test call-gSNP with one tumor normal pair
