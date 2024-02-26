@@ -1,6 +1,6 @@
 import org.yaml.snakeyaml.Yaml
 /*
-* Create input YAML file for the targeted-coverage pipeline.
+* Create input YAML file for the calculate-targeted-coverage pipeline.
 *
 * Input:
 *   sample_info: A tuple of 2 items, including the sample_id and the BAM file.
@@ -8,7 +8,7 @@ import org.yaml.snakeyaml.Yaml
 * Output:
 *   @return A tuple of 2 items, including the sample_id and input_yaml
 */
-process create_YAML_targeted_coverage {
+process create_YAML_calculate_targeted_coverage {
     publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}/${sample_id}",
         pattern: 'targeted_coverage_input.yaml',
         mode: 'copy'
