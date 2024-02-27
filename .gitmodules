@@ -48,11 +48,6 @@
 	url = git@github.com:uclahs-cds/pipeline-recalibrate-BAM.git
 	branch = main
 	ignore = dirty
-[submodule "external/pipeline-call-sCNA"]
-	path = external/pipeline-call-sCNA
-	url = git@github.com:uclahs-cds/pipeline-call-sCNA.git
-	branch = main
-	ignore = dirty
 [submodule "external/pipeline-calculate-targeted-coverage"]
 	path = external/pipeline-calculate-targeted-coverage
 	url = git@github.com:uclahs-cds/pipeline-calculate-targeted-coverage.git
