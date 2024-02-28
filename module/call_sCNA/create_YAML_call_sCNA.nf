@@ -9,10 +9,6 @@ import org.yaml.snakeyaml.Yaml
 *   @return A path to the input YAML
 */
 process create_YAML_call_sCNA {
-    publishDir path: "${params.log_output_dir}/process-log",
-        mode: "copy",
-        pattern: ".command.*",
-        saveAs: { "${task.process}-${tumor_id}/log${file(it).getName()}" }
 
     publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${tumor_id}",
         enabled: params.save_intermediate_files,
