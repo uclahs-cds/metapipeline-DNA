@@ -48,8 +48,14 @@ workflow call_sCNA {
 
         // Call-sCNA only supports paired mode so run only when not in single mode
         if (params.sample_mode != 'single') {
-            ich.map{ it -> it.normal }.flatten().unique{ [it.patient, it.sample, it.state] }.set{ input_ch_normal }
-            ich.map{ it -> it.tumor }.flatten().unique{ [it.patient, it.sample, it.state] }.set{ input_ch_tumor }
+            ich.map{ it -> it.normal }
+                .flatten()
+                .unique{ [it.patient, it.sample, it.state] }
+                .set{ input_ch_normal }
+            ich.map{ it -> it.tumor }
+                .flatten()
+                .unique{ [it.patient, it.sample, it.state] }
+                .set{ input_ch_tumor }
 
             input_ch_normal.combine(input_ch_tumor).map{ it ->
                 ['normal': it[0], 'tumor': it[1]]
