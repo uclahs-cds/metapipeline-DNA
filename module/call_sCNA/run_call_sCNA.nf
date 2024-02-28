@@ -13,6 +13,11 @@ include { combine_input_with_params } from '../common.nf'
 process run_call_sCNA {
     cpus params.call_sCNA.subworkflow_cpus
 
+    publishDir path: "${params.log_output_dir}/process-log",
+        mode: "copy",
+        pattern: ".command.*",
+        saveAs: { "${task.process.replace(':', '/')}-${task.id}/log${file(it).getName()}" }
+
     publishDir "${params.output_dir}/output",
         mode: "copy",
         pattern: "call-sCNA-*/*"
@@ -22,6 +27,7 @@ process run_call_sCNA {
 
     output:
         path "call-sCNA-*/*"
+        path ".command.*"
         val('done'), emit: complete
 
     script:
