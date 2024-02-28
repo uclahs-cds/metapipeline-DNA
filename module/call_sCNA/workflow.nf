@@ -10,13 +10,7 @@ include { mark_pipeline_complete } from "../pipeline_status"
 * Main workflow for calling the call-sCNA pipeline
 *
 * Input:
-*   Input is a channel where each element is a tuple of list of 6 items:
-*     @param patient (String): Patient ID
-*     @param run_mode (String): Indicator of type of sample
-*     @param tumor_sample (String): Tumor sample name
-*     @param normal_sample (String): Normal sample name
-*     @param tumor_bam (file): Path to tumor BAM
-*     @param normal_bam (file): Path to normal BAM
+*   Input is a channel containing the samples split by type
 */
 workflow call_sCNA {
     take:
