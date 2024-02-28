@@ -44,7 +44,7 @@ workflow call_sCNA {
             }
             .set{ ich }
 
-        completion_signal.mix(ich).set{ completion_signal }
+        ich.collect().map{ 'done' }.set{ completion_signal }
 
         // Call-sCNA only supports paired mode so run only when not in single mode
         if (params.sample_mode != 'single') {
