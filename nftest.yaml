@@ -197,7 +197,7 @@ cases:
     verbose: true
     skip: true
     asserts:
-      - actual: output/call-sCNA-*/CPT0053040010/cnv_facets-*/output/cnv_facets-*_LUAD0000034_CPT0053040010.vcf.gz
+      - actual: output/call-sCNA-*/CPT0053040010/cnv_facets-*/output/CNV-FACETS-*_LUAD0000034_CPT0053040010.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-sCNA/CPT0053040010/cnv_facets-0.16.0/output/CNV-FACETS-0.16.0_LUAD0000034_CPT0053040010.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
 
