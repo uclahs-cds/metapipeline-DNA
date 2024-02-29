@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 ### Added
++ pipeline-call-sCNA `v3.0.0` and its NFTest
 + Targeted coverage pipeline
 + Option to skip recalibrate-BAM independent of alignment
 ### Changed

@@ -190,6 +190,27 @@ cases:
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-sSV/output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered_somaticSV.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
 
+  - name: test-call-sCNA-cnv-facets
+    message: Test call-sCNA pipeline with one tumor normal pair and cnv_facets as the CNA caller
+    nf_script: test/test-call-sCNA/test.nf
+    nf_config: test/test-call-sCNA/test-cnv_facets.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: output/call-sCNA-*/CPT0053040010/cnv_facets-*/output/CNV-FACETS-*_LUAD0000034_CPT0053040010.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-sCNA/CPT0053040010/cnv_facets-0.16.0/output/CNV-FACETS-0.16.0_LUAD0000034_CPT0053040010.vcf.gz
+        script: test/test-call-gSNP/assert_vcf.sh
+
+  - name: test-call-sCNA-battenberg
+    message: Test call-sCNA pipeline with one tumor normal pair and Battenberg as the CNA caller
+    nf_script: test/test-call-sCNA/test.nf
+    nf_config: test/test-call-sCNA/test-Battenberg.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: output/call-sCNA-*/ILHNLNEV000002-T001-P01-F/Battenberg-*/output/Battenberg-*_HNSC0000016_ILHNLNEV000002-T001-P01-F_subclones.txt
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-sCNA/ILHNLNEV000002-T001-P01-F/Battenberg-2.2.9/output/Battenberg-2.2.9_HNSC0000016_ILHNLNEV000002-T001-P01-F_subclones.txt
+        script: md5
 
   - name: test-metapipeline-DNA
     message: Test calling all pipelines with one tumor normal pair

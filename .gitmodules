@@ -53,3 +53,8 @@
 	url = git@github.com:uclahs-cds/pipeline-calculate-targeted-coverage.git
 	branch = main
 	ignore = dirty
+[submodule "external/pipeline-call-sCNA"]
+	path = external/pipeline-call-sCNA
+	url = git@github.com:uclahs-cds/pipeline-call-sCNA.git
+	branch = main
+	ignore = dirty
