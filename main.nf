@@ -23,7 +23,7 @@ log.info """\
         input input_csv: ${params.input_csv}
         input project_id: ${params.project_id}
 
-    - output: 
+    - output:
         output_dir: ${params.output_dir}
         final_output_dir: ${params.final_output_dir}
 
@@ -42,6 +42,7 @@ log.info """\
         uclahs-cds/pipeline-call-mtSNV: ${params.version_call_mtSNV}
         uclahs-cds/pipeline-call-gSV: ${params.version_call_gSV}
         uclahs-cds/pipeline-call-sSV: ${params.version_call_sSV}
+        uclahs-cds/pipeline-call-sCNA: ${params.version_call_sCNA}
 
     ------------------------------------
     Starting workflow...

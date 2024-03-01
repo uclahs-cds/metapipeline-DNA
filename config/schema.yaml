@@ -63,6 +63,7 @@ downstream_pipeline_order:
     - call-mtSNV
     - call-sSNV
     - call-sSV
+    - call-sCNA
   help: 'Ordered list for defining custom pipeline run order'
 requested_pipelines:
   type: 'List'
@@ -75,6 +76,7 @@ requested_pipelines:
     - call-mtSNV
     - call-sSNV
     - call-sSV
+    - call-sCNA
   choices:
     - align-DNA
     - recalibrate-BAM
@@ -84,6 +86,7 @@ requested_pipelines:
     - call-mtSNV
     - call-sSNV
     - call-sSV
+    - call-sCNA
   help: 'List of pipelines to run'
 override_realignment:
   type: 'Bool'
@@ -162,6 +165,10 @@ pipeline_params:
       type: 'Namespace'
       required: true
       help: 'Parameters for call-sSV'
+    call_sCNA:
+      type: 'Namespace'
+      required: true
+      help: 'Parameters for call-sCNA'
 input:
   type: 'InputNamespace'
   required: true
