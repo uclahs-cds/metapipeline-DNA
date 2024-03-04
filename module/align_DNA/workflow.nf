@@ -11,7 +11,7 @@
 */
 
 include { create_CSV_align_DNA } from "./create_CSV_align_DNA" addParams( log_output_dir: params.metapipeline_log_output_dir )
-include { call_align_DNA } from "./call_align_DNA"
+include { call_align_DNA } from "./call_align_DNA" addParams( log_output_dir: params.metapipeline_log_output_dir )
 include { mark_pipeline_complete } from "../pipeline_status"
 include { identify_align_dna_outputs } from "./identify_outputs"
 include { sanitize_string } from "../../external/pipeline-Nextflow-module/modules/common/generate_standardized_filename/main.nf"

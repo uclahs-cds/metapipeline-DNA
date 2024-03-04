@@ -4,6 +4,11 @@ process extract_read_groups {
 
     containerOptions "-v ${moduleDir}:${moduleDir}"
 
+    publishDir path: "${params.log_output_dir}/process-log",
+        mode: "copy",
+        pattern: ".command.*",
+        saveAs: { "${task.process.replace(':', '/')}-${sample}/log${file(it).getName()}" }
+
     input:
         tuple(
             val(patient),
@@ -19,6 +24,7 @@ process extract_read_groups {
             val(state),
             path(read_group_csv)
         )
+        path ".command.*"
 
     script:
     read_group_csv = 'read_groups.csv'

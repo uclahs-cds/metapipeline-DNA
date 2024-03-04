@@ -2,7 +2,7 @@
     Main entry point for calling call-sSNV pipeline
 */
 include { create_YAML_call_sSNV } from "${moduleDir}/create_YAML_call_sSNV"
-include { run_call_sSNV } from "${moduleDir}/run_call_sSNV"
+include { run_call_sSNV } from "${moduleDir}/run_call_sSNV" addParams( log_output_dir: params.metapipeline_log_output_dir )
 include { mark_pipeline_complete } from "../pipeline_status"
 
 /*
