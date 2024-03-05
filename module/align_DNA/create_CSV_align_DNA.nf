@@ -20,8 +20,7 @@ process create_CSV_align_DNA {
         pattern: ".command.*",
         saveAs: { "${task.process.replace(':', '/')}-${params.patient}/${sample}/log${file(it).getName()}" }
 
-    publishDir path: "${params.output_dir}/intermediate/${task.process}-${params.patient}/${sample}",
-        enabled: params.save_intermediate_files,
+    publishDir path: "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}/${sample}",
         mode: "copy",
         pattern: "*.csv"
 

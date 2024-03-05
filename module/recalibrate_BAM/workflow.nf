@@ -5,7 +5,7 @@ include { create_YAML_recalibrate_BAM } from "./create_YAML_recalibrate_BAM"
 include {
     run_recalibrate_BAM as run_recalibrate_BAM_delete_tumor
     run_recalibrate_BAM as run_recalibrate_BAM_delete_all
-    } from "./run_recalibrate_BAM"
+    } from "./run_recalibrate_BAM" addParams( log_output_dir: params.metapipeline_log_output_dir )
 include { mark_pipeline_complete } from '../pipeline_status'
 include { identify_recalibrate_bam_outputs } from './identify_outputs'
 

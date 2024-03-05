@@ -14,7 +14,6 @@ import org.yaml.snakeyaml.Yaml
 */
 process create_YAML_call_sSNV {
     publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}/${sample_id}",
-        enabled: params.save_intermediate_files,
         pattern: 'call_sSNV_input.yaml',
         mode: 'copy'
 

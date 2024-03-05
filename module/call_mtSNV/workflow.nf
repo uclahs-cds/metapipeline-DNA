@@ -2,8 +2,8 @@
 * Module for calling the call-sSNV pipeline
 */
 
-include { create_CSV_call_mtSNV } from "${moduleDir}/create_CSV_call_mtSNV"
-include { run_call_mtSNV } from "${moduleDir}/run_call_mtSNV"
+include { create_CSV_call_mtSNV } from "${moduleDir}/create_CSV_call_mtSNV" addParams( log_output_dir: params.metapipeline_log_output_dir )
+include { run_call_mtSNV } from "${moduleDir}/run_call_mtSNV" addParams( log_output_dir: params.metapipeline_log_output_dir )
 include { mark_pipeline_complete } from "../pipeline_status"
 
 workflow call_mtSNV {
@@ -71,7 +71,7 @@ workflow call_mtSNV {
         }
 
         create_CSV_call_mtSNV(input_ch_create_CSV)
-        run_call_mtSNV(create_CSV_call_mtSNV.out)
+        run_call_mtSNV(create_CSV_call_mtSNV.out.call_mtsnv_csv)
 
         run_call_mtSNV.out.complete
             .mix( pipeline_predecessor_complete )

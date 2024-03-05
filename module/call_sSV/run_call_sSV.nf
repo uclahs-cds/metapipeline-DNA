@@ -17,11 +17,17 @@ process run_call_sSV {
         mode: "copy",
         pattern: "call-sSV-*/*"
 
+    publishDir path: "${params.log_output_dir}/process-log",
+        mode: "copy",
+        pattern: ".command.*",
+        saveAs: { "${task.process.replace(':', '/')}-${task.id}/log${file(it).getName()}" }
+
     input:
         path(input_yaml)
 
     output:
         path "call-sSV-*/*"
+        path ".command.*"
         val('done'), emit: complete
 
     script:

@@ -70,7 +70,7 @@ process create_CSV_metapipeline_DNA {
     publishDir path: "${params.log_output_dir}/process-log",
         mode: "copy",
         pattern: ".command.*",
-        saveAs: { "${task.process}-${identifier}/log${file(it).getName()}" }
+        saveAs: { "${task.process}/${identifier}/log${file(it).getName()}" }
 
     publishDir path: "${params.final_output_dir}/intermediate/${task.process}-${identifier}",
         enabled: params.save_intermediate_files,
@@ -116,6 +116,11 @@ process create_CSV_metapipeline_DNA {
 *   @return pipeline_params_json (file): JSON file containing all pipeline-specific params
 */
 process create_config_metapipeline_DNA {
+    publishDir path: "${params.final_output_dir}/intermediate",
+        mode: "copy",
+        pattern: "*.json",
+        saveAs: { "${task.process}/${identifier}-${file(it).getName()}" }
+
     input:
         tuple(
             val(patient),
@@ -157,8 +162,7 @@ process call_metapipeline_DNA {
     publishDir path: "${params.log_output_dir}/process-log",
         mode: "copy",
         pattern: ".command.*",
-        saveAs: { "${task.process}-${patient}/log${file(it).getName()}" }
-
+        saveAs: { "${task.process}/${patient}-${new StringBuilder(task.hash).insert(2, '-').toString()}/log${file(it).getName()}" }
 
     input:
         tuple(
@@ -205,12 +209,20 @@ process call_metapipeline_DNA {
 }
 
 process check_process_status {
+    publishDir path: "${params.log_output_dir}/process-log",
+        mode: "copy",
+        pattern: ".command.*",
+        saveAs: { "${task.process}/${file(work_dir).getParent().getFileName()}-${file(work_dir).getFileName()}/log${file(it).getName()}" }
+
     input:
         tuple val(work_dir), val(sbatch_ret)
 
     debug true
 
     when params.uclahs_cds_wgs
+
+    output:
+    path(".command.*")
 
     script:
     """

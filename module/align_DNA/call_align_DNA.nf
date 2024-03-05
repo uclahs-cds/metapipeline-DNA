@@ -10,6 +10,11 @@ process call_align_DNA {
         mode: "copy",
         pattern: "align-DNA-*/*"
 
+    publishDir path: "${params.log_output_dir}/process-log",
+        mode: "copy",
+        pattern: ".command.*",
+        saveAs: { "${task.process.replace(':', '/')}-${sample}/log${file(it).getName()}" }
+
     input:
         tuple(
             val(patient),
@@ -21,6 +26,7 @@ process call_align_DNA {
     output:
         tuple val(sample), path(output_directory), emit: align_dna_output_directory
         file "align-DNA-*/*"
+        file ".command.*"
 
     script:
     output_directory = "align-DNA-*/${sample}"

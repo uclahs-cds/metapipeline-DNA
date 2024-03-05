@@ -2,7 +2,7 @@
     Main entry point for calling call-gSNP pipeline
 */
 include { create_YAML_call_gSNP } from "${moduleDir}/create_YAML_call_gSNP"
-include { run_call_gSNP } from "${moduleDir}/run_call_gSNP"
+include { run_call_gSNP } from "${moduleDir}/run_call_gSNP" addParams( log_output_dir: params.metapipeline_log_output_dir )
 include { mark_pipeline_complete } from "../pipeline_status"
 
 /*

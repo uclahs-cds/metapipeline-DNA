@@ -173,6 +173,30 @@
             "subworkflow_cpus": 8
         }
     },
+    "call_sCNA": {
+        "subworkflow_cpus": 8,
+        "algorithm": [
+            "cnv_facets"
+        ],
+        "is_pipeline_enabled": true,
+        "sample_sex": "male",
+        "position_scale": "genome-position",
+        "dbSNP_file": "/hot/ref/tool-specific-input/RecSNV/GRCh38/dbsnp_b150_grch38.vcf.gz",
+        "battenberg_reference": "/hot/ref/tool-specific-input/Battenberg/download_202204/GRCh38/battenberg_ref_hg38_chr/",
+        "reference_dict": "/hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.dict",
+        "metapipeline_arg_map": {
+            "subworkflow_cpus": 8,
+            "algorithm": [
+                "cnv_facets"
+            ],
+            "is_pipeline_enabled": true,
+            "sample_sex": "male",
+            "position_scale": "genome-position",
+            "dbSNP_file": "/hot/ref/tool-specific-input/RecSNV/GRCh38/dbsnp_b150_grch38.vcf.gz",
+            "battenberg_reference": "/hot/ref/tool-specific-input/Battenberg/download_202204/GRCh38/battenberg_ref_hg38_chr/",
+            "reference_dict": "/hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.dict"
+        }
+    },
     "sample_data": {
         "BZPRGPT1000001-N001-B01-F": {
             "align-DNA": {
@@ -219,6 +243,7 @@
         "call-gSV": "recalibrate-BAM",
         "call-mtSNV": "recalibrate-BAM",
         "call-sSNV": "recalibrate-BAM",
-        "call-sSV": "recalibrate-BAM"
+        "call-sSV": "recalibrate-BAM",
+        "call-sCNA": "recalibrate-BAM"
     }
 }

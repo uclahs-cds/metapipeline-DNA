@@ -3,7 +3,7 @@
 */
 
 include { create_YAML_call_sSV } from "${moduleDir}/create_YAML_call_sSV"
-include { run_call_sSV } from "${moduleDir}/run_call_sSV"
+include { run_call_sSV } from "${moduleDir}/run_call_sSV" addParams( log_output_dir: params.metapipeline_log_output_dir )
 include { mark_pipeline_complete } from "../pipeline_status"
 
 /*

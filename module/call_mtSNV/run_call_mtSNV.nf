@@ -3,6 +3,11 @@ include { combine_input_with_params } from '../common.nf'
 process run_call_mtSNV {
     cpus params.call_mtSNV.subworkflow_cpus
 
+    publishDir path: "${params.log_output_dir}/process-log",
+        mode: "copy",
+        pattern: ".command.*",
+        saveAs: { "${task.process.replace(':', '/')}-${mtsnv_sample_id}/log${file(it).getName()}" }
+
     publishDir "${params.output_dir}/output",
         mode: "copy",
         pattern: "call-mtSNV-*/*"
@@ -18,10 +23,16 @@ process run_call_mtSNV {
 
     output:
         path "call-mtSNV-*/*"
+        path ".command.*"
         val('done'), emit: complete
 
     script:
     sample_mode = (params.sample_mode == 'single') ? 'single' : 'paired'
+    if (sample_mode == 'single') {
+        mtsnv_sample_id = normal_sample
+    } else {
+        mtsnv_sample_id = tumor_sample
+    }
     String params_to_dump = combine_input_with_params(params.call_mtSNV.metapipeline_arg_map)
     """
     set -euo pipefail

@@ -15,7 +15,6 @@ process create_YAML_call_sSV {
         saveAs: { "${task.process}-${tumor_id}/log${file(it).getName()}" }
 
     publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${tumor_id}",
-        enabled: params.save_intermediate_files,
         pattern: 'call_sSV_input.yaml',
         mode: 'copy'
 

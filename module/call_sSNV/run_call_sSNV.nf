@@ -17,6 +17,11 @@ process run_call_sSNV {
 
     maxForks 1
 
+    publishDir path: "${params.log_output_dir}/process-log",
+        mode: "copy",
+        pattern: ".command.*",
+        saveAs: { "${task.process.replace(':', '/')}-${sample_id}/log${file(it).getName()}" }
+
     publishDir "${params.output_dir}/output",
         mode: "copy",
         pattern: "call-sSNV-*/*"
@@ -30,6 +35,7 @@ process run_call_sSNV {
 
     output:
         path "call-sSNV-*/*"
+        path ".command.*"
         val('done'), emit: complete
 
     script:

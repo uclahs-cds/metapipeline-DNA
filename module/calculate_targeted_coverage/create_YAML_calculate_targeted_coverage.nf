@@ -10,7 +10,6 @@ import org.yaml.snakeyaml.Yaml
 */
 process create_YAML_calculate_targeted_coverage {
     publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}/${sample_id}",
-        enabled: params.save_intermediate_files,
         pattern: 'targeted_coverage_input.yaml',
         mode: 'copy'
 

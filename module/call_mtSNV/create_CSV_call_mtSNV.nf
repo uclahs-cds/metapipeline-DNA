@@ -4,10 +4,14 @@
 
 process create_CSV_call_mtSNV {
     publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}/${mtsnv_sample_id}",
-        enabled: params.save_intermediate_files,
         pattern: 'call_mtSNV_input.csv',
         mode: 'copy'
-    
+
+    publishDir path: "${params.log_output_dir}/process-log",
+        mode: "copy",
+        pattern: ".command.*",
+        saveAs: { "${task.process.replace(':', '/')}-${params.patient}/${mtsnv_sample_id}/log${file(it).getName()}" }
+
     input:
         tuple(
             val(tumour_id),
@@ -17,13 +21,8 @@ process create_CSV_call_mtSNV {
         )
 
     output:
-        tuple(
-            val(tumour_id),
-            val(normal_id),
-            path(tumour_BAM),
-            path(normal_BAM),
-            path(input_csv)
-        )
+        tuple val(tumour_id), val(normal_id), path(tumour_BAM), path(normal_BAM), path(input_csv), emit: call_mtsnv_csv
+        path(".command.*")
 
     script:
     input_csv = 'call_mtSNV_input.csv'
