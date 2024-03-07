@@ -28,14 +28,6 @@ cases:
     verbose: true
     skip: true
     # Disabling BAM comparisons since there can be variability based on number of threads used
-    # asserts:
-    # - actual: output/align-DNA-9.0.0/TCEB1-RCC-S00-9422N-079-114/BWA-MEM2-2.2.1/output/BWA-MEM2-2.2.1_TCEB1_TCEB1-RCC-S00-9422N-079-114.bam
-    #   expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/align-DNA/TCEB1/TCEB1_RCC_S00-9422N_079_114/TCEB1_RCC_S00-9422N_079_114.bam
-    #   method: md5
-
-    # - actual: output/align-DNA-9.0.0/TCEB1-RCC-S00-9422T-027-166/BWA-MEM2-2.2.1/output/BWA-MEM2-2.2.1_TCEB1_TCEB1-RCC-S00-9422T-027-166.bam
-    #   expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/align-DNA/TCEB1/TCEB1_RCC_S00-9422T_027_166/TCEB1_RCC_S00-9422T_027_166.bam
-    #   method: md5
 
   - name: test-recalibrate-BAM
     message: Test recalibrate-BAM
