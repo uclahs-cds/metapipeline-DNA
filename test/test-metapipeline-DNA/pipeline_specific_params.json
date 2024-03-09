@@ -143,12 +143,14 @@
         "reference_fasta": "/hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.fasta",
         "exclusion_file": "/hot/ref/tool-specific-input/Delly/GRCh38/human.hg38.excl.tsv",
         "mappability_map": "/hot/ref/tool-specific-input/Delly/GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.r101.s501.blacklist.gz",
+        "run_delly": false,
         "is_pipeline_enabled": true,
         "subworkflow_cpus": 8,
         "metapipeline_arg_map": {
             "reference_fasta": "/hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.fasta",
             "exclusion_file": "/hot/ref/tool-specific-input/Delly/GRCh38/human.hg38.excl.tsv",
             "mappability_map": "/hot/ref/tool-specific-input/Delly/GRCh38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.r101.s501.blacklist.gz",
+            "run_delly": false,
             "is_pipeline_enabled": true,
             "subworkflow_cpus": 8
         }
@@ -198,7 +200,7 @@
         }
     },
     "sample_data": {
-        "BZPRGPT1000001-N001-B01-F": {
+        "NA24149": {
             "align-DNA": {
                 "BWA-MEM2": {
                     "BAM": ""
@@ -212,12 +214,12 @@
                 
             ],
             "original_data": {
-                "path": "/hot/data/unregistered/Boutros-Zeltser-PRAD-GPT1/align-DNA/align-DNA-BZPRGPT1000001-N001-B01-F/align-DNA-20211213-144945/BWA-MEM2-2.2.1/BZPRGPT1000001-N001-B01-F.bam"
+                "path": "/hot/software/pipeline/metapipeline-DNA/Nextflow/development/input/data/BAM/NA24149/BWA-MEM2-2.2.1_IlluminaSampleTest_NA24149.bam"
             },
-            "patient": "BZPRGPT1000001",
+            "patient": "IlluminaPatient1",
             "state": "normal"
         },
-        "BZPRGPT1000002-N001-B01-F": {
+        "NA24143": {
             "align-DNA": {
                 "BWA-MEM2": {
                     "BAM": ""
@@ -231,9 +233,9 @@
                 
             ],
             "original_data": {
-                "path": "/hot/data/unregistered/Boutros-Zeltser-PRAD-GPT1/align-DNA/align-DNA-BZPRGPT1000002-N001-B01-F/align-DNA-20211213-153513/BWA-MEM2-2.2.1/BZPRGPT1000002-N001-B01-F.bam"
+                "path": "/hot/software/pipeline/metapipeline-DNA/Nextflow/development/input/data/BAM/NA24143/BWA-MEM2-2.2.1_IlluminaSampleTest_NA24143.bam"
             },
-            "patient": "BZPRGPT1000001",
+            "patient": "IlluminaPatient1",
             "state": "tumor"
         }
     },
