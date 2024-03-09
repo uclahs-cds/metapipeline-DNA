@@ -9,11 +9,6 @@ import org.yaml.snakeyaml.Yaml
 *   @return A path to the input YAML
 */
 process create_YAML_call_sSV {
-    publishDir path: "${params.log_output_dir}/process-log",
-        mode: "copy",
-        pattern: ".command.*",
-        saveAs: { "${task.process}-${tumor_id}/log${file(it).getName()}" }
-
     publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${tumor_id}",
         pattern: 'call_sSV_input.yaml',
         mode: 'copy'
