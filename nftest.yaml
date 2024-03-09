@@ -110,7 +110,6 @@ cases:
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSNV-8.0.0-rc.1/NA24143/Mutect2-4.4.0.0/output/Mutect2-4.4.0.0_IlluminaTest_NA24143_SNV.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
 
-
   - name: test-call-mtSNV
     message: Test call-mtSNV pipeline with one tumor normal pair
     nf_script: test/test-call-mtSNV/test.nf
@@ -131,7 +130,6 @@ cases:
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-mtSNV-3.0.0/NA24143/mitoCaller-1.0.0/output/mitoCaller2vcf-1.0.0_IlluminaTest_NA24149_homoplasmy.vcf
         script: test/test-call-gSNP/assert_vcf.sh
 
-
   - name: test-call-gSV
     message: Test call-gSV pipeline with one tumor normal pair
     nf_script: test/test-call-gSV/test.nf
@@ -148,7 +146,6 @@ cases:
       - actual: output/call-gSV-*/NA24149/Manta-*/output/candidateSmallIndels.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-gSV-4.0.1/NA24149/Manta-1.6.0/output/candidateSmallIndels.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-
 
   - name: test-call-sSV
     message: Test call-sSV pipeline with one tumor normal pair
@@ -180,20 +177,10 @@ cases:
     verbose: true
     skip: true
     asserts:
-      - actual: output/call-sCNA-*/CPT0053040010/cnv_facets-*/output/CNV-FACETS-*_IlluminaTest_NA24143.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-sCNA/CPT0053040010/cnv_facets-0.16.0/output/CNV-FACETS-0.16.0_IlluminaTest_NA24143.vcf.gz
+      - actual: output/call-sCNA-*/NA24143/cnv_facets-*/output/CNV-FACETS-*_IlluminaTest_NA24143.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sCNA-cnv-facets-3.0.0/NA24143/cnv_facets-0.16.0/output/CNV-FACETS-0.16.0_IlluminaTest_NA24143.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-
-  - name: test-call-sCNA-battenberg
-    message: Test call-sCNA pipeline with one tumor normal pair and Battenberg as the CNA caller
-    nf_script: test/test-call-sCNA/test.nf
-    nf_config: test/test-call-sCNA/test-Battenberg.config
-    verbose: true
-    skip: true
-    asserts:
-      - actual: output/call-sCNA-*/ILHNLNEV000002-T001-P01-F/Battenberg-*/output/Battenberg-*_HNSC0000016_ILHNLNEV000002-T001-P01-F_subclones.txt
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-sCNA/ILHNLNEV000002-T001-P01-F/Battenberg-2.2.9/output/Battenberg-2.2.9_HNSC0000016_ILHNLNEV000002-T001-P01-F_subclones.txt
-        script: md5
+    # TO-DO: Add Battenberg test sample
 
   - name: test-metapipeline-DNA
     message: Test calling all pipelines with one tumor normal pair
