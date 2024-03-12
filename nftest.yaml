@@ -13,12 +13,11 @@ cases:
     verbose: true
     skip: true
     asserts:
-      - actual: output/convert-BAM2FASTQ-*/TCEB1_RCC_S00-9422N_079_114/SAMtools-*/output/S00-9422N_079_114.Seq1_collated_R1.fq.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/bam2fastq/output/TCEB1/TCEB1_RCC_S00-9422N_079_114/collated_S00-9422N_079_114.Seq1_R1.fq.gz
+      - actual: output/convert-BAM2FASTQ-*/NA24149/SAMtools-*/output/NA24149RG.Seq1_collated_R1.fq.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/convert-BAM2FASTQ-2.0.0-rc.2/NA24149/SAMtools-1.15.1/output/NA24149RG.Seq1_collated_R1.fq.gz
         script: test/test-bam2fastq/assert_fastq.sh
-
-      - actual: output/convert-BAM2FASTQ-*/TCEB1_RCC_S00-9422N_079_114/SAMtools-*/output/S00-9422N_079_114.Seq1_collated_R2.fq.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/bam2fastq/output/TCEB1/TCEB1_RCC_S00-9422N_079_114/collated_S00-9422N_079_114.Seq1_R2.fq.gz
+      - actual: output/convert-BAM2FASTQ-*/NA24149/SAMtools-*/output/NA24149RG.Seq1_collated_R2.fq.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/convert-BAM2FASTQ-2.0.0-rc.2/NA24149/SAMtools-1.15.1/output/NA24149RG.Seq1_collated_R2.fq.gz
         script: test/test-bam2fastq/assert_fastq.sh
 
   - name: test-align-DNA
@@ -28,14 +27,6 @@ cases:
     verbose: true
     skip: true
     # Disabling BAM comparisons since there can be variability based on number of threads used
-    # asserts:
-    # - actual: output/align-DNA-9.0.0/TCEB1-RCC-S00-9422N-079-114/BWA-MEM2-2.2.1/output/BWA-MEM2-2.2.1_TCEB1_TCEB1-RCC-S00-9422N-079-114.bam
-    #   expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/align-DNA/TCEB1/TCEB1_RCC_S00-9422N_079_114/TCEB1_RCC_S00-9422N_079_114.bam
-    #   method: md5
-
-    # - actual: output/align-DNA-9.0.0/TCEB1-RCC-S00-9422T-027-166/BWA-MEM2-2.2.1/output/BWA-MEM2-2.2.1_TCEB1_TCEB1-RCC-S00-9422T-027-166.bam
-    #   expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/align-DNA/TCEB1/TCEB1_RCC_S00-9422T_027_166/TCEB1_RCC_S00-9422T_027_166.bam
-    #   method: md5
 
   - name: test-recalibrate-BAM
     message: Test recalibrate-BAM
@@ -51,14 +42,14 @@ cases:
     verbose: true
     skip: true
     asserts:
-      - actual: output/calculate-targeted-coverage-1.0.0-rc.2/9422N/SAMtools-1.16.1/output/9422N.collapsed_coverage.bed
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-calculate-targeted-coverage/9422N/SAMtools-1.16.1/output/9422N.collapsed_coverage.bed
+      - actual: output/calculate-targeted-coverage-*/NA24149/SAMtools-*/output/NA24149.collapsed_coverage.bed
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/calculate-targeted-coverage-1.0.0-rc.2/NA24149/SAMtools-1.16.1/output/NA24149.collapsed_coverage.bed
         script: test/test-calculate-targeted-coverage/assert_bed.sh
-      - actual: output/calculate-targeted-coverage-1.0.0-rc.2/9422N/SAMtools-1.16.1/output/9422N.off-target-dbSNP_depth-per-base.bed
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-calculate-targeted-coverage/9422N/SAMtools-1.16.1/output/9422N.off-target-dbSNP_depth-per-base.bed
+      - actual: output/calculate-targeted-coverage-*/NA24149/SAMtools-*/output/NA24149.off-target-dbSNP_depth-per-base.bed
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/calculate-targeted-coverage-1.0.0-rc.2/NA24149/SAMtools-1.16.1/output/NA24149.off-target-dbSNP_depth-per-base.bed
         script: test/test-calculate-targeted-coverage/assert_bed.sh
-      - actual: output/calculate-targeted-coverage-1.0.0-rc.2/9422N/SAMtools-1.16.1/output/9422N.target_with_enriched_off-target_intervals.bed
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-calculate-targeted-coverage/9422N/SAMtools-1.16.1/output/9422N.target_with_enriched_off-target_intervals.bed
+      - actual: output/calculate-targeted-coverage-*/NA24149/SAMtools-*/output/NA24149.target_with_enriched_off-target_intervals.bed
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/calculate-targeted-coverage-1.0.0-rc.2/NA24149/SAMtools-1.16.1/output/NA24149.target_with_enriched_off-target_intervals.bed
         script: test/test-calculate-targeted-coverage/assert_bed.sh
 
   - name: test-call-gSNP
@@ -68,15 +59,12 @@ cases:
     verbose: true
     skip: true
     asserts:
-      - actual: output/call-gSNP-10.0.0-rc.3/9422T/GATK-4.2.4.1/output/GATK-4.2.4.1_test_S00-9422T-027-166.g.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/call-gSNP/output/test-call-gSNP/TCEB1/GATK-4.2.4.1_test_S00-9422T-027-166.g.vcf.gz
+      - actual: output/call-gSNP-*/NA24143/GATK-*/output/GATK-*_IlluminaTest_NA24143.g.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-gSNP-10.0.0-rc.3/NA24143/GATK-4.2.4.1/output/GATK-*_IlluminaTest_NA24143.g.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-
-  #   Disabling BAM comparison for now - checksums differ even if tools like GATK CompareSAMs report identical BAM files
-  #   requires a custom script to use GATK docker for comparison of BAMs
-  # - actual: test/output/output/call-gSNP-8.0.0/TCEB1_RCC_S00/GATK-4.2.4.1/output/S00-9422N_079_114_realigned_recalibrated_merged.bam
-  #   expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/meta-germline-somatic/systematic_tests/call-gSNP/output/test-call-gSNP/TCEB1/S00-9422N_079_114_realigned_recalibrated_merged.bam
-
+      - actual: output/call-gSNP-*/NA24143/GATK-*/output/GATK-*_IlluminaTest_NA24149.g.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-gSNP-10.0.0-rc.3/NA24143/GATK-4.2.4.1/output/GATK-*_IlluminaTest_NA24149.g.vcf.gz
+        script: test/test-call-gSNP/assert_vcf.sh
 
   - name: test-call-sSNV
     message: Test call-sSNV with one tumor normal pair
@@ -85,43 +73,42 @@ cases:
     verbose: true
     skip: true
     asserts:
-      - actual: output/call-sSNV-*/CPT0053040010/Intersect-BCFtools-1.17/output/BCFtools-1.17_LUAD0000034_CPT0053040010_SNV-concat.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/CPT0053040010/call_sSNV/BCFtools-1.17_LUAD0000034_CPT0053040010_SNV-concat.vcf.gz
+      - actual: output/call-sSNV-*/NA24143/Intersect-BCFtools-*/output/BCFtools-*_IlluminaTest_NA24143_SNV-concat.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSNV-8.0.0-rc.1/NA24143/Intersect-BCFtools-1.17/output/BCFtools-1.17_IlluminaTest_NA24143_SNV-concat.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-      - actual: output/call-sSNV-*/CPT0053040010/Intersect-BCFtools-1.17/output/MuSE-2.0.4_LUAD0000034_CPT0053040010_SNV-intersect.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/CPT0053040010/call_sSNV/MuSE-2.0.4_LUAD0000034_CPT0053040010_SNV-intersect.vcf.gz
+      - actual: output/call-sSNV-*/NA24143/Intersect-BCFtools-*/output/MuSE-*_IlluminaTest_NA24143_SNV-intersect.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSNV-8.0.0-rc.1/NA24143/Intersect-BCFtools-1.17/output/MuSE-2.0.4_IlluminaTest_NA24143_SNV-intersect.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-      - actual: output/call-sSNV-*/CPT0053040010/Intersect-BCFtools-1.17/output/Mutect2-4.4.0.0_LUAD0000034_CPT0053040010_SNV-intersect.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/CPT0053040010/call_sSNV/Mutect2-4.4.0.0_LUAD0000034_CPT0053040010_SNV-intersect.vcf.gz
+      - actual: output/call-sSNV-*/NA24143/Intersect-BCFtools-*/output/Mutect2-*_IlluminaTest_NA24143_SNV-intersect.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSNV-8.0.0-rc.1/NA24143/Intersect-BCFtools-1.17/output/Mutect2-4.4.0.0_IlluminaTest_NA24143_SNV-intersect.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-      - actual: output/call-sSNV-*/CPT0053040010/Intersect-BCFtools-1.17/output/SomaticSniper-1.0.5.0_LUAD0000034_CPT0053040010_SNV-intersect.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/CPT0053040010/call_sSNV/SomaticSniper-1.0.5.0_LUAD0000034_CPT0053040010_SNV-intersect.vcf.gz
+      - actual: output/call-sSNV-*/NA24143/Intersect-BCFtools-*/output/SomaticSniper-*_IlluminaTest_NA24143_SNV-intersect.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSNV-8.0.0-rc.1/NA24143/Intersect-BCFtools-1.17/output/SomaticSniper-1.0.5.0_IlluminaTest_NA24143_SNV-intersect.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-      - actual: output/call-sSNV-*/CPT0053040010/Intersect-BCFtools-1.17/output/Strelka2-2.9.10_LUAD0000034_CPT0053040010_SNV-intersect.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/CPT0053040010/call_sSNV/Strelka2-2.9.10_LUAD0000034_CPT0053040010_SNV-intersect.vcf.gz
+      - actual: output/call-sSNV-*/NA24143/Intersect-BCFtools-*/output/Strelka2-*_IlluminaTest_NA24143_SNV-intersect.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSNV-8.0.0-rc.1/NA24143/Intersect-BCFtools-1.17/output/Strelka2-2.9.10_IlluminaTest_NA24143_SNV-intersect.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-      - actual: output/call-sSNV-*/CPT0053040010/MuSE-2.0.4/output/MuSE-2.0.4_LUAD0000034_CPT0053040010_SNV.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/CPT0053040010/call_sSNV/MuSE-2.0.4_LUAD0000034_CPT0053040010_SNV.vcf.gz
+      - actual: output/call-sSNV-*/NA24143/MuSE-*/output/MuSE-*_IlluminaTest_NA24143_SNV.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSNV-8.0.0-rc.1/NA24143/MuSE-2.0.4/output/MuSE-2.0.4_IlluminaTest_NA24143_SNV.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-      - actual: output/call-sSNV-*/CPT0053040010/SomaticSniper-1.0.5.0/output/SomaticSniper-1.0.5.0_LUAD0000034_CPT0053040010_SNV.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/CPT0053040010/call_sSNV/SomaticSniper-1.0.5.0_LUAD0000034_CPT0053040010_SNV.vcf.gz
+      - actual: output/call-sSNV-*/NA24143/SomaticSniper-*/output/SomaticSniper-*_IlluminaTest_NA24143_SNV.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSNV-8.0.0-rc.1/NA24143/SomaticSniper-1.0.5.0/output/SomaticSniper-1.0.5.0_IlluminaTest_NA24143_SNV.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-      - actual: output/call-sSNV-*/CPT0053040010/Strelka2-2.9.10/output/Strelka2-2.9.10_LUAD0000034_CPT0053040010_Indel.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/CPT0053040010/call_sSNV/Strelka2-2.9.10_LUAD0000034_CPT0053040010_Indel.vcf.gz
+      - actual: output/call-sSNV-*/NA24143/Strelka2-*/output/Strelka2-*_IlluminaTest_NA24143_Indel.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSNV-8.0.0-rc.1/NA24143/Strelka2-2.9.10/output/Strelka2-2.9.10_IlluminaTest_NA24143_Indel.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-      - actual: output/call-sSNV-*/CPT0053040010/Strelka2-2.9.10/output/Strelka2-2.9.10_LUAD0000034_CPT0053040010_SNV.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/CPT0053040010/call_sSNV/Strelka2-2.9.10_LUAD0000034_CPT0053040010_SNV.vcf.gz
+      - actual: output/call-sSNV-*/NA24143/Strelka2-*/output/Strelka2-*_IlluminaTest_NA24143_SNV.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSNV-8.0.0-rc.1/NA24143/Strelka2-2.9.10/output/Strelka2-2.9.10_IlluminaTest_NA24143_SNV.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-      - actual: output/call-sSNV-*/CPT0053040010/Mutect2-4.4.0.0/output/Mutect2-4.4.0.0_LUAD0000034_CPT0053040010_Indel.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/CPT0053040010/call_sSNV/Mutect2-4.4.0.0_LUAD0000034_CPT0053040010_Indel.vcf.gz
+      - actual: output/call-sSNV-*/NA24143/Mutect2-*/output/Mutect2-*_IlluminaTest_NA24143_Indel.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSNV-8.0.0-rc.1/NA24143/Mutect2-4.4.0.0/output/Mutect2-4.4.0.0_IlluminaTest_NA24143_Indel.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-      - actual: output/call-sSNV-*/CPT0053040010/Mutect2-4.4.0.0/output/Mutect2-4.4.0.0_LUAD0000034_CPT0053040010_MNV.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/CPT0053040010/call_sSNV/Mutect2-4.4.0.0_LUAD0000034_CPT0053040010_MNV.vcf.gz
+      - actual: output/call-sSNV-*/NA24143/Mutect2-*/output/Mutect2-*_IlluminaTest_NA24143_MNV.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSNV-8.0.0-rc.1/NA24143/Mutect2-4.4.0.0/output/Mutect2-4.4.0.0_IlluminaTest_NA24143_MNV.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-      - actual: output/call-sSNV-*/CPT0053040010/Mutect2-4.4.0.0/output/Mutect2-4.4.0.0_LUAD0000034_CPT0053040010_SNV.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-sSNV/GZLUCPTA000001/CPT0053040010/call_sSNV/Mutect2-4.4.0.0_LUAD0000034_CPT0053040010_SNV.vcf.gz
+      - actual: output/call-sSNV-*/NA24143/Mutect2-*/output/Mutect2-*_IlluminaTest_NA24143_SNV.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSNV-8.0.0-rc.1/NA24143/Mutect2-4.4.0.0/output/Mutect2-4.4.0.0_IlluminaTest_NA24143_SNV.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-
 
   - name: test-call-mtSNV
     message: Test call-mtSNV pipeline with one tumor normal pair
@@ -130,18 +117,18 @@ cases:
     verbose: true
     skip: true
     asserts:
-      # Disabling the tsv test as the tsv contains a timestamp so files are never equal - might require a custom comparison script
-      # - actual: test/output/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_mtSNV/call_heteroplasmy/GZLUCPTA000001-T001-P01-F_vs_GZLUCPTA000001-N001-B01-F.tsv
-      #   expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-mtSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_mtSNV/call_heteroplasmy/GZLUCPTA000001-T001-P01-F_vs_GZLUCPTA000001-N001-B01-F.tsv
-
-      - actual: output/call-mtSNV-3.0.0/GZLUCPTA000001-T001-P01-F/mitoCaller-1.0.0/output/mitoCaller2vcf-1.0.0_LUAD0000034_GZLUCPTA000001-N001-B01-F.vcf
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-mtSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_mtSNV/convert_mitoCaller2vcf_mitoCaller/GZLUCPTA000001-T001-P01-F/GZLUCPTA000001-T001-P01-F.vcf
+      - actual: output/call-mtSNV-*/NA24143/mitoCaller-*/output/mitoCaller2vcf-*_IlluminaTest_NA24143.vcf
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-mtSNV-3.0.0/NA24143/mitoCaller-1.0.0/output/mitoCaller2vcf-1.0.0_IlluminaTest_NA24143.vcf
         script: test/test-call-gSNP/assert_vcf.sh
-
-      - actual: output/call-mtSNV-3.0.0/GZLUCPTA000001-T001-P01-F/mitoCaller-1.0.0/output/mitoCaller2vcf-1.0.0_LUAD0000034_GZLUCPTA000001-N001-B01-F_homoplasmy.vcf
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/1.0.0/test-output/test-call-mtSNV/GZLUCPTA000001/GZLUCPTA000001-T001-P01-F/call_mtSNV/convert_mitoCaller2vcf_mitoCaller/GZLUCPTA000001-T001-P01-F/GZLUCPTA000001-T001-P01-F_homoplasmy.vcf
+      - actual: output/call-mtSNV-*/NA24143/mitoCaller-*/output/mitoCaller2vcf-*_IlluminaTest_NA24143_homoplasmy.vcf
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-mtSNV-3.0.0/NA24143/mitoCaller-1.0.0/output/mitoCaller2vcf-1.0.0_IlluminaTest_NA24143_homoplasmy.vcf
         script: test/test-call-gSNP/assert_vcf.sh
-
+      - actual: output/call-mtSNV-*/NA24143/mitoCaller-*/output/mitoCaller2vcf-*_IlluminaTest_NA24149.vcf
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-mtSNV-3.0.0/NA24143/mitoCaller-1.0.0/output/mitoCaller2vcf-1.0.0_IlluminaTest_NA24149.vcf
+        script: test/test-call-gSNP/assert_vcf.sh
+      - actual: output/call-mtSNV-*/NA24143/mitoCaller-*/output/mitoCaller2vcf-*_IlluminaTest_NA24149_homoplasmy.vcf
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-mtSNV-3.0.0/NA24143/mitoCaller-1.0.0/output/mitoCaller2vcf-1.0.0_IlluminaTest_NA24149_homoplasmy.vcf
+        script: test/test-call-gSNP/assert_vcf.sh
 
   - name: test-call-gSV
     message: Test call-gSV pipeline with one tumor normal pair
@@ -150,22 +137,15 @@ cases:
     verbose: true
     skip: true
     asserts:
-      - actual: output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/DELLY-1.1.3/output/DELLY-1.1.3_CNV_LUAD0000034_GZLUCPTA000001-N001-B01-F.bcf
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-gSV/output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/DELLY-1.1.3/output/DELLY-1.1.3_CNV_LUAD0000034_GZLUCPTA000001-N001-B01-F.bcf
-        script: test/test-call-gSV/assert_bcf.sh
-      - actual: output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/DELLY-1.1.3/output/DELLY-1.1.3_SV_LUAD0000034_GZLUCPTA000001-N001-B01-F.bcf
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-gSV/output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/DELLY-1.1.3/output/DELLY-1.1.3_SV_LUAD0000034_GZLUCPTA000001-N001-B01-F.bcf
-        script: test/test-call-gSV/assert_bcf.sh
-      - actual: output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/Manta-1.6.0/output/diploidSV.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-gSV/output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/Manta-1.6.0/output/diploidSV.vcf.gz
+      - actual: output/call-gSV-*/NA24149/Manta-*/output/diploidSV.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-gSV-4.0.1/NA24149/Manta-1.6.0/output/diploidSV.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-      - actual: output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/Manta-1.6.0/output/candidateSV.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-gSV/output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/Manta-1.6.0/output/candidateSV.vcf.gz
+      - actual: output/call-gSV-*/NA24149/Manta-*/output/candidateSV.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-gSV-4.0.1/NA24149/Manta-1.6.0/output/candidateSV.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-      - actual: output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/Manta-1.6.0/output/candidateSmallIndels.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-gSV/output/call-gSV-4.0.1/GZLUCPTA000001-N001-B01-F/Manta-1.6.0/output/candidateSmallIndels.vcf.gz
+      - actual: output/call-gSV-*/NA24149/Manta-*/output/candidateSmallIndels.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-gSV-4.0.1/NA24149/Manta-1.6.0/output/candidateSmallIndels.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-
 
   - name: test-call-sSV
     message: Test call-sSV pipeline with one tumor normal pair
@@ -174,20 +154,20 @@ cases:
     verbose: true
     skip: true
     asserts:
-      - actual: output/call-sSV-6.0.0-rc.1/CPT0053040010/DELLY-1.1.3/output/DELLY-1.1.3_LUAD0000034_CPT0053040010.bcf
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-sSV/output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/DELLY-1.1.3/output/DELLY-1.1.3_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered.bcf
+      - actual: output/call-sSV-*/NA24143/DELLY-*/output/DELLY-*_IlluminaTest_NA24143.bcf
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSV-6.0.0-rc.1/NA24143/DELLY-1.1.3/output/DELLY-1.1.3_IlluminaTest_NA24143.bcf
         script: test/test-call-gSV/assert_bcf.sh
-      - actual: output/call-sSV-6.0.0-rc.1/CPT0053040010/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010_diploidSV.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-sSV/output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered_diploidSV.vcf.gz
+      - actual: output/call-sSV-*/NA24143/Manta-*/output/Manta-*_IlluminaTest_NA24143_diploidSV.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSV-6.0.0-rc.1/NA24143/Manta-1.6.0/output/Manta-1.6.0_IlluminaTest_NA24143_diploidSV.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-      - actual: output/call-sSV-6.0.0-rc.1/CPT0053040010/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010_candidateSV.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-sSV/output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered_candidateSV.vcf.gz
+      - actual: output/call-sSV-*/NA24143/Manta-*/output/Manta-*_IlluminaTest_NA24143_candidateSV.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSV-6.0.0-rc.1/NA24143/Manta-1.6.0/output/Manta-1.6.0_IlluminaTest_NA24143_candidateSV.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-      - actual: output/call-sSV-6.0.0-rc.1/CPT0053040010/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010_candidateSmallIndels.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-sSV/output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered_candidateSmallIndels.vcf.gz
+      - actual: output/call-sSV-*/NA24143/Manta-*/output/Manta-*_IlluminaTest_NA24143_candidateSmallIndels.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSV-6.0.0-rc.1/NA24143/Manta-1.6.0/output/Manta-1.6.0_IlluminaTest_NA24143_candidateSmallIndels.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-      - actual: output/call-sSV-6.0.0-rc.1/CPT0053040010/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010_somaticSV.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-sSV/output/call-sSV-5.0.0/CPT0053040010_realigned_recalibrated_reheadered/Manta-1.6.0/output/Manta-1.6.0_LUAD0000034_CPT0053040010-realigned-recalibrated-reheadered_somaticSV.vcf.gz
+      - actual: output/call-sSV-*/NA24143/Manta-*/output/Manta-*_IlluminaTest_NA24143_somaticSV.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSV-6.0.0-rc.1/NA24143/Manta-1.6.0/output/Manta-1.6.0_IlluminaTest_NA24143_somaticSV.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
 
   - name: test-call-sCNA-cnv-facets
@@ -197,20 +177,10 @@ cases:
     verbose: true
     skip: true
     asserts:
-      - actual: output/call-sCNA-*/CPT0053040010/cnv_facets-*/output/CNV-FACETS-*_LUAD0000034_CPT0053040010.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-sCNA/CPT0053040010/cnv_facets-0.16.0/output/CNV-FACETS-0.16.0_LUAD0000034_CPT0053040010.vcf.gz
+      - actual: output/call-sCNA-*/NA24143/cnv_facets-*/output/CNV-FACETS-*_IlluminaTest_NA24143.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sCNA-cnv-facets-3.0.0/NA24143/cnv_facets-0.16.0/output/CNV-FACETS-0.16.0_IlluminaTest_NA24143.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-
-  - name: test-call-sCNA-battenberg
-    message: Test call-sCNA pipeline with one tumor normal pair and Battenberg as the CNA caller
-    nf_script: test/test-call-sCNA/test.nf
-    nf_config: test/test-call-sCNA/test-Battenberg.config
-    verbose: true
-    skip: true
-    asserts:
-      - actual: output/call-sCNA-*/ILHNLNEV000002-T001-P01-F/Battenberg-*/output/Battenberg-*_HNSC0000016_ILHNLNEV000002-T001-P01-F_subclones.txt
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/germline-somatic/5.0.0-rc.4/test-output/test-call-sCNA/ILHNLNEV000002-T001-P01-F/Battenberg-2.2.9/output/Battenberg-2.2.9_HNSC0000016_ILHNLNEV000002-T001-P01-F_subclones.txt
-        script: md5
+    # TO-DO: Add Battenberg test sample
 
   - name: test-metapipeline-DNA
     message: Test calling all pipelines with one tumor normal pair

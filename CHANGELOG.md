@@ -8,6 +8,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+
+---
+
+## [6.0.0-rc.1] - 2024-03-11
 ### Added
 + pipeline-call-sCNA `v3.0.0` and its NFTest
 + Targeted coverage pipeline
@@ -18,6 +22,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 + Sanitize metadata passed to align-DNA
 + Calculate-targeted-coverage: update name from targeted-coverage
 + Save logs and input files for all pipelines
++ Update test samples
 
 ---
 
