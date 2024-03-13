@@ -137,13 +137,13 @@ cases:
     verbose: true
     skip: true
     asserts:
-      - actual: output/call-gSV-*/NA24149/Manta-*/output/diploidSV.vcf.gz
+      - actual: output/call-gSV-*/NA24149/Manta-*/output/Manta-*_IlluminaTest_NA24149_diploidSV.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-gSV-4.0.1/NA24149/Manta-1.6.0/output/diploidSV.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-      - actual: output/call-gSV-*/NA24149/Manta-*/output/candidateSV.vcf.gz
+      - actual: output/call-gSV-*/NA24149/Manta-*/output/Manta-*_IlluminaTest_NA24149_candidateSV.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-gSV-4.0.1/NA24149/Manta-1.6.0/output/candidateSV.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
-      - actual: output/call-gSV-*/NA24149/Manta-*/output/candidateSmallIndels.vcf.gz
+      - actual: output/call-gSV-*/NA24149/Manta-*/output/Manta-*_IlluminaTest_NA24149_candidateSmallIndels.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-gSV-4.0.1/NA24149/Manta-1.6.0/output/candidateSmallIndels.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
 
