@@ -58,3 +58,6 @@
 	url = git@github.com:uclahs-cds/pipeline-call-sCNA.git
 	branch = main
 	ignore = dirty
+[submodule "external/pipeline-generate-SQC-BAM"]
+	path = external/pipeline-generate-SQC-BAM
+	url = git@github.com:uclahs-cds/pipeline-generate-SQC-BAM.git
