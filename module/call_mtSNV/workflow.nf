@@ -2,7 +2,7 @@
 * Module for calling the call-sSNV pipeline
 */
 
-include { create_CSV_call_mtSNV } from "${moduleDir}/create_CSV_call_mtSNV" addParams( log_output_dir: params.metapipeline_log_output_dir )
+include { create_YAML_call_mtSNV } from "${moduleDir}/create_YAML_call_mtSNV"
 include { run_call_mtSNV } from "${moduleDir}/run_call_mtSNV" addParams( log_output_dir: params.metapipeline_log_output_dir )
 include { mark_pipeline_complete } from "../pipeline_status"
 
@@ -37,41 +37,34 @@ workflow call_mtSNV {
             .set{ ich }
 
         if (params.sample_mode == 'single') {
-            // In signle sample mode, call-mtSNV expects the input to be in the normal sample column
             ich.map{ it -> it.normal }
                 .flatten()
+                .map{ it -> ['normal': [it], 'tumor': []] }
                 .set{ input_ch_normal }
             ich.map{ it -> it.tumor }
                 .flatten()
+                .map{ it -> ['normal': [], 'tumor': [it]] }
                 .set{ input_ch_tumor }
 
-            input_ch_normal.mix(input_ch_tumor).map{ it ->
-                [
-                    'NO_ID',
-                    it['sample'],
-                    '/scratch/NO_FILE.bam',
-                    it['bam']
-                ]
-            }.set{ input_ch_create_CSV }
+            input_ch_normal.mix(input_ch_tumor).set{ input_ch_create_call_mtsnv_yaml }
         } else {
-            // Call-mtSNV only supports single or paired modes, not multi
-            ich.map{ it -> it.normal }.flatten().unique{ [it.patient, it.sample, it.state] }.set{ input_ch_normal }
-            ich.map{ it -> it.tumor }.flatten().unique{ [it.patient, it.sample, it.state] }.set{ input_ch_tumor }
+            ich.map{ it -> it.normal }
+                .flatten()
+                .unique{ [it.patient, it.sample, it.state] }
+                .set{ input_ch_normal }
+            ich.map{ it -> it.tumor }
+                .flatten()
+                .unique{ [it.patient, it.sample, it.state] }
+                .set{ input_ch_tumor }
 
             input_ch_normal.combine(input_ch_tumor).map{ it ->
-                ['normal': it[0], 'tumor': it[1]]
-            }.map{ it ->
-                [
-                    it['tumor']['sample'],
-                    it['normal']['sample'],
-                    it['tumor']['bam'],
-                    it['normal']['bam']
-                ]
-            }.set{ input_ch_create_CSV }
+                ['normal': [it[0]], 'tumor': [it[1]]]
+            }
+            .set{ input_ch_create_call_mtsnv_yaml }
         }
 
-        create_CSV_call_mtSNV(input_ch_create_CSV)
-        run_call_mtSNV(create_CSV_call_mtSNV.out.call_mtsnv_csv)
+        create_YAML_call_mtSNV(input_ch_create_call_mtsnv_yaml)
+        run_call_mtSNV(create_YAML_call_mtSNV.out.call_mtsnv_yaml)
 
         run_call_mtSNV.out.complete
             .mix( pipeline_predecessor_complete )

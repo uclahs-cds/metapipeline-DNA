@@ -16,14 +16,14 @@ process run_call_gSV {
     publishDir path: "${params.log_output_dir}/process-log",
         mode: "copy",
         pattern: ".command.*",
-        saveAs: { "${task.process.replace(':', '/')}-${task.id}/log${file(it).getName()}" }
+        saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }
 
     publishDir "${params.output_dir}/output",
         mode: "copy",
         pattern: "call-gSV-*/*"
 
     input:
-        path(input_csv)
+        path(input_yaml)
 
     output:
         path "call-gSV-*/*"
@@ -31,13 +31,9 @@ process run_call_gSV {
         val('done'), emit: complete
 
     script:
-    String params_to_dump = combine_input_with_params(params.call_gSV.metapipeline_arg_map)
+    String params_to_dump = combine_input_with_params(params.call_gSV.metapipeline_arg_map, new File(input_yaml.toRealPath().toString()))
     """
     set -euo pipefail
-
-    cat ${moduleDir}/default.config | \
-        sed "s:<OUTPUT-DIR-METAPIPELINE>:\$(pwd):g" \
-        > call_gsv_default_metapipeline.config
 
     printf "${params_to_dump}" > combined_call_gsv_params.yaml
 
@@ -45,8 +41,8 @@ process run_call_gSV {
         ${moduleDir}/../../external/pipeline-call-gSV/main.nf \
         -params-file combined_call_gsv_params.yaml \
         --work_dir ${params.work_dir} \
-        --input_csv ${input_csv} \
+        --output_dir \$(pwd) \
         --dataset_id ${params.project_id} \
-        -c call_gsv_default_metapipeline.config
+        -c ${moduleDir}/default.config
     """
 }

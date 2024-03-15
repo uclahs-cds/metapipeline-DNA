@@ -2,7 +2,7 @@
     Main entrypoint for calling call-gSV pipeline
 */
 
-include { create_CSV_call_gSV } from "${moduleDir}/create_CSV_call_gSV" addParams( log_output_dir: params.metapipeline_log_output_dir )
+include { create_YAML_call_gSV } from "${moduleDir}/create_YAML_call_gSV"
 include { run_call_gSV } from "${moduleDir}/run_call_gSV" addParams( log_output_dir: params.metapipeline_log_output_dir )
 include { mark_pipeline_complete } from "../pipeline_status"
 
@@ -47,11 +47,11 @@ workflow call_gSV {
             .flatten()
             .unique{ [it.patient, it.sample, it.state] }
             .map{ it -> [params.patient, it['sample'], it['bam']] }
-            .set{ input_ch_create_CSV }
+            .set{ input_ch_create_YAML }
 
-        create_CSV_call_gSV(input_ch_create_CSV)
+        create_YAML_call_gSV(input_ch_create_YAML)
 
-        run_call_gSV(create_CSV_call_gSV.out.call_gsv_csv)
+        run_call_gSV(create_YAML_call_gSV.out.call_gsv_yaml)
 
         run_call_gSV.out.complete
             .mix( pipeline_predecessor_complete )

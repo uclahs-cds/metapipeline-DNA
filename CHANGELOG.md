@@ -8,6 +8,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+### Changed
++ Call-sSNV: `8.0.0-rc.1` -> `8.0.0`
++ Call-gSNP: `10.0.0-rc.3` -> `10.0.0`
++ Call-mtSNV: `3.0.0` -> `4.0.0-rc.1`
++ Call-gSV: `4.0.1` -> `5.0.0-rc.1`
++ Recalibrate-BAM: `1.0.0-rc.4` -> `1.0.0`
++ call-sSV: `6.0.0-rc.1` -> `6.1.0`
 
 ---
 
