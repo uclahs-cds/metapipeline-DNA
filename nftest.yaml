@@ -52,6 +52,26 @@ cases:
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/calculate-targeted-coverage-1.0.0-rc.2/NA24149/SAMtools-1.16.1/output/NA24149.target_with_enriched_off-target_intervals.bed
         script: test/test-calculate-targeted-coverage/assert_bed.sh
 
+  - name: test-generate-SQC-BAM
+    message: Test generate-SQC-BAM pipeline
+    nf_script: test/test-generate-SQC-BAM/test.nf
+    nf_config: test/test-generate-SQC-BAM/test.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: output/generate-SQC-BAM-*/IlluminaPatient1/SAMtools-*/output/SAMtools-*_IlluminaTest_NA24143_stats.txt
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/generate-SQC-BAM-1.0.0/IlluminaPatient1/SAMtools-1.18/output/SAMtools-1.18_IlluminaTest_NA24143_stats.txt
+        method: md5
+      - actual: output/generate-SQC-BAM-*/IlluminaPatient1/SAMtools-*/output/SAMtools-*_IlluminaTest_NA24149_stats.txt
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/generate-SQC-BAM-1.0.0/IlluminaPatient1/SAMtools-1.18/output/SAMtools-1.18_IlluminaTest_NA24149_stats.txt
+        method: md5
+      - actual: output/generate-SQC-BAM-*/IlluminaPatient1/Picard-*/output/Picard-*_IlluminaTest_NA24143_wgs-metrics.txt
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/generate-SQC-BAM-1.0.0/IlluminaPatient1/Picard-3.1.0/output/Picard-3.1.0_IlluminaTest_NA24143_wgs-metrics.txt
+        script: test/test-generate-SQC-BAM/assert_metrics.sh
+      - actual: output/generate-SQC-BAM-*/IlluminaPatient1/Picard-*/output/Picard-*_IlluminaTest_NA24149_wgs-metrics.txt
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/generate-SQC-BAM-1.0.0/IlluminaPatient1/Picard-3.1.0/output/Picard-3.1.0_IlluminaTest_NA24149_wgs-metrics.txt
+        script: test/test-generate-SQC-BAM/assert_metrics.sh
+
   - name: test-call-gSNP
     message: Test call-gSNP with one tumor normal pair
     nf_script: test/test-call-gSNP/test.nf
