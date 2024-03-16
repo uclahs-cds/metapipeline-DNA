@@ -5,6 +5,7 @@ include { convert_BAM2FASTQ } from "${moduleDir}/convert_BAM2FASTQ/workflow"
 include { align_DNA } from "${moduleDir}/align_DNA/workflow"
 include { recalibrate_BAM } from "${moduleDir}/recalibrate_BAM/workflow"
 include { calculate_targeted_coverage } from "${moduleDir}/calculate_targeted_coverage/workflow"
+include { generate_SQC_BAM } from "${moduleDir}/generate_SQC_BAM/workflow"
 include { call_gSNP } from "${moduleDir}/call_gSNP/workflow"
 include { call_sSNV } from "${moduleDir}/call_sSNV/workflow"
 include { call_mtSNV } from "${moduleDir}/call_mtSNV/workflow"
@@ -41,6 +42,10 @@ workflow {
 
     if (params.calculate_targeted_coverage.is_pipeline_enabled) {
         calculate_targeted_coverage(recalibrate_BAM.out.recalibrate_sample_data_updated)
+    }
+
+    if (params.generate_SQC_BAM.is_pipeline_enabled) {
+        generate_SQC_BAM(recalibrate_BAM.out.recalibrate_sample_data_updated)
     }
 
     if (params.call_gSNP.is_pipeline_enabled) {
