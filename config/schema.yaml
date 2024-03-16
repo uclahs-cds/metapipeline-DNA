@@ -58,6 +58,7 @@ downstream_pipeline_order:
   required: false
   choices:
     - calculate-targeted-coverage
+    - generate-SQC-BAM
     - call-gSNP
     - call-gSV
     - call-mtSNV
@@ -71,6 +72,7 @@ requested_pipelines:
   default:
     - align-DNA
     - recalibrate-BAM
+    - generate-SQC-BAM
     - call-gSNP
     - call-gSV
     - call-mtSNV
@@ -81,6 +83,7 @@ requested_pipelines:
     - align-DNA
     - recalibrate-BAM
     - calculate-targeted-coverage
+    - generate-SQC-BAM
     - call-gSNP
     - call-gSV
     - call-mtSNV
@@ -169,6 +172,14 @@ pipeline_params:
       type: 'Namespace'
       required: true
       help: 'Parameters for call-sCNA'
+    calculate_targeted_coverage:
+      type: 'Namespace'
+      required: true
+      help: 'Parameters for calculate-targeted-coverage'
+    generate_SQC_BAM:
+      type: 'Namespace'
+      required: true
+      help: 'Parameters for generated-SQC-BAM'
 input:
   type: 'InputNamespace'
   required: true
