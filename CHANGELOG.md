@@ -8,6 +8,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+### Added
++ BAM sample QC pipeline `v1.0.0`
 ### Changed
 + Call-sSNV: `8.0.0-rc.1` -> `8.0.0`
 + Call-gSNP: `10.0.0-rc.3` -> `10.0.0`
