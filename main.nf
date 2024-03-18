@@ -1,6 +1,6 @@
 #!/usr/bin/env nextflow
 /*
-* Main entrance of alling the germline somatic pipeline in batches.
+* Main entrance of calling the germline somatic pipeline in batches.
 */
 
 nextflow.enable.dsl = 2
@@ -43,6 +43,8 @@ log.info """\
         uclahs-cds/pipeline-call-gSV: ${params.version_call_gSV}
         uclahs-cds/pipeline-call-sSV: ${params.version_call_sSV}
         uclahs-cds/pipeline-call-sCNA: ${params.version_call_sCNA}
+        uclahs-cds/pipeline-calculate-targeted-coverage: ${params.version_calculate_targeted_coverage}
+        uclahs-cds/pipeline-generate-SQC-BAM: ${params.version_generate_SQC_BAM}
 
     ------------------------------------
     Starting workflow...
