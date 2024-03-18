@@ -1,6 +1,6 @@
 #!/bin/bash
 function md5_metrics {
-    cat "$1" | grep -v '^# ' | md5sum | cut -f 1 -d ' '
+    grep -v '^# ' "$1" | md5sum | cut -f 1 -d ' '
 }
 
 received=$(md5_metrics "$1")
