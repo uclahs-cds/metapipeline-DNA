@@ -1,8 +1,8 @@
 /*
-*   Create directory for tracking pipeline status
+*   Create the given directory and any necessary parent directories
 */
-def create_status_directory() {
-    new File(params.pipeline_status_directory).mkdirs()
+def create_directory(String directory_to_create) {
+    new File(directory_to_create).mkdirs()
 }
 
 /*
