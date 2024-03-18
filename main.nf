@@ -20,7 +20,7 @@ log.info """\
         version: ${workflow.manifest.version}
 
     - input:
-        input input_csv: ${params.input_csv}
+        input input_csv: ${params.containsKey('input_csv') ? params.input_csv : 'YAML input used.'}
         input project_id: ${params.project_id}
 
     - output:
