@@ -12,11 +12,14 @@ include { call_mtSNV } from "${moduleDir}/call_mtSNV/workflow"
 include { call_gSV } from "${moduleDir}/call_gSV/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir )
 include { call_sSV } from "${moduleDir}/call_sSV/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir )
 include { call_sCNA } from "${moduleDir}/call_sCNA/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir )
-include { create_status_directory; mark_pipeline_complete } from "${moduleDir}/pipeline_status"
+include { create_directory; mark_pipeline_complete } from "${moduleDir}/pipeline_status"
 
 workflow {
     // Create a status directory to track when pipelines complete
-    create_status_directory()
+    create_directory(params.pipeline_status_directory)
+
+    // Create a directory to track pipeline exit codes
+    create_directory(params.pipeline_exit_status_directory)
 
     Channel.of('done').set{ bam2fastq_modification_complete }
 
