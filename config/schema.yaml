@@ -179,7 +179,7 @@ pipeline_params:
     generate_SQC_BAM:
       type: 'Namespace'
       required: true
-      help: 'Parameters for generated-SQC-BAM'
+      help: 'Parameters for generate-SQC-BAM'
 input:
   type: 'InputNamespace'
   required: true
