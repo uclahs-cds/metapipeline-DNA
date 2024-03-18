@@ -11,14 +11,14 @@ process run_generate_SQC_BAM {
     publishDir path: "${params.log_output_dir}/process-log",
         mode: "copy",
         pattern: ".command.*",
-        saveAs: { "${task.process.replace(':', '/')}-${params.patient}/log${file(it).getName()}" }
+        saveAs: { "${task.process.replace(':', '/')}-${resolved_id}/log${file(it).getName()}" }
 
     publishDir "${params.output_dir}/output",
         mode: "copy",
         pattern: "generate-SQC-BAM-*/*"
 
     input:
-        path(input_yaml)
+        tuple val(resolved_id), path(input_yaml)
 
     output:
         file "generate-SQC-BAM-*/*"
@@ -38,7 +38,6 @@ process run_generate_SQC_BAM {
         --work_dir ${params.work_dir} \
         --output_dir \$(pwd) \
         --dataset_id ${params.project_id} \
-        --patient_id ${params.patient} \
         -c ${moduleDir}/default.config
     """
 }

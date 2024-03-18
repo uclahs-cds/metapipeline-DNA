@@ -9,7 +9,7 @@ import org.yaml.snakeyaml.Yaml
 *   @return Path to input_yaml
 */
 process create_YAML_generate_SQC_BAM {
-    publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}",
+    publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${patient_id}",
         pattern: 'generate_SQC_BAM_input.yaml',
         mode: 'copy'
 
@@ -17,7 +17,7 @@ process create_YAML_generate_SQC_BAM {
         val(sample_info)
 
     output:
-        path(input_yaml)
+        tuple val(patient_id), path(input_yaml)
 
     exec:
     input_yaml = 'generate_SQC_BAM_input.yaml'
@@ -37,8 +37,17 @@ process create_YAML_generate_SQC_BAM {
         single_sample_type = 'tumor'
     }
 
+    patient_id = ''
+    if (params.sample_mode == 'single') {
+        assert sample_info[single_sample_type].sample.size() == 1
+        patient_id = sample_info[single_sample_type].sample[0]
+    } else {
+        patient_id = params.patient
+    }
+
     if (params.sample_mode == 'single') {
         input_map = [
+            'patient_id': patient_id,
             'input': [
                 'BAM': [
                     ("${single_sample_type}" as String) : sample_info[single_sample_type].collect{ ['path': ("${it['bam']}" as String)] }
@@ -47,6 +56,7 @@ process create_YAML_generate_SQC_BAM {
         ]
     } else {
         input_map = [
+            'patient_id': patient_id,
             'input': [
                 'BAM': [
                     'normal': sample_info.normal.collect{ ['path': ("${it['bam']}" as String)] },
