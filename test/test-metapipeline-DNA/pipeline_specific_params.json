@@ -81,6 +81,24 @@
             "subworkflow_cpus": 8
         }
     },
+    "generate_SQC_BAM": {
+        "algorithms": [
+            "stats",
+            "collectwgsmetrics"
+        ],
+        "reference": "/hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.fasta",
+        "is_pipeline_enabled": true,
+        "subworkflow_cpus": 8,
+        "metapipeline_arg_map": {
+            "algorithms": [
+                "stats",
+                "collectwgsmetrics"
+            ],
+            "reference": "/hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.fasta",
+            "is_pipeline_enabled": true,
+            "subworkflow_cpus": 8
+        }
+    },
     "call_gSNP": {
         "reference_fasta": "/hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.fasta",
         "bundle_mills_and_1000g_gold_standard_indels_vcf_gz": "/hot/ref/tool-specific-input/GATK/GRCh38/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz",
@@ -241,6 +259,7 @@
     },
     "pipeline_predecessor": {
         "calculate-targeted-coverage": "recalibrate-BAM",
+        "generate-SQC-BAM": "recalibrate-BAM",
         "call-gSNP": "recalibrate-BAM",
         "call-gSV": "recalibrate-BAM",
         "call-mtSNV": "recalibrate-BAM",
