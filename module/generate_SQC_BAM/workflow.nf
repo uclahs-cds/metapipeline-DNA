@@ -3,7 +3,7 @@
 */
 include { create_YAML_generate_SQC_BAM } from "${moduleDir}/create_YAML_generate_SQC_BAM"
 include { run_generate_SQC_BAM } from "${moduleDir}/run_generate_SQC_BAM" addParams( log_output_dir: params.metapipeline_log_output_dir )
-include { mark_pipeline_complete } from "../pipeline_status"
+include { mark_pipeline_complete; mark_pipeline_exit_code } from "../pipeline_status"
 
 /*
 * Main workflow for generating BAM SQC
@@ -52,5 +52,18 @@ workflow generate_SQC_BAM {
                 mark_pipeline_complete('generate-SQC-BAM');
                 return 'done';
             }
+            .mix(
+                run_generate_SQC_BAM.out.exit_code
+                    .reduce(0) { a, b ->
+                        a = a + (b as Integer);
+                        return a;
+                    }
+                    .map { exit_code ->
+                        mark_pipeline_exit_code('generate-SQC-BAM', exit_code);
+                        return 'done';
+                    }
+            )
+            .collect()
+            .map { it -> return 'done'; }
             .set{ completion_signal }
 }
