@@ -54,10 +54,8 @@ workflow generate_SQC_BAM {
             }
             .mix(
                 run_generate_SQC_BAM.out.exit_code
-                    .reduce(0) { a, b ->
-                        a = a + (b as Integer);
-                        return a;
-                    }
+                    .map{ it -> (it as Integer) }
+                    .sum()
                     .map { exit_code ->
                         mark_pipeline_exit_code('generate-SQC-BAM', exit_code);
                         return 'done';

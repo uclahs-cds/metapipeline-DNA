@@ -62,10 +62,8 @@ workflow call_gSV {
             }
             .mix(
                 run_call_gSV.out.exit_code
-                    .reduce(0) { a, b ->
-                        a = a + (b as Integer);
-                        return a;
-                    }
+                    .map{ it -> (it as Integer) }
+                    .sum()
                     .map { exit_code ->
                         mark_pipeline_exit_code('call-gSV', exit_code);
                         return 'done';

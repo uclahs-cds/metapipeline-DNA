@@ -112,10 +112,8 @@ workflow call_sSNV {
             }
             .mix(
                 run_call_sSNV.out.exit_code
-                    .reduce(0) { a, b ->
-                        a = a + (b as Integer);
-                        return a;
-                    }
+                    .map{ it -> (it as Integer) }
+                    .sum()
                     .map { exit_code ->
                         mark_pipeline_exit_code('call-sSNV', exit_code);
                         return 'done';

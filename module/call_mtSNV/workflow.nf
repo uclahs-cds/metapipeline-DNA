@@ -75,10 +75,8 @@ workflow call_mtSNV {
             }
             .mix(
                 run_call_mtSNV.out.exit_code
-                    .reduce(0) { a, b ->
-                        a = a + (b as Integer);
-                        return a;
-                    }
+                    .map{ it -> (it as Integer) }
+                    .sum()
                     .map { exit_code ->
                         mark_pipeline_exit_code('call-mtSNV', exit_code);
                         return 'done';
