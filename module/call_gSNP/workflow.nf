@@ -3,7 +3,7 @@
 */
 include { create_YAML_call_gSNP } from "${moduleDir}/create_YAML_call_gSNP"
 include { run_call_gSNP } from "${moduleDir}/run_call_gSNP" addParams( log_output_dir: params.metapipeline_log_output_dir )
-include { mark_pipeline_complete } from "../pipeline_status"
+include { mark_pipeline_complete; mark_pipeline_exit_code } from "../pipeline_status"
 
 /*
 * Main workflow for calling the call-gSNP pipeline
@@ -77,5 +77,18 @@ workflow call_gSNP {
                 mark_pipeline_complete('call-gSNP');
                 return 'done';
             }
+            .mix(
+                run_call_gSNP.out.exit_code
+                    .reduce(0) { a, b ->
+                        a = a + (b as Integer);
+                        return a;
+                    }
+                    .map { exit_code ->
+                        mark_pipeline_exit_code('call-gSNP', exit_code);
+                        return 'done';
+                    }
+            )
+            .collect()
+            .map { it -> return 'done'; }
             .set{ completion_signal }
 }
