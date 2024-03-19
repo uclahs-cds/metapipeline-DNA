@@ -3,7 +3,7 @@
 */
 include { create_YAML_call_sSNV } from "${moduleDir}/create_YAML_call_sSNV"
 include { run_call_sSNV } from "${moduleDir}/run_call_sSNV" addParams( log_output_dir: params.metapipeline_log_output_dir )
-include { mark_pipeline_complete } from "../pipeline_status"
+include { mark_pipeline_complete; mark_pipeline_exit_code } from "../pipeline_status"
 
 /*
 * Main workflow for calling the call-sSNV pipeline
@@ -110,5 +110,18 @@ workflow call_sSNV {
                 mark_pipeline_complete('call-sSNV');
                 return 'done';
             }
+            .mix(
+                run_call_sSNV.out.exit_code
+                    .reduce(0) { a, b ->
+                        a = a + (b as Integer);
+                        return a;
+                    }
+                    .map { exit_code ->
+                        mark_pipeline_exit_code('call-sSNV', exit_code);
+                        return 'done';
+                    }
+            )
+            .collect()
+            .map { it -> return 'done'; }
             .set{ completion_signal }
 }
