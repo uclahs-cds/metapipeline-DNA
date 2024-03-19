@@ -2,7 +2,7 @@
 * Nextflow module for calling the call-sSNV pipeline
 */
 
-include { combine_input_with_params; generate_failure_commands } from '../common.nf'
+include { combine_input_with_params; generate_graceful_error_controller } from '../common.nf'
 
 /*
 * Process to call the call-sSNV pipeline
@@ -44,7 +44,7 @@ process run_call_sSNV {
     script:
     def algorithm_list = (algorithms in List) ? algorithms : [algorithms]
     String params_to_dump = combine_input_with_params(params.call_sSNV.metapipeline_arg_map + ['algorithm': algorithm_list], new File(input_yaml.toRealPath().toString()))
-    String setup_commands = generate_failure_commands(task.ext)
+    String setup_commands = generate_graceful_error_controller(task.ext)
     """
     set -euo pipefail
 

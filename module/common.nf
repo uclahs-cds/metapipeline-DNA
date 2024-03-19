@@ -28,7 +28,7 @@ String identify_file(filepath) {
 /**
 *   Generate commands to control graceful failure of downstream pipelines
 */
-String generate_failure_commands(Map ext) {
+String generate_graceful_error_controller(Map ext) {
     String disable = 'export DISABLE_FAIL=""'
     String enable = 'export ENABLE_FAIL=""'
     String capture = 'capture_code () { export EXIT_CODE=$?; }'
