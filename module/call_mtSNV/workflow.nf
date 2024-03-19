@@ -4,7 +4,7 @@
 
 include { create_YAML_call_mtSNV } from "${moduleDir}/create_YAML_call_mtSNV"
 include { run_call_mtSNV } from "${moduleDir}/run_call_mtSNV" addParams( log_output_dir: params.metapipeline_log_output_dir )
-include { mark_pipeline_complete } from "../pipeline_status"
+include { mark_pipeline_complete; mark_pipeline_exit_code } from "../pipeline_status"
 
 workflow call_mtSNV {
     take:
@@ -73,5 +73,18 @@ workflow call_mtSNV {
                 mark_pipeline_complete('call-mtSNV');
                 return 'done';
             }
+            .mix(
+                run_call_mtSNV.out.exit_code
+                    .reduce(0) { a, b ->
+                        a = a + (b as Integer);
+                        return a;
+                    }
+                    .map { exit_code ->
+                        mark_pipeline_exit_code('call-mtSNV', exit_code);
+                        return 'done';
+                    }
+            )
+            .collect()
+            .map { it -> return 'done'; }
             .set{ completion_signal }
 }
