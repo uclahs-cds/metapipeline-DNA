@@ -227,14 +227,12 @@ process check_process_status {
 
     debug true
 
-    when params.uclahs_cds_wgs
-
     output:
     path(".command.*")
 
     script:
     """
-    if [ ! \$sbatch_ret -eq -1 ]
+    if [ ! ${sbatch_ret} -eq -1 ]
     then
         if `echo ${sbatch_ret} | grep -q "Submitted batch job"`
         then
@@ -247,14 +245,15 @@ process check_process_status {
             if `sacct -j \$job_id -o ExitCode --noheader | tr -d " " | sort -r | head -n 1 | grep -q "^0:0\$"`
             then
                 :
+            else
+                echo "Process in ${work_dir} failed with non-zero exit code."
             fi
         fi
-        echo "Process in ${work_dir} failed with non-zero exit code."
     fi
 
     pipeline_failures=""
 
-    exit_code_regex="^(.+)\.([0-9]+)"
+    exit_code_regex="^(.+)\\.([0-9]+)"
     for pipeline_exit_file in \$(ls ${work_dir}/PIPELINEEXITSTATUS)
     do
         if [[ \$pipeline_exit_file =~ \$exit_code_regex ]]
@@ -268,7 +267,7 @@ process check_process_status {
         fi
     done
 
-    if [ ! -z \$pipeline_failures ]
+    if [ ! -z "\$pipeline_failures" ]
     then
         echo "Process in ${work_dir} had failures in the following pipelines: \$pipeline_failures"
     fi
