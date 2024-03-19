@@ -3,7 +3,7 @@
 */
 include { create_YAML_calculate_targeted_coverage } from "${moduleDir}/create_YAML_calculate_targeted_coverage"
 include { run_calculate_targeted_coverage } from "${moduleDir}/run_calculate_targeted_coverage" addParams( log_output_dir: params.metapipeline_log_output_dir )
-include { mark_pipeline_complete } from "../pipeline_status"
+include { mark_pipeline_complete; mark_pipeline_exit_code } from "../pipeline_status"
 
 /*
 * Main workflow for calling the targeted-coverage pipeline
@@ -64,5 +64,18 @@ workflow calculate_targeted_coverage {
                 mark_pipeline_complete('calculate-targeted-coverage');
                 return 'done';
             }
+            .mix(
+                run_calculate_targeted_coverage.out.exit_code
+                    .reduce(0) { a, b ->
+                        a = a + (b as Integer);
+                        return a;
+                    }
+                    .map { exit_code ->
+                        mark_pipeline_exit_code('calculate-targeted-coverage', exit_code);
+                        return 'done';
+                    }
+            )
+            .collect()
+            .map { it -> return 'done'; }
            .set{ completion_signal }
 }
