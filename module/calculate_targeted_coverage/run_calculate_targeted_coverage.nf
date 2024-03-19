@@ -56,7 +56,7 @@ process run_calculate_targeted_coverage {
         --dataset_id ${params.project_id} \
         -c ${moduleDir}/default.config
 
-    capture_code
+    capture_exit_code
     \$ENABLE_FAIL
 
     rm -r \$WORK_DIR

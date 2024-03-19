@@ -52,7 +52,7 @@ process run_call_sSV {
         --dataset_id ${params.project_id} \
         -c ${moduleDir}/default.config
 
-    capture_code
+    capture_exit_code
     \$ENABLE_FAIL
     """
 }

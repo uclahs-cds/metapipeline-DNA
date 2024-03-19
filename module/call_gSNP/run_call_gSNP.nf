@@ -58,7 +58,7 @@ process run_call_gSNP {
         --dataset_id ${params.project_id} \
         -c ${moduleDir}/default.config
 
-    capture_code
+    capture_exit_code
     \$ENABLE_FAIL
 
     rm -r \$WORK_DIR

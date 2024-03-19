@@ -31,7 +31,7 @@ String identify_file(filepath) {
 String generate_graceful_error_controller(Map ext) {
     String disable = 'export DISABLE_FAIL=""'
     String enable = 'export ENABLE_FAIL=""'
-    String capture = 'capture_code () { export EXIT_CODE=$?; }'
+    String capture = 'capture_exit_code () { export EXIT_CODE=$?; }'
 
     if (ext && ext.containsKey('fail_gracefully') && ext.fail_gracefully) {
         disable = 'export DISABLE_FAIL="set +e"'
