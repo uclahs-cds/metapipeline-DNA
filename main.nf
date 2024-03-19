@@ -207,7 +207,8 @@ process call_metapipeline_DNA {
         --enable_input_deletion_recalibrate_bam ${params.enable_input_deletion_recalibrate_bam} \
         --normal_sample_count ${params.sample_counts[patient]['normal']} \
         --tumor_sample_count ${params.sample_counts[patient]['tumor']} \
-        -params-file ${pipeline_params_json}
+        -params-file ${pipeline_params_json} \
+        -c ${moduleDir}/config/metapipeline_DNA_base.config
     """ + limiter_wrapper_post
 }
 
