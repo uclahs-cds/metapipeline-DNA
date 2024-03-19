@@ -42,16 +42,15 @@ process run_call_gSNP {
     """
     set -euo pipefail
 
-    ${setup_commands}
-
     WORK_DIR=${params.work_dir}/work-call-gSNP-${sample_id_for_call_gsnp}
     mkdir \$WORK_DIR && chmod 2777 \$WORK_DIR
 
     printf "${params_to_dump}" > combined_call_gsnp_params.yaml
 
+    ${setup_commands}
     \$DISABLE_FAIL
 
-    nextflw run \
+    nextflow run \
         ${moduleDir}/../../external/pipeline-call-gSNP/main.nf \
         -params-file combined_call_gsnp_params.yaml \
         --work_dir \$WORK_DIR \
