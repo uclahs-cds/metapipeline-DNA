@@ -2,7 +2,7 @@
 * Nextflow module for calling the call-sCNA pipeline
 */
 
-include { combine_input_with_params } from '../common.nf'
+include { combine_input_with_params; generate_failure_commands } from '../common.nf'
 
 /*
 * Process to call the call-sCNA pipeline
@@ -12,6 +12,8 @@ include { combine_input_with_params } from '../common.nf'
 */
 process run_call_sCNA {
     cpus params.call_sCNA.subworkflow_cpus
+
+    label 'graceful_failure'
 
     publishDir path: "${params.log_output_dir}/process-log",
         mode: "copy",
@@ -26,16 +28,21 @@ process run_call_sCNA {
         path(input_yaml)
 
     output:
-        path "call-sCNA-*/*"
+        path "call-sCNA-*/*", optional: true
         path ".command.*"
         val('done'), emit: complete
+        env EXIT_CODE, emit: exit_code
 
     script:
     String params_to_dump = combine_input_with_params(params.call_sCNA.metapipeline_arg_map, new File(input_yaml.toRealPath().toString()))
+    String setup_commands = generate_failure_commands(task.ext)
     """
     set -euo pipefail
 
     printf "${params_to_dump}" > combined_call_scna_params.yaml
+
+    ${setup_commands}
+    \$DISABLE_FAIL
 
     nextflow run \
         ${moduleDir}/../../external/pipeline-call-sCNA/main.nf \
@@ -44,5 +51,8 @@ process run_call_sCNA {
         --output_dir \$(pwd) \
         --dataset_id ${params.project_id} \
         -c ${moduleDir}/default.config
+
+    capture_code
+    \$ENABLE_FAIL
     """
 }
