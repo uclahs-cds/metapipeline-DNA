@@ -32,7 +32,7 @@ process run_call_gSNP {
 
     output:
         path "call-gSNP-*/*", optional: true
-        file ".command.*"
+        path ".command.*"
         val('done'), emit: complete
         env EXIT_CODE, emit: exit_code
 
