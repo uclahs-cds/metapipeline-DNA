@@ -4,7 +4,7 @@
 
 include { create_YAML_call_sSV } from "${moduleDir}/create_YAML_call_sSV"
 include { run_call_sSV } from "${moduleDir}/run_call_sSV" addParams( log_output_dir: params.metapipeline_log_output_dir )
-include { mark_pipeline_complete } from "../pipeline_status"
+include { mark_pipeline_complete; mark_pipeline_exit_code } from "../pipeline_status"
 
 /*
 * Main workflow for calling the call-sSV pipeline
@@ -51,6 +51,7 @@ workflow call_sSV {
             .set{ ich }
 
         completion_signal.mix(ich).set{ completion_signal }
+        completion_signal.mix(ich).collect().map{ 0 }.set{ exit_code_ich }
 
         // Call-sSV only supports paired mode so run only when not in single mode
         if (params.sample_mode != 'single') {
@@ -74,6 +75,9 @@ workflow call_sSV {
             run_call_sSV.out.complete
                 .mix(completion_signal)
                 .set{ completion_signal }
+            run_call_sSV.out.exit_code
+                .mix( exit_code_ich )
+                .set{ exit_code_ich }
         }
 
         completion_signal
@@ -82,5 +86,18 @@ workflow call_sSV {
                 mark_pipeline_complete('call-sSV');
                 return 'done';
             }
+            .mix(
+                exit_code_ich
+                    .reduce(0) { a, b ->
+                        a = a + (b as Integer);
+                        return a;
+                    }
+                    .map { exit_code ->
+                        mark_pipeline_exit_code('call-sSV', exit_code);
+                        return 'done';
+                    }
+            )
+            .collect()
+            .map { it -> return 'done'; }
             .set{ completion_signal }
     }

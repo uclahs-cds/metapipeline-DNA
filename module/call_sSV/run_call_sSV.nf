@@ -2,7 +2,7 @@
 * Nextflow module for calling the call-sSV pipeline
 */
 
-include { combine_input_with_params } from '../common.nf'
+include { combine_input_with_params; generate_failure_commands } from '../common.nf'
 
 /*
 * Process to call the call-sSV pipeline
@@ -12,6 +12,8 @@ include { combine_input_with_params } from '../common.nf'
 */
 process run_call_sSV {
     cpus params.call_sSV.subworkflow_cpus
+
+    label 'graceful_failure'
 
     publishDir "${params.output_dir}/output",
         mode: "copy",
@@ -26,16 +28,21 @@ process run_call_sSV {
         path(input_yaml)
 
     output:
-        path "call-sSV-*/*"
+        path "call-sSV-*/*", optional: true
         path ".command.*"
         val('done'), emit: complete
+        env EXIT_CODE, emit: exit_code
 
     script:
     String params_to_dump = combine_input_with_params(params.call_sSV.metapipeline_arg_map, new File(input_yaml.toRealPath().toString()))
+    String setup_commands = generate_failure_commands(task.ext)
     """
     set -euo pipefail
 
     printf "${params_to_dump}" > combined_call_ssv_params.yaml
+
+    ${setup_commands}
+    \$DISABLE_FAIL
 
     nextflow run \
         ${moduleDir}/../../external/pipeline-call-sSV/main.nf \
@@ -44,5 +51,8 @@ process run_call_sSV {
         --output_dir \$(pwd) \
         --dataset_id ${params.project_id} \
         -c ${moduleDir}/default.config
+
+    capture_code
+    \$ENABLE_FAIL
     """
 }
