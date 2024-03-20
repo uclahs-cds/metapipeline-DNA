@@ -17,7 +17,7 @@ workflow generate_SQC_BAM {
     main:
         // Watch for pipeline ordering
         Channel.watchPath( "${params.pipeline_status_directory}/*.complete" )
-            .until{ it -> it.name == "${params.pipeline_predecessor['generate-SQC-BAM']}.complete" }
+            .until{ it -> it.name == "${params.pipeline_predecessor[params.this_pipeline]}.complete" }
             .ifEmpty('done')
             .collect()
             .map{ 'done' }
@@ -49,7 +49,7 @@ workflow generate_SQC_BAM {
             .mix( pipeline_predecessor_complete )
             .collect()
             .map{ it ->
-                mark_pipeline_complete('generate-SQC-BAM');
+                mark_pipeline_complete(params.this_pipeline);
                 return 'done';
             }
             .mix(
@@ -57,7 +57,7 @@ workflow generate_SQC_BAM {
                     .map{ it -> (it as Integer) }
                     .sum()
                     .map { exit_code ->
-                        mark_pipeline_exit_code('generate-SQC-BAM', exit_code);
+                        mark_pipeline_exit_code(params.this_pipeline, exit_code);
                         return 'done';
                     }
             )

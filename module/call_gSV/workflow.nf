@@ -18,7 +18,7 @@ workflow call_gSV {
     main:
         // Watch for pipeline ordering
         Channel.watchPath( "${params.pipeline_status_directory}/*.complete" )
-            .until{ it -> it.name == "${params.pipeline_predecessor['call-gSV']}.complete" }
+            .until{ it -> it.name == "${params.pipeline_predecessor[params.this_pipeline]}.complete" }
             .ifEmpty('done')
             .collect()
             .map{ 'done' }
@@ -57,7 +57,7 @@ workflow call_gSV {
             .mix( pipeline_predecessor_complete )
             .collect()
             .map{ it ->
-                mark_pipeline_complete('call-gSV');
+                mark_pipeline_complete(params.this_pipeline);
                 return 'done';
             }
             .mix(
@@ -65,7 +65,7 @@ workflow call_gSV {
                     .map{ it -> (it as Integer) }
                     .sum()
                     .map { exit_code ->
-                        mark_pipeline_exit_code('call-gSV', exit_code);
+                        mark_pipeline_exit_code(params.this_pipeline, exit_code);
                         return 'done';
                     }
             )
