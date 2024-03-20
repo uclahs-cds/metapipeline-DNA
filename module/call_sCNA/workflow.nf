@@ -20,7 +20,7 @@ workflow call_sCNA {
 
         // Watch for pipeline ordering
         Channel.watchPath( "${params.pipeline_status_directory}/*.complete" )
-            .until{ it -> it.name == "${params.pipeline_predecessor['call-sCNA']}.complete" }
+            .until{ it -> it.name == "${params.pipeline_predecessor[params.this_pipeline]}.complete" }
             .ifEmpty('done')
             .collect()
             .map{ 'done' }
@@ -84,7 +84,7 @@ workflow call_sCNA {
         completion_signal
             .collect()
             .map{ it ->
-                mark_pipeline_complete('call-sCNA');
+                mark_pipeline_complete(params.this_pipeline);
                 return 'done';
             }
             .mix(
@@ -92,7 +92,7 @@ workflow call_sCNA {
                     .map{ it -> (it as Integer) }
                     .sum()
                     .map { exit_code ->
-                        mark_pipeline_exit_code('call-sCNA', exit_code);
+                        mark_pipeline_exit_code(params.this_pipeline, exit_code);
                         return 'done';
                     }
             )

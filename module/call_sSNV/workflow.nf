@@ -17,7 +17,7 @@ workflow call_sSNV {
     main:
         // Watch for pipeline ordering
         Channel.watchPath( "${params.pipeline_status_directory}/*.complete" )
-            .until{ it -> it.name == "${params.pipeline_predecessor['call-sSNV']}.complete" }
+            .until{ it -> it.name == "${params.pipeline_predecessor[params.this_pipeline]}.complete" }
             .ifEmpty('done')
             .collect()
             .map{ 'done' }
@@ -107,7 +107,7 @@ workflow call_sSNV {
             .mix( pipeline_predecessor_complete )
             .collect()
             .map{ it ->
-                mark_pipeline_complete('call-sSNV');
+                mark_pipeline_complete(params.this_pipeline);
                 return 'done';
             }
             .mix(
@@ -115,7 +115,7 @@ workflow call_sSNV {
                     .map{ it -> (it as Integer) }
                     .sum()
                     .map { exit_code ->
-                        mark_pipeline_exit_code('call-sSNV', exit_code);
+                        mark_pipeline_exit_code(params.this_pipeline, exit_code);
                         return 'done';
                     }
             )
