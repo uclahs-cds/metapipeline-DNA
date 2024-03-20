@@ -16,8 +16,8 @@ workflow call_gSNP {
         modification_signal
     main:
         // Watch for pipeline ordering
-        Channel.watchPath( "${params.pipeline_status_directory}/*.complete" )
-            .until{ it -> it.name == "${params.pipeline_predecessor[params.this_pipeline]}.complete" }
+        Channel.watchPath( "${params.pipeline_status_directory}/*.ready" )
+            .until{ it -> it.name == "${params.this_pipeline}.ready" }
             .ifEmpty('done')
             .collect()
             .map{ 'done' }

@@ -25,7 +25,7 @@ def mark_pipeline_complete(String pipeline) {
 *   @input pipeline String Name of pipeline to delete completion status
 */
 def delete_completion_file(String pipeline) {
-    new File("${params.pipeline_status_directory}/${pipeline}.complete").delete()
+    new File("${params.pipeline_status_directory}/${pipeline}.ready").delete()
 }
 
 /*
