@@ -175,19 +175,19 @@ cases:
     skip: true
     asserts:
       - actual: output/call-sSV-*/NA24143/DELLY-*/output/DELLY-*_IlluminaTest_NA24143.bcf
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSV-6.0.0-rc.1/NA24143/DELLY-1.1.3/output/DELLY-1.1.3_IlluminaTest_NA24143.bcf
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSV-6.1.0/NA24143/DELLY-1.2.6/output/DELLY-1.2.6_IlluminaTest_NA24143.bcf
         script: test/test-call-gSV/assert_bcf.sh
       - actual: output/call-sSV-*/NA24143/Manta-*/output/Manta-*_IlluminaTest_NA24143_diploidSV.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSV-6.0.0-rc.1/NA24143/Manta-1.6.0/output/Manta-1.6.0_IlluminaTest_NA24143_diploidSV.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSV-6.1.0/NA24143/Manta-1.6.0/output/Manta-1.6.0_IlluminaTest_NA24143_diploidSV.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
       - actual: output/call-sSV-*/NA24143/Manta-*/output/Manta-*_IlluminaTest_NA24143_candidateSV.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSV-6.0.0-rc.1/NA24143/Manta-1.6.0/output/Manta-1.6.0_IlluminaTest_NA24143_candidateSV.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSV-6.1.0/NA24143/Manta-1.6.0/output/Manta-1.6.0_IlluminaTest_NA24143_candidateSV.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
       - actual: output/call-sSV-*/NA24143/Manta-*/output/Manta-*_IlluminaTest_NA24143_candidateSmallIndels.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSV-6.0.0-rc.1/NA24143/Manta-1.6.0/output/Manta-1.6.0_IlluminaTest_NA24143_candidateSmallIndels.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSV-6.1.0/NA24143/Manta-1.6.0/output/Manta-1.6.0_IlluminaTest_NA24143_candidateSmallIndels.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
       - actual: output/call-sSV-*/NA24143/Manta-*/output/Manta-*_IlluminaTest_NA24143_somaticSV.vcf.gz
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSV-6.0.0-rc.1/NA24143/Manta-1.6.0/output/Manta-1.6.0_IlluminaTest_NA24143_somaticSV.vcf.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-sSV-6.1.0/NA24143/Manta-1.6.0/output/Manta-1.6.0_IlluminaTest_NA24143_somaticSV.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
 
   - name: test-call-sCNA-cnv-facets
