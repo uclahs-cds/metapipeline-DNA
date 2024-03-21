@@ -4,7 +4,7 @@
 
 include { create_YAML_call_gSV } from "${moduleDir}/create_YAML_call_gSV"
 include { run_call_gSV } from "${moduleDir}/run_call_gSV" addParams( log_output_dir: params.metapipeline_log_output_dir )
-include { mark_pipeline_complete } from "../pipeline_status"
+include { mark_pipeline_complete; mark_pipeline_exit_code } from "../pipeline_status"
 
 /*
 * Main workflow for calling the call-gSV pipeline
@@ -60,5 +60,16 @@ workflow call_gSV {
                 mark_pipeline_complete('call-gSV');
                 return 'done';
             }
+            .mix(
+                run_call_gSV.out.exit_code
+                    .map{ it -> (it as Integer) }
+                    .sum()
+                    .map { exit_code ->
+                        mark_pipeline_exit_code('call-gSV', exit_code);
+                        return 'done';
+                    }
+            )
+            .collect()
+            .map { it -> return 'done'; }
             .set{ completion_signal }
 }

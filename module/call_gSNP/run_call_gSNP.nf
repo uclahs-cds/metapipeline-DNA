@@ -1,4 +1,4 @@
-include { combine_input_with_params } from '../common.nf'
+include { combine_input_with_params; generate_graceful_error_controller } from '../common.nf'
 /*
 * Call the call-gSNP pipeline
 *
@@ -12,6 +12,8 @@ include { combine_input_with_params } from '../common.nf'
 */
 process run_call_gSNP {
     cpus params.call_gSNP.subworkflow_cpus
+
+    label 'graceful_failure'
 
     publishDir path: "${params.log_output_dir}/process-log",
         mode: "copy",
@@ -29,12 +31,14 @@ process run_call_gSNP {
         )
 
     output:
-        file "call-gSNP-*/*"
-        file ".command.*"
+        path "call-gSNP-*/*", optional: true
+        path ".command.*"
         val('done'), emit: complete
+        env EXIT_CODE, emit: exit_code
 
     script:
     String params_to_dump = combine_input_with_params(params.call_gSNP.metapipeline_arg_map, new File(input_yaml.toRealPath().toString()))
+    String setup_commands = generate_graceful_error_controller(task.ext)
     """
     set -euo pipefail
 
@@ -43,6 +47,9 @@ process run_call_gSNP {
 
     printf "${params_to_dump}" > combined_call_gsnp_params.yaml
 
+    ${setup_commands}
+    \$DISABLE_FAIL
+
     nextflow run \
         ${moduleDir}/../../external/pipeline-call-gSNP/main.nf \
         -params-file combined_call_gsnp_params.yaml \
@@ -50,6 +57,9 @@ process run_call_gSNP {
         --output_dir \$(pwd) \
         --dataset_id ${params.project_id} \
         -c ${moduleDir}/default.config
+
+    capture_exit_code
+    \$ENABLE_FAIL
 
     rm -r \$WORK_DIR
     """

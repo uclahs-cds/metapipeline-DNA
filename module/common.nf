@@ -24,6 +24,23 @@ String identify_file(filepath) {
     assert file_found.exists();
     return file_found.toRealPath().toString()
 }
+
+/**
+*   Generate commands to control graceful failure of downstream pipelines
+*/
+String generate_graceful_error_controller(Map ext) {
+    String disable = 'export DISABLE_FAIL=""'
+    String enable = 'export ENABLE_FAIL=""'
+    String capture = 'capture_exit_code () { export EXIT_CODE=$?; }'
+
+    if (ext && ext.containsKey('fail_gracefully') && ext.fail_gracefully) {
+        disable = 'export DISABLE_FAIL="set +e"'
+        enable = 'export ENABLE_FAIL="set -e"'
+    }
+
+    return "${disable} && ${enable} && ${capture}"
+}
+
 /**
 *   Function to delete a file once it has been copied over to a final destination
 */

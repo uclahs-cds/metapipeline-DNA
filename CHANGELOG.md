@@ -17,6 +17,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 + Call-gSV: `4.0.1` -> `5.0.0-rc.1`
 + Recalibrate-BAM: `1.0.0-rc.4` -> `1.0.0`
 + call-sSV: `6.0.0-rc.1` -> `6.1.0`
++ Allow downstream pipelines to fail gracefully without affecting failure of other pipelines
 
 ---
 

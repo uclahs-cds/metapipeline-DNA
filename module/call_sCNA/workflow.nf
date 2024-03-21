@@ -4,7 +4,7 @@
 
 include { create_YAML_call_sCNA } from "${moduleDir}/create_YAML_call_sCNA"
 include { run_call_sCNA } from "${moduleDir}/run_call_sCNA" addParams( log_output_dir: params.metapipeline_log_output_dir )
-include { mark_pipeline_complete } from "../pipeline_status"
+include { mark_pipeline_complete; mark_pipeline_exit_code } from "../pipeline_status"
 
 /*
 * Main workflow for calling the call-sCNA pipeline
@@ -46,6 +46,8 @@ workflow call_sCNA {
 
         ich.collect().map{ 'done' }.set{ completion_signal }
 
+        ich.collect().map{ 0 }.set{ exit_code_ich }
+
         // Call-sCNA only supports paired mode so run only when not in single mode
         if (params.sample_mode != 'single') {
             ich.map{ it -> it.normal }
@@ -74,6 +76,9 @@ workflow call_sCNA {
             run_call_sCNA.out.complete
                 .mix(completion_signal)
                 .set{ completion_signal }
+            run_call_sCNA.out.exit_code
+                .mix( exit_code_ich )
+                .set{ exit_code_ich }
         }
 
         completion_signal
@@ -82,5 +87,16 @@ workflow call_sCNA {
                 mark_pipeline_complete('call-sCNA');
                 return 'done';
             }
+            .mix(
+                exit_code_ich
+                    .map{ it -> (it as Integer) }
+                    .sum()
+                    .map { exit_code ->
+                        mark_pipeline_exit_code('call-sCNA', exit_code);
+                        return 'done';
+                    }
+            )
+            .collect()
+            .map { it -> return 'done'; }
             .set{ completion_signal }
     }

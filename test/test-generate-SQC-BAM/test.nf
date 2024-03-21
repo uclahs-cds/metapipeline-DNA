@@ -1,10 +1,11 @@
 nextflow.enable.dsl = 2
 
 include { generate_SQC_BAM } from "${projectDir}/../../module/generate_SQC_BAM/workflow"
-include { create_status_directory; mark_pipeline_complete; delete_completion_file } from "${projectDir}/../../module/pipeline_status"
+include { create_directory; mark_pipeline_complete; delete_completion_file } from "${projectDir}/../../module/pipeline_status"
 
 workflow {
-    create_status_directory()
+    create_directory(params.pipeline_status_directory)
+    create_directory(params.pipeline_exit_status_directory)
 
     Channel.of('done').map{ it -> delete_completion_file("recalibrate-BAM"); return 'done' }.set{ ich }
 

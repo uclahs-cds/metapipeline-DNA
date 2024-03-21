@@ -1,7 +1,9 @@
-include { combine_input_with_params } from '../common.nf'
+include { combine_input_with_params; generate_graceful_error_controller } from '../common.nf'
 
 process run_call_mtSNV {
     cpus params.call_mtSNV.subworkflow_cpus
+
+    label 'graceful_failure'
 
     publishDir path: "${params.log_output_dir}/process-log",
         mode: "copy",
@@ -19,16 +21,21 @@ process run_call_mtSNV {
         )
 
     output:
-        path "call-mtSNV-*/*"
+        path "call-mtSNV-*/*", optional: true
         path ".command.*"
         val('done'), emit: complete
+        env EXIT_CODE, emit: exit_code
 
     script:
     String params_to_dump = combine_input_with_params(params.call_mtSNV.metapipeline_arg_map, new File(input_yaml.toRealPath().toString()))
+    String setup_commands = generate_graceful_error_controller(task.ext)
     """
     set -euo pipefail
 
     printf "${params_to_dump}" > combined_call_mtsnv_params.yaml
+
+    ${setup_commands}
+    \$DISABLE_FAIL
 
     nextflow run \
         ${moduleDir}/../../external/pipeline-call-mtSNV/main.nf \
@@ -38,5 +45,8 @@ process run_call_mtSNV {
         --patient_id ${params.patient} \
         --dataset_id ${params.project_id} \
         -c ${moduleDir}/default.config
+
+    capture_exit_code
+    \$ENABLE_FAIL
     """
 }
