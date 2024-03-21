@@ -1,6 +1,6 @@
 nextflow.enable.dsl = 2
 
-include { call_sCNA } from "${projectDir}/../../module/call_sCNA/workflow"
+include { call_sCNA } from "${projectDir}/../../module/call_sCNA/workflow" addParams( this_pipeline: "call-sCNA" )
 include { create_directory; mark_pipeline_complete; delete_completion_file } from "${projectDir}/../../module/pipeline_status"
 
 workflow {
