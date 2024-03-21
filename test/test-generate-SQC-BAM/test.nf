@@ -1,6 +1,6 @@
 nextflow.enable.dsl = 2
 
-include { generate_SQC_BAM } from "${projectDir}/../../module/generate_SQC_BAM/workflow"
+include { generate_SQC_BAM } from "${projectDir}/../../module/generate_SQC_BAM/workflow" addParams( this_pipeline: "generate-SQC-BAM" )
 include { create_directory; mark_pipeline_complete; delete_completion_file } from "${projectDir}/../../module/pipeline_status"
 
 workflow {
