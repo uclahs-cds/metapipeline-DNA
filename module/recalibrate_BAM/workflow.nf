@@ -55,7 +55,7 @@ workflow recalibrate_BAM {
         }
         .set{ input_ch_with_deletion_info }
 
-        if (params.override_recalibrate_bam) {
+        if (params.override_recalibrate_bam || !params.recalibrate_BAM.is_pipeline_enabled) {
             modification_signal.until{ it == 'done' }
                 .mix(collected_input_ch)
                 .collect()
