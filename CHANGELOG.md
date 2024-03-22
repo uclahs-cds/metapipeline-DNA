@@ -19,6 +19,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 + call-sSV: `6.0.0-rc.1` -> `6.1.0`
 + Allow downstream pipelines to fail gracefully without affecting failure of other pipelines
 + Allow waiting on multiple dependencies per pipeline before submission
+### Fixed
++ Recalibrate-BAM no longer runs automatically when not requested
 
 ---
 
