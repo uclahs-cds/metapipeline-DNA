@@ -61,12 +61,12 @@ workflow recalibrate_BAM {
                 .collect()
                 .map{
                     params.sample_data.each{ s, s_data ->
-                        s_data['recalibrate-BAM']['BAM'] = s_data['align-DNA'][main_aligner]['BAM'];
+                        s_data[params.this_pipeline]['BAM'] = s_data['align-DNA'][main_aligner]['BAM'];
                     };
                     return 'done'
                 }
                 .map{
-                    mark_pipeline_complete('recalibrate-BAM');
+                    mark_pipeline_complete(params.this_pipeline);
                     return 'done'
                 }.set{ recalibrate_sample_data_updated }
         } else {
@@ -128,7 +128,7 @@ workflow recalibrate_BAM {
             identify_recalibrate_bam_outputs.out.och_recalibrate_bam_identified
                 .collect()
                 .map{
-                    mark_pipeline_complete('recalibrate-BAM');
+                    mark_pipeline_complete(params.this_pipeline);
                     return 'done'
                 }
                 .set{ recalibrate_sample_data_updated }

@@ -258,13 +258,13 @@
         }
     },
     "pipeline_predecessor": {
-        "calculate-targeted-coverage": "recalibrate-BAM",
-        "generate-SQC-BAM": "recalibrate-BAM",
-        "call-gSNP": "recalibrate-BAM",
-        "call-gSV": "recalibrate-BAM",
-        "call-mtSNV": "recalibrate-BAM",
-        "call-sSNV": "recalibrate-BAM",
-        "call-sSV": "recalibrate-BAM",
-        "call-sCNA": "recalibrate-BAM"
+        "calculate-targeted-coverage": ["recalibrate-BAM"],
+        "generate-SQC-BAM": ["recalibrate-BAM"],
+        "call-gSNP": ["recalibrate-BAM"],
+        "call-gSV": ["recalibrate-BAM"],
+        "call-mtSNV": ["recalibrate-BAM"],
+        "call-sSNV": ["recalibrate-BAM"],
+        "call-sSV": ["recalibrate-BAM"],
+        "call-sCNA": ["recalibrate-BAM"]
     }
 }

@@ -1,21 +1,85 @@
-# nextflow
-work/
-.nextflow/
-*.nextflow.log*
-
-# system
+# System files
+*.log
+*.error
 .DS_Store
 
-# python
-.pytest_cache/
+# R
+.Rhistory
+.Rapp.history
+.Rproj.user
+*.RData
+*.rd[as]
+
+# Python
 __pycache__/
+.pytest_cache/
 .Python
 pip-log.txt
 pip-delete-this-directory.txt
 *.py[cod]
 *$py.class
+venv
+.venv
+.env
 
+# VScode
 .vscode
+
+# Nextflow
+work/
+.nextflow/
+*.nextflow.log*
+
+## Molecular files
+
+# Array file
+*.CEL
+*.cel
+*.OSCHP
+
+# Sequence file (e.g. Reference genome)
+*.fasta
+*.fa
+*.fai
+*.dict
+*.gtf
+
+
+# FASTQ file
+*.fq
+*.fastq
+
+# Proteomics file
+*.raw
+*.mzML
+*.mzXML
+*.mgf
+*.idXML
+*.consensusXML
+*.featureXML
+*.mzid
+*.mzData
+*.dta
+*.dta2d
+
+# DNA/RNA alignment file
+*.sam
+*.bam
+*.bai
+*.cram
+*.crai
+
+# Variant file
+*.bcf
+*.csi
+*.vcf
+*.tbi
+*.maf
+
+# Compressed file
+*.gz
+*.tar
+*.zip
 
 test/output
 test/work

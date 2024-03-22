@@ -36,7 +36,7 @@ workflow convert_BAM2FASTQ {
         identify_convert_bam2fastq_outputs.out.och_bam2fastq_outputs_identified
             .collect()
             .map{
-                mark_pipeline_complete('convert-BAM2FASTQ');
+                mark_pipeline_complete(params.this_pipeline);
                 return 'done'
             }
             .set{ bam2fastq_sample_data_updated }

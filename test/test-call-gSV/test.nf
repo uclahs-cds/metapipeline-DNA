@@ -1,6 +1,6 @@
 nextflow.enable.dsl = 2
 
-include { call_gSV } from "${projectDir}/../../module/call_gSV/workflow"
+include { call_gSV } from "${projectDir}/../../module/call_gSV/workflow" addParams( this_pipeline: "call-gSV" )
 include { create_directory; mark_pipeline_complete; delete_completion_file } from "${projectDir}/../../module/pipeline_status"
 
 workflow {

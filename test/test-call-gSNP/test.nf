@@ -1,6 +1,6 @@
 nextflow.enable.dsl = 2
 
-include { call_gSNP } from "${projectDir}/../../module/call_gSNP/workflow"
+include { call_gSNP } from "${projectDir}/../../module/call_gSNP/workflow" addParams( this_pipeline: "call-gSNP" )
 include { create_directory; mark_pipeline_complete; delete_completion_file } from "${projectDir}/../../module/pipeline_status"
 
 workflow {

@@ -10,7 +10,14 @@ def create_directory(String directory_to_create) {
 *   @input pipeline String Name of pipeline to mark as complete
 */
 def mark_pipeline_complete(String pipeline) {
-    new File("${params.pipeline_status_directory}/${pipeline}.complete").createNewFile()
+    params.pipeline_predecessor.each{ p, dependencies ->
+        dependencies.removeAll{ it == pipeline };
+        if (dependencies.isEmpty()) {
+            File pipeline_ready_file = new File("${params.pipeline_status_directory}/${p}.ready")
+            pipeline_ready_file.delete()
+            pipeline_ready_file.createNewFile()
+        }
+    }
 }
 
 /*
@@ -18,7 +25,7 @@ def mark_pipeline_complete(String pipeline) {
 *   @input pipeline String Name of pipeline to delete completion status
 */
 def delete_completion_file(String pipeline) {
-    new File("${params.pipeline_status_directory}/${pipeline}.complete").delete()
+    new File("${params.pipeline_status_directory}/${pipeline}.ready").delete()
 }
 
 /*

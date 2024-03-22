@@ -11,8 +11,8 @@ workflow call_mtSNV {
         modification_signal
     main:
         // Watch for pipeline ordering
-        Channel.watchPath( "${params.pipeline_status_directory}/*.complete" )
-            .until{ it -> it.name == "${params.pipeline_predecessor['call-mtSNV']}.complete" }
+        Channel.watchPath( "${params.pipeline_status_directory}/*.ready" )
+            .until{ it -> it.name == "${params.this_pipeline}.ready" }
             .ifEmpty('done')
             .collect()
             .map{ 'done' }
@@ -70,7 +70,7 @@ workflow call_mtSNV {
             .mix( pipeline_predecessor_complete )
             .collect()
             .map{ it ->
-                mark_pipeline_complete('call-mtSNV');
+                mark_pipeline_complete(params.this_pipeline);
                 return 'done';
             }
             .mix(
@@ -78,7 +78,7 @@ workflow call_mtSNV {
                     .map{ it -> (it as Integer) }
                     .sum()
                     .map { exit_code ->
-                        mark_pipeline_exit_code('call-mtSNV', exit_code);
+                        mark_pipeline_exit_code(params.this_pipeline, exit_code);
                         return 'done';
                     }
             )
