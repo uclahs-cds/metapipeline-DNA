@@ -8,6 +8,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+### Changed
++ Calculate-targeted-coverage: `1.0.0-rc.2` -> `1.0.0`
 
 ---
 
