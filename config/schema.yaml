@@ -57,7 +57,6 @@ downstream_pipeline_order:
   type: 'List'
   required: false
   choices:
-    - calculate-targeted-coverage
     - generate-SQC-BAM
     - call-gSNP
     - call-gSV
