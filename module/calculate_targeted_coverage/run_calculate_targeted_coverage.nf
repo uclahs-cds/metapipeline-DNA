@@ -29,9 +29,9 @@ process run_calculate_targeted_coverage {
         )
 
     output:
+        tuple val(sample_id_for_targeted_coverage), path(output_directory), emit: identify_targeted_coverage_out, optional: true
         path "calculate-targeted-coverage-*/*", optional: true
         path ".command.*"
-        val('done'), emit: complete
         env EXIT_CODE, emit: exit_code
 
     script:

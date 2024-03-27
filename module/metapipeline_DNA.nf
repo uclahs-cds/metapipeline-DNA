@@ -41,11 +41,9 @@ workflow {
 
     align_DNA(align_dna_modification_signal)
 
-    recalibrate_BAM(align_DNA.out.alignment_sample_data_updated)
+    calculate_targeted_coverage(align_DNA.out.alignment_sample_data_updated)
 
-    if (params.calculate_targeted_coverage.is_pipeline_enabled) {
-        calculate_targeted_coverage(recalibrate_BAM.out.recalibrate_sample_data_updated)
-    }
+    recalibrate_BAM(calculate_targeted_coverage.out.completion_signal)
 
     if (params.generate_SQC_BAM.is_pipeline_enabled) {
         generate_SQC_BAM(recalibrate_BAM.out.recalibrate_sample_data_updated)

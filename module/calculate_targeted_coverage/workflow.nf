@@ -15,22 +15,15 @@ workflow calculate_targeted_coverage {
     take:
         modification_signal
     main:
-        // Watch for pipeline ordering
-        Channel.watchPath( "${params.pipeline_status_directory}/*.ready" )
-            .until{ it -> it.name == "${params.this_pipeline}.ready" }
-            .ifEmpty('done')
-            .collect()
-            .map{ 'done' }
-            .set{ pipeline_predecessor_complete }
+        // Default to BWA-MEM2 as main aligner unless it's not being used
+        def main_aligner = ('BWA-MEM2' in params.align_DNA.aligner) ? 'BWA-MEM2' : params.align_DNA.aligner[0]
 
         // Extract inputs from data structure
         modification_signal.until{ it == 'done' }.ifEmpty('done')
-            .mix(pipeline_predecessor_complete)
-            .collect()
             .map{ it ->
                 def samples = [];
                 params.sample_data.each { s, s_data ->
-                    samples.add(['patient': s_data['patient'], 'sample': s, 'state': s_data['state'], 'bam': s_data['recalibrate-BAM']['BAM']]);
+                    samples.add(['patient': s_data['patient'], 'sample': s, 'state': s_data['state'], 'bam': s_data['align-DNA'][main_aligner]['BAM']]);
                 };
                 return samples
             }
@@ -53,27 +46,46 @@ workflow calculate_targeted_coverage {
         input_ch_normal.mix(input_ch_tumor)
             .set{ input_ch_create_targeted_coverage_yaml }
 
-        create_YAML_calculate_targeted_coverage(input_ch_create_targeted_coverage_yaml)
+        if (!params.calculate_targeted_coverage.is_pipeline_enabled) {
+            modification_signal.until{ it == 'done' }
+                .mix(ich)
+                .collect()
+                .map{ 'done' }
+                .set{ completion_signal }
+        } else {
+            create_YAML_calculate_targeted_coverage(input_ch_create_targeted_coverage_yaml)
 
-        run_calculate_targeted_coverage(create_YAML_calculate_targeted_coverage.out.targeted_coverage_input)
+            run_calculate_targeted_coverage(create_YAML_calculate_targeted_coverage.out.targeted_coverage_input)
 
-        run_calculate_targeted_coverage.out.complete
-            .mix( pipeline_predecessor_complete )
-            .collect()
-            .map{ it ->
-                mark_pipeline_complete(params.this_pipeline);
-                return 'done';
+            if (params.use_original_intervals) {
+                // Graceful failure allowed so mark exit code
+                modification_signal.until{ it == 'done' }
+                    .mix(
+                        run_calculate_targeted_coverage.out.exit_code
+                            .map{ it -> (it as Integer) }
+                            .sum()
+                            .map{ exit_code ->
+                                mark_pipeline_exit_code(params.this_pipeline, exit_code);
+                                return 'done'
+                            }
+                    )
+                    .collect()
+                    .map{ 'done' }
+                    .set{ completion_signal }
+            } else {
+                // Failure in targeted-coverage will result in failed run so no need to mark exit code
+                identify_targeted_coverage_outputs(
+                    modification_signal.until{ it == 'done' }
+                        .mix(run_calculate_targeted_coverage.out.identify_targeted_coverage_out)
+                )
+
+                identify_targeted_coverage_outputs.out.och_targeted_coverage_identified
+                    .collect()
+                    .map{ 'done' }
+                    .set{ completion_signal }
             }
-            .mix(
-                run_calculate_targeted_coverage.out.exit_code
-                    .map{ it -> (it as Integer) }
-                    .sum()
-                    .map { exit_code ->
-                        mark_pipeline_exit_code(params.this_pipeline, exit_code);
-                        return 'done';
-                    }
-            )
-            .collect()
-            .map { it -> return 'done'; }
-           .set{ completion_signal }
+        }
+
+    emit:
+        completion_signal = completion_signal
 }
