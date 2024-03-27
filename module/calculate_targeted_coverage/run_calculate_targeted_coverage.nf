@@ -36,6 +36,8 @@ process run_calculate_targeted_coverage {
 
     script:
     String params_to_dump = combine_input_with_params(params.calculate_targeted_coverage.metapipeline_arg_map, new File(input_yaml.toRealPath().toString()))
+    // If expanded intervals are requested for downstream use, disable the graceful failure mechanism
+    task.ext.fail_gracefully = params.use_original_intervals
     String setup_commands = generate_graceful_error_controller(task.ext)
     """
     set -euo pipefail
