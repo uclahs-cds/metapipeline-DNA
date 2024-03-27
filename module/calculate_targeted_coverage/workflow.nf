@@ -4,6 +4,7 @@
 include { create_YAML_calculate_targeted_coverage } from "${moduleDir}/create_YAML_calculate_targeted_coverage"
 include { run_calculate_targeted_coverage } from "${moduleDir}/run_calculate_targeted_coverage" addParams( log_output_dir: params.metapipeline_log_output_dir )
 include { mark_pipeline_complete; mark_pipeline_exit_code } from "../pipeline_status"
+include { identify_targeted_coverage_outputs; resolve_interval_selection } from './identify_outputs'
 
 /*
 * Main workflow for calling the targeted-coverage pipeline
@@ -81,7 +82,10 @@ workflow calculate_targeted_coverage {
 
                 identify_targeted_coverage_outputs.out.och_targeted_coverage_identified
                     .collect()
-                    .map{ 'done' }
+                    .map{ outputs_identified ->
+                        resolve_interval_selection();
+                        return 'done'
+                    }
                     .set{ completion_signal }
             }
         }

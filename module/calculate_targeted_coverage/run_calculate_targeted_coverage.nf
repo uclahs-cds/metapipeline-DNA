@@ -35,6 +35,7 @@ process run_calculate_targeted_coverage {
         env EXIT_CODE, emit: exit_code
 
     script:
+    def output_directory = "calculate-targeted-coverage-*/${sample_id_for_targeted_coverage}/SAMtools-*/output"
     String params_to_dump = combine_input_with_params(params.calculate_targeted_coverage.metapipeline_arg_map, new File(input_yaml.toRealPath().toString()))
     // If expanded intervals are requested for downstream use, disable the graceful failure mechanism
     task.ext.fail_gracefully = params.use_original_intervals
