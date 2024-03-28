@@ -76,8 +76,7 @@ workflow calculate_targeted_coverage {
             } else {
                 // Failure in targeted-coverage will result in failed run so no need to mark exit code
                 identify_targeted_coverage_outputs(
-                    modification_signal.until{ it == 'done' }
-                        .mix(run_calculate_targeted_coverage.out.identify_targeted_coverage_out)
+                    run_calculate_targeted_coverage.out.identify_targeted_coverage_out
                 )
 
                 identify_targeted_coverage_outputs.out.och_targeted_coverage_identified

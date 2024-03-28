@@ -1,4 +1,4 @@
-include { identify_file; delete_file } from '../common'
+include { identify_file } from '../common'
 
 workflow identify_targeted_coverage_outputs {
     take:
@@ -11,7 +11,7 @@ workflow identify_targeted_coverage_outputs {
         return 'done'
     }
     .collect()
-    .map{ 'done' }
+    .map{ return 'done' }
     .set{ och_targeted_coverage_identified }
 
     emit:
