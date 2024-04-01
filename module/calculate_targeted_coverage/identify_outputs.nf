@@ -6,7 +6,7 @@ workflow identify_targeted_coverage_outputs {
 
     main:
     och_targeted_coverage.map{ targeted_coverage_out ->
-        params.sample_data[targeted_coverage_out[0]]['calculate-targeted-coverage']['expanded-intervals'] = identify_file("${targeted_coverage_out[1]}/SAMtools-*${targeted_coverage_out[0]}*target-with-enriched-off-target-intervals.bed");
+        params.sample_data[targeted_coverage_out[0]]['calculate-targeted-coverage']['expanded-intervals'] = identify_file("${targeted_coverage_out[1]}/BEDtools-*${targeted_coverage_out[0]}*target-with-enriched-off-target-intervals.bed.gz");
 
         return 'done'
     }
