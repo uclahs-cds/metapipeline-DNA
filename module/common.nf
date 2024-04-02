@@ -17,7 +17,7 @@ String identify_file(filepath) {
     def file_found = file(filepath);
 
     if (file_found in List) {
-        assert file_found.size() == 1
+        assert file_found.size() == 1 : "Failed to identify a single file for `${filepath}`"
         file_found = file_found[0]
     }
 
