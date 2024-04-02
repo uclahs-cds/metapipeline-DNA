@@ -232,11 +232,11 @@ process check_process_status {
 
     script:
     """
-    if [ ! ${sbatch_ret} -eq -1 ]
+    if [ "${sbatch_ret}" != "-1" ]
     then
-        if `echo ${sbatch_ret} | grep -q "Submitted batch job"`
+        if `echo "${sbatch_ret}" | grep -q "Submitted batch job"`
         then
-            job_id=`echo ${sbatch_ret} | cut -d ' ' -f 4`
+            job_id=`echo "${sbatch_ret}" | cut -d ' ' -f 4`
             while `squeue --noheader --format="%i" | grep -q \$job_id`
             do
                 sleep 3
@@ -246,7 +246,7 @@ process check_process_status {
             then
                 :
             else
-                echo "Process in ${work_dir} failed with non-zero exit code."
+                echo "Process in '${work_dir}' failed with non-zero exit code."
             fi
         fi
     fi
@@ -254,7 +254,7 @@ process check_process_status {
     pipeline_failures=""
 
     exit_code_regex="^(.+)\\.([0-9]+)"
-    for pipeline_exit_file in \$(ls ${work_dir}/PIPELINEEXITSTATUS)
+    for pipeline_exit_file in \$(ls "${work_dir}"/PIPELINEEXITSTATUS)
     do
         if [[ \$pipeline_exit_file =~ \$exit_code_regex ]]
         then
@@ -269,7 +269,7 @@ process check_process_status {
 
     if [ ! -z "\$pipeline_failures" ]
     then
-        echo "Process in ${work_dir} had failures in the following pipelines: \$pipeline_failures"
+        echo "Process in '${work_dir}' had failures in the following pipelines: \$pipeline_failures"
     fi
     """
 }
