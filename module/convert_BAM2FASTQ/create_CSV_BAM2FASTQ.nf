@@ -18,11 +18,11 @@ process create_CSV_BAM2FASTQ {
             val(state),
             path(bam)
         )
-    
+
     output:
-        tuple val(patient), val(sample), val(state), path(csv_file), emit: convert_bam2fastq_csv
+        tuple val(patient), val(sample), val(state), path(csv_file), path(bam), emit: convert_bam2fastq_csv
         path(".command.*")
-    
+
     script:
     csv_file = 'input.csv'
     """

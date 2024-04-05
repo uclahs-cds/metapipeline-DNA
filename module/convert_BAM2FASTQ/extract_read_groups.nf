@@ -22,7 +22,8 @@ process extract_read_groups {
             val(patient),
             val(sample),
             val(state),
-            path(read_group_csv)
+            path(read_group_csv),
+            path(bam)
         )
         path ".command.*"
 

@@ -5,7 +5,7 @@ include { combine_input_with_params } from '../common.nf'
 */
 process call_convert_BAM2FASTQ {
     cpus params.convert_BAM2FASTQ.subworkflow_cpus
-    
+
     publishDir "${params.output_dir}/output",
         mode: 'copy',
         pattern: 'convert-BAM2FASTQ-*/*'
@@ -20,7 +20,8 @@ process call_convert_BAM2FASTQ {
             val(patient),
             val(sample),
             val(state),
-            path(input_csv)
+            path(input_csv),
+            path(bam)
         )
 
     output:
@@ -29,11 +30,12 @@ process call_convert_BAM2FASTQ {
             val(sample),
             val(state),
             path("convert-BAM2FASTQ-*/*/*/output/*.fq.gz"),
-            path(output_directory)
+            path(output_directory),
+            path(bam)
         )
         path "convert-BAM2FASTQ-*/*"
         path ".command.*"
-        
+
     script:
     output_directory = "convert-BAM2FASTQ-*/${sample}/SAMtools-*/output"
     String params_to_dump = combine_input_with_params(params.convert_BAM2FASTQ.metapipeline_arg_map)
