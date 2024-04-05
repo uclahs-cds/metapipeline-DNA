@@ -14,7 +14,8 @@ process extract_read_groups {
             val(patient),
             val(sample),
             val(state),
-            path(bam)
+            path(bam),
+            val(sample_suffix)
         )
 
     output:

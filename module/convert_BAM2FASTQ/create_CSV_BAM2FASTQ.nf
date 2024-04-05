@@ -2,7 +2,7 @@
     Create input csv file for the convert-BAM2FASTQ pipeline.
 */
 process create_CSV_BAM2FASTQ {
-    publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}/${sample}",
+    publishDir "${params.output_dir}/intermediate/${task.process.replace(':', '/')}-${params.patient}/${sample}${sample_suffix}",
         pattern: 'input.csv',
         mode: 'copy'
 
@@ -16,11 +16,12 @@ process create_CSV_BAM2FASTQ {
             val(patient),
             val(sample),
             val(state),
-            path(bam)
+            path(bam),
+            val(sample_suffix)
         )
 
     output:
-        tuple val(patient), val(sample), val(state), path(csv_file), path(bam), emit: convert_bam2fastq_csv
+        tuple val(patient), val(sample), val(state), path(csv_file), path(bam), val(sample_suffix), emit: convert_bam2fastq_csv
         path(".command.*")
 
     script:

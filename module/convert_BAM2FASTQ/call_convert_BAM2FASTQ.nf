@@ -8,7 +8,8 @@ process call_convert_BAM2FASTQ {
 
     publishDir "${params.output_dir}/output",
         mode: 'copy',
-        pattern: 'convert-BAM2FASTQ-*/*'
+        pattern: 'convert-BAM2FASTQ-*/*',
+        saveAs: { "${it}${sample_suffix}" }
 
     publishDir path: "${params.log_output_dir}/process-log",
         mode: "copy",
@@ -21,7 +22,8 @@ process call_convert_BAM2FASTQ {
             val(sample),
             val(state),
             path(input_csv),
-            path(bam)
+            path(bam),
+            val(sample_suffix)
         )
 
     output:
