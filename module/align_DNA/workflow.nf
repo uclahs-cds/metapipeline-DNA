@@ -5,7 +5,7 @@
 *   A tuple that containes five objects, patient (string), sample (string), state (string),
 *   and input csv (path). The input channel is directly passed to the call_align_DNA
 *   process to call the align-DNA pipeline.
-*    
+*
 * Output:
 *   A tuple with patient, sample, state, and the aligned BAM.
 */

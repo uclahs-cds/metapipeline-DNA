@@ -39,19 +39,19 @@ workflow convert_BAM2FASTQ {
 
         data_ch = call_convert_BAM2FASTQ.out[0]
             // [patient, sample, state, [fastq], output_dir, bam]
-            .map { [it[4], it] }
+            .map { [it[5].toRealPath(), it] }
             .join(
                 // [patient, sample, state, read_group_csv, bam]
-                extract_read_groups.out[0].map { [it[4], it] }
+                extract_read_groups.out[0].map { [it[4].toRealPath(), it] }
             )
             // [bam, [patient, sample, state, [fastq], output_dir, bam], [patient, sample, state, read_group_csv, bam]]
-            .map { it[1][1], [it[1][0], it[1][1], it[1][2], it[2][3], it[1][4]] }
+            .map { [it[1][1], [it[1][0], it[1][1], it[1][2], it[2][3], it[1][4]]] }
             // [sample, [patient, sample, state, read_group_csv, output_dir]]
             .groupTuple(by:0)
             // [sample, [[patient, sample, state, read_group_csv, output_dir]]]
             .map { sample, records ->
                 def patient = records[0][0]
-                def state = records[0][1]
+                def state = records[0][2]
                 def read_group_and_output_dir = []
                 records.each { it ->
                     assert it[0] == patient
