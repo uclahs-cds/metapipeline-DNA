@@ -8,6 +8,9 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+### Fixed
++ Issue with status check function not properly detecting and reporting pipeline failures
++ Issue with pipeline-specific `default.config` overriding parameter settings in metapipeline config
 
 ---
 
