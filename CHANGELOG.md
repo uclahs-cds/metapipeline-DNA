@@ -8,7 +8,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
-
+### Added
++ Add call-sCNA to `requested_pipelines` in `template.config`
 ---
 
 ## [6.0.0-rc.2] - 2024-03-22
