@@ -21,7 +21,7 @@ String identify_file(filepath) {
         file_found = file_found[0]
     }
 
-    assert file_found.exists();
+    assert file_found.exists() : "Identified file `${file_found}` does not exist!";
     return file_found.toRealPath().toString()
 }
 
