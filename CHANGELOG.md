@@ -10,6 +10,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 ### Added
 + More descriptive error messages on failure to identify output files
+### Changed
++ Use GitHub container registry CI/CD check
 ### Fixed
 + Issue with status check function not properly detecting and reporting pipeline failures
 + Issue with pipeline-specific `default.config` overriding parameter settings in metapipeline config
