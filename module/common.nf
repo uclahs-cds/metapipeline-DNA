@@ -5,40 +5,40 @@ import org.yaml.snakeyaml.Yaml
 *   Returns string representing combined params
 */
 String combine_input_with_params(Map params_to_add,  File input_yaml = null) {
-    Yaml yaml = new Yaml()
-    def loaded_input = (input_yaml) ? yaml.load(input_yaml) : [:]
+    Yaml yaml = new Yaml();
+    def loaded_input = (input_yaml) ? yaml.load(input_yaml) : [:];
 
-    String combined_yaml = yaml.dump(loaded_input + params_to_add)
+    String combined_yaml = yaml.dump(loaded_input + params_to_add);
 
-    return combined_yaml
+    return combined_yaml;
 }
 
 String identify_file(filepath) {
     def file_found = file(filepath);
 
     if (file_found in List) {
-        assert file_found.size() == 1
-        file_found = file_found[0]
+        assert file_found.size() == 1 : "Failed to identify a single file for `${filepath}`";
+        file_found = file_found[0];
     }
 
-    assert file_found.exists();
-    return file_found.toRealPath().toString()
+    assert file_found.exists() : "Identified file `${file_found}` does not exist!";
+    return file_found.toRealPath().toString();
 }
 
 /**
 *   Generate commands to control graceful failure of downstream pipelines
 */
 String generate_graceful_error_controller(Map ext) {
-    String disable = 'export DISABLE_FAIL=""'
-    String enable = 'export ENABLE_FAIL=""'
-    String capture = 'capture_exit_code () { export EXIT_CODE=$?; }'
+    String disable = 'export DISABLE_FAIL=""';
+    String enable = 'export ENABLE_FAIL=""';
+    String capture = 'capture_exit_code () { export EXIT_CODE=$?; }';
 
     if (ext && ext.containsKey('fail_gracefully') && ext.fail_gracefully) {
-        disable = 'export DISABLE_FAIL="set +e"'
-        enable = 'export ENABLE_FAIL="set -e"'
+        disable = 'export DISABLE_FAIL="set +e"';
+        enable = 'export ENABLE_FAIL="set -e"';
     }
 
-    return "${disable} && ${enable} && ${capture}"
+    return "${disable} && ${enable} && ${capture}";
 }
 
 /**
@@ -80,5 +80,5 @@ void delete_file(String filepath, output_filepattern) {
         output_bytes = output_file.length();
     }
 
-    expected_file.delete()
+    expected_file.delete();
 }
