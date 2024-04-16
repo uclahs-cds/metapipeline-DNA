@@ -17,11 +17,15 @@ String identify_file(filepath) {
     def file_found = file(filepath);
 
     if (file_found in List) {
-        assert file_found.size() == 1
+        if (file_found.size() > 1) {
+            throw new Exception("Invalid `filepath`, multiple files found: ${filepath}")
+        }
         file_found = file_found[0]
     }
 
-    assert file_found.exists();
+    if (! file_found.exists()) {
+        throw new Exception("Invalid `filepath`, file not found: ${filepath}")
+    }
     return file_found.toRealPath().toString()
 }
 

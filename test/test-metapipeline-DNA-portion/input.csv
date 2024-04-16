@@ -1,4 +1,4 @@
 patient,sample,state,path
-IlluminaPatient1,NA24143,tumor,/hot/software/pipeline/metapipeline-DNA/Nextflow/development/input/data/BAM/NA24143/BWA-MEM2-2.2.1_IlluminaSampleTest_NA24143.bam
-IlluminaPatient1,NA24149,normal,/hot/software/pipeline/metapipeline-DNA/Nextflow/development/input/data/BAM/NA24149/BWA-MEM2-2.2.1_IlluminaSampleTest_NA24149.bam
-IlluminaPatient1,NA24143,tumor,/hot/software/pipeline/metapipeline-DNA/Nextflow/development/input/data/BAM/NA24143/BWA-MEM2-2.2.1_IlluminaSampleTest_NA24143.bam
+IlluminaPatient1,NA24143,tumor,/hot/resource/SMC-HET/tumours/A-mini/bams/n1/output/S2.T-n1.bam
+IlluminaPatient1,NA24149,normal,/hot/resource/SMC-HET/normal/bams/A-mini/n1/output/HG002.N-n1.bam
+IlluminaPatient1,NA24143,tumor,/hot/resource/SMC-HET/tumours/A-mini/bams/n1/output/S2.T-n1.bam

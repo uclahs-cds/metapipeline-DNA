@@ -40,10 +40,10 @@ workflow convert_BAM2FASTQ {
 
         data_ch = call_convert_BAM2FASTQ.out[0]
             // [patient, sample, portion, state, [fastq], output_dir, bam]
-            .map { [it[5].toRealPath(), it] }
+            .map { [it[6].toRealPath(), it] }
             .join(
                 // [patient, sample, portion, state, read_group_csv, bam]
-                extract_read_groups.out[0].map { [it[4].toRealPath(), it] }
+                extract_read_groups.out[0].map { [it[5].toRealPath(), it] }
             )
             // [
             //     bam,
@@ -56,12 +56,13 @@ workflow convert_BAM2FASTQ {
             // [sample, [[patient, sample, portion, state, read_group_csv, output_dir]]]
             .map { sample, records ->
                 def patient = records[0][0]
-                def state = records[0][2]
+                def state = records[0][3]
                 def read_group_and_output_dir = []
                 records.each { it ->
                     assert it[0] == patient
-                    assert it[2] == state
-                    read_group_and_output_dir.add([it[3], it[4]])
+                    assert it[3] == state
+                    // [read_group_csv, portion, output_dir]
+                    read_group_and_output_dir.add([it[4], it[2], it[5]])
                 }
                 return [patient, sample, state, read_group_and_output_dir]
             }
