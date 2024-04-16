@@ -21,34 +21,39 @@ include { identify_convert_bam2fastq_outputs } from './identify_outputs'
 
 workflow convert_BAM2FASTQ {
     main:
+
         ich = Channel.fromPath(params.input_csv).splitCsv(header:true)
-            .map { [it.sample, [it.patient, it.sample, it.state, file(it.bam)]] }
-            // For samples with the same sample_id, append a suffix to the output
-            // directory so they won't override each other.
+            .map { [it.sample, it] }
+            // Create portion ID per sample
             .groupTuple(by:0)
             .flatMap { sample, records ->
+                def new_records = []
                 records.eachWithIndex { it, i ->
-                    it.add(records.size() > 1 ? "-${i + 1}": '')
+                    new_records.add([it.patient, it.sample, i + 1, it.state, file(it.bam)])
                 }
-                return records
+                return new_records
             }
-            // [ patient, sample, state, bam, suffix ]
+            // [ patient, sample, portion, state, bam ]
         extract_read_groups(ich)
         create_CSV_BAM2FASTQ(ich)
         call_convert_BAM2FASTQ(create_CSV_BAM2FASTQ.out.convert_bam2fastq_csv)
 
         data_ch = call_convert_BAM2FASTQ.out[0]
-            // [patient, sample, state, [fastq], output_dir, bam]
+            // [patient, sample, portion, state, [fastq], output_dir, bam]
             .map { [it[5].toRealPath(), it] }
             .join(
-                // [patient, sample, state, read_group_csv, bam]
+                // [patient, sample, portion, state, read_group_csv, bam]
                 extract_read_groups.out[0].map { [it[4].toRealPath(), it] }
             )
-            // [bam, [patient, sample, state, [fastq], output_dir, bam], [patient, sample, state, read_group_csv, bam]]
-            .map { [it[1][1], [it[1][0], it[1][1], it[1][2], it[2][3], it[1][4]]] }
-            // [sample, [patient, sample, state, read_group_csv, output_dir]]
+            // [
+            //     bam,
+            //     [patient, sample, portion, state, [fastq], output_dir, bam],
+            //     [patient, sample, portion, state, read_group_csv, bam]
+            // ]
+            .map { [it[1][1], [it[1][0], it[1][1], it[1][2], it[1][3], it[2][4], it[1][5]]] }
+            // [sample, [patient, sample, portion, state, read_group_csv, output_dir]]
             .groupTuple(by:0)
-            // [sample, [[patient, sample, state, read_group_csv, output_dir]]]
+            // [sample, [[patient, sample, portion, state, read_group_csv, output_dir]]]
             .map { sample, records ->
                 def patient = records[0][0]
                 def state = records[0][2]

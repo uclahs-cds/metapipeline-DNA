@@ -7,21 +7,22 @@ process extract_read_groups {
     publishDir path: "${params.log_output_dir}/process-log",
         mode: "copy",
         pattern: ".command.*",
-        saveAs: { "${task.process.replace(':', '/')}-${sample}/log${file(it).getName()}" }
+        saveAs: { "${task.process.replace(':', '/')}-${sample}-${portion}/log${file(it).getName()}" }
 
     input:
         tuple(
             val(patient),
             val(sample),
+            val(portion),
             val(state),
-            path(bam),
-            val(sample_suffix)
+            path(bam)
         )
 
     output:
         tuple(
             val(patient),
             val(sample),
+            val(portion),
             val(state),
             path(read_group_csv),
             path(bam)

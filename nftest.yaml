@@ -230,3 +230,10 @@ cases:
     params_file: test/test-metapipeline-DNA-fastq-input/input.yaml
     verbose: true
     skip: true
+
+  - name: test-metapipeline-DNA-portion
+    message: Test running the main.nf when a sample has multiple portions.
+    nf_script: main.nf
+    nf_config: test/test-metapipeline-DNA-portion/test.config
+    verbose: true
+    skip: true
