@@ -143,7 +143,8 @@ process create_config_metapipeline_DNA {
     }
     Map sample_data = ['sample_data': params.sample_data.findAll{ sample, sample_vals -> filtering_criteria(sample, sample_vals) }]
     Map pipeline_predecessor = ['pipeline_predecessor': params.pipeline_predecessor]
-    json_params = JsonOutput.prettyPrint(JsonOutput.toJson(params.pipeline_params + sample_data + pipeline_predecessor))
+    Map pipeline_interval_params = ['pipeline_interval_params': params.pipeline_interval_params]
+    json_params = JsonOutput.prettyPrint(JsonOutput.toJson(params.pipeline_params + sample_data + pipeline_predecessor + pipeline_interval_params))
     writer = file("${task.workDir}/pipeline_specific_params.json")
     writer.write(json_params)
 }
@@ -211,6 +212,7 @@ process call_metapipeline_DNA {
         --enable_input_deletion_recalibrate_bam ${params.enable_input_deletion_recalibrate_bam} \
         --normal_sample_count ${params.sample_counts[patient]['normal']} \
         --tumor_sample_count ${params.sample_counts[patient]['tumor']} \
+        --use_original_intervals ${params.use_original_intervals} \
         -params-file ${pipeline_params_json} \
         -c ${moduleDir}/config/metapipeline_DNA_base.config
     """ + limiter_wrapper_post

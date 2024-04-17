@@ -57,7 +57,6 @@ downstream_pipeline_order:
   type: 'List'
   required: false
   choices:
-    - calculate-targeted-coverage
     - generate-SQC-BAM
     - call-gSNP
     - call-gSV
@@ -101,6 +100,11 @@ override_recalibrate_bam:
   required: true
   default: false
   help: 'Whether to override and skip recalibrate-BAM'
+use_original_intervals:
+  type: 'Bool'
+  required: false
+  default: false
+  help: 'Whether to use the original given intervals rather than the expanded intervals generated through targeted-coverage'
 uclahs_cds_wgs:
   type: 'Bool'
   required: true

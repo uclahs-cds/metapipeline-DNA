@@ -29,13 +29,16 @@ process run_calculate_targeted_coverage {
         )
 
     output:
+        tuple val(sample_id_for_targeted_coverage), path(output_directory), emit: identify_targeted_coverage_out, optional: true
         path "calculate-targeted-coverage-*/*", optional: true
         path ".command.*"
-        val('done'), emit: complete
         env EXIT_CODE, emit: exit_code
 
     script:
+    output_directory = "calculate-targeted-coverage-*/${sample_id_for_targeted_coverage}/SAMtools-*/output"
     String params_to_dump = combine_input_with_params(params.calculate_targeted_coverage.metapipeline_arg_map, new File(input_yaml.toRealPath().toString()))
+    // If expanded intervals are requested for downstream use, disable the graceful failure mechanism
+    task.ext.fail_gracefully = params.use_original_intervals
     String setup_commands = generate_graceful_error_controller(task.ext)
     """
     set -euo pipefail
