@@ -24,7 +24,7 @@ pipeline_failures=""
 exit_code_regex="^(.+)\\.([0-9]+)"
 for pipeline_exit_path in "!{work_dir}"/PIPELINEEXITSTATUS/*
 do
-    pipeline_exit_file=$(basename $pipeline_exit_path)
+    pipeline_exit_file=$(basename "$pipeline_exit_path")
     if [[ $pipeline_exit_file =~ $exit_code_regex ]]
     then
         pipeline_name="${BASH_REMATCH[1]}"
