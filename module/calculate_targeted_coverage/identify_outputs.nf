@@ -32,7 +32,7 @@ void resolve_interval_selection() {
     // - In multi mode with 1 normal and n tumors, use the normal sample's intervals
     def intervals_to_use = ''
     if (params.sample_mode == 'single') {
-        assert 1 == (params.normal_sample_count + params.tumor_sample_count)
+        assert 1 == params.sample_data.size()
         params.sample_data.each{ sample_id, sample_data ->
             intervals_to_use = sample_data['calculate-targeted-coverage']['expanded-intervals']
         }

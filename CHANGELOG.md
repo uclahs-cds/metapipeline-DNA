@@ -15,6 +15,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 + Use GitHub container registry CI/CD check
 + Calculate-targeted-coverage: `1.0.0-rc.2` -> `1.1.0`
 + Call-gSNP: `10.0.0` -> `10.0.1`
++ Align-DNA: `10.0.0-rc.1` -> `10.0.0`
++ Call-mtSNV: `4.0.0-rc.1` -> `4.0.0`
++ Call-gSV: `5.0.0-rc.1` -> `5.0.0`
++ Call-sCNA: `3.0.0` -> `3.1.0`
 ### Fixed
 + Issue with status check function not properly detecting and reporting pipeline failures
 + Issue with pipeline-specific `default.config` overriding parameter settings in metapipeline config
