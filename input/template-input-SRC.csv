@@ -1,0 +1,3 @@
+patient,sample,src_input_type,algorithm,path
+XXXX000001,XXXX000001-T001-P01-F,SNV,Mutect2,/path/to/snv/calls
+XXXX000001,XXXX000001-T001-P01-F,CNA,Battenberg,/path/to/cna/calls

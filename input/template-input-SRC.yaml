@@ -1,0 +1,13 @@
+---
+input:
+  SRC:
+    - patient: "patient ID"
+      sample: "sample ID"
+      src_input_type: "Type of input - SNV or CNA"
+      algorithm: "Tool used for calling input"
+      path: "Path to calls"
+    - patient: "patient ID"
+      sample: "sample ID"
+      src_input_type: "Type of input - SNV or CNA"
+      algorithm: "Tool used for calling input"
+      path: "Path to calls"
