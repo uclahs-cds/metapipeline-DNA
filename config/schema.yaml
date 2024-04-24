@@ -225,6 +225,11 @@ input:
           type: 'String'
           required: true
           help: 'Sample ID'
+        state:
+          type: 'String'
+          required: true
+          choices: ['normal', 'tumor']
+          help: 'State of tissue from which samples was obtained'
         src_input_type:
           type: 'String'
           required: true
