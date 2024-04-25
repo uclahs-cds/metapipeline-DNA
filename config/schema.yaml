@@ -212,6 +212,38 @@ input:
           mode: 'r'
           required: true
           help: 'Absolute path to BAM'
+    SRC:
+      type: 'EntryList'
+      required: false
+      help: 'SRC input'
+      elements:
+        patient:
+          type: 'String'
+          required: true
+          help: 'Patient ID'
+        sample:
+          type: 'String'
+          required: true
+          help: 'Sample ID'
+        state:
+          type: 'String'
+          required: true
+          choices: ['normal', 'tumor']
+          help: 'State of tissue from which samples was obtained'
+        src_input_type:
+          type: 'String'
+          required: true
+          choices: ['SNV', 'CNA']
+          help: 'Type of input'
+        algorithm:
+          type: 'String'
+          required: true
+          help: 'Tool used to call input'
+        path:
+          type: 'Path'
+          mode: 'r'
+          required: true
+          help: 'Absolute path to calls'
     FASTQ:
       type: 'EntryList'
       required: false

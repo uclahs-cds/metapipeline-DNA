@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Added
 + More descriptive error messages on failure to identify output files
 + Add call-sCNA to `requested_pipelines` in `template.config`
++ Handling for SRC inputs
 ### Changed
 + Use GitHub container registry CI/CD check
 + Calculate-targeted-coverage: `1.0.0-rc.2` -> `1.1.0`
