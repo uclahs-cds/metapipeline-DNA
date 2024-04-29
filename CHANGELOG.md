@@ -20,6 +20,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 + Call-mtSNV: `4.0.0-rc.1` -> `4.0.0`
 + Call-gSV: `5.0.0-rc.1` -> `5.0.0`
 + Call-sCNA: `3.0.0` -> `3.1.0`
++ Require parameters only for pipelines being run
++ Validate parameters only for pipelines being run
 ### Fixed
 + Issue with status check function not properly detecting and reporting pipeline failures
 + Issue with pipeline-specific `default.config` overriding parameter settings in metapipeline config
