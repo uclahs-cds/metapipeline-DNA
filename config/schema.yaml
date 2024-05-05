@@ -78,6 +78,7 @@ requested_pipelines:
     - call-sSNV
     - call-sSV
     - call-sCNA
+    - call-SRC
   choices:
     - align-DNA
     - recalibrate-BAM
@@ -89,6 +90,7 @@ requested_pipelines:
     - call-sSNV
     - call-sSV
     - call-sCNA
+    - call-SRC
   help: 'List of pipelines to run'
 override_realignment:
   type: 'Bool'
