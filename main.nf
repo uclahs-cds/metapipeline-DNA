@@ -96,9 +96,15 @@ process create_CSV_metapipeline_DNA {
 
     script:
     input_csv = "${identifier}_metapipeline_DNA_input.csv"
-    header_line = (params.input_type == 'BAM') ? \
-        "patient,sample,state,bam" : \
-        "patient,sample,state,read_group_identifier,sequencing_center,library_identifier,platform_technology,platform_unit,bam_header_sm,lane,read1_fastq,read2_fastq"
+    header_line = ''
+    if (params.input_type == 'BAM') {
+        header_line = "patient,sample,state,bam"
+    } else if (params.input_type == 'SRC') {
+        header_line = "patient,sample,state,src_input_type,algorithm,path"
+    } else {
+        header_line = "patient,sample,state,read_group_identifier,sequencing_center,library_identifier,platform_technology,platform_unit,bam_header_sm,lane,read1_fastq,read2_fastq"
+    }
+
     lines = []
     for (record in records) {
         lines.add(record.join(','))
@@ -243,6 +249,9 @@ workflow {
     } else if (params.input_type == 'FASTQ') {
         ich_individual = Channel.from(params.input.FASTQ)
             .map{ [it.patient, [it.patient, it.sample, it.state, it.read_group_identifier, it.sequencing_center, it.library_identifier, it.platform_technology, it.platform_unit, it.bam_header_sm, it.lane, it.read1_fastq, it.read2_fastq]] }
+    } else if (params.input_type == 'SRC') {
+        ich_individual = Channel.from(params.input.SRC)
+            .map{ [it.patient, [it.patient, it.sample, it.state, it.src_input_type, it.algorithm, it.path]] }
     }
 
     if (params.sample_mode == 'single') {

@@ -20,11 +20,11 @@ process create_YAML_call_SRC {
         tuple val(sample_id), path(input_yaml), emit: call_src_input
 
     exec:
-    String input_yaml = 'call_SRC_input.yaml'
+    input_yaml = 'call_SRC_input.yaml'
 
     String single_sample_type = 'tumor'
 
-    String sample_id = ''
+    sample_id = ''
     if (params.sample_mode == 'multi') {
         sample_id = params.patient
     } else {
@@ -32,7 +32,7 @@ process create_YAML_call_SRC {
         sample_id = sample_info[single_sample_type].sample[0]
     }
 
-    Map input_map = [
+    input_map = [
         'patient_id': params.patient,
         'sample_id': sample_id,
         'SNV': [

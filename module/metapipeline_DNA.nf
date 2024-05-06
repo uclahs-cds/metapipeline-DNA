@@ -36,45 +36,45 @@ workflow {
         }
     }
 
-    bam2fastq_modification_complete
-        .map{ mark_pipeline_complete('convert-BAM2FASTQ'); return 'done' }
-        .set{ align_dna_modification_signal }
+    if ( params.input_type != 'SRC' ) {
+        bam2fastq_modification_complete
+            .map{ mark_pipeline_complete('convert-BAM2FASTQ'); return 'done' }
+            .set{ align_dna_modification_signal }
 
-    align_DNA(align_dna_modification_signal)
+        align_DNA(align_dna_modification_signal)
 
-    calculate_targeted_coverage(align_DNA.out.alignment_sample_data_updated)
+        calculate_targeted_coverage(align_DNA.out.alignment_sample_data_updated)
 
-    recalibrate_BAM(calculate_targeted_coverage.out.completion_signal)
+        recalibrate_BAM(calculate_targeted_coverage.out.completion_signal)
 
-    if (params.generate_SQC_BAM.is_pipeline_enabled) {
-        generate_SQC_BAM(recalibrate_BAM.out.recalibrate_sample_data_updated)
-    }
+        if (params.generate_SQC_BAM.is_pipeline_enabled) {
+            generate_SQC_BAM(recalibrate_BAM.out.recalibrate_sample_data_updated)
+        }
 
-    if (params.call_gSNP.is_pipeline_enabled) {
-        call_gSNP(recalibrate_BAM.out.recalibrate_sample_data_updated)
-    }
+        if (params.call_gSNP.is_pipeline_enabled) {
+            call_gSNP(recalibrate_BAM.out.recalibrate_sample_data_updated)
+        }
 
-    if (params.call_sSNV.is_pipeline_enabled) {
-        call_sSNV(recalibrate_BAM.out.recalibrate_sample_data_updated)
-    }
+        if (params.call_sSNV.is_pipeline_enabled) {
+            call_sSNV(recalibrate_BAM.out.recalibrate_sample_data_updated)
+        }
 
-    if (params.call_mtSNV.is_pipeline_enabled) {
-        call_mtSNV(recalibrate_BAM.out.recalibrate_sample_data_updated)
-    }
+        if (params.call_mtSNV.is_pipeline_enabled) {
+            call_mtSNV(recalibrate_BAM.out.recalibrate_sample_data_updated)
+        }
 
-    if (params.call_gSV.is_pipeline_enabled) {
-        call_gSV(recalibrate_BAM.out.recalibrate_sample_data_updated)
-    }
+        if (params.call_gSV.is_pipeline_enabled) {
+            call_gSV(recalibrate_BAM.out.recalibrate_sample_data_updated)
+        }
 
-    if (params.call_sSV.is_pipeline_enabled) {
-        call_sSV(recalibrate_BAM.out.recalibrate_sample_data_updated)
-    }
+        if (params.call_sSV.is_pipeline_enabled) {
+            call_sSV(recalibrate_BAM.out.recalibrate_sample_data_updated)
+        }
 
-    if (params.call_sCNA.is_pipeline_enabled) {
-        call_sCNA(recalibrate_BAM.out.recalibrate_sample_data_updated)
-    }
-
-    if (params.call_SRC.is_pipeline_enabled) {
-        call_SRC(recalibrate_BAM.out.recalibrate_sample_data_updated)
+        if (params.call_sCNA.is_pipeline_enabled) {
+            call_sCNA(recalibrate_BAM.out.recalibrate_sample_data_updated)
+        }
+    } else {
+        call_SRC(Channel.of('done'))
     }
 }
