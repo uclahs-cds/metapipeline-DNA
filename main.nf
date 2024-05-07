@@ -215,7 +215,7 @@ process call_metapipeline_DNA {
         --normal_sample_count ${params.sample_counts[patient]['normal']} \
         --tumor_sample_count ${params.sample_counts[patient]['tumor']} \
         --use_original_intervals ${params.use_original_intervals} \
-        --task-hash \${task_hash} \
+        --task_hash \${task_hash} \
         -params-file ${pipeline_params_json} \
         -c ${moduleDir}/config/metapipeline_DNA_base.config
     """ + limiter_wrapper_post
