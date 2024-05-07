@@ -193,6 +193,8 @@ process call_metapipeline_DNA {
     : "\${CURRENT_WORK_DIR:=`pwd`}"
     : "\${SBATCH_RET:=-1}"
 
+    task_hash=\$(pwd | rev | cut -d '/' -f 1,2 | rev | sed 's/\\//_/')
+
     NXF_WORK=${params.resolved_work_dir} \
     nextflow run \
         ${moduleDir}/module/metapipeline_DNA.nf \
@@ -213,7 +215,7 @@ process call_metapipeline_DNA {
         --normal_sample_count ${params.sample_counts[patient]['normal']} \
         --tumor_sample_count ${params.sample_counts[patient]['tumor']} \
         --use_original_intervals ${params.use_original_intervals} \
-        --task-hash ${task.hash.substring(0,2)}_${task.hash.substring(2)} \
+        --task-hash \${task_hash} \
         -params-file ${pipeline_params_json} \
         -c ${moduleDir}/config/metapipeline_DNA_base.config
     """ + limiter_wrapper_post
