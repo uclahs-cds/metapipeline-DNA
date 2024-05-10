@@ -35,30 +35,32 @@ process create_YAML_call_SRC {
     input_map = [
         'patient_id': params.patient,
         'sample_id': sample_id,
-        'SNV': [
-            'algorithm': null,
-            'path': []
-        ],
-        'CNA': [
-            'algorithm': null,
-            'path': []
+        'input': [
+            'SNV': [
+                'algorithm': null,
+                'path': []
+            ],
+            'CNA': [
+                'algorithm': null,
+                'path': []
+            ]
         ]
     ]
 
     sample_info[single_sample_type].each { sample_data ->
         sample_data.src_input.each { src_input_data ->
-            if (!input_map[src_input_data.src_input_type].algorithm) {
-                input_map[src_input_data.src_input_type].algorithm = src_input_data.algorithm
+            if (!input_map.input[src_input_data.src_input_type].algorithm) {
+                input_map.input[src_input_data.src_input_type].algorithm = src_input_data.algorithm
             }
 
-            assert input_map[src_input_data.src_input_type].algorithm == src_input_data.algorithm : "Found multiple algorithms for `${src_input_data.src_input_type}`: `${input_map[src_input_data.src_input_type].algorithm}` and `${src_input_data.algorithm}`"
+            assert input_map.input[src_input_data.src_input_type].algorithm == src_input_data.algorithm : "Found multiple algorithms for `${src_input_data.src_input_type}`: `${input_map.input[src_input_data.src_input_type].algorithm}` and `${src_input_data.algorithm}`"
 
-            input_map[src_input_data.src_input_type].path.add("${src_input_data.path}" as String)
+            input_map.input[src_input_data.src_input_type].path.add("${src_input_data.path}" as String)
         }
     }
 
-    assert input_map.SNV.algorithm != null : "Found no SNV input!"
-    assert input_map.CNA.algorithm != null : "Found no CNA input!"
+    assert input_map.input.SNV.algorithm != null : "Found no SNV input!"
+    assert input_map.input.CNA.algorithm != null : "Found no CNA input!"
 
     Yaml yaml = new Yaml()
     yaml.dump(input_map, new FileWriter("${task.workDir}/${input_yaml}"))
