@@ -56,25 +56,25 @@ workflow call_SRC {
 
         create_YAML_call_SRC(input_ch_create_call_src_yaml)
 
-        // run_call_SRC(create_YAML_call_SRC.out.call_src_input)
+        run_call_SRC(create_YAML_call_SRC.out.call_src_input)
 
-        // run_call_SRC.out.complete
-        //     .mix( pipeline_predecessor_complete )
-        //     .collect()
-        //     .map{ it ->
-        //         mark_pipeline_complete(params.this_pipeline);
-        //         return 'done';
-        //     }
-        //     .mix(
-        //         run_call_SRC.out.exit_code
-        //             .map { it -> (it as Integer) }
-        //             .sum()
-        //             .map { exit_code ->
-        //                 mark_pipeline_exit_code(params.this_pipeline, exit_code);
-        //                 return 'done';
-        //             }
-        //     )
-        //     .collect()
-        //     .map { it -> return 'done'; }
-        //     .set{ completion_signal }
+        run_call_SRC.out.complete
+            .mix( pipeline_predecessor_complete )
+            .collect()
+            .map{ it ->
+                mark_pipeline_complete(params.this_pipeline);
+                return 'done';
+            }
+            .mix(
+                run_call_SRC.out.exit_code
+                    .map { it -> (it as Integer) }
+                    .sum()
+                    .map { exit_code ->
+                        mark_pipeline_exit_code(params.this_pipeline, exit_code);
+                        return 'done';
+                    }
+            )
+            .collect()
+            .map { it -> return 'done'; }
+            .set{ completion_signal }
 }
