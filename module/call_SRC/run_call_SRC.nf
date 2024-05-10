@@ -39,7 +39,7 @@ process run_call_SRC {
         env EXIT_CODE, emit: exit_code
 
     script:
-    String params_to_dump = combine_input_with_params(params.call_SRC.metapipeline_arg_map, new File(input.yaml.toRealPath().toString()))
+    String params_to_dump = combine_input_with_params(params.call_SRC.metapipeline_arg_map, new File(input_yaml.toRealPath().toString()))
     String setup_commands = generate_graceful_error_controller(task.ext)
     """
     set -euo pipefail
