@@ -2,8 +2,8 @@
     Main entry point for calling call-SRC pipeline
 */
 include { create_YAML_call_SRC } from "${moduleDir}/create_YAML_call_SRC"
-// include { run_call_SRC } from "${moduleDir}/run_call_SRC" addParams( log_output_dir: params.metapipeline_log_output_dir )
-// include { mark_pipeline_complete; mark_pipeline_exit_code } from "../pipeline_status"
+include { run_call_SRC } from "${moduleDir}/run_call_SRC" addParams( log_output_dir: params.metapipeline_log_output_dir )
+include { mark_pipeline_complete; mark_pipeline_exit_code } from "../pipeline_status"
 
 /*
 * Main workflow for calling the call-SRC pipeline
@@ -59,7 +59,7 @@ workflow call_SRC {
         run_call_SRC(create_YAML_call_SRC.out.call_src_input)
 
         run_call_SRC.out.complete
-            .mix( pipeline_predecessor_complete )
+            // .mix( pipeline_predecessor_complete )
             .collect()
             .map{ it ->
                 mark_pipeline_complete(params.this_pipeline);
