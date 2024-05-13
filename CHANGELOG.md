@@ -8,6 +8,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+
+---
+
+## [6.0.0-rc.3] - 2024-05-13
 ### Added
 + More descriptive error messages on failure to identify output files
 + Add call-sCNA to `requested_pipelines` in `template.config`
