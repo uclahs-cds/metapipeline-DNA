@@ -11,6 +11,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [6.0.0-rc.4] - 2024-05-15
+### Fixed
++ Task hash properly handled between WGS and non-WGS modes
++ Job submission properly restricted when Slurm query fails
+
+---
+
 ## [6.0.0-rc.3] - 2024-05-13
 ### Added
 + More descriptive error messages on failure to identify output files
