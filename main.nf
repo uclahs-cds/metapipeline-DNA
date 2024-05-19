@@ -67,8 +67,7 @@ process create_config_metapipeline_DNA {
     input:
         tuple(
             val(patient),
-            val(identifier),
-            val(input_data)
+            val(identifier)
         )
 
     output:
@@ -83,10 +82,9 @@ process create_config_metapipeline_DNA {
         }
     }
     Map sample_data = ['sample_data': params.sample_data.findAll{ sample, sample_vals -> filtering_criteria(sample, sample_vals) }]
-    Map given_data = ['input_data': input_data]
     Map pipeline_predecessor = ['pipeline_predecessor': params.pipeline_predecessor]
     Map pipeline_interval_params = ['pipeline_interval_params': params.pipeline_interval_params]
-    json_params = JsonOutput.prettyPrint(JsonOutput.toJson(params.pipeline_params + sample_data + given_data + pipeline_predecessor + pipeline_interval_params))
+    json_params = JsonOutput.prettyPrint(JsonOutput.toJson(params.pipeline_params + sample_data + pipeline_predecessor + pipeline_interval_params))
     writer = file("${task.workDir}/pipeline_specific_params.json")
     writer.write(json_params)
 }
@@ -181,7 +179,7 @@ workflow {
     List input_data = [];
     params.input.each { patient, patient_data ->
         patient_data.each {sample, sample_data ->
-            input_data.add(['patient': patient, 'sample': sample, 'data': sample_data]);
+            input_data.add(['patient': patient, 'sample': sample]);
         }
     }
 
@@ -190,14 +188,12 @@ workflow {
     if (params.sample_mode == 'single') {
         // Group by sample
         ich = ich_individual
-            .map{ [it.sample, it] }
-            .groupTuple(by: 0)
-            .map{ [it[1][0].patient, it[0], it[1]] }
+            .map{ [it.patient, it.sample] }
     } else {
         ich = ich_individual
-            .map{ [it.patient, it] }
-            .groupTuple(by: 0)
-            .map{ [it[0], it[0], it[1]] }
+            .map{ it.patient }
+            .unique()
+            .map{ [it, it] }
     }
 
     ich.view{ "Post grouping: ${it}" }
