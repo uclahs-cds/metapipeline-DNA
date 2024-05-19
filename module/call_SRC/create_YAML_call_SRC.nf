@@ -37,12 +37,10 @@ process create_YAML_call_SRC {
         'sample_id': sample_id,
         'input': [
             'SNV': [
-                'algorithm': null,
-                'path': []
+                'algorithm': null
             ],
             'CNA': [
-                'algorithm': null,
-                'path': []
+                'algorithm': null
             ]
         ]
     ]
@@ -55,7 +53,11 @@ process create_YAML_call_SRC {
 
             assert input_map.input[src_input_data.src_input_type].algorithm == src_input_data.algorithm : "Found multiple algorithms for `${src_input_data.src_input_type}`: `${input_map.input[src_input_data.src_input_type].algorithm}` and `${src_input_data.algorithm}`"
 
-            input_map.input[src_input_data.src_input_type].path.add("${src_input_data.path}" as String)
+            if (!input_map.input[src_input_data.src_input_type].containsKey(sample_data.sample)) {
+                input_map.input[src_input_data.src_input_type][sample_data.sample] = []
+            }
+
+            input_map.input[src_input_data.src_input_type][sample_data.sample].add("${src_input_data.path}" as String)
         }
     }
 
