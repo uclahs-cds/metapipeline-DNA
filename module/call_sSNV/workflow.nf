@@ -16,7 +16,23 @@ workflow call_sSNV {
         modification_signal
     main:
         if (!params.call_sSNV.is_pipeline_enabled) {
-            continue
+            modification_signal.until{ it == 'done' }.ifEmpty('done')
+                .map{ it ->
+                    if (params.call_SRC.is_pipeline_enabled) {
+                        params.sample_data.each { s, s_data ->
+                            s_data['original_src_data'].each { src_data ->
+                                if (src_data['src_input_type'] == 'SNV') {
+                                    s_data[params.this_pipeline][src_data['algorithm']] = src_data['path'];
+                                }
+                            };
+                        };
+                    }
+                    System.out.println(params.sample_data);
+                    mark_pipeline_complete(params.this_pipeline);
+                    mark_pipeline_exit_code(params.this_pipeline, 0);
+                    return 'done';
+                }
+                .set{ completion_signal }
         } else {
             // Watch for pipeline ordering
             Channel.watchPath( "${params.pipeline_status_directory}/*.ready" )
