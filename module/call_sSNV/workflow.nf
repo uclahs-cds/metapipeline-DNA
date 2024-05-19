@@ -142,4 +142,7 @@ workflow call_sSNV {
                 .map { it -> return 'done'; }
                 .set{ completion_signal }
         }
+
+    emit:
+    completion_signal = completion_signal
 }
