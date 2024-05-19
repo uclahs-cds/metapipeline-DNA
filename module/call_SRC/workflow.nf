@@ -15,23 +15,41 @@ workflow call_SRC {
     take:
         modification_signal
     main:
-        // Watch for pipeline ordering
-        // Channel.watchPath( "${params.pipeline_status_directory}/*.ready" )
-        //     .until{ it -> it.name == "${params.this_pipeline}.ready" }
-        //     .ifEmpty('done')
-        //     .collect()
-        //     .map{ 'done' }
-        //     .set{ pipeline_predecessor_complete }
-
         // Extract inputs from data structure
         modification_signal.until{ it == 'done' }.ifEmpty('done')
             .collect()
             .map{ it ->
                 def samples = [];
+                def sample_snv_data = [];
+                def sample_cna_data = [];
                 params.sample_data.each { s, s_data ->
-                    samples.add(['patient': s_data['patient'], 'sample': s, 'state': s_data['state'], 'src_input': s_data['original_data']]);
+                    sample_snv_data = [];
+                    sample_cna_data = [];
+                    s_data['call-sSNV'].each { tool, data ->
+                        sample_snv_data.add([
+                            'src_input_type': 'SNV',
+                            'algorithm': tool,
+                            'path': data
+                        ]);
+                    };
+                    s_data['call-sCNA'].each { tool, data ->
+                        data.each { data_file ->
+                            sample_cna_data.add([
+                                'src_input_type': 'CNA',
+                                'algorithm': tool,
+                                'path': data_file
+                            ]);
+                        };
+                    };
+                    if (params.call_sSNV.is_pipeline_enabled) {
+                        sample_snv_data.removeAll{ it.algorithm != params.src_snv_tool };
+                    }
+                    if (params.call_sCNA.is_pipeline_enabled) {
+                        sample_cna_data.removeAll{ it.algorithm != params.src_cna_tool };
+                    }
+                    samples.add(['patient': s_data['patient'], 'sample': s, 'state': s_data['state'], 'src_input': sample_snv_data + sample_cna_data]);
                 };
-                return samples
+                return samples;
             }
             .flatten()
             .reduce(['normal': [] as Set, 'tumor': [] as Set]) { a, b ->
