@@ -12,9 +12,30 @@ include { call_mtSNV } from "${moduleDir}/call_mtSNV/workflow" addParams( this_p
 include { call_gSV } from "${moduleDir}/call_gSV/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir, this_pipeline: 'call-gSV' )
 include { call_sSV } from "${moduleDir}/call_sSV/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir, this_pipeline: 'call-sSV' )
 include { call_sCNA } from "${moduleDir}/call_sCNA/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir, this_pipeline: 'call-sCNA' )
+include { call_SRC } from "${moduleDir}/call_SRC/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir, this_pipeline: 'call-SRC')
 include { create_directory; mark_pipeline_complete } from "${moduleDir}/pipeline_status"
 
 workflow {
+    // Create a status directory to track when pipelines complete
+    create_directory(params.pipeline_status_directory)
+
+    // Create a directory to track pipeline exit codes
+    create_directory(params.pipeline_exit_status_directory)
+
+    Channel.of('done').set{ bam2fastq_modification_complete }
+
+    call_sSNV(bam2fastq_modification_complete)
+    call_sCNA(bam2fastq_modification_complete)
+
+    call_sSNV.out.completion_signal.mix(call_sCNA.out.completion_signal)
+        .collect()
+        .map{ 'done' }
+        .set{ src_ready }
+
+    call_SRC(src_ready)
+}
+
+workflow tmp {
     // Create a status directory to track when pipelines complete
     create_directory(params.pipeline_status_directory)
 
