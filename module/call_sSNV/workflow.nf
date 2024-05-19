@@ -27,7 +27,7 @@ workflow call_sSNV {
                             };
                         };
                     }
-                    System.out.println(params.sample_data);
+
                     mark_pipeline_complete(params.this_pipeline);
                     mark_pipeline_exit_code(params.this_pipeline, 0);
                     return 'done';
