@@ -53,6 +53,13 @@ run_downstream_pipelines_serially:
   required: true
   default: false
   help: 'Let pipelines downstream of recalibrate-BAM run sequentially regardless of whether an ordering has been specified or not'
+override_src_precursor_disable:
+  type: 'Bool'
+  required: true
+  default: false
+  help: 'Override the defauly behavior of skipping pipelines that are used to generate inputs for call-SRC when those inputs are already provided'
+src_snv_tool:
+  type: 'SNVTool'
 downstream_pipeline_order:
   type: 'List'
   required: false
