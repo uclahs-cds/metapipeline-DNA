@@ -53,65 +53,6 @@ log.info """\
     .stripIndent()
 
 /*
-* Create input CSV file to be passed to the metapipeline-DNA pipeline.
-*
-* Input:
-*   A tuple of two objects.
-*     @param patient (val): the patient ID
-*     @param identifier (val): the identifier for the file
-*     @records (tuple[tuple[str|file]]): A 2D tuple, that each child tuple contains the patient ID,
-*       sample ID, state, and other inputs depending on input type.
-*
-* Output:
-*   A tuple of two objects.
-*     @return patient (val): the patient ID
-*     @return input_csv (file): the input CSV file generated to be passed to the metapipeline-DNA.
-*/
-
-process create_CSV_metapipeline_DNA {
-    publishDir path: "${params.log_output_dir}/process-log",
-        mode: "copy",
-        pattern: ".command.*",
-        saveAs: { "${task.process}/${identifier}/log${file(it).getName()}" }
-
-    publishDir path: "${params.final_output_dir}/intermediate/${task.process}-${identifier}",
-        enabled: params.save_intermediate_files,
-        mode: "copy",
-        pattern: "*.csv"
-
-    input:
-        tuple(
-            val(patient),
-            val(identifier),
-            val(records)
-        )
-
-    output:
-        tuple(
-            val(patient),
-            val(identifier),
-            env(INPUT_CSV)
-        )
-        path(".command.*")
-
-    script:
-    input_csv = "${identifier}_metapipeline_DNA_input.csv"
-    header_line = (params.input_type == 'BAM') ? \
-        "patient,sample,state,bam" : \
-        "patient,sample,state,read_group_identifier,sequencing_center,library_identifier,platform_technology,platform_unit,bam_header_sm,lane,read1_fastq,read2_fastq"
-    lines = []
-    for (record in records) {
-        lines.add(record.join(','))
-    }
-    lines = lines.join('\n')
-    """
-    echo ${header_line} > ${input_csv}
-    echo '${lines}' >> ${input_csv}
-    INPUT_CSV=`realpath ${input_csv}`
-    """
-}
-
-/*
 * Dump the pipeline-specific params to a JSON file
 *
 * Output:
@@ -127,11 +68,11 @@ process create_config_metapipeline_DNA {
         tuple(
             val(patient),
             val(identifier),
-            val(input_csv)
+            val(input_data)
         )
 
     output:
-    tuple val(patient), val(input_csv), path("pipeline_specific_params.json"), emit: metapipeline_dna_input
+    tuple val(patient), path("pipeline_specific_params.json"), emit: metapipeline_dna_input
 
     exec:
     def filtering_criteria = { k, v ->
@@ -142,9 +83,10 @@ process create_config_metapipeline_DNA {
         }
     }
     Map sample_data = ['sample_data': params.sample_data.findAll{ sample, sample_vals -> filtering_criteria(sample, sample_vals) }]
+    Map given_data = ['input_data': input_data]
     Map pipeline_predecessor = ['pipeline_predecessor': params.pipeline_predecessor]
     Map pipeline_interval_params = ['pipeline_interval_params': params.pipeline_interval_params]
-    json_params = JsonOutput.prettyPrint(JsonOutput.toJson(params.pipeline_params + sample_data + pipeline_predecessor + pipeline_interval_params))
+    json_params = JsonOutput.prettyPrint(JsonOutput.toJson(params.pipeline_params + sample_data + given_data + pipeline_predecessor + pipeline_interval_params))
     writer = file("${task.workDir}/pipeline_specific_params.json")
     writer.write(json_params)
 }
@@ -170,7 +112,6 @@ process call_metapipeline_DNA {
     input:
         tuple(
             val(patient),
-            path(input_csv),
             path(pipeline_params_json)
         )
 
@@ -196,7 +137,6 @@ process call_metapipeline_DNA {
     NXF_WORK=${params.resolved_work_dir} \
     nextflow run \
         ${moduleDir}/module/metapipeline_DNA.nf \
-        --input_csv ${input_csv} \
         --patient ${patient} \
         --input_type ${params.input_type} \
         --sample_mode ${params.sample_mode} \
@@ -238,6 +178,38 @@ process check_process_status {
 }
 
 workflow {
+    List input_data = [];
+    params.input.each { patient, patient_data ->
+        patient_data.each {sample, sample_data ->
+            input_data.add(['patient': patient, 'sample': sample, 'data': sample_data]);
+        }
+    }
+
+    ich_individual = Channel.from(input_data);
+
+    if (params.sample_mode == 'single') {
+        // Group by sample
+        ich = ich_individual
+            .map{ [it.sample, it] }
+            .groupTuple(by: 0)
+            .map{ [it[1][0].patient, it[0], it[1]] }
+    } else {
+        ich = ich_individual
+            .map{ [it.patient, it] }
+            .groupTuple(by: 0)
+            .map{ [it[0], it[0], it[1]] }
+    }
+
+    ich.view{ "Post grouping: ${it}" }
+
+    create_config_metapipeline_DNA(ich)
+    create_config_metapipeline_DNA.out.metapipeline_dna_input.view{ "JSON: ${it}" }
+    // call_metapipeline_DNA(create_config_metapipeline_DNA.out.metapipeline_dna_input)
+
+    // check_process_status(call_metapipeline_DNA.out.submit_out)
+}
+
+workflow tmp {
     if (params.input_type == 'BAM') {
         ich_individual  = Channel.from(params.input.BAM)
             .map{ [it.patient, [it.patient, it.sample, it.state, it.path]] }
