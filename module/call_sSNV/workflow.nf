@@ -4,6 +4,7 @@
 include { create_YAML_call_sSNV } from "${moduleDir}/create_YAML_call_sSNV"
 include { run_call_sSNV } from "${moduleDir}/run_call_sSNV" addParams( log_output_dir: params.metapipeline_log_output_dir )
 include { mark_pipeline_complete; mark_pipeline_exit_code } from "../pipeline_status"
+include { identify_call_ssnv_outputs } from './identify_outputs'
 
 /*
 * Main workflow for calling the call-sSNV pipeline
@@ -122,7 +123,13 @@ workflow call_sSNV {
             }
             run_call_sSNV(create_YAML_call_sSNV.out)
 
+            identify_call_ssnv_outputs(
+                modification_signal.until{ it == 'done' }
+                    .mix( run_call_sSNV.out.identify_recalibrate_bam_out )
+            )
+
             run_call_sSNV.out.complete
+                .mix( identify_call_ssnv_outputs.out.och_call_ssnv_identified )
                 .mix( pipeline_predecessor_complete )
                 .collect()
                 .map{ it ->
