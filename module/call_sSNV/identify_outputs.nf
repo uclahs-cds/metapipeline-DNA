@@ -7,7 +7,7 @@ workflow identify_call_ssnv_outputs {
     main:
     och_call_ssnv.map{ call_ssnv_out ->
         def sample_id = call_ssnv_out[0];
-        def ssnv_output_dir = new File(call_ssnv_out[1]);
+        def ssnv_output_dir = new File(call_ssnv_out[1].toString());
         def ssnv_output_pattern = /(.*)-([\d\.]*)$/;
         if (sample_id == params.patient) { // Output from multi-mode, skip
             return 'done';

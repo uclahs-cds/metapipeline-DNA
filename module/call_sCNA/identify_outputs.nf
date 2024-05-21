@@ -7,7 +7,7 @@ workflow identify_call_scna_outputs {
     main:
     och_call_scna.map{ call_scna_out ->
         def sample_id = call_scna_out[0];
-        def scna_output_dir = new File(call_scna_out[1]);
+        def scna_output_dir = new File(call_scna_out[1].toString());
         def scna_output_pattern = /(.*)-([\d\.]*)$/;
 
         def output_info = [
