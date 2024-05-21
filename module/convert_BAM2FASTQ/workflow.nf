@@ -21,8 +21,14 @@ include { identify_convert_bam2fastq_outputs } from './identify_outputs'
 
 workflow convert_BAM2FASTQ {
     main:
-        ich = Channel.fromPath(params.input_csv).splitCsv(header:true)
-            .map { tuple(it.patient, it.sample, it.state, file(it.bam)) }
+        List samples = [];
+        params.sample_data.each { s, s_data ->
+            samples << ['patient': s_data.patient, 'sample': s, 'state': s_data.state, 'bam': s_data.original_data.path]
+        }
+
+        ich = Channel.from(samples)
+            .map{ tuple(it.patient, it.sample, it.state, file(it.bam)) }
+
         extract_read_groups(ich)
         create_CSV_BAM2FASTQ(ich)
         call_convert_BAM2FASTQ(create_CSV_BAM2FASTQ.out.convert_bam2fastq_csv)
