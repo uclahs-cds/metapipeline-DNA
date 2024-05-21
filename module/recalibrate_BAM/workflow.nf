@@ -27,10 +27,10 @@ workflow recalibrate_BAM {
         modification_signal
 
     main:
-        if (params.input_type != 'SRC') {
-            // Default to BWA-MEM2 as main aligner unless it's not being used
-            def main_aligner = ('BWA-MEM2' in params.align_DNA.aligner) ? 'BWA-MEM2' : params.align_DNA.aligner[0]
+        // Default to BWA-MEM2 as main aligner unless it's not being used
+        def main_aligner = ('BWA-MEM2' in params.align_DNA.aligner) ? 'BWA-MEM2' : params.align_DNA.aligner[0]
 
+        if (params.input_type != 'SRC') {
             // Extract inputs from data structure
             modification_signal.until{ it == 'done' }.ifEmpty('done')
                 .map{ it ->
