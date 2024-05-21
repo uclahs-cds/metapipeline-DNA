@@ -23,6 +23,9 @@ workflow call_SRC {
                 def sample_snv_data = [];
                 def sample_cna_data = [];
                 params.sample_data.each { s, s_data ->
+                    if (s_data.state == 'normal') {
+                        return;
+                    }
                     sample_snv_data = [];
                     sample_cna_data = [];
                     s_data['call-sSNV'].each { tool, data ->
