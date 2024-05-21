@@ -5,6 +5,7 @@
 include { create_YAML_call_sCNA } from "${moduleDir}/create_YAML_call_sCNA"
 include { run_call_sCNA } from "${moduleDir}/run_call_sCNA" addParams( log_output_dir: params.metapipeline_log_output_dir )
 include { mark_pipeline_complete; mark_pipeline_exit_code } from "../pipeline_status"
+include { identify_call_scna_outputs } from "./identify_outputs"
 
 /*
 * Main workflow for calling the call-sCNA pipeline
@@ -95,7 +96,10 @@ workflow call_sCNA {
                 create_YAML_call_sCNA(input_ch_create_YAML)
                 run_call_sCNA(create_YAML_call_sCNA.out)
 
+                identify_call_scna_outputs(run_call_sCNA.out.identify_call_scna_out)
+
                 run_call_sCNA.out.complete
+                    .mix( identify_call_scna_outputs.out.och_call_scna_identified )
                     .mix(completion_signal)
                     .set{ completion_signal }
                 run_call_sCNA.out.exit_code
