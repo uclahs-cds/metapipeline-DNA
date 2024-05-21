@@ -22,10 +22,19 @@ workflow {
     // Create a directory to track pipeline exit codes
     create_directory(params.pipeline_exit_status_directory)
 
-    Channel.of('done').set{ bam2fastq_modification_complete }
+    Channel.of('done')
+        .map{ it ->
+            params.sample_data.each { s, s_data ->
+                s_data['recalibrate-BAM']['BAM'] = s_data['original_data']['path'];
+            }
+            return 'done';
+        }
+        .set{ bam2fastq_modification_complete }
 
     call_sSNV(bam2fastq_modification_complete)
     call_sCNA(bam2fastq_modification_complete)
+
+    bam2fastq_modification_complete.map{ sleep 5000; mark_pipeline_complete('recalibrate-BAM'); return 'done' }
 
     call_sSNV.out.completion_signal.mix(call_sCNA.out.completion_signal)
         .collect()
