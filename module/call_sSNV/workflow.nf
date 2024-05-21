@@ -125,7 +125,7 @@ workflow call_sSNV {
 
             identify_call_ssnv_outputs(
                 modification_signal.until{ it == 'done' }
-                    .mix( run_call_sSNV.out.identify_recalibrate_bam_out )
+                    .mix( run_call_sSNV.out.identify_call_ssnv_out )
             )
 
             run_call_sSNV.out.complete
