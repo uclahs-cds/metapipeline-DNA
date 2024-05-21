@@ -152,6 +152,8 @@ process call_metapipeline_DNA {
         --tumor_sample_count ${params.sample_counts[patient]['tumor']} \
         --use_original_intervals ${params.use_original_intervals} \
         --task_hash \$(pwd | rev | cut -d '/' -f 1,2 | rev | sed 's/\\//_/') \
+        --src_snv_tool ${params.src_snv_tool} \
+        --src_cna_tool ${params.src_cna_tool} \
         -params-file ${pipeline_params_json} \
         -c ${moduleDir}/config/metapipeline_DNA_base.config
     """ + limiter_wrapper_post
