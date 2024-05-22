@@ -59,7 +59,34 @@ override_src_precursor_disable:
   default: false
   help: 'Override the defauly behavior of skipping pipelines that are used to generate inputs for call-SRC when those inputs are already provided'
 src_snv_tool:
-  type: 'SNVTool'
+  type: 'String'
+  required: true
+  choices:
+    - BCFtools-Intersect
+    - Mutect2
+    - SomaticSniper
+    - Strelka2
+    - MuSE
+  default: 'BCFtools-Intersect'
+  help: 'The tool used for SNV calling to generate the input for call-SRC'
+src_cna_tool:
+  type: 'String'
+  required: true
+  choices:
+    - FACETS
+    - Battenberg
+  default: 'Battenberg'
+  help: 'The tool used for CNA calling to generate the input for call-SRC'
+override_src_precursor_disable:
+  type: 'Bool'
+  required: true
+  default: false
+  help: 'Whether to override the automatic disabling of call-sSNV and call-sCNA based on given SRC inputs'
+src_run_all_combinations:
+  type: 'Bool'
+  required: false
+  default: false
+  help: 'Whether to run all possible combinations of SNV and CNA tools for call-SRC'
 downstream_pipeline_order:
   type: 'List'
   required: false
@@ -85,6 +112,7 @@ requested_pipelines:
     - call-sSNV
     - call-sSV
     - call-sCNA
+    - call-SRC
   choices:
     - align-DNA
     - recalibrate-BAM
@@ -96,6 +124,7 @@ requested_pipelines:
     - call-sSNV
     - call-sSV
     - call-sCNA
+    - call-SRC
   help: 'List of pipelines to run'
 override_realignment:
   type: 'Bool'
