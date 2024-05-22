@@ -5,16 +5,16 @@ then
     if echo "!{sbatch_ret}" | grep -q "Submitted batch job"
     then
         job_id=$(echo "!{sbatch_ret}" | cut -d ' ' -f 4)
-        while squeue --noheader --format="%i" | grep -q "$job_id"
+        while squeue --noheader --format="%i" | grep -q "$job_id" || true
         do
             sleep 3
         done
 
-        if sacct -j "$job_id" -o ExitCode --noheader | tr -d " " | sort -r | head -n 1 | grep -q "^0:0$"
+        if sacct -j "$job_id" -o ExitCode --noheader | tr -d " " | sort -r | head -n 1 | grep -q "^0:0$" || false
         then
             :
         else
-            echo "Process in '!{work_dir}' failed with non-zero exit code."
+            echo "Process in '!{work_dir}' failed with non-zero exit code or the status could not be checked."
         fi
     fi
 fi
