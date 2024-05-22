@@ -1,9 +1,4 @@
 ---
-input_csv:
-  type: 'Path'
-  mode: 'r'
-  required: false
-  help: 'Absolute path to input CSV'
 output_dir:
   type: 'Path'
   mode: 'w'
@@ -225,114 +220,108 @@ input:
   required: true
   help: 'Input to process'
   elements:
-    BAM:
-      type: 'EntryList'
-      required: false
-      help: 'Input BAMs'
+    Patient:
+      type: 'PatientNamespace'
+      required: true
+      help: 'Namespace containing information about patient'
       elements:
-        patient:
-          type: 'String'
+        Sample:
+          type: 'SampleNamespace'
           required: true
-          help: 'Patient ID'
-        sample:
-          type: 'String'
-          required: true
-          help: 'Sample ID'
-        state:
-          type: 'String'
-          required: true
-          choices: ['normal', 'tumor']
-          help: 'State of tissue from which samples was obtained'
-        path:
-          type: 'Path'
-          mode: 'r'
-          required: true
-          help: 'Absolute path to BAM'
-    SRC:
-      type: 'EntryList'
-      required: false
-      help: 'SRC input'
-      elements:
-        patient:
-          type: 'String'
-          required: true
-          help: 'Patient ID'
-        sample:
-          type: 'String'
-          required: true
-          help: 'Sample ID'
-        state:
-          type: 'String'
-          required: true
-          choices: ['normal', 'tumor']
-          help: 'State of tissue from which samples was obtained'
-        src_input_type:
-          type: 'String'
-          required: true
-          choices: ['SNV', 'CNA']
-          help: 'Type of input'
-        algorithm:
-          type: 'String'
-          required: true
-          help: 'Tool used to call input'
-        path:
-          type: 'Path'
-          mode: 'r'
-          required: true
-          help: 'Absolute path to calls'
-    FASTQ:
-      type: 'EntryList'
-      required: false
-      help: 'Inputs FASTQs'
-      elements:
-        patient:
-          type: 'String'
-          required: true
-          help: 'Patient ID'
-        sample:
-          type: 'String'
-          required: true
-          help: 'Sample ID'
-        state:
-          type: 'String'
-          required: true
-          choices: ['normal', 'tumor']
-          help: 'State of tissue from which samples was obtained'
-        read_group_identifier:
-          type: 'String'
-          required: true
-          help: 'Read group identifier for alignment'
-        sequencing_center:
-          type: 'String'
-          required: true
-          help: 'Center where sequencing was performed'
-        library_identifier:
-          type: 'String'
-          required: true
-          help: 'Library used for sample'
-        platform_technology:
-          type: 'String'
-          required: true
-          help: 'Technology used for sequencing'
-        platform_unit:
-          type: 'String'
-          required: true
-          help: 'Name of specific platform unit'
-        bam_header_sm:
-          type: 'String'
-          required: true
-          help: 'Sample name tag for BAM'
-        lane:
-          type: 'LaneType'
-          required: true
-          help: 'Lane'
-        read1_fastq:
-          type: 'Path'
-          mode: 'r'
-          required: true
-          help: 'Absolute path to R1 FASTQ'
-        read2_fastq:
-          type: 'Path'
-          mode: 'r'
-          required: true
-          help: 'Absolute path to R2 FASTQ'
+          help: 'Namespace containing information about sample'
+          elements:
+            state:
+              type: 'String'
+              required: true
+              choices: ['normal', 'tumor']
+              help: 'State of tissue from which sample was obtained'
+            CRAM:
+              type: 'Namespace'
+              required: false
+              help: 'Inputs CRAM'
+              elements:
+                path:
+                  type: 'Path'
+                  mode: 'r'
+                  required: true
+                  help: 'Path to the CRAM file'
+            BAM:
+              type: 'Namespace'
+              required: false
+              help: 'Inputs BAM'
+              elements:
+                path:
+                  type: 'Path'
+                  mode: 'r'
+                  required: true
+                  help: 'Path to the BAM file'
+            FASTQ:
+              type: 'EntryList'
+              required: false
+              help: 'Inputs FASTQs'
+              elements:
+                read_group_identifier:
+                  type: 'String'
+                  required: true
+                  help: 'Read group identifier for alignment'
+                sequencing_center:
+                  type: 'String'
+                  required: true
+                  help: 'Center where sequencing was performed'
+                library_identifier:
+                  type: 'String'
+                  required: true
+                  help: 'Library used for sample'
+                platform_technology:
+                  type: 'String'
+                  required: true
+                  help: 'Technology used for sequencing'
+                platform_unit:
+                  type: 'String'
+                  required: true
+                  help: 'Name of specific platform unit'
+                bam_header_sm:
+                  type: 'String'
+                  required: true
+                  help: 'Sample name tag for BAM'
+                lane:
+                  type: 'LaneType'
+                  required: true
+                  help: 'Lane'
+                read1_fastq:
+                  type: 'Path'
+                  mode: 'r'
+                  required: true
+                  help: 'Absolute path to R1 FASTQ'
+                read2_fastq:
+                  type: 'Path'
+                  mode: 'r'
+                  required: true
+                  help: 'Absolute path to R2 FASTQ'
+            SRC:
+              type: 'EntryList'
+              required: false
+              help: 'Inputs SRC'
+              elements:
+                src_input_type:
+                  type: 'String'
+                  required: true
+                  choices: ['SNV', 'CNA']
+                  help: 'Type of input'
+                algorithm:
+                  type: 'String'
+                  required: true
+                  choices:
+                    - BCFtools-Intersect
+                    - Mutect2
+                    - SomaticSniper
+                    - Strelka2
+                    - MuSE
+                    - FACETS
+                    - Battenberg
+                  help: 'Tool used to call input'
+                path:
+                  type: 'Path'
+                  mode: 'r'
+                  required: true
+                  help: 'Absolute path to calls'
