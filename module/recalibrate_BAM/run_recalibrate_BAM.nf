@@ -1,4 +1,4 @@
-include { combine_input_with_params } from '../common.nf'
+include { combine_input_with_params; generate_weblog_args } from '../common.nf'
 /*
 * Call the recalibrate-BAM pipeline
 *
@@ -42,6 +42,7 @@ process run_recalibrate_BAM {
     output_directory = "recalibrate-BAM-*/${sample_id_for_recalibrate}/GATK-*/output"
     qc_directory = "recalibrate-BAM-*/${sample_id_for_recalibrate}/GATK-*/QC/run_CalculateContamination_GATK"
     String params_to_dump = combine_input_with_params(params.recalibrate_BAM.metapipeline_arg_map, new File(input_yaml.toRealPath().toString()))
+    String weblog_args = generate_weblog_args()
     """
     set -euo pipefail
 
@@ -58,7 +59,7 @@ process run_recalibrate_BAM {
         --metapipeline_delete_input_bams ${params.enable_input_deletion_recalibrate_bam} \
         --output_dir \$(pwd) \
         --dataset_id ${params.project_id} \
-        -c ${moduleDir}/default.config
+        -c ${moduleDir}/default.config ${weblog_args}
 
     rm -r \$WORK_DIR
     """

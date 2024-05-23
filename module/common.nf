@@ -13,6 +13,16 @@ String combine_input_with_params(Map params_to_add,  File input_yaml = null) {
     return combined_yaml;
 }
 
+/**
+*   Generate command line arguments for a child Nextflow run to use the same weblog
+*/
+String generate_weblog_args() {
+    if (getSession().config.navigate('weblog.enabled') as Boolean) {
+        return "-with-weblog ${getSession().config.navigate('weblog.url')}";
+    }
+    return "";
+}
+
 String identify_file(filepath) {
     def file_found = file(filepath);
 

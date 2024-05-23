@@ -1,4 +1,4 @@
-include { combine_input_with_params } from '../common.nf'
+include { combine_input_with_params; generate_weblog_args } from '../common.nf'
 
 /*
     Process to call the align-DNA pipeline.
@@ -33,6 +33,7 @@ process call_align_DNA {
     bam = "align-DNA-*/${sample}/BWA-MEM2-2.2.1/output/BWA-MEM2-*${sample}.bam"
 
     String params_to_dump = combine_input_with_params(params.align_DNA.metapipeline_arg_map)
+    String weblog_args = generate_weblog_args()
     """
     set -euo pipefail
 
@@ -49,7 +50,7 @@ process call_align_DNA {
         --spark_temp_dir \$WORK_DIR \
         --input_csv ${input_csv} \
         --dataset_id ${params.project_id} \
-        -c ${moduleDir}/default.config
+        -c ${moduleDir}/default.config ${weblog_args}
 
     rm -r \$WORK_DIR
     """

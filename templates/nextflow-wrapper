@@ -1,0 +1,101 @@
+#!/usr/bin/env python3
+"""
+Run Nextflow with a wrapping weblog server.
+"""
+import argparse
+import contextlib
+import logging
+import subprocess
+import sys
+import threading
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from pathlib import Path
+
+
+class WeblogHandler(BaseHTTPRequestHandler):
+    "A handler for Nextflow's web log plugin."
+    def log_message(self, format, *args):   # pylint: disable=redefined-builtin
+        # The base class's implementation writes directly to stderr
+        message = format % args
+        logging.getLogger("WeblogHandler").debug(message)
+
+    def do_POST(self):  # pylint: disable=invalid-name
+        "Handle a POST."
+        raw_content = self.rfile.read(
+            int(self.headers['Content-Length'])
+        ).decode("utf-8")
+
+        # Respond with 204 NO CONTENT, as that doesn't require a response body
+        self.send_response(204)
+        self.end_headers()
+
+        # The absolute level doesn't matter, but it should be consistent
+        logging.getLogger("trace_logger").info(raw_content)
+
+
+def run():
+    "Run the Nextflow pipeline with additional logging."
+    # Parse the --metapipeline_log_output_dir argument
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--metapipeline_log_output_dir",
+        required=True
+    )
+    args = parser.parse_args()
+
+    log_output_dir = Path(
+        args.metapipeline_log_output_dir,
+        "nextflow-log"
+    ).resolve()
+    log_output_dir.mkdir(parents=True, exist_ok=True)
+
+    # Configure logging from this script to go to a `server.log` file
+    logging.basicConfig(
+        level=logging.DEBUG,
+        filename=log_output_dir / "server.log"
+    )
+
+    # Configure the Nextflow weblogs to go to a `traces.jsonl` file, and
+    # exclude them from server.log
+    # Construct the log file handler
+    handler = logging.FileHandler(Path(log_output_dir, "traces.jsonl"))
+    # The absolute level doesn't matter, but it needs to be consistent
+    handler.setLevel(logging.INFO)
+    handler.setFormatter(logging.Formatter("%(message)s"))
+
+    trace_logger = logging.getLogger("trace_logger")
+    trace_logger.addHandler(handler)
+    trace_logger.setLevel(logging.INFO)
+
+    # Do not pass weblog messages to any higher handlers
+    trace_logger.propagate = False
+
+    with contextlib.ExitStack() as stack:
+        log_server = stack.enter_context(HTTPServer(
+            ("localhost", 0), WeblogHandler
+        ))
+
+        # Ensure that the logging server shuts down after Nextflow returns
+        stack.callback(log_server.shutdown)
+
+        # Start the logging server in another thread
+        threading.Thread(
+            name="WeblogThread",
+            target=log_server.serve_forever,
+        ).start()
+
+        # Reconstruct the arguments to this script
+        nextflow_args = ["nextflow"]
+        nextflow_args.extend(sys.argv[1:])
+
+        # Add arguments to make Nextflow log to the server
+        nextflow_args.extend([
+            "-with-weblog",
+            f"http://localhost:{log_server.server_address[1]}"
+        ])
+
+        sys.exit(subprocess.run(nextflow_args, check=False).returncode)
+
+
+if __name__ == "__main__":
+    run()

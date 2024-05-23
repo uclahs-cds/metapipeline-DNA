@@ -1,4 +1,4 @@
-include { combine_input_with_params; generate_graceful_error_controller } from '../common.nf'
+include { combine_input_with_params; generate_graceful_error_controller; generate_weblog_args } from '../common.nf'
 /*
 * Call the calculate-targeted-coverage pipeline
 *
@@ -40,6 +40,7 @@ process run_calculate_targeted_coverage {
     // If expanded intervals are requested for downstream use, disable the graceful failure mechanism
     task.ext.fail_gracefully = params.use_original_intervals
     String setup_commands = generate_graceful_error_controller(task.ext)
+    String weblog_args = generate_weblog_args()
     """
     set -euo pipefail
 
@@ -57,7 +58,7 @@ process run_calculate_targeted_coverage {
         --work_dir \$WORK_DIR \
         --output_dir \$(pwd) \
         --dataset_id ${params.project_id} \
-        -c ${moduleDir}/default.config
+        -c ${moduleDir}/default.config ${weblog_args}
 
     capture_exit_code
     \$ENABLE_FAIL
