@@ -198,38 +198,8 @@ workflow {
             .map{ [it, it] }
     }
 
-    ich.view{ "Post grouping: ${it}" }
-
     create_config_metapipeline_DNA(ich)
     create_config_metapipeline_DNA.out.metapipeline_dna_input.view{ "JSON: ${it}" }
-    call_metapipeline_DNA(create_config_metapipeline_DNA.out.metapipeline_dna_input)
-
-    // check_process_status(call_metapipeline_DNA.out.submit_out)
-}
-
-workflow tmp {
-    if (params.input_type == 'BAM') {
-        ich_individual  = Channel.from(params.input.BAM)
-            .map{ [it.patient, [it.patient, it.sample, it.state, it.path]] }
-    } else if (params.input_type == 'FASTQ') {
-        ich_individual = Channel.from(params.input.FASTQ)
-            .map{ [it.patient, [it.patient, it.sample, it.state, it.read_group_identifier, it.sequencing_center, it.library_identifier, it.platform_technology, it.platform_unit, it.bam_header_sm, it.lane, it.read1_fastq, it.read2_fastq]] }
-    }
-
-    if (params.sample_mode == 'single') {
-        // Group by sample
-        ich = ich_individual
-            .map{ [it[1][1], it[1]] }
-            .groupTuple(by: 0)
-            .map{ [it[1][0][0], it[0], it[1]] } // [patient, sample, records]
-    } else {
-        ich = ich_individual
-            .groupTuple(by: 0)
-            .map{ [it[0], it[0], it[1]] } // [patient, patient, records]
-    }
-
-    create_CSV_metapipeline_DNA(ich)
-    create_config_metapipeline_DNA(create_CSV_metapipeline_DNA.out[0])
     call_metapipeline_DNA(create_config_metapipeline_DNA.out.metapipeline_dna_input)
 
     check_process_status(call_metapipeline_DNA.out.submit_out)

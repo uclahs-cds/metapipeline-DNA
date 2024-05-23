@@ -15,35 +15,6 @@ include { call_sCNA } from "${moduleDir}/call_sCNA/workflow" addParams( log_outp
 include { call_SRC } from "${moduleDir}/call_SRC/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir, this_pipeline: 'call-SRC')
 include { create_directory; mark_pipeline_complete } from "${moduleDir}/pipeline_status"
 
-workflow tmp {
-    // Create a status directory to track when pipelines complete
-    create_directory(params.pipeline_status_directory)
-
-    // Create a directory to track pipeline exit codes
-    create_directory(params.pipeline_exit_status_directory)
-
-    Channel.of('done')
-        .map{ it ->
-            params.sample_data.each { s, s_data ->
-                s_data['recalibrate-BAM']['BAM'] = s_data['original_data']['path'];
-            }
-            return 'done';
-        }
-        .set{ bam2fastq_modification_complete }
-
-    call_sSNV(bam2fastq_modification_complete)
-    call_sCNA(bam2fastq_modification_complete)
-
-    bam2fastq_modification_complete.map{ sleep 5000; mark_pipeline_complete('recalibrate-BAM'); return 'done' }
-
-    call_sSNV.out.completion_signal.mix(call_sCNA.out.completion_signal)
-        .collect()
-        .map{ 'done' }
-        .set{ src_ready }
-
-    call_SRC(src_ready)
-}
-
 workflow {
     // Create a status directory to track when pipelines complete
     create_directory(params.pipeline_status_directory)
