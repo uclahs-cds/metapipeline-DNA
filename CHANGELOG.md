@@ -9,6 +9,9 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [Unreleased]
 
+### Added
++ Nextflow wrapper script to capture and consolidate all pipeline logs for a sample
+
 ---
 
 ## [6.0.0-rc.4] - 2024-05-15
