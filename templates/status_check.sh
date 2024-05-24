@@ -5,12 +5,15 @@ then
     if echo "!{sbatch_ret}" | grep -q "Submitted batch job"
     then
         job_id=$(echo "!{sbatch_ret}" | cut -d ' ' -f 4)
-        while squeue --noheader --format="%i" | grep -q "$job_id" || true
+        job_queue=$(squeue --noheader --format="%i" || echo "failed")
+
+        while [[ "$job_queue" == "failed" ]] || echo "$job_queue" | grep "^$job_id$"
         do
             sleep 3
+            job_queue=$(squeue --noheader --format="%i" || echo "failed")
         done
 
-        if sacct -j "$job_id" -o ExitCode --noheader | tr -d " " | sort -r | head -n 1 | grep -q "^0:0$" || false
+        if sacct -j "$job_id" -o ExitCode --noheader | tr -d " " | sort -r | head -n 1 | grep -q "^0:0$"
         then
             :
         else
