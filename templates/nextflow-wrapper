@@ -75,10 +75,16 @@ def run():
     # Parse the --metapipeline_log_output_dir argument
     parser = argparse.ArgumentParser()
     parser.add_argument("--metapipeline_log_output_dir", required=True)
+    parser.add_argument("--task_hash", required=True)
+    parser.add_argument("--patient", required=True)
     args, _ = parser.parse_known_args()
 
-    # Write logs into the nextflow-log directory
-    log_output_dir = Path(args.metapipeline_log_output_dir, "nextflow-log").resolve()
+    # Write logs into the patient-specific subdirectory of nextflow-log
+    log_output_dir = Path(
+        args.metapipeline_log_output_dir,
+        "nextflow-log",
+        f"{args.patient}-{args.task_hash}"
+    ).resolve()
     log_output_dir.mkdir(parents=True, exist_ok=True)
 
     # Configure logging from this script to go to a `server.log` file
