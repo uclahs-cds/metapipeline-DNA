@@ -19,14 +19,12 @@ def ignore_signals(*signals: int):
     Ignore the given signals (once each) while inside this context.
     """
     old_handlers = {}
+    logger = logging.getLogger("ignore_signals")
 
     def signal_handler(sig: int, _frame):
-        logging.getLogger(__name__).warning(
-            "Caught and ignoring %s!",
-            signal.Signals(sig).name
-        )
+        logger.warning("Caught and ignoring %s!", signal.Signals(sig).name)
         # Restore the original handler
-        logging.getLogger(__name__).debug("Unmasking %d", sig)
+        logger.debug("Unmasking %s", signal.Signals(sig).name)
         signal.signal(sig, old_handlers.pop(sig))
 
     try:
@@ -34,13 +32,13 @@ def ignore_signals(*signals: int):
         for sig in signals:
             # The existing handler is _probably_ signal.SIG_DFL, but capture
             # the current value just in case it is not
-            logging.getLogger(__name__).debug("Masking %d", sig)
+            logger.debug("Masking %s", signal.Signals(sig).name)
             old_handlers[sig] = signal.signal(sig, signal_handler)
         yield
     finally:
         # Restore any handlers we masked
         for sig in list(old_handlers):
-            logging.getLogger(__name__).debug("Unmasking %d", sig)
+            logger.debug("Unmasking %s", signal.Signals(sig).name)
             signal.signal(sig, old_handlers.pop(sig))
 
 
@@ -94,6 +92,10 @@ def run():
         filename=log_output_dir / "server.log"
     )
 
+    main_logger = logging.getLogger(__name__)
+
+    main_logger.info("Logging server starting up")
+
     # Configure the Nextflow weblogs to go to a `traces.jsonl` file, and
     # exclude them from server.log
 
@@ -116,6 +118,7 @@ def run():
         ))
 
         # Ensure that the logging server shuts down after Nextflow returns
+        stack.callback(main_logger.info, "Log server shut down")
         stack.callback(log_server.shutdown)
 
         # Start the logging server in another thread. It will die after the
@@ -124,6 +127,7 @@ def run():
             name="WeblogThread",
             target=log_server.serve_forever,
         ).start()
+        main_logger.info("Logging thread started")
 
         # Reconstruct the arguments to this script
         nextflow_args = ["nextflow"]
@@ -137,6 +141,7 @@ def run():
 
         # Start Nextflow in the same process group so that it receives the same
         # signals as this script
+        stack.callback(main_logger.info, "Nextflow processes exited")
         nextflow_process = stack.enter_context(subprocess.Popen(
             nextflow_args,
             start_new_session=False
@@ -152,4 +157,6 @@ def run():
 
 
 if __name__ == "__main__":
-    sys.exit(run())
+    exit_code = run()
+    logging.getLogger(__name__).info("Exiting with code %d", exit_code)
+    sys.exit(exit_code)
