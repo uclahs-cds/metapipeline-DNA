@@ -72,11 +72,6 @@ src_cna_tool:
     - Battenberg
   default: 'Battenberg'
   help: 'The tool used for CNA calling to generate the input for call-SRC'
-override_src_precursor_disable:
-  type: 'Bool'
-  required: true
-  default: false
-  help: 'Whether to override the automatic disabling of call-sSNV and call-sCNA based on given SRC inputs'
 src_run_all_combinations:
   type: 'Bool'
   required: false
