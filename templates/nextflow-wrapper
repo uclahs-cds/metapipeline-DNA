@@ -2,6 +2,7 @@
 """
 Run Nextflow with a wrapping weblog server.
 """
+
 import argparse
 import contextlib
 import logging
@@ -44,21 +45,22 @@ def ignore_signals(*signals: int):
 
 class WeblogHandler(BaseHTTPRequestHandler):
     "A handler for Nextflow's web log plugin."
-    def log_message(self, format, *args):   # pylint: disable=redefined-builtin
+
+    def log_message(self, format, *args):  # pylint: disable=redefined-builtin
         # The base class's implementation writes directly to stderr
         message = format % args
         logging.getLogger("WeblogHandler").debug(message)
 
-    def log_error(self, format, *args):   # pylint: disable=redefined-builtin
+    def log_error(self, format, *args):  # pylint: disable=redefined-builtin
         # The base class's implementation defers to log_message
         message = format % args
         logging.getLogger("WeblogHandler").warning(message)
 
     def do_POST(self):  # pylint: disable=invalid-name
         "Handle a POST."
-        raw_content = self.rfile.read(
-            int(self.headers['Content-Length'])
-        ).decode("utf-8")
+        raw_content = self.rfile.read(int(self.headers["Content-Length"])).decode(
+            "utf-8"
+        )
 
         # Respond with 204 NO CONTENT, as that doesn't require a response body
         self.send_response(204)
@@ -72,24 +74,18 @@ def run():
     "Run the Nextflow pipeline with additional logging."
     # Parse the --metapipeline_log_output_dir argument
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--metapipeline_log_output_dir",
-        required=True
-    )
+    parser.add_argument("--metapipeline_log_output_dir", required=True)
     args, _ = parser.parse_known_args()
 
     # Write logs into the nextflow-log directory
-    log_output_dir = Path(
-        args.metapipeline_log_output_dir,
-        "nextflow-log"
-    ).resolve()
+    log_output_dir = Path(args.metapipeline_log_output_dir, "nextflow-log").resolve()
     log_output_dir.mkdir(parents=True, exist_ok=True)
 
     # Configure logging from this script to go to a `server.log` file
     logging.basicConfig(
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         level=logging.DEBUG,
-        filename=log_output_dir / "server.log"
+        filename=log_output_dir / "server.log",
     )
 
     main_logger = logging.getLogger(__name__)
@@ -113,9 +109,7 @@ def run():
     trace_logger.propagate = False
 
     with contextlib.ExitStack() as stack:
-        log_server = stack.enter_context(HTTPServer(
-            ("localhost", 0), WeblogHandler
-        ))
+        log_server = stack.enter_context(HTTPServer(("localhost", 0), WeblogHandler))
 
         # Ensure that the logging server shuts down after Nextflow returns
         stack.callback(main_logger.info, "Log server shut down")
@@ -136,16 +130,15 @@ def run():
         # Add arguments to make Nextflow log to the server
         nextflow_args.extend([
             "-with-weblog",
-            f"http://localhost:{log_server.server_address[1]}"
+            f"http://localhost:{log_server.server_address[1]}",
         ])
 
         # Start Nextflow in the same process group so that it receives the same
         # signals as this script
         stack.callback(main_logger.info, "Nextflow processes exited")
-        nextflow_process = stack.enter_context(subprocess.Popen(
-            nextflow_args,
-            start_new_session=False
-        ))
+        nextflow_process = stack.enter_context(
+            subprocess.Popen(nextflow_args, start_new_session=False)
+        )
 
         # Ignore SIGTERM and SIGINT while Nextflow is still active to ensure
         # that we capture any last logs it emits after being killed.
