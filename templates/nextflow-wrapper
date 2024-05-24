@@ -51,6 +51,11 @@ class WeblogHandler(BaseHTTPRequestHandler):
         message = format % args
         logging.getLogger("WeblogHandler").debug(message)
 
+    def log_error(self, format, *args):   # pylint: disable=redefined-builtin
+        # The base class's implementation defers to log_message
+        message = format % args
+        logging.getLogger("WeblogHandler").warning(message)
+
     def do_POST(self):  # pylint: disable=invalid-name
         "Handle a POST."
         raw_content = self.rfile.read(
@@ -75,6 +80,7 @@ def run():
     )
     args, _ = parser.parse_known_args()
 
+    # Write logs into the nextflow-log directory
     log_output_dir = Path(
         args.metapipeline_log_output_dir,
         "nextflow-log"
@@ -83,6 +89,7 @@ def run():
 
     # Configure logging from this script to go to a `server.log` file
     logging.basicConfig(
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         level=logging.DEBUG,
         filename=log_output_dir / "server.log"
     )
@@ -111,7 +118,8 @@ def run():
         # Ensure that the logging server shuts down after Nextflow returns
         stack.callback(log_server.shutdown)
 
-        # Start the logging server in another thread
+        # Start the logging server in another thread. It will die after the
+        # ExitStack unwinds and log_server.shutdown is called
         threading.Thread(
             name="WeblogThread",
             target=log_server.serve_forever,
