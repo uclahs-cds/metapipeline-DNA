@@ -74,5 +74,7 @@ workflow {
         .map{ 'done' }
         .set{ src_ready }
 
-    call_SRC(src_ready)
+    if (params.call_SRC.is_pipeline_enabled) {
+        call_SRC(src_ready)
+    }
 }
