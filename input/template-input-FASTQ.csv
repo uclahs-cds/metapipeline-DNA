@@ -1,0 +1,3 @@
+patient,sample,state,path,read_group_identifier,sequencing_center,library_identifier,platform_technology,platform_unit,lane,bam_header_sm,read1_fastq,read2_fastq,src_input_type,src_input_algorithm,src_path
+patient1,sample1,normal,,rg1,ucla,lib1,illumina,unit1,L001,sample_name,/path/to/r1.fq.gz,/path/to/r2.fq.gz,,,
+patient1,sample2,tumor,,rg2,ucla,lib2,illumina,unit1,L003,sample_name,/path/to/r1.fq.gz,/path/to/r2.fq.gz,,,

@@ -1,0 +1,2 @@
+patient,sample,state,path,read_group_identifier,sequencing_center,library_identifier,platform_technology,platform_unit,lane,bam_header_sm,read1_fastq,read2_fastq,src_input_type,src_input_algorithm,src_path
+patient1,sample1,tumor,/path/to/bam,,,,,,,,,,SNV,Mutect2,/path/to/SNV/calls
