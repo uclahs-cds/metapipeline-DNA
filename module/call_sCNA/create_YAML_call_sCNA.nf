@@ -21,7 +21,7 @@ process create_YAML_call_sCNA {
         )
 
     output:
-        path(input_yaml)
+        tuple val(tumor_id), path(input_yaml)
 
     exec:
     input_yaml = 'call_sCNA_input.yaml'

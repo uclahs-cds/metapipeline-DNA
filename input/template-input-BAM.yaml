@@ -1,11 +1,15 @@
 ---
 input:
-  BAM:
-    - patient: "patient ID"
-      sample: "sample ID"
+  patient1:
+    sample1:
       state: "state - normal or tumor"
-      path: "/path/to/BAM"
-    - patient: "patient ID"
-      sample: "sample ID"
+      BAM:
+        path: /path/to/bam
+    sample2:
       state: "state - normal or tumor"
-      path: "/path/to/BAM"
+      BAM:
+        path: /path/to/bam
+    sample3:
+      state: "state - normal or tumor"
+      BAM:
+        path: /path/to/bam

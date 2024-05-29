@@ -1,11 +1,15 @@
 ---
 input:
-  CRM:
-    - patient: "patient ID"
-      sample: "sample ID"
+  patient1:
+    sample1:
       state: "state - normal or tumor"
-      path: "/path/to/CRAM"
-    - patient: "patient ID"
-      sample: "sample ID"
+      CRAM:
+        path: /path/to/cram
+    sample2:
       state: "state - normal or tumor"
-      path: "/path/to/CRAM"
+      CRAM:
+        path: /path/to/cram
+    sample3:
+      state: "state - normal or tumor"
+      CRAM:
+        path: /path/to/cram

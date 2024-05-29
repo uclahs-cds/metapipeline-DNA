@@ -30,39 +30,46 @@ workflow recalibrate_BAM {
         // Default to BWA-MEM2 as main aligner unless it's not being used
         def main_aligner = ('BWA-MEM2' in params.align_DNA.aligner) ? 'BWA-MEM2' : params.align_DNA.aligner[0]
 
-        // Extract inputs from data structure
-        modification_signal.until{ it == 'done' }.ifEmpty('done')
-            .map{ it ->
-                def samples = [];
-                params.sample_data.each { s, s_data ->
-                    samples.add(['patient': s_data['patient'], 'sample': s, 'state': s_data['state'], 'bam': s_data['align-DNA'][main_aligner]['BAM']]);
-                };
-                return samples
-            }
-            .flatten()
-            .reduce(['normal': [] as Set, 'tumor': [] as Set]) { a, b ->
-                a[b.state] += b;
-                return a
-            }
-            .set{ collected_input_ch }
+        if (params.input_type != 'SRC') {
+            // Extract inputs from data structure
+            modification_signal.until{ it == 'done' }.ifEmpty('done')
+                .map{ it ->
+                    def samples = [];
+                    params.sample_data.each { s, s_data ->
+                        samples.add(['patient': s_data['patient'], 'sample': s, 'state': s_data['state'], 'bam': s_data['align-DNA'][main_aligner]['BAM']]);
+                    };
+                    return samples
+                }
+                .flatten()
+                .reduce(['normal': [] as Set, 'tumor': [] as Set]) { a, b ->
+                    a[b.state] += b;
+                    return a
+                }
+                .set{ collected_input_ch }
 
-        collected_input_ch.map{ it ->
-            it['tumor'].eachWithIndex{ sample, sample_index ->
-                sample['states_to_delete'] = (sample_index == 0) ? ['normal', 'tumor'] : ['tumor'];
-                return sample
-            };
-            return it
+            collected_input_ch.map{ it ->
+                it['tumor'].eachWithIndex{ sample, sample_index ->
+                    sample['states_to_delete'] = (sample_index == 0) ? ['normal', 'tumor'] : ['tumor'];
+                    return sample
+                };
+                return it
+            }
+            .set{ input_ch_with_deletion_info }
+        } else {
+            collected_input_ch = Channel.empty()
+            input_ch_with_deletion_info = Channel.empty()
         }
-        .set{ input_ch_with_deletion_info }
 
         if (params.override_recalibrate_bam || !params.recalibrate_BAM.is_pipeline_enabled) {
-            modification_signal.until{ it == 'done' }
+            modification_signal.until{ it == 'done' }.ifEmpty('done')
                 .mix(collected_input_ch)
                 .collect()
                 .map{
-                    params.sample_data.each{ s, s_data ->
-                        s_data[params.this_pipeline]['BAM'] = s_data['align-DNA'][main_aligner]['BAM'];
-                    };
+                    if (params.input_type != 'SRC') {
+                        params.sample_data.each{ s, s_data ->
+                            s_data[params.this_pipeline]['BAM'] = s_data['align-DNA'][main_aligner]['BAM'];
+                        };
+                    }
                     return 'done'
                 }
                 .map{
