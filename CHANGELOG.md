@@ -11,7 +11,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
-## [6.0.0-rc.5] - 2024-05-23
+## [6.0.0-rc.5] - 2024-05-29
+### Fixed
++ Issue with identifier used in WGS mode
+
+---
+
+## [6.0.0-rc.5] - 2024-05-23 - YANKED
 ### Added
 + Call-SRC pipeline
 ### Changed

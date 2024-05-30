@@ -71,7 +71,7 @@ process create_config_metapipeline_DNA {
         )
 
     output:
-    tuple val(patient), path("pipeline_specific_params.json"), emit: metapipeline_dna_input
+    tuple val(patient), path("pipeline_specific_params.json"), val(identifier), emit: metapipeline_dna_input
 
     exec:
     def filtering_criteria = { k, v ->
@@ -105,12 +105,13 @@ process call_metapipeline_DNA {
     publishDir path: "${params.log_output_dir}/process-log",
         mode: "copy",
         pattern: ".command.*",
-        saveAs: { "${task.process}/${patient}-${new StringBuilder(task.hash).insert(2, '-').toString()}/log${file(it).getName()}" }
+        saveAs: { "${task.process}/${identifier}-${new StringBuilder(task.hash).insert(2, '-').toString()}/log${file(it).getName()}" }
 
     input:
         tuple(
             val(patient),
-            path(pipeline_params_json)
+            path(pipeline_params_json),
+            val(identifier)
         )
 
     output:
@@ -119,7 +120,7 @@ process call_metapipeline_DNA {
 
     script:
     submission_command = (params.uclahs_cds_wgs)
-        ? params.global_job_submission_sbatch + "-J wgs_${task.process}_${file(input_csv).getName().replace('_metapipeline_DNA_input.csv', '')}_\${FIRST_DIR_HASH}_\${SECOND_DIR_HASH} --wrap=\""
+        ? params.global_job_submission_sbatch + "-J wgs_${task.process}_${identifier}_\${FIRST_DIR_HASH}_\${SECOND_DIR_HASH} --wrap=\""
         : ""
     limiter_wrapper_pre = (params.uclahs_cds_wgs)
         ? params.global_job_submission_limiter + submission_command
