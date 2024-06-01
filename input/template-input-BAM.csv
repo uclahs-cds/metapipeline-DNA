@@ -1,3 +1,3 @@
-patient,sample,state,path,read_group_identifier,sequencing_center,library_identifier,platform_technology,platform_unit,lane,bam_header_sm,read1_fastq,read2_fastq,src_input_type,src_input_algorithm,src_path
-patient1,sample1,normal,/path/to/bam,,,,,,,,,,,,
-patient1,sample2,tumor,/path/to/bam,,,,,,,,,,,,
+patient,sample,state,path
+patient1,sample1,normal,/path/to/bam
+patient1,sample2,tumor,/path/to/bam

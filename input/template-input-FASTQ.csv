@@ -1,3 +1,7 @@
-patient,sample,state,path,read_group_identifier,sequencing_center,library_identifier,platform_technology,platform_unit,lane,bam_header_sm,read1_fastq,read2_fastq,src_input_type,src_input_algorithm,src_path
-patient1,sample1,normal,,rg1,ucla,lib1,illumina,unit1,L001,sample_name,/path/to/r1.fq.gz,/path/to/r2.fq.gz,,,
-patient1,sample2,tumor,,rg2,ucla,lib2,illumina,unit1,L003,sample_name,/path/to/r1.fq.gz,/path/to/r2.fq.gz,,,
+patient,sample,state,read_group_identifier,sequencing_center,library_identifier,platform_technology,platform_unit,lane,bam_header_sm,read1_fastq,read2_fastq
+patient1,sample1,normal,rg1,sc1,lb1,pl1,pu1,sample1,L001,/path/to/r1.fq.gz,/path/to/r2.fq.gz
+patient1,sample1,normal,rg2,sc2,lb2,pl2,pu2,sample1,L001,/path/to/r1.fq.gz,/path/to/r2.fq.gz
+patient1,sample2,tumor,rg3,sc3,lb3,pl3,pu3,sample2,L001,/path/to/r1.fq.gz,/path/to/r2.fq.gz
+patient1,sample2,tumor,rg4,sc4,lb4,pl4,pu4,sample2,L001,/path/to/r1.fq.gz,/path/to/r2.fq.gz
+patient1,sample3,tumor,rg5,sc5,lb5,pl5,pu5,sample3,L001,/path/to/r1.fq.gz,/path/to/r2.fq.gz
+patient1,sample3,tumor,rg6,sc6,lb6,pl6,pu6,sample3,L001,/path/to/r1.fq.gz,/path/to/r2.fq.gz
