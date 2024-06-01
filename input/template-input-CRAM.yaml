@@ -1,15 +1,15 @@
 ---
 input:
-  <patient1>: # Replace key with actual patient ID
-    <sample1>: # Replace key with actual sample ID
-      state: <state> # normal or tumor
+  <patient1>:  # Replace key with actual patient ID
+    <sample1>:  # Replace key with actual sample ID
+      state: <state>  # normal or tumor
       CRAM:
-        path: </path/to/CRAM> # Absolute path to CRAM
-    <sample2>: # Replace key with actual sample ID
-      state: <state> # normal or tumor
+        path: </path/to/CRAM>  # Absolute path to CRAM
+    <sample2>:  # Replace key with actual sample ID
+      state: <state>  # normal or tumor
       CRAM:
-        path: </path/to/CRAM> # Absolute path to CRAM
-    <sample3>: # Replace key with actual sample ID
-      state: <state> # normal or tumor
+        path: </path/to/CRAM>  # Absolute path to CRAM
+    <sample3>:  # Replace key with actual sample ID
+      state: <state>  # normal or tumor
       CRAM:
-        path: </path/to/CRAM> # Absolute path to CRAM
+        path: </path/to/CRAM>  # Absolute path to CRAM

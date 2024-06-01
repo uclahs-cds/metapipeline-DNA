@@ -1,23 +1,23 @@
 ---
 input:
-  <patient1>: # Replace key with actual patient ID
-    <sample1>: # Replace key with actual sample ID
-      state: <state> # normal or tumor - sample1 here is an example of a normal sample with no SRC input
+  <patient1>:  # Replace key with actual patient ID
+    <sample1>:  # Replace key with actual sample ID
+      state: <state>  # normal or tumor - sample1 here is an example of a normal sample with no SRC input
       BAM:
-        path: </path/to/bam> # Absolute path to BAM
-    <sample2>: # Replace key with actual sample ID
-      state: <state> # normal or tumor
+        path: </path/to/bam>  # Absolute path to BAM
+    <sample2>:  # Replace key with actual sample ID
+      state: <state>  # normal or tumor
       BAM:
-        path: </path/to/bam> # Absolute path to BAM
+        path: </path/to/bam>  # Absolute path to BAM
       SRC:
-        - src_input_type: <SRC input type> # CNA or SNV
-          algorithm: <Algorithm> # Algorithm used to produce calls
-          path: </path/to/file> # Absolute path to input file
-    <sample3>: # Replace key with actual sample ID
-      state: <state> # normal or tumor
+        - src_input_type: <SRC input type>  # CNA or SNV
+          algorithm: <Algorithm>  # Algorithm used to produce calls
+          path: </path/to/file>  # Absolute path to input file
+    <sample3>:  # Replace key with actual sample ID
+      state: <state>  # normal or tumor
       BAM:
-        path: </path/to/bam> # Absolute path to BAM
+        path: </path/to/bam>  # Absolute path to BAM
       SRC:
-        - src_input_type: <SRC input type> # CNA or SNV
-          algorithm: <Algorithm> # Algorithm used to produce calls
-          path: </path/to/file> # Absolute path to input file
+        - src_input_type: <SRC input type>  # CNA or SNV
+          algorithm: <Algorithm>  # Algorithm used to produce calls
+          path: </path/to/file>  # Absolute path to input file

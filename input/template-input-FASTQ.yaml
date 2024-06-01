@@ -1,66 +1,66 @@
 ---
 input:
-  <patient1>: # Replace key with actual patient ID
-    <sample1>: # Replace key with actual sample ID
-      state: <state> # normal or tumor
+  <patient1>:  # Replace key with actual patient ID
+    <sample1>:  # Replace key with actual sample ID
+      state: <state>  # normal or tumor
       FASTQ:
-        - read_group_identifier: <rg ID> # Read group identifier for alignment
-          sequencing_center: <center> # Center where sequencing was performed
-          library_identifier: <library> # Library used for sample
-          platform_technology: <platform technology> # Technology used for sequencing
-          platform_unit: <platform unit> # Name of specific platform unit
-          bam_header_sm: <sample> # Sample name tag for BAM
-          lane: <lane> # Lane on platform
-          read1_fastq: </path/to/r1.fastq.gz> # Absolute path to R1 FASTQ
-          read2_fastq: </path/to/r2.fastq.gz> # Absolute path to R2 FASTQ
-        - read_group_identifier: <rg ID> # Read group identifier for alignment
-          sequencing_center: <center> # Center where sequencing was performed
-          library_identifier: <library> # Library used for sample
-          platform_technology: <platform technology> # Technology used for sequencing
-          platform_unit: <platform unit> # Name of specific platform unit
-          bam_header_sm: <sample> # Sample name tag for BAM
-          lane: <lane> # Lane on platform
-          read1_fastq: </path/to/r1.fastq.gz> # Absolute path to R1 FASTQ
-          read2_fastq: </path/to/r2.fastq.gz> # Absolute path to R2 FASTQ
-    <sample1>: # Replace key with actual sample ID
-      state: <state> # normal or tumor
+        - read_group_identifier: <rg ID>  # Read group identifier for alignment
+          sequencing_center: <center>  # Center where sequencing was performed
+          library_identifier: <library>  # Library used for sample
+          platform_technology: <platform technology>  # Technology used for sequencing
+          platform_unit: <platform unit>  # Name of specific platform unit
+          bam_header_sm: <sample>  # Sample name tag for BAM
+          lane: <lane>  # Lane on platform
+          read1_fastq: </path/to/r1.fastq.gz>  # Absolute path to R1 FASTQ
+          read2_fastq: </path/to/r2.fastq.gz>  # Absolute path to R2 FASTQ
+        - read_group_identifier: <rg ID>  # Read group identifier for alignment
+          sequencing_center: <center>  # Center where sequencing was performed
+          library_identifier: <library>  # Library used for sample
+          platform_technology: <platform technology>  # Technology used for sequencing
+          platform_unit: <platform unit>  # Name of specific platform unit
+          bam_header_sm: <sample>  # Sample name tag for BAM
+          lane: <lane>  # Lane on platform
+          read1_fastq: </path/to/r1.fastq.gz>  # Absolute path to R1 FASTQ
+          read2_fastq: </path/to/r2.fastq.gz>  # Absolute path to R2 FASTQ
+    <sample1>:  # Replace key with actual sample ID
+      state: <state>  # normal or tumor
       FASTQ:
-        - read_group_identifier: <rg ID> # Read group identifier for alignment
-          sequencing_center: <center> # Center where sequencing was performed
-          library_identifier: <library> # Library used for sample
-          platform_technology: <platform technology> # Technology used for sequencing
-          platform_unit: <platform unit> # Name of specific platform unit
-          bam_header_sm: <sample> # Sample name tag for BAM
-          lane: <lane> # Lane on platform
-          read1_fastq: </path/to/r1.fastq.gz> # Absolute path to R1 FASTQ
-          read2_fastq: </path/to/r2.fastq.gz> # Absolute path to R2 FASTQ
-        - read_group_identifier: <rg ID> # Read group identifier for alignment
-          sequencing_center: <center> # Center where sequencing was performed
-          library_identifier: <library> # Library used for sample
-          platform_technology: <platform technology> # Technology used for sequencing
-          platform_unit: <platform unit> # Name of specific platform unit
-          bam_header_sm: <sample> # Sample name tag for BAM
-          lane: <lane> # Lane on platform
-          read1_fastq: </path/to/r1.fastq.gz> # Absolute path to R1 FASTQ
-          read2_fastq: </path/to/r2.fastq.gz> # Absolute path to R2 FASTQ
-    <sample1>: # Replace key with actual sample ID
-      state: <state> # normal or tumor
+        - read_group_identifier: <rg ID>  # Read group identifier for alignment
+          sequencing_center: <center>  # Center where sequencing was performed
+          library_identifier: <library>  # Library used for sample
+          platform_technology: <platform technology>  # Technology used for sequencing
+          platform_unit: <platform unit>  # Name of specific platform unit
+          bam_header_sm: <sample>  # Sample name tag for BAM
+          lane: <lane>  # Lane on platform
+          read1_fastq: </path/to/r1.fastq.gz>  # Absolute path to R1 FASTQ
+          read2_fastq: </path/to/r2.fastq.gz>  # Absolute path to R2 FASTQ
+        - read_group_identifier: <rg ID>  # Read group identifier for alignment
+          sequencing_center: <center>  # Center where sequencing was performed
+          library_identifier: <library>  # Library used for sample
+          platform_technology: <platform technology>  # Technology used for sequencing
+          platform_unit: <platform unit>  # Name of specific platform unit
+          bam_header_sm: <sample>  # Sample name tag for BAM
+          lane: <lane>  # Lane on platform
+          read1_fastq: </path/to/r1.fastq.gz>  # Absolute path to R1 FASTQ
+          read2_fastq: </path/to/r2.fastq.gz>  # Absolute path to R2 FASTQ
+    <sample1>:  # Replace key with actual sample ID
+      state: <state>  # normal or tumor
       FASTQ:
-        - read_group_identifier: <rg ID> # Read group identifier for alignment
-          sequencing_center: <center> # Center where sequencing was performed
-          library_identifier: <library> # Library used for sample
-          platform_technology: <platform technology> # Technology used for sequencing
-          platform_unit: <platform unit> # Name of specific platform unit
-          bam_header_sm: <sample> # Sample name tag for BAM
-          lane: <lane> # Lane on platform
-          read1_fastq: </path/to/r1.fastq.gz> # Absolute path to R1 FASTQ
-          read2_fastq: </path/to/r2.fastq.gz> # Absolute path to R2 FASTQ
-        - read_group_identifier: <rg ID> # Read group identifier for alignment
-          sequencing_center: <center> # Center where sequencing was performed
-          library_identifier: <library> # Library used for sample
-          platform_technology: <platform technology> # Technology used for sequencing
-          platform_unit: <platform unit> # Name of specific platform unit
-          bam_header_sm: <sample> # Sample name tag for BAM
-          lane: <lane> # Lane on platform
-          read1_fastq: </path/to/r1.fastq.gz> # Absolute path to R1 FASTQ
-          read2_fastq: </path/to/r2.fastq.gz> # Absolute path to R2 FASTQ
+        - read_group_identifier: <rg ID>  # Read group identifier for alignment
+          sequencing_center: <center>  # Center where sequencing was performed
+          library_identifier: <library>  # Library used for sample
+          platform_technology: <platform technology>  # Technology used for sequencing
+          platform_unit: <platform unit>  # Name of specific platform unit
+          bam_header_sm: <sample>  # Sample name tag for BAM
+          lane: <lane>  # Lane on platform
+          read1_fastq: </path/to/r1.fastq.gz>  # Absolute path to R1 FASTQ
+          read2_fastq: </path/to/r2.fastq.gz>  # Absolute path to R2 FASTQ
+        - read_group_identifier: <rg ID>  # Read group identifier for alignment
+          sequencing_center: <center>  # Center where sequencing was performed
+          library_identifier: <library>  # Library used for sample
+          platform_technology: <platform technology>  # Technology used for sequencing
+          platform_unit: <platform unit>  # Name of specific platform unit
+          bam_header_sm: <sample>  # Sample name tag for BAM
+          lane: <lane>  # Lane on platform
+          read1_fastq: </path/to/r1.fastq.gz>  # Absolute path to R1 FASTQ
+          read2_fastq: </path/to/r2.fastq.gz>  # Absolute path to R2 FASTQ
