@@ -22,7 +22,7 @@ input:
           lane: <lane>  # Lane on platform
           read1_fastq: </path/to/r1.fastq.gz>  # Absolute path to R1 FASTQ
           read2_fastq: </path/to/r2.fastq.gz>  # Absolute path to R2 FASTQ
-    <sample1>:  # Replace key with actual sample ID
+    <sample2>:  # Replace key with actual sample ID
       state: <state>  # normal or tumor
       FASTQ:
         - read_group_identifier: <rg ID>  # Read group identifier for alignment
@@ -43,7 +43,7 @@ input:
           lane: <lane>  # Lane on platform
           read1_fastq: </path/to/r1.fastq.gz>  # Absolute path to R1 FASTQ
           read2_fastq: </path/to/r2.fastq.gz>  # Absolute path to R2 FASTQ
-    <sample1>:  # Replace key with actual sample ID
+    <sample3>:  # Replace key with actual sample ID
       state: <state>  # normal or tumor
       FASTQ:
         - read_group_identifier: <rg ID>  # Read group identifier for alignment
