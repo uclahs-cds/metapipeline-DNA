@@ -1,4 +1,9 @@
 ---
+input_csv:
+  type: 'Path'
+  mode: 'r'
+  required: false
+  help: 'Absolute path to input CSV if inputs are being provided through CSV'
 output_dir:
   type: 'Path'
   mode: 'w'
