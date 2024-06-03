@@ -1,0 +1,161 @@
+#!/usr/bin/env python3
+"""
+Run Nextflow with a wrapping weblog server.
+"""
+
+import argparse
+import contextlib
+import logging
+import subprocess
+import sys
+import threading
+import signal
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from pathlib import Path
+
+
+@contextlib.contextmanager
+def ignore_signals(*signals: int):
+    """
+    Ignore the given signals (once each) while inside this context.
+    """
+    old_handlers = {}
+    logger = logging.getLogger("ignore_signals")
+
+    def signal_handler(sig: int, _frame):
+        logger.warning("Caught and ignoring %s!", signal.Signals(sig).name)
+        # Restore the original handler
+        logger.debug("Unmasking %s", signal.Signals(sig).name)
+        signal.signal(sig, old_handlers.pop(sig))
+
+    try:
+        # Replace and hold onto the existing signal handlers
+        for sig in signals:
+            # The existing handler is _probably_ signal.SIG_DFL, but capture
+            # the current value just in case it is not
+            logger.debug("Masking %s", signal.Signals(sig).name)
+            old_handlers[sig] = signal.signal(sig, signal_handler)
+        yield
+    finally:
+        # Restore any handlers we masked
+        for sig in list(old_handlers):
+            logger.debug("Unmasking %s", signal.Signals(sig).name)
+            signal.signal(sig, old_handlers.pop(sig))
+
+
+class WeblogHandler(BaseHTTPRequestHandler):
+    "A handler for Nextflow's web log plugin."
+
+    def log_message(self, format, *args):  # pylint: disable=redefined-builtin
+        # The base class's implementation writes directly to stderr
+        message = format % args
+        logging.getLogger("WeblogHandler").debug(message)
+
+    def log_error(self, format, *args):  # pylint: disable=redefined-builtin
+        # The base class's implementation defers to log_message
+        message = format % args
+        logging.getLogger("WeblogHandler").warning(message)
+
+    def do_POST(self):  # pylint: disable=invalid-name
+        "Handle a POST."
+        raw_content = self.rfile.read(int(self.headers["Content-Length"])).decode(
+            "utf-8"
+        )
+
+        # Respond with 204 NO CONTENT, as that doesn't require a response body
+        self.send_response(204)
+        self.end_headers()
+
+        # The absolute level doesn't matter, but it should be consistent
+        logging.getLogger("trace_logger").info(raw_content)
+
+
+def run():
+    "Run the Nextflow pipeline with additional logging."
+    # Parse the --metapipeline_log_output_dir argument
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--metapipeline_log_output_dir", required=True)
+    parser.add_argument("--task_hash", required=True)
+    parser.add_argument("--patient", required=True)
+    args, _ = parser.parse_known_args()
+
+    # Write logs into the patient-specific subdirectory of nextflow-log
+    log_output_dir = Path(
+        args.metapipeline_log_output_dir,
+        "nextflow-log",
+        f"{args.patient}-{args.task_hash}"
+    ).resolve()
+    log_output_dir.mkdir(parents=True, exist_ok=True)
+
+    # Configure logging from this script to go to a `server.log` file
+    logging.basicConfig(
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        level=logging.DEBUG,
+        filename=log_output_dir / "server.log",
+    )
+
+    main_logger = logging.getLogger(__name__)
+
+    main_logger.info("Logging server starting up")
+
+    # Configure the Nextflow weblogs to go to a `traces.jsonl` file, and
+    # exclude them from server.log
+
+    # Construct the log file handler
+    handler = logging.FileHandler(Path(log_output_dir, "traces.jsonl"))
+    # The absolute level doesn't matter, but it needs to be consistent
+    handler.setLevel(logging.INFO)
+    handler.setFormatter(logging.Formatter("%(message)s"))
+
+    trace_logger = logging.getLogger("trace_logger")
+    trace_logger.addHandler(handler)
+    trace_logger.setLevel(logging.INFO)
+
+    # Do not pass weblog messages to any higher handlers
+    trace_logger.propagate = False
+
+    with contextlib.ExitStack() as stack:
+        log_server = stack.enter_context(HTTPServer(("localhost", 0), WeblogHandler))
+
+        # Ensure that the logging server shuts down after Nextflow returns
+        stack.callback(main_logger.info, "Log server shut down")
+        stack.callback(log_server.shutdown)
+
+        # Start the logging server in another thread. It will die after the
+        # ExitStack unwinds and log_server.shutdown is called
+        threading.Thread(
+            name="WeblogThread",
+            target=log_server.serve_forever,
+        ).start()
+        main_logger.info("Logging thread started")
+
+        # Reconstruct the arguments to this script
+        nextflow_args = ["nextflow"]
+        nextflow_args.extend(sys.argv[1:])
+
+        # Add arguments to make Nextflow log to the server
+        nextflow_args.extend([
+            "-with-weblog",
+            f"http://localhost:{log_server.server_address[1]}",
+        ])
+
+        # Start Nextflow in the same process group so that it receives the same
+        # signals as this script
+        stack.callback(main_logger.info, "Nextflow processes exited")
+        nextflow_process = stack.enter_context(
+            subprocess.Popen(nextflow_args, start_new_session=False)
+        )
+
+        # Ignore SIGTERM and SIGINT while Nextflow is still active to ensure
+        # that we capture any last logs it emits after being killed.
+        stack.enter_context(ignore_signals(signal.SIGTERM, signal.SIGINT))
+
+        # Wait for and return Nextflow's exit code.
+        nextflow_process.wait()
+        return nextflow_process.returncode
+
+
+if __name__ == "__main__":
+    exit_code = run()
+    logging.getLogger(__name__).info("Exiting with code %d", exit_code)
+    sys.exit(exit_code)

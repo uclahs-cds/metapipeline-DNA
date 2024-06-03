@@ -1,4 +1,4 @@
-include { combine_input_with_params } from '../common.nf'
+include { combine_input_with_params; generate_weblog_args } from '../common.nf'
 
 /*
     Process to call the convert-BAM2FASTQ pipeline.
@@ -37,6 +37,7 @@ process call_convert_BAM2FASTQ {
     script:
     output_directory = "convert-BAM2FASTQ-*/${sample}/SAMtools-*/output"
     String params_to_dump = combine_input_with_params(params.convert_BAM2FASTQ.metapipeline_arg_map)
+    String weblog_args = generate_weblog_args()
     """
     set -euo pipefail
 
@@ -50,7 +51,7 @@ process call_convert_BAM2FASTQ {
         -params-file combined_bam2fastq_params.yaml \
         --input_csv ${input_csv} \
         --output_dir \$(pwd) \
-        --work_dir \$WORK_DIR
+        --work_dir \$WORK_DIR ${weblog_args}
 
     rm -r \$WORK_DIR
     """

@@ -1,4 +1,4 @@
-include { combine_input_with_params; generate_graceful_error_controller } from '../common.nf'
+include { combine_input_with_params; generate_graceful_error_controller; generate_weblog_args } from '../common.nf'
 
 process run_call_mtSNV {
     cpus params.call_mtSNV.subworkflow_cpus
@@ -29,6 +29,7 @@ process run_call_mtSNV {
     script:
     String params_to_dump = combine_input_with_params(params.call_mtSNV.metapipeline_arg_map, new File(input_yaml.toRealPath().toString()))
     String setup_commands = generate_graceful_error_controller(task.ext)
+    String weblog_args = generate_weblog_args()
     """
     set -euo pipefail
 
@@ -44,7 +45,7 @@ process run_call_mtSNV {
         --output_dir \$(pwd) \
         --patient_id ${params.patient} \
         --dataset_id ${params.project_id} \
-        -c ${moduleDir}/default.config
+        -c ${moduleDir}/default.config ${weblog_args}
 
     capture_exit_code
     \$ENABLE_FAIL
