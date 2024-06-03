@@ -7,7 +7,7 @@ then
         job_id=$(echo "!{sbatch_ret}" | cut -d ' ' -f 4)
         job_queue=$(squeue --noheader --format="%i" || echo "failed")
 
-        while [[ "$job_queue" == "failed" ]] || echo "$job_queue" | grep "^$job_id$"
+        while [[ "$job_queue" == "failed" ]] || echo "$job_queue" | grep "^$job_id$" &> /dev/null
         do
             sleep 3
             job_queue=$(squeue --noheader --format="%i" || echo "failed")
