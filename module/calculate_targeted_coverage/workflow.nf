@@ -16,36 +16,41 @@ workflow calculate_targeted_coverage {
     take:
         modification_signal
     main:
-        // Default to BWA-MEM2 as main aligner unless it's not being used
-        def main_aligner = ('BWA-MEM2' in params.align_DNA.aligner) ? 'BWA-MEM2' : params.align_DNA.aligner[0]
+        ich = Channel.empty()
+        if (params.input_type != 'SRC') {
+            // Default to BWA-MEM2 as main aligner unless it's not being used
+            def main_aligner = ('BWA-MEM2' in params.align_DNA.aligner) ? 'BWA-MEM2' : params.align_DNA.aligner[0]
 
-        // Extract inputs from data structure
-        modification_signal.until{ it == 'done' }.ifEmpty('done')
-            .map{ it ->
-                def samples = [];
-                params.sample_data.each { s, s_data ->
-                    samples.add(['patient': s_data['patient'], 'sample': s, 'state': s_data['state'], 'bam': s_data['align-DNA'][main_aligner]['BAM']]);
-                };
-                return samples
-            }
-            .flatten()
-            .reduce(['normal': [] as Set, 'tumor': [] as Set]) { a, b ->
-                a[b.state] += b;
-                return a
-            }
-            .set{ ich }
+            // Extract inputs from data structure
+            modification_signal.until{ it == 'done' }.ifEmpty('done')
+                .map{ it ->
+                    def samples = [];
+                    params.sample_data.each { s, s_data ->
+                        samples.add(['patient': s_data['patient'], 'sample': s, 'state': s_data['state'], 'bam': s_data['align-DNA'][main_aligner]['BAM']]);
+                    };
+                    return samples
+                }
+                .flatten()
+                .reduce(['normal': [] as Set, 'tumor': [] as Set]) { a, b ->
+                    a[b.state] += b;
+                    return a
+                }
+                .set{ ich }
 
-        ich.map{ it -> it.normal }
-            .flatten()
-            .map{ it -> [it.sample, it.bam] }
-            .set{ input_ch_normal }
-        ich.map{ it -> it.tumor }
-            .flatten()
-            .map{ it -> [it.sample, it.bam] }
-            .set{ input_ch_tumor }
+            ich.map{ it -> it.normal }
+                .flatten()
+                .map{ it -> [it.sample, it.bam] }
+                .set{ input_ch_normal }
+            ich.map{ it -> it.tumor }
+                .flatten()
+                .map{ it -> [it.sample, it.bam] }
+                .set{ input_ch_tumor }
 
-        input_ch_normal.mix(input_ch_tumor)
-            .set{ input_ch_create_targeted_coverage_yaml }
+            input_ch_normal.mix(input_ch_tumor)
+                .set{ input_ch_create_targeted_coverage_yaml }
+        } else {
+            input_ch_create_targeted_coverage_yaml = Channel.empty()
+        }
 
         if (!params.calculate_targeted_coverage.is_pipeline_enabled) {
             modification_signal.until{ it == 'done' }

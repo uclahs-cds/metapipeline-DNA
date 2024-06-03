@@ -61,3 +61,6 @@
 [submodule "external/pipeline-generate-SQC-BAM"]
 	path = external/pipeline-generate-SQC-BAM
 	url = git@github.com:uclahs-cds/pipeline-generate-SQC-BAM.git
+[submodule "external/pipeline-call-SRC"]
+	path = external/pipeline-call-SRC
+	url = git@github.com:uclahs-cds/pipeline-call-SRC.git

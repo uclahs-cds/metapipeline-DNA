@@ -25,15 +25,17 @@ process run_call_sCNA {
         pattern: "call-sCNA-*/*"
 
     input:
-        path(input_yaml)
+        tuple val(tumor_id), path(input_yaml)
 
     output:
+        tuple val(tumor_id), path(output_directory), emit: identify_call_scna_out, optional: true
         path "call-sCNA-*/*", optional: true
         path ".command.*"
         val('done'), emit: complete
         env EXIT_CODE, emit: exit_code
 
     script:
+    output_directory = "call-sCNA-*/${tumor_id}"
     String params_to_dump = combine_input_with_params(params.call_sCNA.metapipeline_arg_map, new File(input_yaml.toRealPath().toString()))
     String setup_commands = generate_graceful_error_controller(task.ext)
     String weblog_args = generate_weblog_args()

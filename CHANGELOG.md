@@ -14,6 +14,22 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [6.0.0-rc.5] - 2024-05-29
+### Fixed
++ Issue with identifier used in WGS mode
+
+---
+
+## [6.0.0-rc.5] - 2024-05-23 - YANKED
+### Added
++ Call-SRC pipeline
+### Changed
++ Input format update to only YAML and to support combinations or BAM/CRAM/FASTQ/SRC inputs
+### Fixed
++ Issue with status check automatically skipping checks when Slurm commands fail
+
+---
+
 ## [6.0.0-rc.4] - 2024-05-15
 ### Fixed
 + Task hash properly handled between WGS and non-WGS modes

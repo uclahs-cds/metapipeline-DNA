@@ -3,21 +3,21 @@ input:
   patient1:
     sample1:
       state: normal
+      BAM:
+        path: /path/to/bam
     sample2:
       state: tumor
+      BAM:
+        path: /path/to/bam
       SRC:
         - src_input_type: CNA
-          algorithm: "Algorithm used to produce calls"
-          path: /path/to/file
-        - src_input_type: SNV
           algorithm: "Algorithm used to produce calls"
           path: /path/to/file
     sample3:
       state: tumor
+      BAM:
+        path: /path/to/bam
       SRC:
         - src_input_type: CNA
-          algorithm: "Algorithm used to produce calls"
-          path: /path/to/file
-        - src_input_type: SNV
           algorithm: "Algorithm used to produce calls"
           path: /path/to/file

@@ -36,12 +36,14 @@ process run_call_sSNV {
         )
 
     output:
+        tuple val(sample_id), path(output_directory), emit: identify_call_ssnv_out, optional: true
         path "call-sSNV-*/*", optional: true
         path ".command.*"
         val('done'), emit: complete
         env EXIT_CODE, emit: exit_code
 
     script:
+    output_directory = "call-sSNV-*/${sample_id}"
     def algorithm_list = (algorithms in List) ? algorithms : [algorithms]
     String params_to_dump = combine_input_with_params(params.call_sSNV.metapipeline_arg_map + ['algorithm': algorithm_list], new File(input_yaml.toRealPath().toString()))
     String setup_commands = generate_graceful_error_controller(task.ext)

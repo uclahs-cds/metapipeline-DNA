@@ -12,6 +12,7 @@ include { call_mtSNV } from "${moduleDir}/call_mtSNV/workflow" addParams( this_p
 include { call_gSV } from "${moduleDir}/call_gSV/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir, this_pipeline: 'call-gSV' )
 include { call_sSV } from "${moduleDir}/call_sSV/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir, this_pipeline: 'call-sSV' )
 include { call_sCNA } from "${moduleDir}/call_sCNA/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir, this_pipeline: 'call-sCNA' )
+include { call_SRC } from "${moduleDir}/call_SRC/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir, this_pipeline: 'call-SRC')
 include { create_directory; mark_pipeline_complete } from "${moduleDir}/pipeline_status"
 
 workflow {
@@ -53,10 +54,6 @@ workflow {
         call_gSNP(recalibrate_BAM.out.recalibrate_sample_data_updated)
     }
 
-    if (params.call_sSNV.is_pipeline_enabled) {
-        call_sSNV(recalibrate_BAM.out.recalibrate_sample_data_updated)
-    }
-
     if (params.call_mtSNV.is_pipeline_enabled) {
         call_mtSNV(recalibrate_BAM.out.recalibrate_sample_data_updated)
     }
@@ -69,7 +66,15 @@ workflow {
         call_sSV(recalibrate_BAM.out.recalibrate_sample_data_updated)
     }
 
-    if (params.call_sCNA.is_pipeline_enabled) {
-        call_sCNA(recalibrate_BAM.out.recalibrate_sample_data_updated)
+    call_sSNV(recalibrate_BAM.out.recalibrate_sample_data_updated)
+    call_sCNA(recalibrate_BAM.out.recalibrate_sample_data_updated)
+
+    call_sSNV.out.completion_signal.mix(call_sCNA.out.completion_signal)
+        .collect()
+        .map{ 'done' }
+        .set{ src_ready }
+
+    if (params.call_SRC.is_pipeline_enabled) {
+        call_SRC(src_ready)
     }
 }
