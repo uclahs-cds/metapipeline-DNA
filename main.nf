@@ -134,7 +134,7 @@ process call_metapipeline_DNA {
     : "\${SBATCH_RET:=-1}"
 
     NXF_WORK=${params.resolved_work_dir} \
-    nextflow run \
+    ${projectDir}/templates/nextflow-wrapper run \
         ${moduleDir}/module/metapipeline_DNA.nf \
         --patient ${patient} \
         --input_type ${params.input_type} \
