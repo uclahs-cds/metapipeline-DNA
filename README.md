@@ -123,7 +123,7 @@ All samples from the same patient are processed as a single job.
 
 For CSV inputs, identify the fields needed for each input type below and include the respective fields. For mixed inputs, use empty cell values - see [template CSVs](input) for examples.
 
-For YAML inputs, see template YAMLs. In each template YAML, any key or value in `<>` needs to be filled in and the `<>` removed, ex. `<patient1>` should be filled in with the actual patient ID `PRAD0001`. Other keys not in `<>` must be kept as they are.
+For YAML inputs, see [template YAMLs](input). In each template YAML, any key or value in `<>` needs to be filled in and the `<>` removed, ex. `<patient1>` should be filled in with the actual patient ID, e.g. `PRAD0001`. Other keys not in `<>` must be kept as they are.
 ```YAML
 ---
 input:
