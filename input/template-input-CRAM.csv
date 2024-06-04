@@ -1,0 +1,3 @@
+patient,sample,state,path
+patient1,sample1,normal,/path/to/cram
+patient1,sample2,tumor,/path/to/cram

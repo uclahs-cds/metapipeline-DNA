@@ -200,7 +200,6 @@ workflow {
     }
 
     create_config_metapipeline_DNA(ich)
-    create_config_metapipeline_DNA.out.metapipeline_dna_input.view{ "JSON: ${it}" }
     call_metapipeline_DNA(create_config_metapipeline_DNA.out.metapipeline_dna_input)
 
     check_process_status(call_metapipeline_DNA.out.submit_out)

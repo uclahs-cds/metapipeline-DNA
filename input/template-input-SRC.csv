@@ -1,0 +1,4 @@
+patient,sample,state,src_input_type,src_input_algorithm,src_path
+patient1,sample2,tumor,SNV,Mutect2,/path/to/SNV/calls
+patient1,sample2,tumor,CNA,Battenberg,/path/to/CNA/calls_battenbergsubclones
+patient1,sample2,tumor,CNA,Battenberg,/path/to/CNA/calls_battenbergploidy
