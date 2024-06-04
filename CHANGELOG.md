@@ -10,9 +10,9 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ## [Unreleased]
 ### Added
 + Support for inputs to be given through a CSV
-
-### Added
 + Nextflow wrapper script to capture and consolidate all pipeline logs for a sample
+### Fixed
++ Bug with bad params being loaded from default configs
 
 ---
 
