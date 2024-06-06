@@ -7,12 +7,15 @@ import contextlib
 import datetime
 import json
 import logging
+import random
 import signal
 import socket
+import string
 import subprocess
 import sys
 import threading
 import time
+from collections import OrderedDict
 from email.mime.text import MIMEText
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
@@ -102,6 +105,24 @@ class WeblogHandler(BaseHTTPRequestHandler):
         self.server.send_email(raw_content)
 
 
+def b36_encode(integer: int) -> str:
+    """
+    Encode an integer to a base-36 string.
+
+    https://stackoverflow.com/a/60498038"
+    """
+    if integer < 0:
+        return "-" + b36_encode(-integer)
+
+    if integer < 10:
+        return string.digits[integer]
+
+    if integer < 36:
+        return string.ascii_lowercase[integer-10]
+
+    return b36_encode(integer // 36) + b36_encode(integer % 36)
+
+
 class EmailingServer(HTTPServer):
     "An HTTPServer that sends out emails announcing pipeline status changes."
     EVENTS = {"started", "completed"}
@@ -109,11 +130,32 @@ class EmailingServer(HTTPServer):
     def __init__(self, *args, project_id: str, patient: str, email: str):
         super().__init__(*args)
 
-        self.subject = f"Metapipeline: {project_id} ({patient})"
-        self.email = email.strip()
-
-        self.base_message_id = None
         self.logger = logging.getLogger("EmailingServer")
+
+        self.email = email.strip()
+        self.subject = f"Metapipeline: {project_id} ({patient})"
+
+        self.logger.debug("Setting subject to `%s`", self.subject)
+
+        # Construct a unique message ID
+        # I have _no_ idea why, but just using f"{time.time()}@..." would
+        # result in the first email not being delivered. Use the much more
+        # aggressive approach from https://www.jwz.org/doc/mid.html
+        # instead.
+        self.base_message_id = (
+            f"<{b36_encode(int(time.time()))}"
+            f".{b36_encode(random.getrandbits(64))}"
+            f"@{socket.gethostname()}.localdomain>"
+        )
+
+        self.logger.debug("Setting Message-Id to `%s`", self.base_message_id)
+
+        self.email_count = 0
+
+        if not self.email:
+            self.logger.warning(
+                "No email address given - no reports will be sent"
+            )
 
     def send_email(self, raw_content: bytes):
         "Send an email announcing when pipelines start or stop."
@@ -121,68 +163,38 @@ class EmailingServer(HTTPServer):
             # Don't bother doing anything with this
             return
 
-        data = json.loads(raw_content)
-
-        if data["event"] not in self.EVENTS:
-            # Not a pipeline start or complete event
+        try:
+            data = json.loads(raw_content)
+        except json.JSONDecodeError:
+            self.logger.exception("Could not decode JSON!")
+            self.logger.debug(raw_content)
             return
 
-        manifest_name = data["metadata"]["workflow"]["manifest"]["name"]
-        project_name = data["metadata"]["workflow"]["projectName"]
+        if not isinstance(data, dict) or "event" not in data:
+            self.logger.warning("Invalid trace data!")
+            self.logger.debug(raw_content)
+            return
 
-        self.logger.debug(
-            "manifest_name: %s, project_name: %s, event: %s",
-            manifest_name,
-            project_name,
-            data["event"]
-        )
+        try:
+            msg = MIMEText(self._build_message(data))
+        except KeyError:
+            self.logger.exception("Missing key in JSON data!")
+            return
 
-        start_time = parse_time(data["metadata"]["workflow"]["start"])
-        completed_time = parse_time(data["metadata"]["workflow"]["complete"])
-
-        message_lines = [
-            "",
-            f"Manifest name: {manifest_name}",
-            f"Project name: {project_name}",
-            f"Run name: {data['runName']}",
-            ""
-            f"Start time: {start_time}"
-        ]
-
-        if data["event"] == "started":
-            message_lines.insert(0, "Pipeline run started.")
-        else:
-            message_lines.append(f"Completed time: {completed_time}")
-
-            if data["metadata"]["workflow"]["success"]:
-                message_lines.insert(0, "Pipeline run successful!")
-
-            else:
-                message_lines.insert(0, "Pipeline run FAILED!")
-                message_lines.extend([
-                    "",
-                    f"Exit status: {data['metadata']['workflow']['exitStatus']}",
-                    f"Error message: {data['metadata']['workflow']['errorMessage']}",
-                    f"Error report: {data['metadata']['workflow']['errorReport']}",
-                ])
-
-        msg = MIMEText("\n".join(message_lines))
         msg["To"] = self.email
 
         # Ideally all of these emails would be threaded together. Use the
         # Message-Id and In-Reply-To headers in an attempt to do that.
         # Outlook also requires that the subjects all be the same.
-        if self.base_message_id is None:
+        if self.email_count == 0:
             msg["Subject"] = self.subject
-            # Construct a unique message ID
-            self.base_message_id = \
-                f"<{time.time()}@{socket.gethostname()}.localdomain>"
             msg.add_header("Message-Id", self.base_message_id)
-
         else:
             msg["Subject"] = "Re: " + self.subject
             msg.add_header("In-Reply-To", self.base_message_id)
             msg.add_header("References", self.base_message_id)
+
+        self.email_count += 1
 
         try:
             subprocess.run(
@@ -196,6 +208,65 @@ class EmailingServer(HTTPServer):
             self.logger.exception("Failed to send email!")
             self.logger.debug("stdout: %s", err.stdout)
             self.logger.debug("stderr: %s", err.stderr)
+
+    def _build_message(self, data: dict) -> str:
+        "Return a suitable email body."
+        workflow = data["metadata"]["workflow"]
+        parameters = data["metadata"]["parameters"]
+
+        self.logger.debug(
+            "manifest_name: %s, project_name: %s, event: %s",
+            workflow["manifest"]["name"],
+            workflow["projectName"],
+            data["event"]
+        )
+
+        # Build up the email body as a series of "Key: Value" lines. Lines
+        # where the value is None are skipped, lines where the value is a
+        # sentinel will turn into a newline.
+        # Using a dict here means that each blank line requires a unique key,
+        # but aside from that it mostly separates the content from the
+        # presentation
+        # Again, yay for python3.6 and its unordered dictionaries.
+        email_lines = OrderedDict()
+        blank_line = "-------BLANK-LINE--------"
+
+        email_lines["Pipeline Status"] = (
+            "Started" if data["event"] == "started" else (
+                "Successful" if workflow["success"] else
+                "FAILED"
+            )
+        )
+
+        email_lines["blank1"] = blank_line
+
+        email_lines["Manifest Name"] = workflow["manifest"]["name"]
+        email_lines["Project Name"] = workflow["projectName"]
+        email_lines["Run Name"] = data["runName"]
+        email_lines["Sample ID"] = parameters.get("sample_id", None)
+
+        email_lines["blank2"] = blank_line
+
+        email_lines["Start Time"] = parse_time(workflow["start"])
+        email_lines["Complete Time"] = parse_time(workflow["complete"])
+
+        email_lines["blank3"] = blank_line
+
+        email_lines["Exit Status"] = workflow["exitStatus"]
+        email_lines["Exit Message"] = workflow["errorMessage"]
+        email_lines["Exit Report"] = workflow["errorReport"]
+
+        message = ""
+        for key, value in email_lines.items():
+            if value is None:
+                continue
+
+            if value == blank_line:
+                message += "\n"
+            else:
+                message += f"{key}: {value}\n"
+
+        return message
 
 
 def run():
