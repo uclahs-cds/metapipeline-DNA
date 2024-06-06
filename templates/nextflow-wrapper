@@ -8,6 +8,7 @@ import datetime
 import json
 import logging
 import random
+import re
 import signal
 import socket
 import string
@@ -90,9 +91,9 @@ class WeblogHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):  # pylint: disable=invalid-name
         "Handle a POST."
-        raw_content = self.rfile.read(int(self.headers["Content-Length"])).decode(
-            "utf-8"
-        )
+        raw_content = self.rfile.read(
+            int(self.headers["Content-Length"])
+        ).decode("utf-8")
 
         # Respond with 204 NO CONTENT, as that doesn't require a response body
         self.send_response(204)
@@ -133,6 +134,15 @@ class EmailingServer(HTTPServer):
         self.logger = logging.getLogger("EmailingServer")
 
         self.email = email.strip()
+
+        if not self.email:
+            self.logger.info("No email address given")
+        elif not re.fullmatch(r"\S+@\S+\.\w{2,}", self.email):
+            # Do a quick sanity-check that the email appears to be well
+            # formatted. This is _not_ a complete check by any stretch
+            self.logger.error("Invalid email address `%s`!", self.email)
+            raise ValueError("Invalid email address")
+
         self.subject = f"Metapipeline: {project_id} ({patient})"
 
         self.logger.debug("Setting subject to `%s`", self.subject)
@@ -151,11 +161,6 @@ class EmailingServer(HTTPServer):
         self.logger.debug("Setting Message-Id to `%s`", self.base_message_id)
 
         self.email_count = 0
-
-        if not self.email:
-            self.logger.warning(
-                "No email address given - no reports will be sent"
-            )
 
     def send_email(self, raw_content: bytes):
         "Send an email announcing when pipelines start or stop."
