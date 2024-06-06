@@ -2,6 +2,7 @@
 """
 Run Nextflow with a wrapping weblog server.
 """
+
 import argparse
 import contextlib
 import datetime
@@ -69,10 +70,8 @@ def parse_time(timedict: Optional[dict]) -> Optional[datetime.datetime]:
         second=timedict["second"],
         # microsecond=timedict["nano"] // 1000,
         tzinfo=datetime.timezone(
-            offset=datetime.timedelta(
-                seconds=timedict["offset"]["totalSeconds"]
-            )
-        )
+            offset=datetime.timedelta(seconds=timedict["offset"]["totalSeconds"])
+        ),
     )
 
 
@@ -91,9 +90,9 @@ class WeblogHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):  # pylint: disable=invalid-name
         "Handle a POST."
-        raw_content = self.rfile.read(
-            int(self.headers["Content-Length"])
-        ).decode("utf-8")
+        raw_content = self.rfile.read(int(self.headers["Content-Length"])).decode(
+            "utf-8"
+        )
 
         # Respond with 204 NO CONTENT, as that doesn't require a response body
         self.send_response(204)
@@ -119,13 +118,14 @@ def b36_encode(integer: int) -> str:
         return string.digits[integer]
 
     if integer < 36:
-        return string.ascii_lowercase[integer-10]
+        return string.ascii_lowercase[integer - 10]
 
     return b36_encode(integer // 36) + b36_encode(integer % 36)
 
 
 class EmailingServer(HTTPServer):
     "An HTTPServer that sends out emails announcing pipeline status changes."
+
     EVENTS = {"started", "completed"}
 
     def __init__(self, *args, project_id: str, patient: str, email: str):
@@ -207,7 +207,7 @@ class EmailingServer(HTTPServer):
                 input=msg.as_bytes(),
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
-                check=True
+                check=True,
             )
         except subprocess.CalledProcessError as err:
             self.logger.exception("Failed to send email!")
@@ -223,7 +223,7 @@ class EmailingServer(HTTPServer):
             "manifest_name: %s, project_name: %s, event: %s",
             workflow["manifest"]["name"],
             workflow["projectName"],
-            data["event"]
+            data["event"],
         )
 
         # Build up the email body as a series of "Key: Value" lines. Lines
@@ -237,10 +237,9 @@ class EmailingServer(HTTPServer):
         blank_line = "-------BLANK-LINE--------"
 
         email_lines["Pipeline Status"] = (
-            "Started" if data["event"] == "started" else (
-                "Successful" if workflow["success"] else
-                "FAILED"
-            )
+            "Started"
+            if data["event"] == "started"
+            else ("Successful" if workflow["success"] else "FAILED")
         )
 
         email_lines["blank1"] = blank_line
@@ -293,7 +292,7 @@ def run():
     log_output_dir = Path(
         args.metapipeline_log_output_dir,
         "nextflow-log",
-        f"{args.patient}-{args.task_hash}"
+        f"{args.patient}-{args.task_hash}",
     ).resolve()
     log_output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -325,13 +324,15 @@ def run():
     trace_logger.propagate = False
 
     with contextlib.ExitStack() as stack:
-        log_server = stack.enter_context(EmailingServer(
-            ("localhost", 0),
-            WeblogHandler,
-            project_id=args.project_id,
-            patient=args.patient,
-            email=args.status_email_address,
-        ))
+        log_server = stack.enter_context(
+            EmailingServer(
+                ("localhost", 0),
+                WeblogHandler,
+                project_id=args.project_id,
+                patient=args.patient,
+                email=args.status_email_address,
+            )
+        )
 
         # Ensure that the logging server shuts down after Nextflow returns
         stack.callback(main_logger.info, "Log server shut down")
