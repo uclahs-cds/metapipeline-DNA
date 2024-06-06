@@ -58,7 +58,7 @@ def parse_args() -> argparse.Namespace:
 def create_read_groups(bam:Path, output:Path, sequencing_center:str,
         platform_unit:str, id_for_pu:bool, sample_id:str) -> None:
     """ Create a read group CSV file from a BAM """
-    bam_file = pysam.AlignmentFile(bam, mode='r')
+    bam_file = pysam.AlignmentFile(bam, mode='r', check_sq=False)
     header = bam_file.header
     if 'RG' not in header:
         raise ValueError(BAM_HAS_NO_RG_ERROR)
