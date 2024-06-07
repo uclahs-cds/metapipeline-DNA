@@ -34,7 +34,7 @@ clusterOptions:
   allow_empty: true
   help: 'Additional cluster options for use with submission command'
 status_email_address:
-  type: 'String'
+  type: 'EmailAddress'
   required: false
   allow_empty: true
   help: 'If given, the address to which pipeline start/complete notifications will be sent'
