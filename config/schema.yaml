@@ -36,6 +36,7 @@ clusterOptions:
 status_email_address:
   type: 'String'
   required: false
+  allow_empty: true
   help: 'If given, the address to which pipeline start/complete notifications will be sent'
 max_parallel_jobs:
   type: 'Integer'
