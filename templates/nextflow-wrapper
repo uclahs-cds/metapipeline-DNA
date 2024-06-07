@@ -180,6 +180,10 @@ class EmailingServer(HTTPServer):
             self.logger.debug(raw_content)
             return
 
+        if data["event"] not in self.EVENTS:
+            # Not a start or completed event
+            return
+
         try:
             msg = MIMEText(self._build_message(data))
         except KeyError:
