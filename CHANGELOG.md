@@ -11,6 +11,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Added
 + Support for inputs to be given through a CSV
 + Nextflow wrapper script to capture and consolidate all pipeline logs for a sample
++ `status_email_address` parameter to send started/completed emails for child pipelines
+
 ### Fixed
 + Bug with bad params being loaded from default configs
 
