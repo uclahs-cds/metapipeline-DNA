@@ -137,11 +137,6 @@ class EmailingServer(HTTPServer):
 
         if not self.email:
             self.logger.info("No email address given")
-        elif not re.fullmatch(r"\S+@\S+\.\w{2,}", self.email):
-            # Do a quick sanity-check that the email appears to be well
-            # formatted. This is _not_ a complete check by any stretch
-            self.logger.error("Invalid email address `%s`!", self.email)
-            raise ValueError("Invalid email address")
 
         self.subject = f"Metapipeline: {project_id} ({patient})"
 
