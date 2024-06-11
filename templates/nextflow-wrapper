@@ -68,7 +68,6 @@ def parse_time(timedict: Optional[dict]) -> Optional[datetime.datetime]:
         hour=timedict["hour"],
         minute=timedict["minute"],
         second=timedict["second"],
-        # microsecond=timedict["nano"] // 1000,
         tzinfo=datetime.timezone(
             offset=datetime.timedelta(seconds=timedict["offset"]["totalSeconds"])
         ),
