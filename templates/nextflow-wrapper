@@ -5,13 +5,23 @@ Run Nextflow with a wrapping weblog server.
 
 import argparse
 import contextlib
+import datetime
+import json
 import logging
+import random
+import re
+import signal
+import socket
+import string
 import subprocess
 import sys
 import threading
-import signal
+import time
+from collections import OrderedDict
+from email.mime.text import MIMEText
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
+from typing import Optional
 
 
 @contextlib.contextmanager
@@ -43,6 +53,27 @@ def ignore_signals(*signals: int):
             signal.signal(sig, old_handlers.pop(sig))
 
 
+def parse_time(timedict: Optional[dict]) -> Optional[datetime.datetime]:
+    "Parse a Nextflow dictionary for a timestamp."
+    # Ugh, python3.6 (the default on the cluster, despite reaching EOL in 2021)
+    # doesn't have robust timezone handling. Parse out the time from these
+    # dicts instead.
+    if timedict is None:
+        return None
+
+    return datetime.datetime(
+        year=timedict["year"],
+        month=timedict["monthValue"],
+        day=timedict["dayOfMonth"],
+        hour=timedict["hour"],
+        minute=timedict["minute"],
+        second=timedict["second"],
+        tzinfo=datetime.timezone(
+            offset=datetime.timedelta(seconds=timedict["offset"]["totalSeconds"])
+        ),
+    )
+
+
 class WeblogHandler(BaseHTTPRequestHandler):
     "A handler for Nextflow's web log plugin."
 
@@ -69,21 +100,197 @@ class WeblogHandler(BaseHTTPRequestHandler):
         # The absolute level doesn't matter, but it should be consistent
         logging.getLogger("trace_logger").info(raw_content)
 
+        # Pass the trace to the server to (potentially) send an email
+        self.server.send_email(raw_content)
+
+
+def b36_encode(integer: int) -> str:
+    """
+    Encode an integer to a base-36 string.
+
+    https://stackoverflow.com/a/60498038"
+    """
+    if integer < 0:
+        return "-" + b36_encode(-integer)
+
+    if integer < 10:
+        return string.digits[integer]
+
+    if integer < 36:
+        return string.ascii_lowercase[integer - 10]
+
+    return b36_encode(integer // 36) + b36_encode(integer % 36)
+
+
+class EmailingServer(HTTPServer):
+    "An HTTPServer that sends out emails announcing pipeline status changes."
+
+    EVENTS = {"started", "completed"}
+
+    def __init__(self, *args, project_id: str, patient: str, email: str):
+        super().__init__(*args)
+
+        self.logger = logging.getLogger("EmailingServer")
+
+        self.email = email.strip()
+
+        if not self.email:
+            self.logger.info("No email address given")
+
+        self.subject = f"Metapipeline: {project_id} ({patient})"
+
+        self.logger.debug("Setting subject to `%s`", self.subject)
+
+        # Construct a unique message ID
+        # I have _no_ idea why, but just using f"{time.time()}@..." would
+        # result in the first email not being delivered. Use the much more
+        # aggressive approach from https://www.jwz.org/doc/mid.html
+        # instead.
+        self.base_message_id = (
+            f"<{b36_encode(int(time.time()))}"
+            f".{b36_encode(random.getrandbits(64))}"
+            f"@{socket.gethostname()}.localdomain>"
+        )
+
+        self.logger.debug("Setting Message-Id to `%s`", self.base_message_id)
+
+        self.email_count = 0
+
+    def send_email(self, raw_content: bytes):
+        "Send an email announcing when pipelines start or stop."
+        if not self.email:
+            # Don't bother doing anything with this
+            return
+
+        try:
+            data = json.loads(raw_content)
+        except json.JSONDecodeError:
+            self.logger.exception("Could not decode JSON!")
+            self.logger.debug(raw_content)
+            return
+
+        if not isinstance(data, dict) or "event" not in data:
+            self.logger.warning("Invalid trace data!")
+            self.logger.debug(raw_content)
+            return
+
+        if data["event"] not in self.EVENTS:
+            # Not a start or completed event
+            return
+
+        try:
+            msg = MIMEText(self._build_message(data))
+        except KeyError:
+            self.logger.exception("Missing key in JSON data!")
+            return
+
+        msg["To"] = self.email
+
+        # Ideally all of these emails would be threaded together. Use the
+        # Message-Id and In-Reply-To headers in an attempt to do that.
+        # Outlook also requires that the subjects all be the same.
+        if self.email_count == 0:
+            msg["Subject"] = self.subject
+            msg.add_header("Message-Id", self.base_message_id)
+        else:
+            msg["Subject"] = "Re: " + self.subject
+            msg.add_header("In-Reply-To", self.base_message_id)
+            msg.add_header("References", self.base_message_id)
+
+        self.email_count += 1
+
+        try:
+            subprocess.run(
+                ["sendmail", "-t", "-oi"],
+                input=msg.as_bytes(),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=True,
+            )
+        except subprocess.CalledProcessError as err:
+            self.logger.exception("Failed to send email!")
+            self.logger.debug("stdout: %s", err.stdout)
+            self.logger.debug("stderr: %s", err.stderr)
+
+    def _build_message(self, data: dict) -> str:
+        "Return a suitable email body."
+        workflow = data["metadata"]["workflow"]
+        parameters = data["metadata"]["parameters"]
+
+        self.logger.debug(
+            "manifest_name: %s, project_name: %s, event: %s",
+            workflow["manifest"]["name"],
+            workflow["projectName"],
+            data["event"],
+        )
+
+        # Build up the email body as a series of "Key: Value" lines. Lines
+        # where the value is None are skipped, lines where the value is a
+        # sentinel will turn into a newline.
+        # Using a dict here means that each blank line requires a unique key,
+        # but aside from that it mostly separates the content from the
+        # presentation
+        # Again, yay for python3.6 and its unordered dictionaries.
+        email_lines = OrderedDict()
+        blank_line = "-------BLANK-LINE--------"
+
+        email_lines["Pipeline Status"] = (
+            "Started"
+            if data["event"] == "started"
+            else ("Successful" if workflow["success"] else "FAILED")
+        )
+
+        email_lines["blank1"] = blank_line
+
+        email_lines["Manifest Name"] = workflow["manifest"]["name"]
+        email_lines["Project Name"] = workflow["projectName"]
+        email_lines["Run Name"] = data["runName"]
+        email_lines["Sample ID"] = parameters.get("sample_id", None)
+
+        email_lines["blank2"] = blank_line
+
+        email_lines["Start Time"] = parse_time(workflow["start"])
+        email_lines["Complete Time"] = parse_time(workflow["complete"])
+
+        email_lines["blank3"] = blank_line
+
+        email_lines["Exit Status"] = workflow["exitStatus"]
+        email_lines["Exit Message"] = workflow["errorMessage"]
+        email_lines["Exit Report"] = workflow["errorReport"]
+
+        message = ""
+        for key, value in email_lines.items():
+            if value is None:
+                continue
+
+            if value == blank_line:
+                message += "\n"
+            else:
+                message += f"{key}: {value}\n"
+
+        return message
+
 
 def run():
     "Run the Nextflow pipeline with additional logging."
     # Parse the --metapipeline_log_output_dir argument
     parser = argparse.ArgumentParser()
+
+    # These three are to construct the output log file
     parser.add_argument("--metapipeline_log_output_dir", required=True)
     parser.add_argument("--task_hash", required=True)
     parser.add_argument("--patient", required=True)
+
+    # These two (plus --patient) are used to send pipeline update emails
+    parser.add_argument("--project_id", required=True)
+    parser.add_argument("--status_email_address", required=True)
     args, _ = parser.parse_known_args()
 
     # Write logs into the patient-specific subdirectory of nextflow-log
     log_output_dir = Path(
         args.metapipeline_log_output_dir,
         "nextflow-log",
-        f"{args.patient}-{args.task_hash}"
+        f"{args.patient}-{args.task_hash}",
     ).resolve()
     log_output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -115,7 +322,15 @@ def run():
     trace_logger.propagate = False
 
     with contextlib.ExitStack() as stack:
-        log_server = stack.enter_context(HTTPServer(("localhost", 0), WeblogHandler))
+        log_server = stack.enter_context(
+            EmailingServer(
+                ("localhost", 0),
+                WeblogHandler,
+                project_id=args.project_id,
+                patient=args.patient,
+                email=args.status_email_address,
+            )
+        )
 
         # Ensure that the logging server shuts down after Nextflow returns
         stack.callback(main_logger.info, "Log server shut down")
