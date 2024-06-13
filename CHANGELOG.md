@@ -8,6 +8,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+
+---
+
+## [6.0.0-rc.6] - 2024-06-12
 ### Added
 + Support for inputs to be given through a CSV
 + Nextflow wrapper script to capture and consolidate all pipeline logs for a sample
@@ -15,6 +19,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Fixed
 + Bug with bad params being loaded from default configs
++ Bug with call-SRC pipeline getting stuck with DPClust run
 
 ---
 
