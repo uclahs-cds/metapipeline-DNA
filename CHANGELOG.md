@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Changed
 + Call-SRC: `2.0.0-rc.1` -> `2.0.0`
 + Align-DNA: `10.0.0` -> `10.1.0`
++ Recalibrate-BAM: `1.0.0` -> `1.0.1`
 ### Fixed
 + Issue with empty email addresses resulting in argument errors
 
