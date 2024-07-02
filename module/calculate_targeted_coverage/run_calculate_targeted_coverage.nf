@@ -15,7 +15,7 @@ process run_calculate_targeted_coverage {
     publishDir path: "${params.log_output_dir}/process-log",
         mode: "copy",
         pattern: ".command.*",
-        saveAs: { "${task.process.replace(':', '/ ')}-${sample_id_for_targeted_coverage}/log${file(it).getName()}" }
+        saveAs: { "${task.process.replace(':', '/')}-${sample_id_for_targeted_coverage}/log${file(it).getName()}" }
 
     publishDir "${params.output_dir}/output",
         mode: "copy",
