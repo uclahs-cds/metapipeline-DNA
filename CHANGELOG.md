@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 + Recalibrate-BAM: `1.0.0` -> `1.0.1`
 + Call-sSNV: `8.0.0` -> `8.1.0`
 + Call-gSV: `5.0.0` -> `5.1.0`
++ Call-sCNA: `3.1.0` -> `3.2.0`
 ### Fixed
 + Issue with empty email addresses resulting in argument errors
 
