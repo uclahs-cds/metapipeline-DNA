@@ -1,3 +1,0 @@
-patient,sample,state,bam
-IlluminaPatient1,NA24143,tumor,/hot/software/pipeline/metapipeline-DNA/Nextflow/development/input/data/BAM/NA24143/BWA-MEM2-2.2.1_IlluminaSampleTest_NA24143.bam
-IlluminaPatient1,NA24149,normal,/hot/software/pipeline/metapipeline-DNA/Nextflow/development/input/data/BAM/NA24149/BWA-MEM2-2.2.1_IlluminaSampleTest_NA24149.bam
