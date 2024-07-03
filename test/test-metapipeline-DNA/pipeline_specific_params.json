@@ -224,7 +224,7 @@
                 "options": ""
             }
         ],
-        "is_pipeline_enabled": false,
+        "is_pipeline_enabled": true,
         "subworkflow_cpus": 8,
         "metapipeline_arg_map": {
             "SRC": [
@@ -233,7 +233,7 @@
                     "options": ""
                 }
             ],
-            "is_pipeline_enabled": false,
+            "is_pipeline_enabled": true,
             "subworkflow_cpus": 8
         }
     },
