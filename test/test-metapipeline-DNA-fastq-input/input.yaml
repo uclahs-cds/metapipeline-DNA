@@ -1,39 +1,39 @@
 ---
 input:
-  FASTQ:
-    - patient: "IlluminaPatient1"
-      sample: "NA24143"
+  IlluminaPatient1:
+    NA24143:
       state: "tumor"
-      read_group_identifier: "NA24143RG"
-      sequencing_center: "Illumina"
-      library_identifier: "NA24143LIB"
-      platform_technology: "Illumina"
-      platform_unit: "Platform1"
-      bam_header_sm: "NA24143"
-      lane: 1
-      read1_fastq: "/hot/software/pipeline/metapipeline-DNA/Nextflow/development/input/data/FASTQ/NA24143/IDPE2plus-NA24143-R4-MitoEx-1to100_S21_L001_R1_001.fastq.gz"
-      read2_fastq: "/hot/software/pipeline/metapipeline-DNA/Nextflow/development/input/data/FASTQ/NA24143/IDPE2plus-NA24143-R4-MitoEx-1to100_S21_L001_R2_001.fastq.gz"
-    - patient: "IlluminaPatient1"
-      sample: "NA24149"
+      FASTQ:
+        - read_group_identifier: "NA24143RG"
+          sequencing_center: "Illumina"
+          library_identifier: "NA24143LIB"
+          platform_technology: "Illumina"
+          platform_unit: "Platform1"
+          bam_header_sm: "NA24143"
+          lane: 1
+          read1_fastq: "/hot/software/pipeline/metapipeline-DNA/Nextflow/development/input/data/FASTQ/NA24143/IDPE2plus-NA24143-R4-MitoEx-1to100_S21_L001_R1_001.fastq.gz"
+          read2_fastq: "/hot/software/pipeline/metapipeline-DNA/Nextflow/development/input/data/FASTQ/NA24143/IDPE2plus-NA24143-R4-MitoEx-1to100_S21_L001_R2_001.fastq.gz"
+    NA24149:
       state: "normal"
-      read_group_identifier: "NA24149RG"
-      sequencing_center: "Illumina"
-      library_identifier: "NA24149LIB"
-      platform_technology: "Illumina"
-      platform_unit: "Platform1"
-      bam_header_sm: "NA24149"
-      lane: 1
-      read1_fastq: "/hot/software/pipeline/metapipeline-DNA/Nextflow/development/input/data/FASTQ/NA24149/IDPE2plus-NA24149-R3-MitoEx-1to1000_S41_L001_R1_001.fastq.gz"
-      read2_fastq: "/hot/software/pipeline/metapipeline-DNA/Nextflow/development/input/data/FASTQ/NA24149/IDPE2plus-NA24149-R3-MitoEx-1to1000_S41_L001_R2_001.fastq.gz"
-    - patient: "IlluminaPatient1"
-      sample: "NA24385"
+      FASTQ:
+        - read_group_identifier: "NA24149RG"
+          sequencing_center: "Illumina"
+          library_identifier: "NA24149LIB"
+          platform_technology: "Illumina"
+          platform_unit: "Platform1"
+          bam_header_sm: "NA24149"
+          lane: 1
+          read1_fastq: "/hot/software/pipeline/metapipeline-DNA/Nextflow/development/input/data/FASTQ/NA24149/IDPE2plus-NA24149-R3-MitoEx-1to1000_S41_L001_R1_001.fastq.gz"
+          read2_fastq: "/hot/software/pipeline/metapipeline-DNA/Nextflow/development/input/data/FASTQ/NA24149/IDPE2plus-NA24149-R3-MitoEx-1to1000_S41_L001_R2_001.fastq.gz"
+    NA24385:
       state: "tumor"
-      read_group_identifier: "NA24385RG"
-      sequencing_center: "Illumina"
-      library_identifier: "NA24385LIB"
-      platform_technology: "Illumina"
-      platform_unit: "Platform1"
-      bam_header_sm: "NA24385"
-      lane: 1
-      read1_fastq: "/hot/software/pipeline/metapipeline-DNA/Nextflow/development/input/data/FASTQ/NA24385/IDPE2plus-NA24385-R2-MitoEx-1to10_S56_L001_R1_001.fastq.gz"
-      read2_fastq: "/hot/software/pipeline/metapipeline-DNA/Nextflow/development/input/data/FASTQ/NA24385/IDPE2plus-NA24385-R2-MitoEx-1to10_S56_L001_R2_001.fastq.gz"
+      FASTQ:
+        - read_group_identifier: "NA24385RG"
+          sequencing_center: "Illumina"
+          library_identifier: "NA24385LIB"
+          platform_technology: "Illumina"
+          platform_unit: "Platform1"
+          bam_header_sm: "NA24385"
+          lane: 1
+          read1_fastq: "/hot/software/pipeline/metapipeline-DNA/Nextflow/development/input/data/FASTQ/NA24385/IDPE2plus-NA24385-R2-MitoEx-1to10_S56_L001_R1_001.fastq.gz"
+          read2_fastq: "/hot/software/pipeline/metapipeline-DNA/Nextflow/development/input/data/FASTQ/NA24385/IDPE2plus-NA24385-R2-MitoEx-1to10_S56_L001_R2_001.fastq.gz"
