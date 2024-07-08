@@ -42,14 +42,14 @@ cases:
     verbose: true
     skip: true
     asserts:
-      - actual: output/calculate-targeted-coverage-*/NA24149/SAMtools-*/output/NA24149.collapsed_coverage.bed
+      - actual: output/calculate-targeted-coverage-*/NA24149/SAMtools-*/output/BEDtools-*collapsed-coverage.bed
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/calculate-targeted-coverage-1.0.0-rc.2/NA24149/SAMtools-1.16.1/output/NA24149.collapsed_coverage.bed
         script: test/test-calculate-targeted-coverage/assert_bed.sh
-      - actual: output/calculate-targeted-coverage-*/NA24149/SAMtools-*/output/NA24149.off-target-dbSNP_depth-per-base.bed
+      - actual: output/calculate-targeted-coverage-*/NA24149/SAMtools-*/output/BEDtools-*off-target-dbSNP-depth-per-base.bed
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/calculate-targeted-coverage-1.0.0-rc.2/NA24149/SAMtools-1.16.1/output/NA24149.off-target-dbSNP_depth-per-base.bed
         script: test/test-calculate-targeted-coverage/assert_bed.sh
-      - actual: output/calculate-targeted-coverage-*/NA24149/SAMtools-*/output/NA24149.target_with_enriched_off-target_intervals.bed
-        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/calculate-targeted-coverage-1.0.0-rc.2/NA24149/SAMtools-1.16.1/output/NA24149.target_with_enriched_off-target_intervals.bed
+      - actual: output/calculate-targeted-coverage-*/NA24149/SAMtools-*/output/BEDtools-*target-with-enriched-off-target-intervals.bed.gz
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/calculate-targeted-coverage-1.0.0-rc.2/NA24149/SAMtools-1.16.1/output/BEDtools-2.29.2_IlluminaTest_NA24149_target-with-enriched-off-target-intervals.bed.gz
         script: test/test-calculate-targeted-coverage/assert_bed.sh
 
   - name: test-generate-SQC-BAM

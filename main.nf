@@ -136,7 +136,7 @@ process call_metapipeline_DNA {
     NXF_WORK=${params.resolved_work_dir} \
     ${projectDir}/templates/nextflow-wrapper run \
         ${moduleDir}/module/metapipeline_DNA.nf \
-        --status_email_address "${params.status_email_address}" \
+        --status_email_address '${params.status_email_address}' \
         --patient ${patient} \
         --input_type ${params.input_type} \
         --sample_mode ${params.sample_mode} \

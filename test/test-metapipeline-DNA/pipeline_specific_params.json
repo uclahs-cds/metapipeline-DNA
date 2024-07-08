@@ -194,77 +194,143 @@
         }
     },
     "call_sCNA": {
-        "subworkflow_cpus": 8,
         "algorithm": [
             "cnv_facets"
         ],
-        "is_pipeline_enabled": true,
         "sample_sex": "male",
         "position_scale": "genome-position",
         "dbSNP_file": "/hot/ref/tool-specific-input/RecSNV/GRCh38/dbsnp_b150_grch38.vcf.gz",
         "battenberg_reference": "/hot/ref/tool-specific-input/Battenberg/download_202204/GRCh38/battenberg_ref_hg38_chr/",
         "reference_dict": "/hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.dict",
+        "is_pipeline_enabled": true,
+        "subworkflow_cpus": 8,
         "metapipeline_arg_map": {
-            "subworkflow_cpus": 8,
             "algorithm": [
                 "cnv_facets"
             ],
-            "is_pipeline_enabled": true,
             "sample_sex": "male",
             "position_scale": "genome-position",
             "dbSNP_file": "/hot/ref/tool-specific-input/RecSNV/GRCh38/dbsnp_b150_grch38.vcf.gz",
             "battenberg_reference": "/hot/ref/tool-specific-input/Battenberg/download_202204/GRCh38/battenberg_ref_hg38_chr/",
-            "reference_dict": "/hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.dict"
+            "reference_dict": "/hot/ref/reference/GRCh38-BI-20160721/Homo_sapiens_assembly38.dict",
+            "is_pipeline_enabled": true,
+            "subworkflow_cpus": 8
+        }
+    },
+    "call_SRC": {
+        "SRC": [
+            {
+                "algorithm": "PyClone-VI",
+                "options": ""
+            }
+        ],
+        "is_pipeline_enabled": true,
+        "subworkflow_cpus": 8,
+        "metapipeline_arg_map": {
+            "SRC": [
+                {
+                    "algorithm": "PyClone-VI",
+                    "options": ""
+                }
+            ],
+            "is_pipeline_enabled": true,
+            "subworkflow_cpus": 8
         }
     },
     "sample_data": {
-        "NA24149": {
-            "align-DNA": {
-                "BWA-MEM2": {
-                    "BAM": ""
-                }
-            },
-            "recalibrate-BAM": {
-                "BAM": "",
-                "contamination_table": ""
-            },
-            "convert-BAM2FASTQ": [
-                
-            ],
-            "original_data": {
-                "path": "/hot/software/pipeline/metapipeline-DNA/Nextflow/development/input/data/BAM/NA24149/BWA-MEM2-2.2.1_IlluminaSampleTest_NA24149.bam"
-            },
-            "patient": "IlluminaPatient1",
-            "state": "normal"
-        },
         "NA24143": {
             "align-DNA": {
                 "BWA-MEM2": {
                     "BAM": ""
                 }
             },
+            "call-sSNV": {
+                
+            },
+            "call-sCNA": {
+                
+            },
             "recalibrate-BAM": {
                 "BAM": "",
                 "contamination_table": ""
             },
+            "calculate-targeted-coverage": {
+                "expanded-intervals": ""
+            },
             "convert-BAM2FASTQ": [
                 
             ],
+            "patient": "IlluminaPatient1",
+            "state": "tumor",
             "original_data": {
                 "path": "/hot/software/pipeline/metapipeline-DNA/Nextflow/development/input/data/BAM/NA24143/BWA-MEM2-2.2.1_IlluminaSampleTest_NA24143.bam"
             },
+            "original_src_data": [
+                
+            ]
+        },
+        "NA24149": {
+            "align-DNA": {
+                "BWA-MEM2": {
+                    "BAM": ""
+                }
+            },
+            "call-sSNV": {
+                
+            },
+            "call-sCNA": {
+                
+            },
+            "recalibrate-BAM": {
+                "BAM": "",
+                "contamination_table": ""
+            },
+            "calculate-targeted-coverage": {
+                "expanded-intervals": ""
+            },
+            "convert-BAM2FASTQ": [
+                
+            ],
             "patient": "IlluminaPatient1",
-            "state": "tumor"
+            "state": "normal",
+            "original_data": {
+                "path": "/hot/software/pipeline/metapipeline-DNA/Nextflow/development/input/data/BAM/NA24149/BWA-MEM2-2.2.1_IlluminaSampleTest_NA24149.bam"
+            },
+            "original_src_data": [
+                
+            ]
         }
     },
     "pipeline_predecessor": {
-        "calculate-targeted-coverage": ["recalibrate-BAM"],
-        "generate-SQC-BAM": ["recalibrate-BAM"],
-        "call-gSNP": ["recalibrate-BAM"],
-        "call-gSV": ["recalibrate-BAM"],
-        "call-mtSNV": ["recalibrate-BAM"],
-        "call-sSNV": ["recalibrate-BAM"],
-        "call-sSV": ["recalibrate-BAM"],
-        "call-sCNA": ["recalibrate-BAM"]
+        "generate-SQC-BAM": [
+            "recalibrate-BAM"
+        ],
+        "call-gSNP": [
+            "recalibrate-BAM"
+        ],
+        "call-gSV": [
+            "recalibrate-BAM"
+        ],
+        "call-mtSNV": [
+            "recalibrate-BAM"
+        ],
+        "call-sSNV": [
+            "recalibrate-BAM"
+        ],
+        "call-sSV": [
+            "recalibrate-BAM"
+        ],
+        "call-sCNA": [
+            "recalibrate-BAM"
+        ],
+        "call-SRC": [
+            "call-sSNV",
+            "call-sCNA"
+        ]
+    },
+    "pipeline_interval_params": {
+        "call_sSNV": "intersect_regions",
+        "call_gSNP": "intervals",
+        "recalibrate_BAM": "intervals"
     }
 }
