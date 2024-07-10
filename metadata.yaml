@@ -1,6 +1,6 @@
 ---
 Category: "pipeline"
-Description: "Nextflow pipeline to convert BAM to FASTQ, align, call gSNP, call sSNV, and call mtSNV"
+Description: "Nextflow pipeline to convert BAM to FASTQ, align, perform QC, assess targeted coverage, call gSNP, call sSNV, call mtSNV, call SVs, call sCNA, and perform subclonal reconstruction"
 Maintainers: "Chenghao Zhu <ChenghaoZhu@mednet.ucla.edu>, Yash Patel <YashPatel@mednet.ucla.edu>, Nicholas Wang <NKWang@mednet.ucla.edu>, Helena Winata <hwinata@mednet.ucla.edu>, Mohammed Faizal Eeman Mootor <mmootor@mednet.ucla.edu>"
 Languages: ["Nextflow"]
 Dependencies: ["Java", "Nextflow", "Docker"]
