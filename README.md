@@ -19,6 +19,7 @@
     - [12. call-SRC](#12-call-src)
   - [Configuration](#configuration)
     - [WGS global job submission params - UCLAHS-CDS](#uclahs-cds-wgs-global-sample-job-submission-parameters)
+    - [Pipeline selection](#pipeline-selection)
     - [Pipeline-specific params](#pipeline-specific-params)
     - [Intervals](#intervals)
     - [Sample modes](#sample-modes)
@@ -160,6 +161,14 @@ The following parameters are intended to control the global number and rate of W
 | `uclahs_cds_wgs` | boolean | yes | Whether global job number and submission limits should be applied. Default: `true` |
 | `global_rate_limit` | integer | yes | Time in minutes between submission of any WGS jobs. Default: 90 |
 
+### Pipeline selection
+
+Pipeline selection is controlled by the `requested_pipelines` parameter. Given the list of requested pipelines, metapipeline-DNA will automatically identify any necessary dependencies and enable them for the run.
+
+Pipeline selection follows some default behaviors:
+
+- When given BAM input, the default pipeline selector will perform conversion to FASTQ, re-align the FASTQs, and perform recalibration. This default behavior can be disabled with the `override_realignment` and `override_recalibrate_bam` parameters. With `override_realignment`, the back-conversion to FASTQ and re-alignment will be disabled. With `override_recalibrate_bam`, recalibration of the BAM using recalibrate-BAM will be disabled.
+- When SNV or CNA calls are given as inputs, metapipeline-DNA will automatically disable the call-sSNV and call-sCNA pipelines, respectively, and use the given inputs for call-SRC. This behavior can be controlled by `override_src_precursor_disable` to let metapipeline-DNA run the call-sSNV and call-sCNA pipelines to generate inputs for call-SRC using the BAM or FASTQ inputs. **Note**: This option only has an effect in the case of mixed inputs being provided as the call-sSNV and call-sCNA pipelines require sequencing data as inputs.
 
 ### Pipeline-specific params
 
