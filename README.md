@@ -7,33 +7,40 @@
   - [Pipeline Steps](#pipeline-steps)
     - [1. convert-BAM2FASTQ](#1-convert-bam2fastq)
     - [2. align-DNA](#2-align-dna)
-    - [3. recalibrate-BAM](#3-recalibrate-bam)
-    - [4. call-gSNP](#4-call-gsnp)
-    - [5. call-sSNV](#5-call-ssnv)
-    - [6. call-mtSNV](#6-call-mtsnv)
-    - [7. call-gSV](#7-call-gsv)
-    - [8. call-sSV](#8-call-ssv)
+    - [3. calculate-targeted-coverage](#3-calculate-targeted-coverage)
+    - [4. recalibrate-BAM](#4-recalibrate-bam)
+    - [5. generate-SQC-BAM](#5-generate-sqc-bam)
+    - [6. call-gSNP](#6-call-gsnp)
+    - [7. call-sSNV](#7-call-ssnv)
+    - [8. call-mtSNV](#8-call-mtsnv)
+    - [9. call-gSV](#9-call-gsv)
+    - [10. call-sSV](#10-call-ssv)
+    - [11. call-sCNA](#11-call-scna)
+    - [12. call-SRC](#12-call-src)
+  - [Configuration](#configuration)
+    - [WGS global job submission params - UCLAHS-CDS](#uclahs-cds-wgs-global-sample-job-submission-parameters)
+    - [Pipeline-specific params](#pipeline-specific-params)
+    - [Intervals](#intervals)
     - [Sample modes](#sample-modes)
+      - [Single](#single-sample-mode)
+      - [Paired](#paired-sample-mode)
+      - [Multi](#multi-sample-mode)
   - [Inputs](#inputs)
     - [Input BAM](#input-bam)
     - [Input FASTQ](#input-fastq)
-    - [Config Params](#config-params)
-      - [UCLAHS-CDS WGS Params](#uclahs-cds-wgs-global-sample-job-submission-parameters)
+    - [Input SRC](#input-src)
+    - [Mixed input](#mixed-input)
+      - [CNA](#cna-calls-available)
+      - [SNV](#snv-calls-available)
   - [Outputs](#outputs)
   - [Discussions](#discussions)
   - [Contributors](#contributors)
+  - [References](#references)
   - [License](#license)
 
 ## Overview
 
 Metapipeline-DNA is a DNA sequencing processing pipeline that accepts sequencing data as input. The data may be in FASTQ format or in aligned format (BAM/CRAM - <u>**BETA FEATURE**</u>), with options for re-alignment with back-conversion to FASTQ format. The FASTQs are aligned to the reference genome and recalibrated with INDEL realignment and base quality score recalibration, followed by quality control steps including targeted coverage calculation and WGS metrics. Various calling steps are performed to identify germline SNPs (single-nucleotide polymorphisms), somatic SNVs (single-nucleotide variants), mitochondrial SNVs, germline SVs (structural variants), somatic SVs, and somatic CNAs (copy-number aberrations). The processing culminates with subclonal reconstruction.
-
-
-> **Note**: This meta pipeline takes either aligned sequencing data (BAM - <u>**BETA FEATURE**</u>) and converts it back to FASTQ format or direct FASTQ data. The FASTQs are re-aligned to the reference genome and called for germline SNPs (single-nucleotide polymorphisms), somatic SNVs (single-nucleotide variants), mitochondrial SNVs, somatic SVs (structural variants), and germline SVs. The input to this meta pipeline includes a list of patients and their tumor-normal paired samples. Each patient must have **exactly one** normal sample, while multiple tumor samples are allowed. There are 3 available calling modes: paired mode where each tumour sample will be paired with the normal sample for calling; multi mode where all samples for a patient will be called together; single mode where each sample for the patient will be called separately.
-
-> **Note**: The pipeline has a leading process running on the submitter node (can be a F2 node as the leading process does not require many resources) that submits samples of each patient to a worker node (usually an F72 node) for processing. All processes for the same patient run on the same node to avoid network traffic.
-
-> **Note**: ![design](img/design.drawio.svg?raw=true)
 
 ---
 
@@ -52,7 +59,13 @@ Metapipeline-DNA is a DNA sequencing processing pipeline that accepts sequencing
 
 ## Flow Diagram
 
-![alt text](img/diagram.drawio.svg?raw=true)
+The general execution of metapipeline-DNA follows the following steps:
+
+![submitter](img/submitter.png)
+
+Each worker node performs the following steps:
+
+![metapipeline_dna](img/metapipeline_dna.png)
 
 ---
 
@@ -217,7 +230,7 @@ params {
 
 ### Sample modes
 
-The metapipeline supports running samples in three modes: `single`, `paired`, and `multi`. This is controlled by the `sample_mode` parameter.
+The metapipeline supports running samples in three modes: `single`, `paired`, and `multi`. This is controlled by the `sample_mode` parameter. In `paired` or `multi` sample modes, each patient is expected to have exactly one normal sample and one or more tumor samples.
 
 Given the set of input patients and samples, grouping of samples is controlled based on the run mode as follows:
 
@@ -354,7 +367,7 @@ metapipeline-DNA is licensed under the GNU General Public License version 2. See
 
 metapipeline-DNA performs alignment, germline SNP calling, somatic SNV calling, and mitochondrial SNV calling for given samples.
 
-Copyright (C) 2021-2023 University of California Los Angeles ("Boutros Lab") All rights reserved.
+Copyright (C) 2021-2024 University of California Los Angeles ("Boutros Lab") All rights reserved.
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
 
