@@ -149,7 +149,7 @@ The following parameters are available at the metapipeline level:
 | `src_cna_tool` | string | no | Which CNA tool's output to use for SRC. Default: `Battenberg` |
 | `override_src_precursor_disable` | boolean | no | Whether to override the automatic disabling of either call-sSNV or call-sCNA when the respective outputs are provided in the input. Default: `false` |
 | `src_run_all_combinations` | boolean | no | **TO-DO**: Whether to run SRC using all combinations of SNV tool and CNA tool. Default: `false` |
-| `pipeline_params` | namespace | yes | Namespace containing parameters for ecah individual pipeline. Parameters for the requested pipelines must be given. |
+| `pipeline_params` | namespace | yes | Namespace containing parameters for each individual pipeline. Parameters for the requested pipelines must be given. |
 
 
 ### UCLAHS-CDS WGS global sample job submission parameters
