@@ -52,7 +52,21 @@ Metapipeline-DNA is a DNA sequencing processing pipeline that accepts sequencing
 2. Create an `input.csv` or an `input.yaml` file (following the descriptions [here](#inputs)) to provide input files for each sample. If using an input CSV, add the path to the CSV to the config generated in step 1.
 
 
-3. Submit the pipeline using the [submission script](https://github.com/uclahs-cds/tool-submit-nf).
+3. Launch the pipeline using:
+```Bash
+# YAML input
+nextflow run \
+    /path/to/metapipeline-dna/main.nf \
+    -c /path/to/generated/config \
+    -params-file /path/to/generated/input.yaml
+
+# CSV input
+nextflow run \
+    /path/to/metapipeline-dna/main.nf \
+    -c /path/to/generated/config
+```
+
+**Note**: UCLAHS-CDS users, submit the pipeline using the [submission script](https://github.com/uclahs-cds/tool-submit-nf).
 
 > **warning**: A low-resource partition (*e.g* F2 with 2 CPUs and 4GB of memory) is sufficient for the leading job.
 
