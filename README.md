@@ -60,7 +60,7 @@ Metapipeline-DNA is a DNA sequencing processing pipeline that accepts sequencing
 
 ## Flow Diagram
 
-The general execution of metapipeline-DNA follows these steps:
+The general execution of metapipeline-DNA follows these steps, with job submission managed with Slurm:
 
 ![submitter](img/submitter.png)
 
