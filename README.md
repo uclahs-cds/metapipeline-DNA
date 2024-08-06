@@ -146,7 +146,7 @@ The following parameters are available at the metapipeline level:
 | `src_cna_tool` | string | yes | Which CNA tool's output to use for SRC. Default: `Battenberg` |
 | `override_src_precursor_disable` | boolean | yes | Whether to override the automatic disabling of either call-sSNV or call-sCNA when the respective outputs are provided in the input. Default: `false` |
 | `src_run_all_combinations` | boolean | yes | **TO-DO**: Whether to run SRC using all combinations of SNV tool and CNA tool. Default: `false` |
-| `run_downstream_pipelines_serially` | boolean | no | Whether to run pipelines downstream of recalibrate-BAM sequentially. Note: if this option is used in conjunction with `downstream_pipeline_order`, any pipelines with a given ordering will be run sequentially. Default: `false` |
+| `run_downstream_pipelines_serially` | boolean | no | Whether to run pipelines downstream of recalibrate-BAM sequentially. Note: if this option is used in conjunction with `downstream_pipeline_order`, any pipelines with a given ordering will be run sequentially regardless of the value of this parameter. Default: `false` |
 | `downstream_pipeline_order` | list | no | List indicating specific order in which to run pipelines downstream of recalibrate-BAM. Default: no order |
 | `input_csv` | path | no | Absolute path to input CSV when using CSV input |
 | `status_email_address` | string | no | Email address to notify when child pipelines start and complete. Default: `` |
