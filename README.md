@@ -119,7 +119,7 @@ Somatic CNAs are called using [pipeline-call-sCNA](https://uclahs-cds.github.io/
 
 ### 12. call-SRC
 
-Sub-clonal reconstruction is performed using [pipeline-call-SRC](https://uclahs-cds.github.io/pipeline-call-SRC/).
+Subclonal reconstruction is performed using [pipeline-call-SRC](https://uclahs-cds.github.io/pipeline-call-SRC/).
 
 ## Configuration
 
