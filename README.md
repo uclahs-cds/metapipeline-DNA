@@ -41,7 +41,7 @@
 
 ## Overview
 
-Metapipeline-DNA is a DNA sequencing processing pipeline that accepts sequencing data as input. The data may be in FASTQ format or in aligned format (BAM/CRAM - <u>**BETA FEATURE**</u>), with options for re-alignment with back-conversion to FASTQ format. The FASTQs are aligned to the reference genome and recalibrated with INDEL realignment and base quality score recalibration, followed by quality control steps including targeted coverage calculation and WGS metrics. Various calling steps are performed to identify germline SNPs (single-nucleotide polymorphisms), somatic SNVs (single-nucleotide variants), mitochondrial SNVs, germline SVs (structural variants), somatic SVs, and somatic CNAs (copy-number aberrations). The processing culminates with subclonal reconstruction.
+Metapipeline-DNA is a DNA sequencing processing pipeline that accepts sequencing data as input. The data may be in FASTQ format or in aligned format (BAM/CRAM - <u>**BETA FEATURE**</u>), with options for re-alignment with back-conversion to FASTQ format. The FASTQs are aligned to the reference genome and recalibrated with insertion-deletion (INDEL) realignment and base quality score recalibration, followed by quality control steps including targeted coverage calculation and whole genome sequencing (WGS) metrics. Various calling steps are performed to identify germline single-nucleotide polymorphisms (SNPs), somatic single-nucleotide variants (SNVs), mitochondrial SNVs, germline structural variants (SVs), somatic SVs, and somatic copy-number aberrations (CNAs). The processing culminates with subclonal reconstruction (SRC).
 
 ---
 
