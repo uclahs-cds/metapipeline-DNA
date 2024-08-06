@@ -374,7 +374,7 @@ Please see list of [Contributors](https://github.com/uclahs-cds/metapipeline-DNA
 
 metapipeline-DNA is licensed under the GNU General Public License version 2. See the file LICENSE for the terms of the GNU GPL license.
 
-metapipeline-DNA performs alignment, germline SNP calling, somatic SNV calling, and mitochondrial SNV calling for given samples.
+Metapipeline-DNA is a Nextflow pipeline to convert BAM to FASTQ, align, perform QC, assess targeted coverage, call gSNP, call sSNV, call mtSNV, call SVs, call sCNA, and perform subclonal reconstruction.
 
 Copyright (C) 2021-2024 University of California Los Angeles ("Boutros Lab") All rights reserved.
 
