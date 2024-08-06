@@ -79,7 +79,7 @@ Aligned data is back-converted to FASTQ using [pipeline-convert-BAM2FASTQ](https
 
 ### 2. align-DNA
 
-FASTQ data is realigned to the genome on a per-sample basis using [pipeline-align-DNA](https://uclahs-cds.github.io/pipeline-align-DNA/).
+FASTQ data is (re)aligned to the genome on a per-sample basis using [pipeline-align-DNA](https://uclahs-cds.github.io/pipeline-align-DNA/).
 
 ### 3. calculate-targeted-coverage
 
