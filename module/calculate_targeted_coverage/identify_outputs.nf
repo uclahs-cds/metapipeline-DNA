@@ -1,4 +1,5 @@
 include { identify_file } from '../common'
+include { sanitize_string } from '../../external/pipeline-Nextflow-module/modules/common/generate_standardized_filename/main.nf'
 
 workflow identify_targeted_coverage_outputs {
     take:
@@ -6,7 +7,7 @@ workflow identify_targeted_coverage_outputs {
 
     main:
     och_targeted_coverage.map{ targeted_coverage_out ->
-        params.sample_data[targeted_coverage_out[0]]['calculate-targeted-coverage']['expanded-intervals'] = identify_file("${targeted_coverage_out[1]}/BEDtools-*${targeted_coverage_out[0]}*target-with-enriched-off-target-intervals.bed.gz");
+        params.sample_data[targeted_coverage_out[0]]['calculate-targeted-coverage']['expanded-intervals'] = identify_file("${targeted_coverage_out[1]}/BEDtools-*${sanitize_string(targeted_coverage_out[0])}*target-with-enriched-off-target-intervals.bed.gz");
 
         return 'done'
     }
