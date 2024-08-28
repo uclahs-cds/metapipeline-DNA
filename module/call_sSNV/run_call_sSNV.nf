@@ -3,6 +3,7 @@
 */
 
 include { combine_input_with_params; generate_graceful_error_controller; generate_weblog_args } from '../common.nf'
+include { sanitize_string } from '../../external/pipeline-Nextflow-module/modules/common/generate_standardized_filename/main.nf'
 
 /*
 * Process to call the call-sSNV pipeline
@@ -43,7 +44,7 @@ process run_call_sSNV {
         env EXIT_CODE, emit: exit_code
 
     script:
-    output_directory = "call-sSNV-*/${sample_id}"
+    output_directory = "call-sSNV-*/${(sample_id == params.patient) ? sample_id : sanitize_string(sample_id)}"
     def algorithm_list = (algorithms in List) ? algorithms : [algorithms]
     String params_to_dump = combine_input_with_params(params.call_sSNV.metapipeline_arg_map + ['algorithm': algorithm_list], new File(input_yaml.toRealPath().toString()))
     String setup_commands = generate_graceful_error_controller(task.ext)
