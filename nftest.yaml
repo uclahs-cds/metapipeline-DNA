@@ -307,3 +307,14 @@ cases:
       - actual: errors.txt
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/test-config/multiple-state.txt
         method: md5
+
+  - name: test-multiple-BAMs-per-sample
+    message: Test each sample only given one BAM
+    nf_script: main.nf
+    nf_config: test/test-config/multiple-bams.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: errors.txt
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/test-config/multiple-bams.txt
+        method: md5
