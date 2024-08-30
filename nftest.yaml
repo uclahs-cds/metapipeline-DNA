@@ -329,3 +329,14 @@ cases:
       - actual: errors.txt
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/test-config/no-pipelines.txt
         method: md5
+
+  - name: test-duplicate-samples
+    message: Test detection of duplicate samples
+    nf_script: main.nf
+    nf_config: test/test-config/duplicate-sample.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: errors.txt
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/test-config/duplicate-sample.txt
+        method: md5
