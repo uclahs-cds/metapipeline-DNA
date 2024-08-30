@@ -296,3 +296,14 @@ cases:
       - actual: errors.txt
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/test-config/missing-common-csv-columns.txt
         method: md5
+
+  - name: test-one-state-one-sample
+    message: Test each sample only given one state
+    nf_script: main.nf
+    nf_config: test/test-config/multiple-state.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: errors.txt
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/test-config/multiple-state.txt
+        method: md5
