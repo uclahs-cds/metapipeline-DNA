@@ -252,3 +252,14 @@ cases:
       - actual: errors.txt
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/test-config/ssv-bad-algorithm.txt
         method: md5
+
+  - name: test-sCNA-bad-reference
+    message: Test bad reference given for call-sSV
+    nf_script: main.nf
+    nf_config: test/test-config/scna-bad-reference.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: errors.txt
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/test-config/scna-bad-reference.txt
+        method: md5
