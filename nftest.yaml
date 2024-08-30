@@ -263,3 +263,25 @@ cases:
       - actual: errors.txt
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/test-config/scna-bad-reference.txt
         method: md5
+
+  - name: test-mismatch-CNA-selection
+    message: Test mismatching selection of CNA algorithms for call-sCNA and call-SRC
+    nf_script: main.nf
+    nf_config: test/test-config/mismatch-cna-selection.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: errors.txt
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/test-config/mismatch-cna-selection.txt
+        method: md5
+
+  - name: test-mismatch-SNV-selection
+    message: Test mismatching selection of SNV algorithms for call-sSNV and call-SRC
+    nf_script: main.nf
+    nf_config: test/test-config/mismatch-snv-selection.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: errors.txt
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/test-config/mismatch-snv-selection.txt
+        method: md5
