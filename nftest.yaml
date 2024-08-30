@@ -230,3 +230,25 @@ cases:
     params_file: test/test-metapipeline-DNA-fastq-input/input.yaml
     verbose: true
     skip: true
+
+  - name: test-config-pass
+    message: Test passing configuration
+    nf_script: main.nf
+    nf_config: test/test-config/pass.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: errors.txt
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/test-config/pass.txt
+        method: md5
+
+  - name: test-sSV-bad-algorithm
+    message: Test bad algorithm given for call-sSV
+    nf_script: main.nf
+    nf_config: test/test-config/ssv-bad-algorithm.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: errors.txt
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/test-config/ssv-bad-algorithm.txt
+        method: md5
