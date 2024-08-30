@@ -285,3 +285,14 @@ cases:
       - actual: errors.txt
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/test-config/mismatch-snv-selection.txt
         method: md5
+
+  - name: test-missing-common-CSV-columns
+    message: Test missing common input CSV columns
+    nf_script: main.nf
+    nf_config: test/test-config/missing-common-csv.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: errors.txt
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/test-config/missing-common-csv-columns.txt
+        method: md5
