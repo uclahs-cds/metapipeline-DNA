@@ -1,4 +1,5 @@
 include { identify_file } from '../common'
+include { sanitize_string } from '../../external/pipeline-Nextflow-module/modules/common/generate_standardized_filename/main.nf'
 
 workflow identify_call_scna_outputs {
     take:
@@ -6,7 +7,8 @@ workflow identify_call_scna_outputs {
 
     main:
     och_call_scna.map{ call_scna_out ->
-        def sample_id = call_scna_out[0];
+        def raw_sample_id = call_scna_out[0];
+        def sample_id = sanitize_string(raw_sample_id);
         def scna_output_dir = new File(call_scna_out[1].toString());
         def scna_output_pattern = /(.*)-([\d\.]*)$/;
 
@@ -34,7 +36,7 @@ workflow identify_call_scna_outputs {
                 found_files << identify_file("${scna_output_dir}/${output_dir_name}/output/${f}");
             }
 
-            params.sample_data[sample_id]['call-sCNA'][output_info[output_tool][0]] = found_files;
+            params.sample_data[raw_sample_id]['call-sCNA'][output_info[output_tool][0]] = found_files;
         }
 
         return 'done';

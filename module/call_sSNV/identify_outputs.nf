@@ -1,4 +1,5 @@
 include { identify_file } from '../common'
+include { sanitize_string } from '../../external/pipeline-Nextflow-module/modules/common/generate_standardized_filename/main.nf'
 
 workflow identify_call_ssnv_outputs {
     take:
@@ -6,7 +7,8 @@ workflow identify_call_ssnv_outputs {
 
     main:
     och_call_ssnv.map{ call_ssnv_out ->
-        def sample_id = call_ssnv_out[0];
+        def raw_sample_id = call_ssnv_out[0];
+        def sample_id = sanitize_string(raw_sample_id);
         def ssnv_output_dir = new File(call_ssnv_out[1].toString());
         def ssnv_output_pattern = /(.*)-([\d\.]*)$/;
         if (sample_id == params.patient) { // Output from multi-mode, skip
@@ -32,7 +34,7 @@ workflow identify_call_ssnv_outputs {
         }
 
         outputs_to_check.each { output_tool, output_dir_name ->
-            params.sample_data[sample_id]['call-sSNV'][output_info[output_tool][0]] = identify_file("${ssnv_output_dir}/${output_dir_name}/output/${output_info[output_tool][1]}");
+            params.sample_data[raw_sample_id]['call-sSNV'][output_info[output_tool][0]] = identify_file("${ssnv_output_dir}/${output_dir_name}/output/${output_info[output_tool][1]}");
         }
 
         return 'done';
