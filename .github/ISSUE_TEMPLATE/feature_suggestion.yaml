@@ -1,0 +1,26 @@
+name: Feature Suggestion
+description: Suggest a feature for metapipeline-DNA.
+title: "[Feature]: "
+body:
+  - type: dropdown
+    id: suggestion-type
+    attributes:
+      label: What type of feature is being suggested?
+      multiple: true
+      options:
+        - Specific pipeline
+        - Job submission
+        - Configurability
+        - Software
+        - Optimization
+        - Novel option/algorithm
+        - Other
+  - type: textarea
+    id: suggested-feature
+    attributes:
+      label: Describe the feature suggestion
+      description: A clear and concise description of the suggested feature.
+      placeholder: Tell us what you see!
+      value: "Describe the feature here..."
+    validations:
+      required: true
