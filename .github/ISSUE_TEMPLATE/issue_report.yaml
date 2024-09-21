@@ -1,0 +1,77 @@
+name: Issue Report
+description: File an issue report.
+title: "[Issue]: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Describe the issue
+      description: A clear and concise description of what the issue is.
+      placeholder: Tell us what you see!
+      value: "Describe the issue here..."
+    validations:
+      required: true
+  - type: input
+    id: pipeline-version
+    attributes:
+      label: Pipeline version
+      description: What version of the pipeline was the issue encountered on?
+      placeholder: "v1.0.0"
+    validations:
+      required: true
+  - type: textarea
+    id: infra-info
+    attributes:
+      label: Infrastructure information
+      description: Describe the infrastructure on which the issue was encountered.
+      placeholder: "Infra information"
+      value: |
+        Executor:
+        Node:
+        Node resources:
+    validations:
+      required: true
+  - type: textarea
+    id: submission
+    attributes:
+      label: Submission information
+      description: Describe how the job was submitted and run.
+      placeholder: "Submission information"
+      value: |
+        Command executed:
+    validations:
+      required: true
+  - type: textarea
+    id: config
+    attributes:
+      label: Configuration and logs
+      description: Provide any config files and logs generated.
+      placeholder: "Config and log information"
+      value: |
+        Config file:
+        Log file:
+        Log message:
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Issue reproduction
+      description: Describe how the issue can be reproduced.
+      placeholder: "Issue steps"
+      value: |
+        1. Create config with ...
+        2. Submit with command ...
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Provide any additional context, such as screenshots.
+      placeholder: "Context information"
+      value: |
+        Additional context...
+    validations:
+      required: true
