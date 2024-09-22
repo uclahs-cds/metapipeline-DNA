@@ -64,6 +64,15 @@ workflow align_DNA {
                     ]]
                 }
                 .groupTuple(by: 0)
+                .map { it ->
+                    sample = it[0]
+                    records = []
+                    it[1].eachWithIndex { record, i ->
+                        record[7] = i
+                        records.add(record)
+                    }
+                    return [sample, records]
+                }
                 .set{ ich_create_csv }
 
             // Create align-DNA input CSV
