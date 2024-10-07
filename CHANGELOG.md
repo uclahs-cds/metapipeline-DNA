@@ -8,6 +8,8 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ---
 
 ## [Unreleased]
+### Added
++ Additional tests at the configuration level
 ### Changed
 + Update README
 + Add sanitization to sample IDs to account for standardized filenames

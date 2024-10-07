@@ -230,3 +230,113 @@ cases:
     params_file: test/test-metapipeline-DNA-fastq-input/input.yaml
     verbose: true
     skip: true
+
+  - name: test-config-pass
+    message: Test passing configuration
+    nf_script: main.nf
+    nf_config: test/test-config/pass.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: errors.txt
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/test-config/pass.txt
+        method: md5
+
+  - name: test-sSV-bad-algorithm
+    message: Test bad algorithm given for call-sSV
+    nf_script: main.nf
+    nf_config: test/test-config/ssv-bad-algorithm.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: errors.txt
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/test-config/ssv-bad-algorithm.txt
+        method: md5
+
+  - name: test-sCNA-bad-reference
+    message: Test bad reference given for call-sSV
+    nf_script: main.nf
+    nf_config: test/test-config/scna-bad-reference.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: errors.txt
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/test-config/scna-bad-reference.txt
+        method: md5
+
+  - name: test-mismatch-CNA-selection
+    message: Test mismatching selection of CNA algorithms for call-sCNA and call-SRC
+    nf_script: main.nf
+    nf_config: test/test-config/mismatch-cna-selection.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: errors.txt
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/test-config/mismatch-cna-selection.txt
+        method: md5
+
+  - name: test-mismatch-SNV-selection
+    message: Test mismatching selection of SNV algorithms for call-sSNV and call-SRC
+    nf_script: main.nf
+    nf_config: test/test-config/mismatch-snv-selection.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: errors.txt
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/test-config/mismatch-snv-selection.txt
+        method: md5
+
+  - name: test-missing-common-CSV-columns
+    message: Test missing common input CSV columns
+    nf_script: main.nf
+    nf_config: test/test-config/missing-common-csv.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: errors.txt
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/test-config/missing-common-csv-columns.txt
+        method: md5
+
+  - name: test-one-state-one-sample
+    message: Test each sample only given one state
+    nf_script: main.nf
+    nf_config: test/test-config/multiple-state.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: errors.txt
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/test-config/multiple-state.txt
+        method: md5
+
+  - name: test-multiple-BAMs-per-sample
+    message: Test each sample only given one BAM
+    nf_script: main.nf
+    nf_config: test/test-config/multiple-bams.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: errors.txt
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/test-config/multiple-bams.txt
+        method: md5
+
+  - name: test-no-pipelines-run
+    message: Test proper handling when no pipelines are resolved to run
+    nf_script: main.nf
+    nf_config: test/test-config/no-pipelines.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: errors.txt
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/test-config/no-pipelines.txt
+        method: md5
+
+  - name: test-duplicate-samples
+    message: Test detection of duplicate samples
+    nf_script: main.nf
+    nf_config: test/test-config/duplicate-sample.config
+    verbose: true
+    skip: true
+    asserts:
+      - actual: errors.txt
+        expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/test-config/duplicate-sample.txt
+        method: md5
