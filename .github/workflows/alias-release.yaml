@@ -1,0 +1,19 @@
+---
+name: 🛠️ Update release alias tags
+
+run-name: Update alias for ${{ github.event.action }} ${{ github.event.release.name }}
+
+on:
+  release:
+    types:
+      - published
+      - deleted
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  update-alias:
+    uses: uclahs-cds/tool-create-release/.github/workflows/wf-alias-release.yaml@v1
+    secrets: inherit

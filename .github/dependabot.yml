@@ -12,3 +12,7 @@ updates:
         patterns:
           - "*/pipeline-Nextflow-config"
           - "*/pipeline-Nextflow-module"
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

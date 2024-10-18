@@ -1,0 +1,32 @@
+---
+name: 📦 Prepare new release
+
+run-name: Open PR for new ${{ inputs.bump_type }} release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump_type:
+        type: choice
+        description: Semantic version bump type
+        required: true
+        options:
+          - major
+          - minor
+          - patch
+      prerelease:
+        type: boolean
+        description: Create a prerelease
+
+permissions:
+  actions: read
+  contents: write
+  pull-requests: write
+
+jobs:
+  prepare-release:
+    uses: uclahs-cds/tool-create-release/.github/workflows/wf-prepare-release.yaml@v1
+    with:
+      bump_type: ${{ inputs.bump_type }}
+      prerelease: ${{ inputs.prerelease }}
+    secrets: inherit

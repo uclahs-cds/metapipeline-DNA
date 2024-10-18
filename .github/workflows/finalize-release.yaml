@@ -1,0 +1,24 @@
+---
+name: 🛠️ Finalize release
+
+run-name: Finalize release from branch `${{ github.event.pull_request.head.ref }}`
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
+
+permissions:
+  actions: read
+  contents: write
+  pull-requests: write
+
+jobs:
+  finalize-release:
+    if: ${{ github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'automation-create-release') }}
+    uses: uclahs-cds/tool-create-release/.github/workflows/wf-finalize-release.yaml@v1
+    secrets: inherit
+    with:
+      draft: false
