@@ -1,5 +1,7 @@
 # metapipeline-DNA
 
+[![GitHub release](https://img.shields.io/github/v/release/uclahs-cds/metapipeline-DNA)](https://github.com/uclahs-cds/metapipeline-DNA/actions/workflows/prepare-release.yaml)
+
 - [metapipeline-DNA](#metapipeline-dna)
   - [Overview](#overview)
   - [How To Run](#how-to-run)
