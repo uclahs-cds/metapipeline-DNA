@@ -29,4 +29,5 @@ jobs:
     with:
       bump_type: ${{ inputs.bump_type }}
       prerelease: ${{ inputs.prerelease }}
+      version_files: nextflow.config
     secrets: inherit
