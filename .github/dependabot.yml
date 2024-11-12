@@ -12,6 +12,15 @@ updates:
         patterns:
           - "*/pipeline-Nextflow-config"
           - "*/pipeline-Nextflow-module"
+  - package-ecosystem: "gitsubmodule"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    allow:
+      - dependency-name: "external/pipeline-*"
+    ignore:
+      - dependency-name: "external/pipeline-Nextflow-config"
+      - dependency-name: "external/pipeline-Nextflow-module"
   - package-ecosystem: github-actions
     directory: /
     schedule:
