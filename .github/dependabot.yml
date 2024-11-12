@@ -4,7 +4,7 @@ updates:
   - package-ecosystem: "gitsubmodule"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
     groups:
       # Group these two modules together for pull requests
       # "pipeline-submodules" is an arbitrary name
@@ -12,15 +12,8 @@ updates:
         patterns:
           - "*/pipeline-Nextflow-config"
           - "*/pipeline-Nextflow-module"
-  - package-ecosystem: "gitsubmodule"
-    directory: "/"
-    schedule:
-      interval: "daily"
     allow:
       - dependency-name: "external/pipeline-*"
-    ignore:
-      - dependency-name: "external/pipeline-Nextflow-config"
-      - dependency-name: "external/pipeline-Nextflow-module"
   - package-ecosystem: github-actions
     directory: /
     schedule:
