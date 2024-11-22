@@ -28,7 +28,7 @@ process call_convert_BAM2FASTQ {
             val(patient),
             val(sample),
             val(state),
-            path("convert-BAM2FASTQ-*/*/*/output/*.fq.gz"),
+            path("convert-BAM2FASTQ-*/*/*/output/*.fastq.gz"),
             path(output_directory)
         )
         path "convert-BAM2FASTQ-*/*"
@@ -51,6 +51,7 @@ process call_convert_BAM2FASTQ {
         -params-file combined_bam2fastq_params.yaml \
         --input_csv ${input_csv} \
         --output_dir \$(pwd) \
+        --dataset_id ${params.project_id} \
         --work_dir \$WORK_DIR ${weblog_args}
 
     rm -r \$WORK_DIR

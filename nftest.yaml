@@ -13,10 +13,10 @@ cases:
     verbose: true
     skip: true
     asserts:
-      - actual: output/convert-BAM2FASTQ-*/NA24149/SAMtools-*/output/NA24149RG.Seq1_collated_R1.fq.gz
+      - actual: output/convert-BAM2FASTQ-*/NA24149/SAMtools-*/output/SAMtools-1.19.2_IlluminaTest_NA24149_NA24149RG.Seq1-0-R1.fastq.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/convert-BAM2FASTQ-2.0.0-rc.2/NA24149/SAMtools-1.15.1/output/NA24149RG.Seq1_collated_R1.fq.gz
         script: test/test-bam2fastq/assert_fastq.sh
-      - actual: output/convert-BAM2FASTQ-*/NA24149/SAMtools-*/output/NA24149RG.Seq1_collated_R2.fq.gz
+      - actual: output/convert-BAM2FASTQ-*/NA24149/SAMtools-*/output/SAMtools-1.19.2_IlluminaTest_NA24149_NA24149RG.Seq1-0-R2.fastq.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/convert-BAM2FASTQ-2.0.0-rc.2/NA24149/SAMtools-1.15.1/output/NA24149RG.Seq1_collated_R2.fq.gz
         script: test/test-bam2fastq/assert_fastq.sh
 
