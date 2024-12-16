@@ -50,6 +50,9 @@ process create_YAML_recalibrate_BAM {
         patient_id = params.patient
     }
 
+    // params.patient maybe Integer if parsed from CLI.
+    patient_id = patient_id as String
+
     if (params.sample_mode == 'single') {
         input_map = [
             'metapipeline_states_to_delete': states_to_delete,

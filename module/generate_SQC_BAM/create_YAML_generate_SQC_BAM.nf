@@ -45,6 +45,9 @@ process create_YAML_generate_SQC_BAM {
         patient_id = params.patient
     }
 
+    // params.patient maybe Integer if parsed from CLI.
+    patient_id = patient_id as String
+
     if (params.sample_mode == 'single') {
         input_map = [
             'patient_id': patient_id,
