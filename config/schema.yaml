@@ -172,6 +172,10 @@ global_job_submission_sbatch:
   required: true
   allow_empty: true
   help: 'Sbatch command for submitting metapipeline job'
+stablelift_models:
+  type: 'StableLiftModels'
+  required: true
+  help: 'Map of paths to StableLift models'
 pipeline_params:
   type: 'Namespace'
   required: true
@@ -221,6 +225,10 @@ pipeline_params:
       type: 'Namespace'
       required: true
       help: 'Parameters for generate-SQC-BAM'
+    StableLift:
+      type: 'Namespace'
+      required: true
+      help: 'Parameters for StableLift'
 input:
   type: 'InputNamespace'
   required: true
