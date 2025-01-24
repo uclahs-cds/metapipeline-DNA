@@ -13,6 +13,7 @@ include { call_gSV } from "${moduleDir}/call_gSV/workflow" addParams( log_output
 include { call_sSV } from "${moduleDir}/call_sSV/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir, this_pipeline: 'call-sSV' )
 include { call_sCNA } from "${moduleDir}/call_sCNA/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir, this_pipeline: 'call-sCNA' )
 include { call_SRC } from "${moduleDir}/call_SRC/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir, this_pipeline: 'call-SRC')
+include { run_StableLift } from "${moduleDir}/StableLift/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir, this_pipeline: 'StableLift' )
 include { create_directory; mark_pipeline_complete } from "${moduleDir}/pipeline_status"
 
 workflow {
@@ -76,5 +77,14 @@ workflow {
 
     if (params.call_SRC.is_pipeline_enabled) {
         call_SRC(src_ready)
+    }
+
+    call_sSNV.out.completion_signal
+        .collect()
+        .map{ 'done' }
+        .set{ stablelift_ready }
+
+    if (params.StableLift.is_pipeline_enabled) {
+        run_StableLift(stablelift_ready)
     }
 }
