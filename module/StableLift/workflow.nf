@@ -27,6 +27,9 @@ workflow stable_lift {
                     params.StableLift.lift_modes.each { raw_mode ->
                         def mode = raw_mode.replace('StableLift', '');
                         s_data["call-${mode}"].each { tool, data ->
+                            if (tool == 'BCFtools-Intersect') {
+                                return;
+                            }
                             samples.add([
                                 'mode': mode,
                                 'tool': tool.replace('MuSE', 'Muse2'),
