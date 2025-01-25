@@ -29,7 +29,7 @@ workflow stable_lift {
                         s_data["call-${mode}"].each { tool, data ->
                             samples.add([
                                 'mode': mode,
-                                'tool': tool,
+                                'tool': tool.replace('MuSE', 'Muse2'),
                                 'path': data,
                                 'sample': s,
                                 'patient': s_data['patient']
