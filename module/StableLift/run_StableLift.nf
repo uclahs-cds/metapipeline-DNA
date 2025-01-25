@@ -13,7 +13,7 @@ include { combine_input_with_params; generate_weblog_args; generate_graceful_err
 */
 
 process run_StableLift {
-    cpus params.StableLift.subworkflow_cpus
+    cpus params["StableLift"].subworkflow_cpus
 
     label 'graceful_failure'
 
@@ -29,7 +29,9 @@ process run_StableLift {
     input:
         tuple(
             val(sample_id_for_stablelift),
-            path(input_yaml)
+            path(input_yaml),
+            val(rf_model),
+            val(tool)
         )
 
     output:
@@ -39,11 +41,9 @@ process run_StableLift {
         env EXIT_CODE, emit: exit_code
 
     script:
-    String params_to_dump = combine_input_with_params(params.StableLift.metapipeline_arg_map, new File(input_yaml.toRealPath().toString()))
+    String params_to_dump = combine_input_with_params(params["StableLift"].metapipeline_arg_map, new File(input_yaml.toRealPath().toString()))
     String setup_commands = generate_graceful_error_controller(task.ext)
     String weblog_args = generate_weblog_args()
-    Map all_models = params["StableLift"].stablelift_models
-    String run_model = all_models[params.["StableLift"].liftover_direction][sample_info.tool]
     """
     set -euo pipefail
 
@@ -58,7 +58,8 @@ process run_StableLift {
         --work_dir ${params.work_dir} \
         --output_dir \$(pwd) \
         --dataset_id ${params.project_id} \
-        --rf_model "${run_model}" \
+        --rf_model "${rf_model}" \
+        --variant_caller "${tool}" \
         -c ${moduleDir}/default.config ${weblog_args}
 
     capture_exit_code
