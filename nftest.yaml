@@ -86,6 +86,19 @@ cases:
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-gSNP-10.0.0-rc.3/NA24143/GATK-4.2.4.1/output/GATK-*_IlluminaTest_NA24149.g.vcf.gz
         script: test/test-call-gSNP/assert_vcf.sh
 
+
+  # Pending enablement until direct entry-point is added
+  # - name: test-StableLiftsSNV
+  #   message: Test StableLift with sSNV input
+  #   nf_script: test/test-StableLiftsSNV/test.nf
+  #   nf_config: test/test-StableLiftsSNV/test.config
+  #   verbose: true
+  #   skip: true
+  #   asserts:
+  #     - actual:
+  #       expect:
+  #       script: test/test-call-gSNP/assert_vcf.sh
+
   - name: test-call-sSNV
     message: Test call-sSNV with one tumor normal pair
     nf_script: test/test-call-sSNV/test.nf
