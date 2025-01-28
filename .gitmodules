@@ -64,3 +64,6 @@
 [submodule "external/pipeline-call-SRC"]
 	path = external/pipeline-call-SRC
 	url = git@github.com:uclahs-cds/pipeline-call-SRC.git
+[submodule "external/pipeline-StableLift"]
+	path = external/pipeline-StableLift
+	url = git@github.com:uclahs-cds/pipeline-StableLift.git
