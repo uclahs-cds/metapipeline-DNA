@@ -19,7 +19,7 @@ process create_YAML_call_gSV {
         )
 
     output:
-        path(input_yaml), emit: call_gsv_yaml
+        tuple val(sample_id), path(input_yaml), emit: call_gsv_yaml
 
     exec:
     input_yaml = "call_gSV_input.yaml"
