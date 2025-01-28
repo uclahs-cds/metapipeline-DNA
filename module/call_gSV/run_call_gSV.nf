@@ -25,15 +25,17 @@ process run_call_gSV {
         pattern: "call-gSV-*/*"
 
     input:
-        path(input_yaml)
+        tuple val(sample_id), path(input_yaml)
 
     output:
+        tuple val(sample_id), path(output_directory), emit: identify_call_gsv_out, optional: true
         path "call-gSV-*/*", optional: true
         path ".command.*"
         val('done'), emit: complete
         env EXIT_CODE, emit: exit_code
 
     script:
+    output_directory = "call-gSV-*/${sample_id}"
     String params_to_dump = combine_input_with_params(params.call_gSV.metapipeline_arg_map, new File(input_yaml.toRealPath().toString()))
     String setup_commands = generate_graceful_error_controller(task.ext)
     String weblog_args = generate_weblog_args()
