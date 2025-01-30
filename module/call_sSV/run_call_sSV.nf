@@ -25,7 +25,7 @@ process run_call_sSV {
         saveAs: { "${task.process.replace(':', '/')}-${task.index}/log${file(it).getName()}" }
 
     input:
-        tuple (sample_id), path(input_yaml)
+        tuple val(sample_id), path(input_yaml)
 
     output:
         tuple val(sample_id), path(output_directory), emit: identify_call_ssv_out, optional: true
