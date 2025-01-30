@@ -27,7 +27,7 @@ workflow stable_lift {
                             return;
                         }
                         s_data["call-${mode}"].each { tool, data ->
-                            if (['BCFtools-Intersect', 'Manta-gSV'].contains(tool)) {
+                            if (['BCFtools-Intersect', 'Manta-gSV', 'Manta-sSV'].contains(tool)) {
                                 return;
                             }
                             samples.add([
