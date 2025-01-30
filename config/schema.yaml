@@ -127,6 +127,7 @@ requested_pipelines:
     - call-SRC
     - StableLiftsSNV
     - StableLiftgSV
+    - StableLiftsSV
   help: 'List of pipelines to run'
 override_realignment:
   type: 'Bool'
