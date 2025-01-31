@@ -12,7 +12,7 @@ workflow identify_call_gsv_outputs {
         def gsv_output_dir = new File(call_gsv_out[1].toString());
         def gsv_output_pattern = /(.*)-([\d\.]*)$/;
 
-        def output_into = [
+        def output_info = [
             'Manta': ['Manta-gSV', "Manta-*${sample_id}*candidateSV.vcf.gz"],
             'DELLY': ['Delly-gSV', "DELLY-*${sample_id}*gSV.bcf"]
         ]
