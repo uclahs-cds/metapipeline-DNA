@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Added
 
 - StableLift for sSNV liftover
+- StableLift for SV liftover
 
 ## [6.2.0] - 2024-11-22
 
