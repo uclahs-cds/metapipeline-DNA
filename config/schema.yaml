@@ -128,6 +128,7 @@ requested_pipelines:
     - StableLiftsSNV
     - StableLiftgSV
     - StableLiftsSV
+    - StableLiftgSNP
   help: 'List of pipelines to run'
 override_realignment:
   type: 'Bool'
