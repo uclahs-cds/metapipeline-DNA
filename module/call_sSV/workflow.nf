@@ -79,6 +79,7 @@ workflow call_sSV {
 
             run_call_sSV.out.complete
                 .mix(completion_signal)
+                .mix( identify_call_ssv_outputs.out.och_call_ssv_identified )
                 .set{ completion_signal }
             run_call_sSV.out.exit_code
                 .mix( exit_code_ich )
@@ -86,7 +87,6 @@ workflow call_sSV {
         }
 
         completion_signal
-            .mix( identify_call_ssv_outputs.out.och_call_ssv_identified )
             .collect()
             .map{ it ->
                 mark_pipeline_complete(params.this_pipeline);
