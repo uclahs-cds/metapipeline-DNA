@@ -14,7 +14,7 @@ workflow identify_call_ssv_outputs {
 
         def output_info = [
             'Manta': ['Manta-sSV', "Manta-*${sample_id}*candidateSV.vcf.gz"],
-            'DELLY': ['Delly2-sSV', "DELLY-*${sample_id}.bcf"]
+            'DELLY': ['Delly2-sSV', "DELLY-*${sample_id}.vcf.gz"]
         ]
 
         def outputs_to_check = [];
