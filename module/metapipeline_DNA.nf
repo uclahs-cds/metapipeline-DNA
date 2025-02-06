@@ -59,17 +59,15 @@ workflow {
         call_mtSNV(recalibrate_BAM.out.recalibrate_sample_data_updated)
     }
 
-    if (params.call_gSV.is_pipeline_enabled) {
-        call_gSV(recalibrate_BAM.out.recalibrate_sample_data_updated)
-    }
-
-    if (params.call_sSV.is_pipeline_enabled) {
-        call_sSV(recalibrate_BAM.out.recalibrate_sample_data_updated)
-    }
-
+    call_sSV(recalibrate_BAM.out.recalibrate_sample_data_updated)
+    call_gSV(recalibrate_BAM.out.recalibrate_sample_data_updated)
     call_sSNV(recalibrate_BAM.out.recalibrate_sample_data_updated)
     call_sCNA(recalibrate_BAM.out.recalibrate_sample_data_updated)
 
+
+    /**
+    *   Call-SRC
+    */
     call_sSNV.out.completion_signal.mix(call_sCNA.out.completion_signal)
         .collect()
         .map{ 'done' }
@@ -79,7 +77,13 @@ workflow {
         call_SRC(src_ready)
     }
 
+
+    /**
+    *   StableLift
+    */
     call_sSNV.out.completion_signal
+        .mix(call_gSV.out.completion_signal)
+        .mix(call_sSV.out.completion_signal)
         .collect()
         .map{ 'done' }
         .set{ stablelift_ready }

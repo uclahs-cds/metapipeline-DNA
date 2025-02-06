@@ -21,13 +21,13 @@ workflow stable_lift {
             .map{ it ->
                 def samples = [];
                 params.sample_data.each { s, s_data ->
-                    if (s_data.state == 'normal') {
-                        return;
-                    }
                     params.StableLift.lift_modes.each { raw_mode ->
                         def mode = raw_mode.replace('StableLift', '');
+                        if (!s_data.containsKey("call-${mode}" as String)) {
+                            return;
+                        }
                         s_data["call-${mode}"].each { tool, data ->
-                            if (tool == 'BCFtools-Intersect') {
+                            if (['BCFtools-Intersect', 'Manta-gSV', 'Manta-sSV'].contains(tool)) {
                                 return;
                             }
                             samples.add([

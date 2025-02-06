@@ -5,6 +5,7 @@
 include { create_YAML_call_sSV } from "${moduleDir}/create_YAML_call_sSV"
 include { run_call_sSV } from "${moduleDir}/run_call_sSV" addParams( log_output_dir: params.metapipeline_log_output_dir )
 include { mark_pipeline_complete; mark_pipeline_exit_code } from "../pipeline_status"
+include { identify_call_ssv_outputs } from "./identify_outputs"
 
 /*
 * Main workflow for calling the call-sSV pipeline
@@ -21,40 +22,39 @@ include { mark_pipeline_complete; mark_pipeline_exit_code } from "../pipeline_st
 workflow call_sSV {
     take:
         modification_signal
+
     main:
-        completion_signal = Channel.empty()
-
-        // Watch for pipeline ordering
-        Channel.watchPath( "${params.pipeline_status_directory}/*.ready" )
-            .until{ it -> it.name == "${params.this_pipeline}.ready" }
-            .ifEmpty('done')
-            .collect()
-            .map{ 'done' }
-            .set{ pipeline_predecessor_complete }
-
-        // Extract inputs from data structure
-        modification_signal.until{ it == 'done' }.ifEmpty('done')
-            .mix(pipeline_predecessor_complete)
-            .collect()
-            .map{ it ->
-                def samples = [];
-                params.sample_data.each { s, s_data ->
-                    samples.add(['patient': s_data['patient'], 'sample': s, 'state': s_data['state'], 'bam': s_data['recalibrate-BAM']['BAM']]);
-                };
-                return samples
-            }
-            .flatten()
-            .reduce(['normal': [] as Set, 'tumor': [] as Set]) { a, b ->
-                a[b.state] += b;
-                return a
-            }
-            .set{ ich }
-
-        completion_signal.mix(ich).set{ completion_signal }
-        completion_signal.mix(ich).collect().map{ 0 }.set{ exit_code_ich }
+        completion_signal = Channel.of('done')
+        completion_signal.collect().map{ 0 }.set{ exit_code_ich }
 
         // Call-sSV only supports paired mode so run only when not in single mode
-        if (params.sample_mode != 'single') {
+        if (params.sample_mode != 'single' && params.call_sSV.is_pipeline_enabled) {
+            // Watch for pipeline ordering
+            Channel.watchPath( "${params.pipeline_status_directory}/*.ready" )
+                .until{ it -> it.name == "${params.this_pipeline}.ready" }
+                .ifEmpty('done')
+                .collect()
+                .map{ 'done' }
+                .set{ pipeline_predecessor_complete }
+
+            // Extract inputs from data structure
+            modification_signal.until{ it == 'done' }.ifEmpty('done')
+                .mix(pipeline_predecessor_complete)
+                .collect()
+                .map{ it ->
+                    def samples = [];
+                    params.sample_data.each { s, s_data ->
+                        samples.add(['patient': s_data['patient'], 'sample': s, 'state': s_data['state'], 'bam': s_data['recalibrate-BAM']['BAM']]);
+                    };
+                    return samples
+                }
+                .flatten()
+                .reduce(['normal': [] as Set, 'tumor': [] as Set]) { a, b ->
+                    a[b.state] += b;
+                    return a
+                }
+                .set{ ich }
+
             ich.map{ it -> it.normal }.flatten().unique{ [it.patient, it.sample, it.state] }.set{ input_ch_normal }
             ich.map{ it -> it.tumor }.flatten().unique{ [it.patient, it.sample, it.state] }.set{ input_ch_tumor }
 
@@ -72,8 +72,14 @@ workflow call_sSV {
             create_YAML_call_sSV(input_ch_create_YAML)
             run_call_sSV(create_YAML_call_sSV.out)
 
+            identify_call_ssv_outputs(
+                modification_signal.until{ it == 'done' }
+                    .mix( run_call_sSV.out.identify_call_ssv_out )
+            )
+
             run_call_sSV.out.complete
                 .mix(completion_signal)
+                .mix( identify_call_ssv_outputs.out.och_call_ssv_identified )
                 .set{ completion_signal }
             run_call_sSV.out.exit_code
                 .mix( exit_code_ich )
@@ -98,4 +104,7 @@ workflow call_sSV {
             .collect()
             .map { it -> return 'done'; }
             .set{ completion_signal }
-    }
+
+    emit:
+        completion_signal = completion_signal
+}
