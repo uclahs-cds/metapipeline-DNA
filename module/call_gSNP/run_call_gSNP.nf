@@ -31,12 +31,14 @@ process run_call_gSNP {
         )
 
     output:
+        tuple val(sample_id_for_call_gsnp), path(output_directory), emit: identify_call_gsnp_out, optional: true
         path "call-gSNP-*/*", optional: true
         path ".command.*"
         val('done'), emit: complete
         env EXIT_CODE, emit: exit_code
 
     script:
+    output_directory = "call-gSNP-*/${sample_id_for_call_gsnp}"
     String params_to_dump = combine_input_with_params(params.call_gSNP.metapipeline_arg_map, new File(input_yaml.toRealPath().toString()))
     String setup_commands = generate_graceful_error_controller(task.ext)
     String weblog_args = generate_weblog_args()

@@ -51,14 +51,11 @@ workflow {
         generate_SQC_BAM(recalibrate_BAM.out.recalibrate_sample_data_updated)
     }
 
-    if (params.call_gSNP.is_pipeline_enabled) {
-        call_gSNP(recalibrate_BAM.out.recalibrate_sample_data_updated)
-    }
-
     if (params.call_mtSNV.is_pipeline_enabled) {
         call_mtSNV(recalibrate_BAM.out.recalibrate_sample_data_updated)
     }
 
+    call_gSNP(recalibrate_BAM.out.recalibrate_sample_data_updated)
     call_sSV(recalibrate_BAM.out.recalibrate_sample_data_updated)
     call_gSV(recalibrate_BAM.out.recalibrate_sample_data_updated)
     call_sSNV(recalibrate_BAM.out.recalibrate_sample_data_updated)
@@ -84,6 +81,7 @@ workflow {
     call_sSNV.out.completion_signal
         .mix(call_gSV.out.completion_signal)
         .mix(call_sSV.out.completion_signal)
+        .mix(call_gSNP.out.completion_signal)
         .collect()
         .map{ 'done' }
         .set{ stablelift_ready }
