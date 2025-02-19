@@ -1,5 +1,5 @@
 import org.yaml.snakeyaml.Yaml
-import org.yaml.snakeyaml.Yaml
+
 /*
 * Create input YAML file for the StableLift pipeline.
 *
