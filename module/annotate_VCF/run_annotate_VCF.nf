@@ -13,7 +13,7 @@ include { combine_input_with_params; generate_weblog_args; generate_graceful_err
 */
 
 process run_annotate_VCF {
-    cpus params["annotate-VCF"].subworkflow_cpus
+    cpus params.annotate_VCF.subworkflow_cpus
 
     label 'graceful_failure'
 
