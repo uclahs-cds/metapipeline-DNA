@@ -14,6 +14,7 @@ include { call_sSV } from "${moduleDir}/call_sSV/workflow" addParams( log_output
 include { call_sCNA } from "${moduleDir}/call_sCNA/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir, this_pipeline: 'call-sCNA' )
 include { call_SRC } from "${moduleDir}/call_SRC/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir, this_pipeline: 'call-SRC')
 include { stable_lift } from "${moduleDir}/StableLift/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir, this_pipeline: 'StableLift' )
+include { annotate_VCF } from "${moduleDir}/annotate_VCF/workflow" addParams( log_outputdir: params.metapipeline_log_output_dir, this_pipeline: 'annotate-VCF' )
 include { create_directory; mark_pipeline_complete } from "${moduleDir}/pipeline_status"
 
 workflow {
@@ -88,5 +89,17 @@ workflow {
 
     if (params.StableLift.is_pipeline_enabled) {
         stable_lift(stablelift_ready)
+    }
+
+    /**
+    *   Annotate-VCF
+    */
+    call_gSNP.out.completion_signal
+        .collect()
+        .map{ 'done' }
+        .set{ annotate_vcf_ready }
+
+    if (params.annotate_VCF.is_pipeline_enabled) {
+        annotate_VCF(annotate_vcf_ready)
     }
 }
