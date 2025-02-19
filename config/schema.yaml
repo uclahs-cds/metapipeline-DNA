@@ -234,7 +234,7 @@ pipeline_params:
       type: 'Namespace'
       required: true
       help: 'Parameters for StableLift'
-    annotate_gSNP:
+    annotate_VCF:
       type: 'Namespace'
       required: true
       help: 'Parameters for annotate-VCF'
