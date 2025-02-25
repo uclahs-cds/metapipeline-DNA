@@ -67,3 +67,6 @@
 [submodule "external/pipeline-StableLift"]
 	path = external/pipeline-StableLift
 	url = git@github.com:uclahs-cds/pipeline-StableLift.git
+[submodule "external/pipeline-annotate-VCF"]
+	path = external/pipeline-annotate-VCF
+	url = git@github.com:uclahs-cds/pipeline-annotate-VCF.git

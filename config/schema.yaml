@@ -113,6 +113,7 @@ requested_pipelines:
     - call-sSV
     - call-sCNA
     - call-SRC
+    - annotate-gSNP
   choices:
     - align-DNA
     - recalibrate-BAM
@@ -129,6 +130,7 @@ requested_pipelines:
     # - StableLiftgSV
     # - StableLiftsSV
     - StableLiftgSNP
+    - annotate-gSNP
   help: 'List of pipelines to run'
 override_realignment:
   type: 'Bool'
@@ -232,6 +234,10 @@ pipeline_params:
       type: 'Namespace'
       required: true
       help: 'Parameters for StableLift'
+    annotate_VCF:
+      type: 'Namespace'
+      required: true
+      help: 'Parameters for annotate-VCF'
 input:
   type: 'InputNamespace'
   required: true
