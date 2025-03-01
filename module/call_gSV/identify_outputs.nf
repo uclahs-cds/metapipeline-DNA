@@ -22,7 +22,10 @@ workflow identify_call_gsv_outputs {
 
         gsv_output_dir.eachFile { file ->
             match = (file.name =~ gsv_output_pattern);
-            if (match) {
+            if (!match) {
+                return;
+            }
+            if (output_info.containsKey(match[0][1])) {
                 outputs_to_check << [match[0][1], file.name];
             }
         }

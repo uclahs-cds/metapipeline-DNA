@@ -15,6 +15,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - StableLift for gSNP liftover
 - Annotate-VCF for gSNP
 
+### Changed
+
+- Update module and config submodules
+
 ## [6.2.0] - 2024-11-22
 
 ### Changed
