@@ -333,6 +333,10 @@ See this [template](input/template-input-BAM.csv) for CSV format and this [templ
 
 See this [template](input/template-input-FASTQ.csv) for CSV format and this [template](input/template-input-FASTQ.yaml) for YAML format.
 
+### Input VCF
+
+
+
 ### Input SRC
 
 For SRC input, only `call-SRC` can be run. In this case, for each tumor sample, SNV calls and CNA calls must be provided.
