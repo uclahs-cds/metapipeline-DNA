@@ -42,7 +42,6 @@ workflow identify_call_gsnp_outputs {
             params.sample_data[id_to_assign]['call-gSNP'][output_info[output_tool][0]] = identify_file("${gsnp_output_dir}/${output_dir_name}/output/${output_info[output_tool][1]}");
         }
 
-        System.out.println(params.sample_data);
         return 'done';
     }
     .collect()

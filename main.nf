@@ -10,7 +10,7 @@ import groovy.json.JsonOutput
 // Log info here
 log.info """\
     =================================================
-    P I P E L I N E - G E R M L I N E - S O M A T I C
+             M E T A P I P E L I N E - D N A
     =================================================
     Boutros Lab
 
