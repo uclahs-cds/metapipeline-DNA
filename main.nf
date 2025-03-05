@@ -47,6 +47,7 @@ log.info """\
         uclahs-cds/pipeline-generate-SQC-BAM: ${params.version_generate_SQC_BAM}
         uclahs-cds/pipeline-StableLift: ${params.version_StableLift}
         uclahs-cds/pipeline-annotate-VCF: ${params.version_annotate_VCF}
+        uclahs-cds/pipeline-call-GeneticAncestry: ${params.version_call_GeneticAncestry}
 
     ------------------------------------
     Starting workflow...

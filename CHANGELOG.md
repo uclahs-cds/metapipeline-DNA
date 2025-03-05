@@ -14,6 +14,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - StableLift for SV liftover
 - StableLift for gSNP liftover
 - Annotate-VCF for gSNP
+- GeneticAncestry pipeline
 
 ### Changed
 
