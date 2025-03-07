@@ -1,0 +1,4 @@
+patient,sample,state,vcf_tool,vcf_path
+patient1,sample2,tumor,Mutect2,/path/to/Mutect2/SNV/calls
+patient1,sample2,tumor,HaplotypeCaller,/path/to/gSNP/calls
+patient1,sample2,tumor,MuSE,/path/to/MuSE/SNV/calls
