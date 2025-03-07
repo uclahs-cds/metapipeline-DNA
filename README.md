@@ -35,6 +35,7 @@
     - [Mixed input](#mixed-input)
       - [CNA](#cna-calls-available)
       - [SNV](#snv-calls-available)
+    - [Input VCF](#input-vcf)
   - [Outputs](#outputs)
   - [Discussions](#discussions)
   - [Contributors](#contributors)
@@ -359,6 +360,10 @@ If CNA calls are already available, provide the CNA calls as SRC input and provi
 #### SNV calls available
 
 If SNV calls are already available, provide the SNV calls as SRC input and provide the sequencing data (either FASTQ or BAM/CRAM) as FASTQ or BAM/CRAM input. With CSV input, keep all columns and leave fields black per row as needed. See [template CSV](./input/template-input-mix-SRC-SNV.csv) for the CSV format and [template YAML](./input/template-input-mix-SRC-SNV.yaml) for the YAML format.
+
+### Input VCF
+
+TO-DO
 
 ---
 
