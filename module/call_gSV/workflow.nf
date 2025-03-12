@@ -20,6 +20,15 @@ workflow call_gSV {
         if (!params.call_gSV.is_pipeline_enabled) {
             modification_signal.until{ it == 'done' }.ifEmpty('done')
                 .map{ it ->
+                    def tools_to_move = ['Manta-gSV', 'Delly2-gSV'];
+                    params.sample_data.each { s, s_data ->
+                        s_data["original_data"].getOrDefault("VCF", []).each { vcf_data ->
+                            if (tools_to_move.contains(vcf_data['tool'])) {
+                                s_data[params.this_pipeline][vcf_data['tool']] = vcf_data['vcf_path'];
+                            }
+                        }
+                    };
+                    System.out.println(params.sample_data);
                     mark_pipeline_complete(params.this_pipeline);
                     mark_pipeline_exit_code(params.this_pipeline, 0);
                     return 'done';

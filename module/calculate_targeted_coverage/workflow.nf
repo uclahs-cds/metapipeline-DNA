@@ -17,7 +17,7 @@ workflow calculate_targeted_coverage {
         modification_signal
     main:
         ich = Channel.empty()
-        if (params.input_type != 'SRC') {
+        if (!['VCF', 'SRC'].contains(params.input_type)) {
             // Default to BWA-MEM2 as main aligner unless it's not being used
             def main_aligner = ('BWA-MEM2' in params.align_DNA.aligner) ? 'BWA-MEM2' : params.align_DNA.aligner[0]
 

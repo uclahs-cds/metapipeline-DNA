@@ -19,7 +19,7 @@ process run_call_GeneticAncestry {
 
     publishDir "${params.output_dir}/output",
         mode: "copy",
-        pattern: "pipeline-call-GeneticAncestry-*/*"
+        pattern: "pipeline-call-genetic-ancestry-*/*"
 
     publishDir "${params.log_output_dir}/process-log",
         mode: "copy",
@@ -34,7 +34,7 @@ process run_call_GeneticAncestry {
         )
 
     output:
-        path "pipeline-call-GeneticAncestry-*/*", optional: true
+        path "pipeline-call-genetic-ancestry-*/*", optional: true
         path ".command.*"
         val('done'), emit: complete
         env EXIT_CODE, emit: exit_code

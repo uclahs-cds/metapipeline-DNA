@@ -84,26 +84,43 @@ workflow call_sSV {
             run_call_sSV.out.exit_code
                 .mix( exit_code_ich )
                 .set{ exit_code_ich }
-        }
 
-        completion_signal
-            .collect()
-            .map{ it ->
-                mark_pipeline_complete(params.this_pipeline);
-                return 'done';
-            }
-            .mix(
-                exit_code_ich
-                    .map{ it -> (it as Integer) }
-                    .sum()
-                    .map { exit_code ->
-                        mark_pipeline_exit_code(params.this_pipeline, exit_code);
-                        return 'done';
-                    }
-            )
-            .collect()
-            .map { it -> return 'done'; }
-            .set{ completion_signal }
+            completion_signal
+                .collect()
+                .map{ it ->
+                    mark_pipeline_complete(params.this_pipeline);
+                    return 'done';
+                }
+                .mix(
+                    exit_code_ich
+                        .map{ it -> (it as Integer) }
+                        .sum()
+                        .map { exit_code ->
+                            mark_pipeline_exit_code(params.this_pipeline, exit_code);
+                            return 'done';
+                        }
+                )
+                .collect()
+                .map { it -> return 'done'; }
+                .set{ completion_signal }
+        } else {
+            modification_signal.until{ it == 'done' }.ifEmpty('done')
+                .map{ it ->
+                    def tools_to_move = ['Manta-sSV', 'Delly2-sSV'];
+                    params.sample_data.each { s, s_data ->
+                        s_data["original_data"].getOrDefault("VCF", []).each { vcf_data ->
+                            if (tools_to_move.contains(vcf_data['tool'])) {
+                                s_data[params.this_pipeline][vcf_data['tool']] = vcf_data['vcf_path'];
+                            }
+                        }
+                    };
+                    System.out.println(params.sample_data);
+                    mark_pipeline_complete(params.this_pipeline);
+                    mark_pipeline_exit_code(params.this_pipeline, 0);
+                    return 'done';
+                }
+                .set{ completion_signal }
+        }
 
     emit:
         completion_signal = completion_signal

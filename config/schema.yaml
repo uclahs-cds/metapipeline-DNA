@@ -354,3 +354,28 @@ input:
                   mode: 'r'
                   required: true
                   help: 'Absolute path to calls'
+            VCF:
+              type: 'EntryList'
+              required: false
+              help: 'Inputs VCF'
+              elements:
+                tool:
+                  type: 'String'
+                  required: true
+                  choices:
+                    - HaplotypeCaller
+                    - Mutect2
+                    - MuSE
+                    - Strelka2
+                    - SomaticSniper
+                    - BCFtools-Intersect
+                    - Manta-gSV
+                    - Manta-sSV
+                    - Delly2-gSV
+                    - Delly2-sSV
+                  help: 'Tool used to call input'
+                vcf_path:
+                  type: 'Path'
+                  mode: 'r'
+                  required: true
+                  help: 'Absolute path to calls'

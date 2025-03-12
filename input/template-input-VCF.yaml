@@ -1,0 +1,19 @@
+---
+input:
+  <patient1>:  # Replace key with actual patient ID
+    <sample1>:  # Replace key with actual sample ID
+      state: <state>  # normal or tumor - sample1 here is an example of a normal sample with no SRC input
+    <sample2>:  # Replace key with actual sample ID
+      state: <state>  # normal or tumor
+      SRC:  # With SRC input, both CNA and SNV need to be provided
+        - tool: <tool>  # Tool used to produce calls
+          vcf_path: </path/to/file>  # Absolute path to input file
+        - tool: <tool>  # Tool used to produce calls
+          vcf_path: </path/to/file>  # Absolute path to input file
+    <sample3>:  # Replace key with actual sample ID
+      state: <state>  # normal or tumor
+      SRC:  # With SRC input, both CNA and SNV need to be provided
+        - tool: <tool>  # Tool used to produce calls
+          vcf_path: </path/to/file>  # Absolute path to input file
+        - tool: <tool>  # Tool used to produce calls
+          vcf_path: </path/to/file>  # Absolute path to input file
