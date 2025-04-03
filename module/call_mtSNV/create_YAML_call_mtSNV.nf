@@ -47,8 +47,10 @@ process create_YAML_call_mtSNV {
     } else {
         input_map = [
             'input': [
-                'normal': ['BAM': sample_info.normal.bam[0] as String],
-                'tumor': ['BAM': sample_info.tumor.bam[0] as String]
+                'BAM': [
+                    'normal': ['path': sample_info.normal.bam[0] as String, 'sample_id': sample_info.normal.sample[0] as String],
+                    'tumor': ['path': sample_info.tumor.bam[0] as String, 'sample_id': sample_info.tumor.sample[0]]
+                ]
             ]
         ]
     }
