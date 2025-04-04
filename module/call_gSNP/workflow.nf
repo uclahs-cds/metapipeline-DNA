@@ -21,6 +21,9 @@ workflow call_gSNP {
                 .map{ it ->
                     def tools_to_move = ['HaplotypeCaller'];
                     params.sample_data.each { s, s_data ->
+                        if (!(s_data["original_data"] instanceof Map)) {
+                            return;
+                        }
                         s_data["original_data"].getOrDefault("VCF", []).each { vcf_data ->
                             if (tools_to_move.contains(vcf_data['tool'])) {
                                 s_data[params.this_pipeline][vcf_data['tool']] = vcf_data['vcf_path'];
