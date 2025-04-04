@@ -150,16 +150,16 @@ cases:
     verbose: true
     skip: true
     asserts:
-      - actual: output/call-mtSNV-*/NA24143/mitoCaller-*/output/mitoCaller2vcf-*_IlluminaTest_NA24143.vcf
+      - actual: output/call-mtSNV-*/NA24143/mitoCaller-*/output/mitoCaller2vcf-*_IlluminaTest_NA24143.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-mtSNV-3.0.0/NA24143/mitoCaller-1.0.0/output/mitoCaller2vcf-1.0.0_IlluminaTest_NA24143.vcf
         script: test/test-call-gSNP/assert_vcf.sh
-      - actual: output/call-mtSNV-*/NA24143/mitoCaller-*/output/mitoCaller2vcf-*_IlluminaTest_NA24143_homoplasmy.vcf
+      - actual: output/call-mtSNV-*/NA24143/mitoCaller-*/output/mitoCaller2vcf-*_IlluminaTest_NA24143_homoplasmy.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-mtSNV-3.0.0/NA24143/mitoCaller-1.0.0/output/mitoCaller2vcf-1.0.0_IlluminaTest_NA24143_homoplasmy.vcf
         script: test/test-call-gSNP/assert_vcf.sh
-      - actual: output/call-mtSNV-*/NA24143/mitoCaller-*/output/mitoCaller2vcf-*_IlluminaTest_NA24149.vcf
+      - actual: output/call-mtSNV-*/NA24143/mitoCaller-*/output/mitoCaller2vcf-*_IlluminaTest_NA24149.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-mtSNV-3.0.0/NA24143/mitoCaller-1.0.0/output/mitoCaller2vcf-1.0.0_IlluminaTest_NA24149.vcf
         script: test/test-call-gSNP/assert_vcf.sh
-      - actual: output/call-mtSNV-*/NA24143/mitoCaller-*/output/mitoCaller2vcf-*_IlluminaTest_NA24149_homoplasmy.vcf
+      - actual: output/call-mtSNV-*/NA24143/mitoCaller-*/output/mitoCaller2vcf-*_IlluminaTest_NA24149_homoplasmy.vcf.gz
         expect: /hot/software/pipeline/metapipeline-DNA/Nextflow/development/output/call-mtSNV-3.0.0/NA24143/mitoCaller-1.0.0/output/mitoCaller2vcf-1.0.0_IlluminaTest_NA24149_homoplasmy.vcf
         script: test/test-call-gSNP/assert_vcf.sh
 
