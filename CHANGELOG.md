@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- recalibrate-BAM: `1.0.1` -> `1.0.2`
+- call-sCNA: `3.2.0` -> `4.0.0-rc.2`
+- call-mtSNV: `4.0.0` -> `6.0.0-rc.1`
+
 ## [7.0.0-rc.3] - 2025-04-04
 
 ### Fixed
