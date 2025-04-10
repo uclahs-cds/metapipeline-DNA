@@ -49,9 +49,7 @@ workflow {
 
     recalibrate_BAM(calculate_targeted_coverage.out.completion_signal)
 
-    if (params.generate_SQC_BAM.is_pipeline_enabled) {
-        generate_SQC_BAM(recalibrate_BAM.out.recalibrate_sample_data_updated)
-    }
+    generate_SQC_BAM(recalibrate_BAM.out.recalibrate_sample_data_updated)
 
     if (params.call_mtSNV.is_pipeline_enabled) {
         call_mtSNV(recalibrate_BAM.out.recalibrate_sample_data_updated)
@@ -115,4 +113,16 @@ workflow {
     if (params.call_GeneticAncestry.is_pipeline_enabled) {
         call_GeneticAncestry(call_geneticancestry_ready)
     }
+
+    /**
+    *   Calculate-mtDNA-CopyNumber
+    */
+    generate_SQC_BAM.out.completion_signal
+        .collect()
+        .map{ 'done' }
+        .set{ calculate_mtdna_copynumber_ready }
+
+    // if (params.calculate_mtDNA_CopyNumber.is_pipeline_enabled) {
+    //     calculate_mtDNA_CopyNumber(calculate_mtdna_copynumber_ready)
+    // }
 }
