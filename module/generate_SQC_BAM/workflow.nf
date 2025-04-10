@@ -4,7 +4,7 @@
 include { create_YAML_generate_SQC_BAM } from "${moduleDir}/create_YAML_generate_SQC_BAM"
 include { run_generate_SQC_BAM } from "${moduleDir}/run_generate_SQC_BAM" addParams( log_output_dir: params.metapipeline_log_output_dir )
 include { mark_pipeline_complete; mark_pipeline_exit_code } from "../pipeline_status"
-include { identify_generate_sqc_bam_outputs } from "../identify_outputs"
+include { identify_generate_sqc_bam_outputs } from "./identify_outputs"
 
 /*
 * Main workflow for generating BAM SQC
