@@ -23,12 +23,14 @@ process run_generate_SQC_BAM {
         tuple val(resolved_id), path(input_yaml)
 
     output:
+        tuple val(resolved_id), path(output_directory), emit: identify_generate_sqc_bam_out, optional: true
         path "generate-SQC-BAM-*/*", optional: true
         path ".command.*"
         val('done'), emit: complete
         env EXIT_CODE, emit: exit_code
 
     script:
+    output_directory = "generate-SQC-BAM-*/${resolved_id}"
     String params_to_dump = combine_input_with_params(params.generate_SQC_BAM.metapipeline_arg_map, new File(input_yaml.toRealPath().toString()))
     String setup_commands = generate_graceful_error_controller(task.ext)
     String weblog_args = generate_weblog_args()

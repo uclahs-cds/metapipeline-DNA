@@ -73,3 +73,6 @@
 [submodule "external/pipeline-call-GeneticAncestry"]
 	path = external/pipeline-call-GeneticAncestry
 	url = git@github.com:uclahs-cds/pipeline-call-GeneticAncestry.git
+[submodule "external/pipeline-calculate-mtDNA-CopyNumber"]
+	path = external/pipeline-calculate-mtDNA-CopyNumber
+	url = git@github.com:uclahs-cds/pipeline-calculate-mtDNA-CopyNumber.git
