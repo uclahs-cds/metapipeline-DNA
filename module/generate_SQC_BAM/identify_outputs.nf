@@ -32,6 +32,9 @@ workflow identify_generate_sqc_bam_outputs {
         }
 
         outputs_to_check.each { output_tool, output_dir_name ->
+            if (!['Qualimap'].contains(output_tool)) {
+                return;
+            }
             samples_to_search.each { sample_key, sample_sanitized ->
                 params.sample_data[sample_key]['generate-SQC-BAM'][output_info[output_tool][0]] = identify_file("${sqc_bam_output_dir}/${output_dir_name}/output/${output_info[output_tool][1](sample_sanitized)}");
             }
