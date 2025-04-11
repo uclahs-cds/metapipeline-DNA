@@ -16,6 +16,7 @@ include { call_SRC } from "${moduleDir}/call_SRC/workflow" addParams( log_output
 include { stable_lift } from "${moduleDir}/StableLift/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir, this_pipeline: 'StableLift' )
 include { annotate_VCF } from "${moduleDir}/annotate_VCF/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir, this_pipeline: 'annotate-VCF' )
 include { call_GeneticAncestry } from "${moduleDir}/call_GeneticAncestry/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir, this_pipeline: 'call-GeneticAncestry' )
+include { calculate_mtDNA_CopyNumber } from "${moduleDir}/calculate_mtDNA_CopyNumber/workflow" addParams( log_output_dir: params.metapipeline_log_output_dir, this_pipeline: 'calculate-mtDNA-CopyNumber' )
 include { create_directory; mark_pipeline_complete } from "${moduleDir}/pipeline_status"
 
 workflow {
@@ -122,7 +123,7 @@ workflow {
         .map{ 'done' }
         .set{ calculate_mtdna_copynumber_ready }
 
-    // if (params.calculate_mtDNA_CopyNumber.is_pipeline_enabled) {
-    //     calculate_mtDNA_CopyNumber(calculate_mtdna_copynumber_ready)
-    // }
+    if (params.calculate_mtDNA_CopyNumber.is_pipeline_enabled) {
+        calculate_mtDNA_CopyNumber(calculate_mtdna_copynumber_ready)
+    }
 }
