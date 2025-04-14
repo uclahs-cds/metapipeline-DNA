@@ -48,6 +48,7 @@ log.info """\
         uclahs-cds/pipeline-StableLift: ${params.version_StableLift}
         uclahs-cds/pipeline-annotate-VCF: ${params.version_annotate_VCF}
         uclahs-cds/pipeline-call-GeneticAncestry: ${params.version_call_GeneticAncestry}
+        uclahs-cds/pipeline-calculate-mtDNA-CopyNumber: ${params.version_calculate_mtDNA_CopyNumber}
 
     ------------------------------------
     Starting workflow...

@@ -115,6 +115,7 @@ requested_pipelines:
     - call-SRC
     - annotate-gSNP
     - call-GeneticAncestry
+    - calculate-mtDNA-CopyNumber
   choices:
     - align-DNA
     - recalibrate-BAM
@@ -133,6 +134,7 @@ requested_pipelines:
     - StableLiftgSNP
     - annotate-gSNP
     - call-GeneticAncestry
+    - calculate-mtDNA-CopyNumber
   help: 'List of pipelines to run'
 override_realignment:
   type: 'Bool'
@@ -244,6 +246,10 @@ pipeline_params:
       type: 'Namespace'
       required: true
       help: 'Parameters for call-GeneticAncestry'
+    calculate_mtDNA_CopyNumber:
+      type: 'Namespace'
+      required: true
+      help: 'Parameters for calculate-mtDNA-CopyNumber'
 input:
   type: 'InputNamespace'
   required: true
