@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Inputs - metapipeline-DNA</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Inputs";
+        var mkdocs_page_input_path = "inputs.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> metapipeline-DNA
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../overview/">Overview</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../how-to-run/">How To Run</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../flow-diagram/">Flow Diagram</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../pipeline-steps/">Pipeline Steps</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../configuration/">Configuration</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Inputs</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#input-bam">Input BAM</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#input-fastq">Input FASTQ</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#input-src">Input SRC</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#mixed-input">Mixed input</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#cna-calls-available">CNA calls available</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#snv-calls-available">SNV calls available</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#input-vcf">Input VCF</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../outputs/">Outputs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../discussions/">Discussions</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../contributors/">Contributors</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../references/">References</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../license/">License</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">metapipeline-DNA</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Inputs</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/bae9796c3a8dbbc4116eb98b831b6cc5e050a182/README.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="inputs">Inputs</h2>
+<p>Inputs can be provided in either CSV or YAML format.</p>
+<p>For CSV inputs, identify the fields needed for each input type below and include the respective fields. For mixed inputs, use empty cell values - see <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/bae9796c3a8dbbc4116eb98b831b6cc5e050a182/input">template CSVs</a> for examples.</p>
+<p>For YAML inputs, see <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/bae9796c3a8dbbc4116eb98b831b6cc5e050a182/input">template YAMLs</a>. In each template YAML, any key or value in <code>&lt;&gt;</code> needs to be filled in and the <code>&lt;&gt;</code> removed, ex. <code>&lt;patient1&gt;</code> should be filled in with the actual patient ID, e.g. <code>PRAD0001</code>. Other keys not in <code>&lt;&gt;</code> must be kept as they are.</p>
+<pre><code class="language-YAML">---
+input:
+    &lt;patient1&gt;:
+...
+</code></pre>
+<p>should be filled in to become:</p>
+<pre><code class="language-YAML">---
+input:
+    PRAD0001:
+...
+</code></pre>
+<h3 id="input-bam">Input BAM</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Field</th>
+<th style="text-align: center;">Type</th>
+<th style="text-align: center;">Required</th>
+<th style="text-align: center;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">patient</td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Identifier for the patient</td>
+</tr>
+<tr>
+<td style="text-align: center;">sample</td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Identifier for the sample</td>
+</tr>
+<tr>
+<td style="text-align: center;">state</td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Must be either "tumor" or "normal"</td>
+</tr>
+<tr>
+<td style="text-align: center;">path</td>
+<td style="text-align: center;">path</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Absolute path to the sample BAM file</td>
+</tr>
+</tbody>
+</table>
+<p>See this <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/bae9796c3a8dbbc4116eb98b831b6cc5e050a182/input/template-input-BAM.csv">template</a> for CSV format and this <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/bae9796c3a8dbbc4116eb98b831b6cc5e050a182/input/template-input-BAM.yaml">template</a> for YAML format.</p>
+<h3 id="input-fastq">Input FASTQ</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Field</th>
+<th style="text-align: center;">Type</th>
+<th style="text-align: center;">Required</th>
+<th style="text-align: center;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">patient</td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Identifier for the patient</td>
+</tr>
+<tr>
+<td style="text-align: center;">sample</td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Identifier for the sample</td>
+</tr>
+<tr>
+<td style="text-align: center;">state</td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Must be either "tumor" or "normal"</td>
+</tr>
+<tr>
+<td style="text-align: center;">read_group_identifier</td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Read group ID</td>
+</tr>
+<tr>
+<td style="text-align: center;">sequencing_center</td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Center where sequencing was performed</td>
+</tr>
+<tr>
+<td style="text-align: center;">library_identifier</td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Library used for sample</td>
+</tr>
+<tr>
+<td style="text-align: center;">platform_technology</td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Technology used for sequencing</td>
+</tr>
+<tr>
+<td style="text-align: center;">platform_unit</td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Name of specific platform unit</td>
+</tr>
+<tr>
+<td style="text-align: center;">bam_header_sm</td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Sample name tag for BAM</td>
+</tr>
+<tr>
+<td style="text-align: center;">lane</td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Lane identifier for sample</td>
+</tr>
+<tr>
+<td style="text-align: center;">read1_fastq</td>
+<td style="text-align: center;">path</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Absolute path to R1 FASTQ</td>
+</tr>
+<tr>
+<td style="text-align: center;">read2_fastq</td>
+<td style="text-align: center;">path</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Absolute path to R2 FASTQ</td>
+</tr>
+</tbody>
+</table>
+<p>See this <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/bae9796c3a8dbbc4116eb98b831b6cc5e050a182/input/template-input-FASTQ.csv">template</a> for CSV format and this <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/bae9796c3a8dbbc4116eb98b831b6cc5e050a182/input/template-input-FASTQ.yaml">template</a> for YAML format.</p>
+<h3 id="input-src">Input SRC</h3>
+<p>For SRC input, only <code>call-SRC</code> can be run. In this case, for each tumor sample, SNV calls and CNA calls must be provided.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Field</th>
+<th style="text-align: center;">Type</th>
+<th style="text-align: center;">Required</th>
+<th style="text-align: center;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">patient</td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Identifier for the patient</td>
+</tr>
+<tr>
+<td style="text-align: center;">sample</td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Identifier for the sample</td>
+</tr>
+<tr>
+<td style="text-align: center;">state</td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Must be either "tumor" or "normal"</td>
+</tr>
+<tr>
+<td style="text-align: center;">src_input_type</td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">The type of input, must be either "CNA" or "SNV"</td>
+</tr>
+<tr>
+<td style="text-align: center;">src_input_algorithm</td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Algorithm used to generate the input</td>
+</tr>
+<tr>
+<td style="text-align: center;">src_path</td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Full path to the file</td>
+</tr>
+</tbody>
+</table>
+<p>See this <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/bae9796c3a8dbbc4116eb98b831b6cc5e050a182/input/template-input-SRC.csv">template</a> for CSV format and this <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/bae9796c3a8dbbc4116eb98b831b6cc5e050a182/input/template-input-SRC.yaml">template</a> for YAML format.</p>
+<h3 id="mixed-input">Mixed input</h3>
+<p>A mix of SRC and sequencing inputs can also be provided, in cases where for example CNA calling has already been done and SNV calling needs to be performed.</p>
+<h4 id="cna-calls-available">CNA calls available</h4>
+<p>If CNA calls are already available, provide the CNA calls as SRC input and provide the sequencing data (either FASTQ or BAM/CRAM) as FASTQ or BAM/CRAM input. With CSV input, keep all columns and leave fields black per row as needed. See <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/bae9796c3a8dbbc4116eb98b831b6cc5e050a182/input/template-input-mix-SRC-CNA.csv">template CSV</a> for the CSV format and <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/bae9796c3a8dbbc4116eb98b831b6cc5e050a182/input/template-input-mix-SRC-CNA.yaml">template YAML</a> for the YAML format.</p>
+<h4 id="snv-calls-available">SNV calls available</h4>
+<p>If SNV calls are already available, provide the SNV calls as SRC input and provide the sequencing data (either FASTQ or BAM/CRAM) as FASTQ or BAM/CRAM input. With CSV input, keep all columns and leave fields black per row as needed. See <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/bae9796c3a8dbbc4116eb98b831b6cc5e050a182/input/template-input-mix-SRC-SNV.csv">template CSV</a> for the CSV format and <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/bae9796c3a8dbbc4116eb98b831b6cc5e050a182/input/template-input-mix-SRC-SNV.yaml">template YAML</a> for the YAML format.</p>
+<h3 id="input-vcf">Input VCF</h3>
+<p>TO-DO</p>
+<hr />
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../configuration/" class="btn btn-neutral float-left" title="Configuration"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../outputs/" class="btn btn-neutral float-right" title="Outputs">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/uclahs-cds/metapipeline-DNA" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../configuration/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../outputs/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
