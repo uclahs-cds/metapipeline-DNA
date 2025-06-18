@@ -9,5 +9,16 @@
       "commit": "49d3b8dadbe05b2de275f90e2959d7af60ed42fe",
       "date": "2025-06-18T15:43:54-07:00"
     }
+  },
+  {
+    "version": "v7.0.0-rc.4",
+    "title": "v7.0.0-rc.4",
+    "aliases": [
+      "release-candidate"
+    ],
+    "properties": {
+      "commit": "49d3b8dadbe05b2de275f90e2959d7af60ed42fe",
+      "date": "2025-06-18T15:43:54-07:00"
+    }
   }
 ]

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Configuration - metapipeline-DNA</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Configuration";
+        var mkdocs_page_input_path = "configuration.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> metapipeline-DNA
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../overview/">Overview</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../how-to-run/">How To Run</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../flow-diagram/">Flow Diagram</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../pipeline-steps/">Pipeline Steps</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Configuration</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#uclahs-cds-wgs-global-sample-job-submission-parameters">UCLAHS-CDS WGS global sample job submission parameters</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#pipeline-selection">Pipeline selection</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#pipeline-specific-params">Pipeline-specific params</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#intervals">Intervals</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#sample-modes">Sample modes</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#single-sample-mode">Single sample mode</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#paired-sample-mode">Paired sample mode</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#multi-sample-mode">Multi sample mode</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../inputs/">Inputs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../outputs/">Outputs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../discussions/">Discussions</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../contributors/">Contributors</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../references/">References</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../license/">License</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">metapipeline-DNA</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Configuration</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/v7.0.0-rc.4/README.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="configuration">Configuration</h2>
+<p>The following parameters are available at the metapipeline level:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Parameter</th>
+<th style="text-align: center;">Type</th>
+<th style="text-align: center;">Required</th>
+<th style="text-align: center;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>output_dir</code></td>
+<td style="text-align: center;">path</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Absolute path to directory where output files will be saved</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>leading_work_dir</code></td>
+<td style="text-align: center;">path</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Absolute path to <strong>common</strong> working directory (under <code>/hot</code> for example for access across all nodes). <strong>Cannot</strong> be <code>/scratch</code> or any node-specific directory.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>pipeline_work_dir</code></td>
+<td style="text-align: center;">path</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Absolute path to outputs from each individual pipeline before copying to <code>output_dir</code>. Suggested: <code>/scratch</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>project_id</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Project identifier used to name the main output directory of the run</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>save_intermediate_files</code></td>
+<td style="text-align: center;">boolean</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Whether to save intermediate files. Default: <code>false</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>partition</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Partition type for submitting each processing jobs</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>clusterOptions</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Additional <code>slurm</code> submission options</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>max_parallel_jobs</code></td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Number of jobs to submit at once. Default:  5</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>cluster_submission_interval</code></td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Time in minutes to wait between job submissions, Default: 90</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>sample_mode</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Mode for sample calling. Options: <code>paired</code>, <code>single</code>, <code>multi</code>. Default: <code>paired</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>requested_pipelines</code></td>
+<td style="text-align: center;">list</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">List of pipelines requested.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>use_original_intervals</code></td>
+<td style="text-align: center;">boolean</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Whether original intervals should be used with pipelines rather than expanded intervals generated by calculate-targeted-coverage</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>pipeline_params</code></td>
+<td style="text-align: center;">namespace</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Namespace containing parameters for each individual pipeline. Parameters for the requested pipelines must be given.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>override_realignment</code></td>
+<td style="text-align: center;">boolean</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Whether to override conversion to FASTQ and realignment when given BAM input. Default: <code>false</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>override_recalibrate_bam</code></td>
+<td style="text-align: center;">boolean</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Whether to override recalibrate-BAM pipeline when given BAM input. Default: <code>false</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>src_snv_tool</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Which SNV tool's output to use for SRC. Default: <code>BCFtools-Intersect</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>src_cna_tool</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Which CNA tool's output to use for SRC. Default: <code>Battenberg</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>override_src_precursor_disable</code></td>
+<td style="text-align: center;">boolean</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Whether to override the automatic disabling of either call-sSNV or call-sCNA when the respective outputs are provided in the input. Default: <code>false</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>src_run_all_combinations</code></td>
+<td style="text-align: center;">boolean</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;"><strong>TO-DO</strong>: Whether to run SRC using all combinations of SNV tool and CNA tool. Default: <code>false</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>run_downstream_pipelines_serially</code></td>
+<td style="text-align: center;">boolean</td>
+<td style="text-align: center;">no</td>
+<td style="text-align: center;">Whether to run pipelines downstream of recalibrate-BAM sequentially. Note: if this option is used in conjunction with <code>downstream_pipeline_order</code>, any pipelines with a given ordering will be run sequentially regardless of the value of this parameter. Default: <code>false</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>downstream_pipeline_order</code></td>
+<td style="text-align: center;">list</td>
+<td style="text-align: center;">no</td>
+<td style="text-align: center;">List indicating specific order in which to run pipelines downstream of recalibrate-BAM. Default: no order</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>input_csv</code></td>
+<td style="text-align: center;">path</td>
+<td style="text-align: center;">no</td>
+<td style="text-align: center;">Absolute path to input CSV when using CSV input</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>status_email_address</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">no</td>
+<td style="text-align: center;">Email address to notify when child pipelines start and complete. Default: ``</td>
+</tr>
+</tbody>
+</table>
+<h3 id="uclahs-cds-wgs-global-sample-job-submission-parameters">UCLAHS-CDS WGS global sample job submission parameters</h3>
+<p>The following parameters are intended to control the global number and rate of WGS jobs. By default, these parameters are enabled; in the case of non-WGS samples or non-UCLAHS-CDS environment, disable <code>uclahs_cds_wgs</code> in the config file params.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Input Parameter</th>
+<th style="text-align: center;">Type</th>
+<th style="text-align: center;">Required</th>
+<th style="text-align: center;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>uclahs_cds_wgs</code></td>
+<td style="text-align: center;">boolean</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Whether global job number and submission limits should be applied. Default: <code>true</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>global_rate_limit</code></td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">Time in minutes between submission of any WGS jobs. Default: 90</td>
+</tr>
+</tbody>
+</table>
+<h3 id="pipeline-selection">Pipeline selection</h3>
+<p>Pipeline selection is controlled by the <code>requested_pipelines</code> parameter. Given the list of requested pipelines, metapipeline-DNA will automatically identify any necessary dependencies and enable them for the run.</p>
+<p>Pipeline selection follows some default behaviors:</p>
+<ul>
+<li>When given BAM input, the default pipeline selector will perform conversion to FASTQ, re-align the FASTQs, and perform recalibration. This default behavior can be disabled with the <code>override_realignment</code> and <code>override_recalibrate_bam</code> parameters. With <code>override_realignment</code>, the back-conversion to FASTQ and re-alignment will be disabled. With <code>override_recalibrate_bam</code>, recalibration of the BAM using recalibrate-BAM will be disabled.</li>
+<li>When SNV or CNA calls are given as inputs, metapipeline-DNA will automatically disable the call-sSNV and call-sCNA pipelines, respectively, and use the given inputs for call-SRC. This behavior can be controlled by <code>override_src_precursor_disable</code> to let metapipeline-DNA run the call-sSNV and call-sCNA pipelines to generate inputs for call-SRC using the BAM or FASTQ inputs. <strong>Note</strong>: This option only has an effect in the case of mixed inputs being provided as the call-sSNV and call-sCNA pipelines require sequencing data as inputs.</li>
+</ul>
+<h3 id="pipeline-specific-params">Pipeline-specific params</h3>
+<p>Each pipeline has a set of parameters that must be provided. The available parameters for each pipeline are documented in the links in the <a href="../pipeline-steps/#pipeline-steps">steps</a>. Additionally, the default <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/49d3b8dadbe05b2de275f90e2959d7af60ed42fe/input/template.config">template.config</a> contains the default set of parameters that need to be defined for each pipeline. Any additional supported parameters can be added as needed. The following keys are used as the pipeline names in this namespace:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Pipeline</th>
+<th style="text-align: center;">Key</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>convert-BAM2FASTQ</code></td>
+<td style="text-align: center;"><code>convert_BAM2FASTQ</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>align-DNA</code></td>
+<td style="text-align: center;"><code>align_DNA</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>recalibrate-BAM</code></td>
+<td style="text-align: center;"><code>recalibrate_BAM</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>calculate-targeted-coverage</code></td>
+<td style="text-align: center;"><code>calculate_targeted_coverage</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>generate-SQC-BAM</code></td>
+<td style="text-align: center;"><code>generate_SQC_BAM</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>call-gSNP</code></td>
+<td style="text-align: center;"><code>call_gSNP</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>call-sSNV</code></td>
+<td style="text-align: center;"><code>call_sSNV</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>call-mtSNV</code></td>
+<td style="text-align: center;"><code>call_mtSNV</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>call-gSV</code></td>
+<td style="text-align: center;"><code>call_gSV</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>call-sSV</code></td>
+<td style="text-align: center;"><code>call_sSV</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>call-sCNA</code></td>
+<td style="text-align: center;"><code>call_sCNA</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>call-SRC</code></td>
+<td style="text-align: center;"><code>call_SRC</code></td>
+</tr>
+</tbody>
+</table>
+<p>Each pipeline also defines a set of resources per process to run. These resources can be modified if necessary on a per-process per-pipeline basis by using the <code>base_resource_update</code> functionality for the specific pipeline (this functionality is defined in each pipeline's README). For example, to double the base memory of all processes in the call-sSNV pipeline:</p>
+<pre><code class="language-Nextflow">params {
+    ...
+    pipeline_params {
+        ...
+        call_sSNV {
+            ...
+            base_resource_update {
+                memory = [
+                    [[], 2]
+                ]
+            }
+        }
+        ...
+    }
+}
+</code></pre>
+<h3 id="intervals">Intervals</h3>
+<p>For targeted or exome sequencing, target intervals can be provided in BED format to some of the steps to control processing. The following steps accept intervals:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Step/pipeline</th>
+<th style="text-align: center;">Parameter name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>call-sSNV</code></td>
+<td style="text-align: center;"><code>intersect_regions</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>call-gSNP</code></td>
+<td style="text-align: center;"><code>intervals</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>recalibrate-BAM</code></td>
+<td style="text-align: center;"><code>intervals</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>calculate-targeted-coverage</code></td>
+<td style="text-align: center;"><code>target_bed</code></td>
+</tr>
+</tbody>
+</table>
+<p>For the respective pipeline params, provide the full path to the intervals file in the generated config to make use of the targets. For example:</p>
+<pre><code class="language-Nextflow">params {
+    ...
+    pipeline_params {
+        ...
+        call_sSNV {
+            ...
+            intersect_regions = &quot;/full/path/to/intervals&quot;
+            ...
+        }
+        ...
+    }
+}
+</code></pre>
+<h3 id="sample-modes">Sample modes</h3>
+<p>The metapipeline supports running samples in three modes: <code>single</code>, <code>paired</code>, and <code>multi</code>. This is controlled by the <code>sample_mode</code> parameter. In <code>paired</code> or <code>multi</code> sample modes, each patient is expected to have exactly one normal sample and one or more tumor samples.</p>
+<p>Given the set of input patients and samples, grouping of samples is controlled based on the run mode as follows:</p>
+<h4 id="single-sample-mode">Single sample mode</h4>
+<p>All samples are processed individually, regardless of patient, as separate jobs.</p>
+<ul>
+<li>Normal samples will go through germline calling (<code>call-gSNP</code>, <code>call-gSV</code>) and somatic SNV calling with <code>Mutect2</code>'s normal-only mode.</li>
+<li>Tumor samples will go through germline calling (<code>call-gSNP</code>) and somatic SNV calling with <code>Mutect2</code>'s tumor-only mode.</li>
+</ul>
+<h4 id="paired-sample-mode">Paired sample mode</h4>
+<p>All samples from the same patient are submitted as a single job, with each normal-tumor pair processed separately in the same job.</p>
+<ul>
+<li>Individual samples will go through the <code>convert-BAM2FASTQ</code> and <code>align-DNA</code> pipelines.</li>
+<li>The normal sample will then be paired with each tumor sample and each pair will go through recalibration and the somatic calling pipelines.</li>
+<li>The normal sample will go through <code>call-gSV</code>.</li>
+</ul>
+<h4 id="multi-sample-mode">Multi sample mode</h4>
+<p>All samples from the same patient are processed as a single job.</p>
+<ul>
+<li>Individual samples will go through the <code>convert-BAM2FASTQ</code> and <code>align-DNA</code> pipelines.</li>
+<li>The recalibration and germline SNP calling will then proceed on the entire set of samples together.</li>
+<li>Somatic SNV calling will proceed in two ways:</li>
+<li>The normal sample will be paired with each tumor sample and run through the <code>call-sSNV</code> pipeline</li>
+<li>If <code>Mutect2</code> was requested, the entire set of samples will go through multi-sample calling with just <code>Mutect2</code> in <code>call-sSNV</code>.</li>
+<li>The normal sample will be paired with each tumor sample and each pair will go through <code>call-mtSNV</code>, <code>call-sSV</code>, and <code>call-sCNA</code>.</li>
+<li>The normal sample will go through <code>call-gSV</code>.</li>
+</ul>
+<hr />
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../pipeline-steps/" class="btn btn-neutral float-left" title="Pipeline Steps"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../inputs/" class="btn btn-neutral float-right" title="Inputs">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/uclahs-cds/metapipeline-DNA/tree/v7.0.0-rc.4" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../pipeline-steps/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../inputs/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
