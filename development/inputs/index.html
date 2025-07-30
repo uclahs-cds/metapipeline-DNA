@@ -118,7 +118,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Inputs</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/49d3b8dadbe05b2de275f90e2959d7af60ed42fe/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/816852a4f9fbc9ccf9def0538a187a1439c80722/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -128,8 +128,8 @@
               
                 <h2 id="inputs">Inputs</h2>
 <p>Inputs can be provided in either CSV or YAML format.</p>
-<p>For CSV inputs, identify the fields needed for each input type below and include the respective fields. For mixed inputs, use empty cell values - see <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/49d3b8dadbe05b2de275f90e2959d7af60ed42fe/input">template CSVs</a> for examples.</p>
-<p>For YAML inputs, see <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/49d3b8dadbe05b2de275f90e2959d7af60ed42fe/input">template YAMLs</a>. In each template YAML, any key or value in <code>&lt;&gt;</code> needs to be filled in and the <code>&lt;&gt;</code> removed, ex. <code>&lt;patient1&gt;</code> should be filled in with the actual patient ID, e.g. <code>PRAD0001</code>. Other keys not in <code>&lt;&gt;</code> must be kept as they are.</p>
+<p>For CSV inputs, identify the fields needed for each input type below and include the respective fields. For mixed inputs, use empty cell values - see <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/816852a4f9fbc9ccf9def0538a187a1439c80722/input">template CSVs</a> for examples.</p>
+<p>For YAML inputs, see <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/816852a4f9fbc9ccf9def0538a187a1439c80722/input">template YAMLs</a>. In each template YAML, any key or value in <code>&lt;&gt;</code> needs to be filled in and the <code>&lt;&gt;</code> removed, ex. <code>&lt;patient1&gt;</code> should be filled in with the actual patient ID, e.g. <code>PRAD0001</code>. Other keys not in <code>&lt;&gt;</code> must be kept as they are.</p>
 <pre><code class="language-YAML">---
 input:
     &lt;patient1&gt;:
@@ -178,7 +178,7 @@ input:
 </tr>
 </tbody>
 </table>
-<p>See this <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/49d3b8dadbe05b2de275f90e2959d7af60ed42fe/input/template-input-BAM.csv">template</a> for CSV format and this <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/49d3b8dadbe05b2de275f90e2959d7af60ed42fe/input/template-input-BAM.yaml">template</a> for YAML format.</p>
+<p>See this <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/816852a4f9fbc9ccf9def0538a187a1439c80722/input/template-input-BAM.csv">template</a> for CSV format and this <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/816852a4f9fbc9ccf9def0538a187a1439c80722/input/template-input-BAM.yaml">template</a> for YAML format.</p>
 <h3 id="input-fastq">Input FASTQ</h3>
 <table>
 <thead>
@@ -264,7 +264,7 @@ input:
 </tr>
 </tbody>
 </table>
-<p>See this <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/49d3b8dadbe05b2de275f90e2959d7af60ed42fe/input/template-input-FASTQ.csv">template</a> for CSV format and this <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/49d3b8dadbe05b2de275f90e2959d7af60ed42fe/input/template-input-FASTQ.yaml">template</a> for YAML format.</p>
+<p>See this <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/816852a4f9fbc9ccf9def0538a187a1439c80722/input/template-input-FASTQ.csv">template</a> for CSV format and this <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/816852a4f9fbc9ccf9def0538a187a1439c80722/input/template-input-FASTQ.yaml">template</a> for YAML format.</p>
 <h3 id="input-src">Input SRC</h3>
 <p>For SRC input, only <code>call-SRC</code> can be run. In this case, for each tumor sample, SNV calls and CNA calls must be provided.</p>
 <table>
@@ -315,13 +315,13 @@ input:
 </tr>
 </tbody>
 </table>
-<p>See this <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/49d3b8dadbe05b2de275f90e2959d7af60ed42fe/input/template-input-SRC.csv">template</a> for CSV format and this <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/49d3b8dadbe05b2de275f90e2959d7af60ed42fe/input/template-input-SRC.yaml">template</a> for YAML format.</p>
+<p>See this <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/816852a4f9fbc9ccf9def0538a187a1439c80722/input/template-input-SRC.csv">template</a> for CSV format and this <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/816852a4f9fbc9ccf9def0538a187a1439c80722/input/template-input-SRC.yaml">template</a> for YAML format.</p>
 <h3 id="mixed-input">Mixed input</h3>
 <p>A mix of SRC and sequencing inputs can also be provided, in cases where for example CNA calling has already been done and SNV calling needs to be performed.</p>
 <h4 id="cna-calls-available">CNA calls available</h4>
-<p>If CNA calls are already available, provide the CNA calls as SRC input and provide the sequencing data (either FASTQ or BAM/CRAM) as FASTQ or BAM/CRAM input. With CSV input, keep all columns and leave fields black per row as needed. See <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/49d3b8dadbe05b2de275f90e2959d7af60ed42fe/input/template-input-mix-SRC-CNA.csv">template CSV</a> for the CSV format and <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/49d3b8dadbe05b2de275f90e2959d7af60ed42fe/input/template-input-mix-SRC-CNA.yaml">template YAML</a> for the YAML format.</p>
+<p>If CNA calls are already available, provide the CNA calls as SRC input and provide the sequencing data (either FASTQ or BAM/CRAM) as FASTQ or BAM/CRAM input. With CSV input, keep all columns and leave fields black per row as needed. See <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/816852a4f9fbc9ccf9def0538a187a1439c80722/input/template-input-mix-SRC-CNA.csv">template CSV</a> for the CSV format and <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/816852a4f9fbc9ccf9def0538a187a1439c80722/input/template-input-mix-SRC-CNA.yaml">template YAML</a> for the YAML format.</p>
 <h4 id="snv-calls-available">SNV calls available</h4>
-<p>If SNV calls are already available, provide the SNV calls as SRC input and provide the sequencing data (either FASTQ or BAM/CRAM) as FASTQ or BAM/CRAM input. With CSV input, keep all columns and leave fields black per row as needed. See <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/49d3b8dadbe05b2de275f90e2959d7af60ed42fe/input/template-input-mix-SRC-SNV.csv">template CSV</a> for the CSV format and <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/49d3b8dadbe05b2de275f90e2959d7af60ed42fe/input/template-input-mix-SRC-SNV.yaml">template YAML</a> for the YAML format.</p>
+<p>If SNV calls are already available, provide the SNV calls as SRC input and provide the sequencing data (either FASTQ or BAM/CRAM) as FASTQ or BAM/CRAM input. With CSV input, keep all columns and leave fields black per row as needed. See <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/816852a4f9fbc9ccf9def0538a187a1439c80722/input/template-input-mix-SRC-SNV.csv">template CSV</a> for the CSV format and <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/816852a4f9fbc9ccf9def0538a187a1439c80722/input/template-input-mix-SRC-SNV.yaml">template YAML</a> for the YAML format.</p>
 <h3 id="input-vcf">Input VCF</h3>
 <p>TO-DO</p>
 <hr />
