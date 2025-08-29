@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Pipeline Steps - metapipeline-DNA</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Pipeline Steps";
+        var mkdocs_page_input_path = "pipeline-steps.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> metapipeline-DNA
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../overview/">Overview</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../how-to-run/">How To Run</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../flow-diagram/">Flow Diagram</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Pipeline Steps</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#1-convert-bam2fastq">1. convert-BAM2FASTQ</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#2-align-dna">2. align-DNA</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#3-calculate-targeted-coverage">3. calculate-targeted-coverage</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#4-recalibrate-bam">4. recalibrate-BAM</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#5-generate-sqc-bam">5. generate-SQC-BAM</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#6-call-gsnp">6. call-gSNP</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#7-call-ssnv">7. call-sSNV</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#8-call-mtsnv">8. call-mtSNV</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#9-call-gsv">9. call-gSV</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#10-call-ssv">10. call-sSV</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#11-call-scna">11. call-sCNA</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#12-call-src">12. call-SRC</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../configuration/">Configuration</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../inputs/">Inputs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../outputs/">Outputs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../discussions/">Discussions</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../contributors/">Contributors</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../references/">References</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../license/">License</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">metapipeline-DNA</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Pipeline Steps</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/uclahs-cds/metapipeline-DNA/blob/v7.0.0/README.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="pipeline-steps">Pipeline Steps</h2>
+<h3 id="1-convert-bam2fastq">1. convert-BAM2FASTQ</h3>
+<p><em>Optional</em>: Only run when BAM or CRAM are provided as input and realignment is not overriden.</p>
+<p>Aligned data is back-converted to FASTQ using <a href="https://uclahs-cds.github.io/pipeline-convert-BAM2FASTQ/">pipeline-convert-BAM2FASTQ</a>.</p>
+<h3 id="2-align-dna">2. align-DNA</h3>
+<p>FASTQ data is (re)aligned to the genome on a per-sample basis using <a href="https://uclahs-cds.github.io/pipeline-align-DNA/">pipeline-align-DNA</a>.</p>
+<h3 id="3-calculate-targeted-coverage">3. calculate-targeted-coverage</h3>
+<p>For targeted or exome sequencing, depth for the target regions is assessed along with off-target coverage enrichment using <a href="https://uclahs-cds.github.io/pipeline-calculate-targeted-coverage/">pipeline-calculate-targeted-coverage</a>.</p>
+<h3 id="4-recalibrate-bam">4. recalibrate-BAM</h3>
+<p>The aligned BAM undergoes INDEL realignment and base quality score recalibration using <a href="https://uclahs-cds.github.io/pipeline-recalibrate-BAM/">pipeline-recalibrate-BAM</a>.</p>
+<h3 id="5-generate-sqc-bam">5. generate-SQC-BAM</h3>
+<p>Quality control is performed on the recalibrated BAM using <a href="https://uclahs-cds.github.io/pipeline-generate-SQC-BAM/">pipeline-generate-SQC-BAM</a>.</p>
+<h3 id="6-call-gsnp">6. call-gSNP</h3>
+<p>Germline SNPs are called using <a href="https://uclahs-cds.github.io/pipeline-call-gSNP/">pipeline-call-gSNP</a>.</p>
+<h3 id="7-call-ssnv">7. call-sSNV</h3>
+<p>Somatic SNVs are called using <a href="https://uclahs-cds.github.io/pipeline-call-sSNV/">pipeline-call-sSNV</a>.</p>
+<h3 id="8-call-mtsnv">8. call-mtSNV</h3>
+<p>Mitochondrial SNVs are called using <a href="https://uclahs-cds.github.io/pipeline-call-mtSNV/">pipeline-call-mtSNV</a>.</p>
+<h3 id="9-call-gsv">9. call-gSV</h3>
+<p>Germline SVs are called using <a href="https://uclahs-cds.github.io/pipeline-call-gSV/">pipeline-call-gSV</a>.</p>
+<h3 id="10-call-ssv">10. call-sSV</h3>
+<p>Somatic SVs are called using <a href="https://uclahs-cds.github.io/pipeline-call-sSV/">pipeline-call-sSV</a>.</p>
+<h3 id="11-call-scna">11. call-sCNA</h3>
+<p>Somatic CNAs are called using <a href="https://uclahs-cds.github.io/pipeline-call-sCNA/">pipeline-call-sCNA</a>.</p>
+<h3 id="12-call-src">12. call-SRC</h3>
+<p>Subclonal reconstruction is performed using <a href="https://uclahs-cds.github.io/pipeline-call-SRC/">pipeline-call-SRC</a>.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../flow-diagram/" class="btn btn-neutral float-left" title="Flow Diagram"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../configuration/" class="btn btn-neutral float-right" title="Configuration">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/uclahs-cds/metapipeline-DNA/tree/v7.0.0" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../flow-diagram/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../configuration/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
