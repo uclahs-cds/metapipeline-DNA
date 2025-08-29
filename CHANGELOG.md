@@ -8,6 +8,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [7.0.0-rc.4] - 2025-06-18
 
+### Fixed
+
+- Validation of StableLift models to only validate when StableLift is selected to run
+
 ### Added
 
 - Calculate-mtDNA-CopyNumber pipeline
