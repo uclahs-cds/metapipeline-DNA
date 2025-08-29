@@ -6,11 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.0.0] - 2025-08-29
+
 ## [7.0.0-rc.4] - 2025-06-18
-
-### Fixed
-
-- Validation of StableLift models to only validate when StableLift is selected to run
 
 ### Added
 
@@ -21,6 +19,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - recalibrate-BAM: `1.0.1` -> `1.0.2`
 - call-sCNA: `3.2.0` -> `4.0.0-rc.2`
 - call-mtSNV: `4.0.0` -> `6.0.0-rc.1`
+
+### Fixed
+
+- Validation of StableLift models to only validate when StableLift is selected to run
 
 ## [7.0.0-rc.3] - 2025-04-04
 
@@ -453,6 +455,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 [6.0.0-rc.6]: https://github.com/uclahs-cds/metapipeline-DNA/compare/v6.0.0-rc.5...v6.0.0-rc.6
 [6.1.0]: https://github.com/uclahs-cds/metapipeline-DNA/compare/v6.0.0...v6.1.0
 [6.2.0]: https://github.com/uclahs-cds/metapipeline-DNA/compare/v6.1.0...v6.2.0
+[7.0.0]: https://github.com/uclahs-cds/metapipeline-DNA/compare/v7.0.0-rc.4...v7.0.0
 [7.0.0-rc.1]: https://github.com/uclahs-cds/metapipeline-DNA/compare/v6.2.0...v7.0.0-rc.1
 [7.0.0-rc.3]: https://github.com/uclahs-cds/metapipeline-DNA/compare/v7.0.0-rc.1...v7.0.0-rc.3
 [7.0.0-rc.4]: https://github.com/uclahs-cds/metapipeline-DNA/compare/v7.0.0-rc.3...v7.0.0-rc.4
