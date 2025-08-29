@@ -8,6 +8,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [7.0.0] - 2025-08-29
 
+### Fixed
+
+- Validation of StableLift models to only validate when StableLift is selected to run
+
 ## [7.0.0-rc.4] - 2025-06-18
 
 ### Added
@@ -19,10 +23,6 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - recalibrate-BAM: `1.0.1` -> `1.0.2`
 - call-sCNA: `3.2.0` -> `4.0.0-rc.2`
 - call-mtSNV: `4.0.0` -> `6.0.0-rc.1`
-
-### Fixed
-
-- Validation of StableLift models to only validate when StableLift is selected to run
 
 ## [7.0.0-rc.3] - 2025-04-04
 
